@@ -1,13 +1,15 @@
 import React, { Component } from "react";
 import RadioControl from './RadioControl';
+import FormPageCaption from './FormPageCaption';
 
 class BookmarkForm extends Component {
-  formStates = ["Initial", "URL Submitted", "Article Scraped"];
+  formStates = ["Initial", "Scraping Article", "Article Scraped"];
   types = ["Guide", "Tutorial", "Reference"]; // should be queried from database
   factors = ["Beginner Friendly", "Deep Dive", "Comphrensive"]; // should be queried from database
 
   state = {
     formState: this.formStates[0],
+    formPage: 1;
     Url: '',
     article: {},
     type: '',
@@ -20,9 +22,9 @@ class BookmarkForm extends Component {
 
   handleChange = event => {
     try {
-      const input = event.target.value;
-      this.setState({ Url: input });
-      const cleanedUrl = this.cleanUrl(input);
+      const value = event.target.value;
+      this.setState({ Url: value });
+      const cleanedUrl = this.cleanUrl(value);
       if (cleanedUrl) {
         // fetch(`/articles/scrape?Url=${cleanedUrl}`)
         //   .then(scrapedInfo  => showInfo(scrapedInfo))
@@ -37,7 +39,7 @@ class BookmarkForm extends Component {
     }
   };
 
-  cleanUrl(Url) {
+  cleanUrl = Url => {
     if (Url.length > 0) return Url;
   }
 
@@ -47,14 +49,17 @@ class BookmarkForm extends Component {
     });
   };
 
+
   render() {
     return (
-      <form className="bookmark-form" action="/articles/add-article" method="POST">
-        <input name="URL" option="text" placeholder="Article URL" onChange={this.handleChange} value={this.state.Url} />
+      <div className="bookmark-form">
+        <formPageCaption page={this.state.formPage} />
+        <FormPage page={this.state.formPage} />
+        <
         <RadioControl name="type" options={this.types} selected={this.state.type} onChange={this.handleSelection} />
         <RadioControl name="factor" options={this.factors} selected={this.state.factor} onChange={this.handleSelection} />
         <button type="submit">Bookmark!</button>
-      </form>
+      </div>
       // {this.state.topics.map(topic => <div key={topic}>{topic}</div>)}
     );
   }
