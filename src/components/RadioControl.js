@@ -1,19 +1,36 @@
 import React from "react";
+import { jsx, css } from "@emotion/core";
+/** @jsx jsx */
 
-const RadioControl = props => {
-  return props.options.map(option => (
-    <label key={option}>
-      <input
+const style = css`
+  color: hotpink;
+`;
+
+const Option = props => (
+  <label css={style}>
+    <input
+      type="radio"
+      name={props.name}
+      value={props.value}
+      checked={props.selected}
+      onChange={props.onChange}
+    />
+    {props.value}
+  </label>
+);
+
+class RadioControl extends React.Component {
+  render() {
+    return this.props.options.map(option => (
+      <Option
         key={option}
-        type="radio"
-        name={props.name}
         value={option}
-        checked={props.selected === option}
-        onChange={props.onChange}
+        name={this.props.controlName}
+        selected={this.props.selected === option}
+        onChange={this.props.onChange}
       />
-      {option}
-    </label>
-  ));
-};
+    ));
+  }
+}
 
 export default RadioControl;
