@@ -25,7 +25,7 @@ class RadioControl extends React.Component {
       <Option
         key={option}
         value={option}
-        name={this.props.controlName}
+        name={this.props.name}
         selected={this.props.selected === option}
         onChange={this.props.onChange}
       />

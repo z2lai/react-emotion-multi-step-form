@@ -1,6 +1,9 @@
 import React, { Component } from "react";
-import RadioControl from './RadioControl';
-import FormPageCaption from './FormPageCaption';
+import RadioControl from "./RadioControl";
+import FormPageCaption from "./FormPageCaption";
+import FormUrlPage from "./FormUrlPage";
+import FormTagPage from "./FormTagPage";
+import FormButtons from "./FormButtons";
 
 class BookmarkForm extends Component {
   formStates = ["Initial", "Scraping Article", "Article Scraped"];
@@ -8,40 +11,50 @@ class BookmarkForm extends Component {
   factors = ["Beginner Friendly", "Deep Dive", "Comphrensive"]; // should be queried from database
 
   state = {
+    formPage: 1,
     formState: this.formStates[0],
-    formPage: 1;
-    Url: '',
-    article: {},
-    type: '',
-    factor: '',
+    url: "",
+    type: "",
+    factor: "",
+    article: {}
   };
 
   componentDidMount() {
     // retrieve types and factors from database
   }
 
-  handleChange = event => {
-    try {
-      const value = event.target.value;
-      this.setState({ Url: value });
-      const cleanedUrl = this.cleanUrl(value);
-      if (cleanedUrl) {
-        // fetch(`/articles/scrape?Url=${cleanedUrl}`)
-        //   .then(scrapedInfo  => showInfo(scrapedInfo))
-        //   .catch(err => console.log(err));
-        this.setState({
-          formState: this.formStates[1],
-          Url: cleanedUrl
-        });
-      }
-    } catch (err) {
-      console.log(err);
-    }
+  saveUrl = url => {
+    this.setState({ url });
   };
 
-  cleanUrl = Url => {
-    if (Url.length > 0) return Url;
+  setFormState = stateIndex => {
+    this.setState({ formState: this.formStates[stateIndex] })
   }
+
+  // handleChange = event => {
+  //   try {
+  //     const value = event.target.value;
+  //     const name = event.target.name;
+  //     if (name === url) {
+  //       this.setState({ urlValue: value });
+  //     }
+  //     const cleanedUrl = this.cleanUrl(value);
+  //     if (cleanedUrl) {
+  //       fetch(`/articles/scrape?Url=${cleanedUrl}`)
+  //         .then(scrapedInfo  => showInfo(scrapedInfo))
+  //         .catch(err => console.log(err));
+  //       this.setState({
+  //         formState: this.formStates[1],
+  //         Url: cleanedUrl
+  //       });
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+
+  handleNext = event => this.setState(state => ({ formPage: state.formPage + 1 }));
+  handleBack = event => this.setState(state => ({ formPage: state.formPage - 1 }));
 
   handleSelection = event => {
     this.setState({
@@ -49,18 +62,26 @@ class BookmarkForm extends Component {
     });
   };
 
-
   render() {
+    let page = this.state.formPage;
+    let currentPage =
+      page === 1 ? (
+        <FormUrlPage url={this.state.url} saveUrl={this.saveUrl} setFormState={this.setFormState} />
+      ) : page === 2 ? (
+        <RadioControl name="type" options={this.types} selected={this.state.type} onChange={this.handleSelection} />
+      ) : (
+        <FormTagPage />
+      );
+    
+    let nextButton = page === 3 ? null : <button onClick={this.handleNext}>Next</button>;
+    let backButton = page === 1 ? null : <button onClick={this.handleBack}>Back</button>;    
+
     return (
       <div className="bookmark-form">
-        <formPageCaption page={this.state.formPage} />
-        <FormPage page={this.state.formPage} />
-        <
-        <RadioControl name="type" options={this.types} selected={this.state.type} onChange={this.handleSelection} />
-        <RadioControl name="factor" options={this.factors} selected={this.state.factor} onChange={this.handleSelection} />
-        <button type="submit">Bookmark!</button>
+        {currentPage}
+        {backButton}
+        {nextButton}
       </div>
-      // {this.state.topics.map(topic => <div key={topic}>{topic}</div>)}
     );
   }
 }
