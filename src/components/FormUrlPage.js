@@ -1,9 +1,11 @@
 import React from "react";
 
+const testUrl = 'https://css-tricks.com/javascript-scope-closures/';
+
 class FormUrlPage extends React.Component {
   state = {
     invalidUrl: false,
-    urlInput: ""
+    urlInput: this.props.url || '' // should I just remove this and use the url state of the parent?
   };
 
   handleChange = event => {
@@ -17,9 +19,11 @@ class FormUrlPage extends React.Component {
       this.setState({ invalidUrl: true });
       return alert("Invalid URL");
     }
+    this.setState({ urlInput: cleanUrl });
     this.props.saveUrl(cleanUrl);
     fetch(`/articles/scrape?url=${cleanUrl}`)
-      .then(scrapedInfo => console.log(scrapedInfo))
+      .then(res => res.json()) // body.json() returns another promise
+      .then(articleInfo => this.props.saveArticle(articleInfo))
       .catch(err => console.log(err));
     this.props.setFormState(1);
   };
@@ -31,12 +35,11 @@ class FormUrlPage extends React.Component {
   render() {
     return (
       <div>
-        <h1>Enter your article URL:</h1>
+        <h1>Enter your article URL: {testUrl}</h1>
         <input
           type="text"
           required
           placeholder="Article URL"
-          defaultValue={this.props.url}
           value={this.state.urlInput}
           onChange={this.handleChange}
           onKeyPress={this.submitUrl}

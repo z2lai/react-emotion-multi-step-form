@@ -3,7 +3,6 @@ import RadioControl from "./RadioControl";
 import FormPageCaption from "./FormPageCaption";
 import FormUrlPage from "./FormUrlPage";
 import FormTagPage from "./FormTagPage";
-import FormButtons from "./FormButtons";
 
 class BookmarkForm extends Component {
   formStates = ["Initial", "Scraping Article", "Article Scraped"];
@@ -23,13 +22,11 @@ class BookmarkForm extends Component {
     // retrieve types and factors from database
   }
 
-  saveUrl = url => {
-    this.setState({ url });
-  };
+  saveUrl = url => this.setState({ url });
 
-  setFormState = stateIndex => {
-    this.setState({ formState: this.formStates[stateIndex] })
-  }
+  setFormState = stateIndex => this.setState({ formState: this.formStates[stateIndex] });
+
+  setArticleState = article => this.setState({ article });
 
   // handleChange = event => {
   //   try {
@@ -66,7 +63,7 @@ class BookmarkForm extends Component {
     let page = this.state.formPage;
     let currentPage =
       page === 1 ? (
-        <FormUrlPage url={this.state.url} saveUrl={this.saveUrl} setFormState={this.setFormState} />
+        <FormUrlPage url={this.state.url} saveUrl={this.saveUrl} setFormState={this.setFormState} saveArticle={this.setArticleState} />
       ) : page === 2 ? (
         <RadioControl name="type" options={this.types} selected={this.state.type} onChange={this.handleSelection} />
       ) : (
