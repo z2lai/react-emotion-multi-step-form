@@ -19,11 +19,15 @@ class FormUrlPage extends React.Component {
       this.setState({ invalidUrl: true });
       return alert("Invalid URL");
     }
-    this.setState({ urlInput: cleanUrl });
-    this.props.saveUrl(cleanUrl);
+    this.props.updateState('url', cleanUrl);
     fetch(`/articles/scrape?url=${cleanUrl}`)
       .then(res => res.json()) // body.json() returns another promise
-      .then(articleInfo => this.props.saveArticle(articleInfo))
+      .then(articleInfo => {
+        this.props.updateState('article', articleInfo);
+        let suggestedTags = this.suggestTags(articleInfo.topics, articleInfo.parentTopics);
+        this.props.updateState('tagOptions', suggestedTags);
+        this.props.setFormState(2);
+      })
       .catch(err => console.log(err));
     this.props.setFormState(1);
   };
@@ -32,10 +36,21 @@ class FormUrlPage extends React.Component {
     if (Url.length > 0) return Url;
   };
 
+  suggestTags = (childTopics, parentTopics) => {
+    let topics = {};
+    childTopics.forEach(topic => {
+      if (!topics[topic]) topics[topic] = false;
+    });
+    parentTopics.forEach(topic => {
+      if (!topics[topic]) topics[topic] = false;
+    });
+    return topics;
+  }
+
   render() {
     return (
       <div>
-        <h1>Enter your article URL: {testUrl}</h1>
+        <h1>{testUrl}</h1>
         <input
           type="text"
           required

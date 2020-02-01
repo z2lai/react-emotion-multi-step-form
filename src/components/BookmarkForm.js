@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import RadioControl from "./RadioControl";
 import FormPageCaption from "./FormPageCaption";
 import FormUrlPage from "./FormUrlPage";
-import FormTagPage from "./FormTagPage";
+import RadioControl from "./RadioControl";
+import CheckboxControl from "./CheckboxControl";
 
 class BookmarkForm extends Component {
   formStates = ["Initial", "Scraping Article", "Article Scraped"];
@@ -15,47 +15,33 @@ class BookmarkForm extends Component {
     url: "",
     type: "",
     factor: "",
-    article: {}
+    tags: {},
+    article: {},
+    tagOptions: {},
   };
 
   componentDidMount() {
     // retrieve types and factors from database
   }
-
-  saveUrl = url => this.setState({ url });
-
+  
   setFormState = stateIndex => this.setState({ formState: this.formStates[stateIndex] });
-
-  setArticleState = article => this.setState({ article });
-
-  // handleChange = event => {
-  //   try {
-  //     const value = event.target.value;
-  //     const name = event.target.name;
-  //     if (name === url) {
-  //       this.setState({ urlValue: value });
-  //     }
-  //     const cleanedUrl = this.cleanUrl(value);
-  //     if (cleanedUrl) {
-  //       fetch(`/articles/scrape?Url=${cleanedUrl}`)
-  //         .then(scrapedInfo  => showInfo(scrapedInfo))
-  //         .catch(err => console.log(err));
-  //       this.setState({
-  //         formState: this.formStates[1],
-  //         Url: cleanedUrl
-  //       });
-  //     }
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
+  
+  updateState = (stateProperty, stateValue) => this.setState({ [stateProperty]: stateValue });
 
   handleNext = event => this.setState(state => ({ formPage: state.formPage + 1 }));
   handleBack = event => this.setState(state => ({ formPage: state.formPage - 1 }));
 
-  handleSelection = event => {
+  handleRadioSelection = event => {
     this.setState({
       [event.target.name]: event.target.value
+    });
+  };
+
+  handleCheckboxChange = event => {
+    const tagOptions = {...this.state.tagOptions}
+    tagOptions[event.target.name] = event.target.checked
+    this.setState({
+      tagOptions
     });
   };
 
@@ -63,12 +49,14 @@ class BookmarkForm extends Component {
     let page = this.state.formPage;
     let currentPage =
       page === 1 ? (
-        <FormUrlPage url={this.state.url} saveUrl={this.saveUrl} setFormState={this.setFormState} saveArticle={this.setArticleState} />
+        <FormUrlPage url={this.state.url} updateState={this.updateState} setFormState={this.setFormState} />
       ) : page === 2 ? (
-        <RadioControl name="type" options={this.types} selected={this.state.type} onChange={this.handleSelection} />
+        <RadioControl name="type" types={this.types} selected={this.state.type} handleRadioSelection={this.handleRadioSelection} />
+      ) : (page === 3 && this.state.formState === this.formStates[2]) ? (
+        <CheckboxControl name="topics" topics={this.state.tagOptions} handleCheckboxChange={this.handleCheckboxChange} />
       ) : (
-        <FormTagPage />
-      );
+        <div>Loading...</div>
+      )
     
     let nextButton = page === 3 ? null : <button onClick={this.handleNext}>Next</button>;
     let backButton = page === 1 ? null : <button onClick={this.handleBack}>Back</button>;    

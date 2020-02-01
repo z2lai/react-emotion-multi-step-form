@@ -8,7 +8,22 @@ const style = css`
 
 class FormTagPage extends React.Component {
   render() {
-    return <div css={style}>Last Page</div>
+    let Option = props => (
+      <label css={style}>
+        <input type="radio" name={props.name} value={props.value} checked={props.selected} onChange={props.onChange} />
+        {props.value}
+      </label>
+    );
+
+    return this.props.topics.map(topic => (
+      <Option
+        key={topic}
+        value={topic}
+        name={this.props.name}
+        selected={this.props.selected === topic}
+        onChange={this.props.onChange}
+      />
+    ));
   }
 }
 

@@ -6,28 +6,25 @@ const style = css`
   color: hotpink;
 `;
 
-const Option = props => (
-  <label css={style}>
-    <input
-      type="radio"
-      name={props.name}
-      value={props.value}
-      checked={props.selected}
-      onChange={props.onChange}
-    />
-    {props.value}
-  </label>
-);
-
 class RadioControl extends React.Component {
   render() {
-    return this.props.options.map(option => (
+    let Option = props => (
+      <label css={style}>
+        <input
+          type="radio"
+          {...props}
+        />
+        {props.value}
+      </label>
+    );
+    
+    return this.props.types.map(type => (
       <Option
-        key={option}
-        value={option}
+        key={type}
         name={this.props.name}
-        selected={this.props.selected === option}
-        onChange={this.props.onChange}
+        value={type}
+        checked={this.props.selected === type}
+        onChange={this.props.handleRadioSelection}
       />
     ));
   }
