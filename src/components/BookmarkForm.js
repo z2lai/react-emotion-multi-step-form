@@ -23,13 +23,28 @@ class BookmarkForm extends Component {
   componentDidMount() {
     // retrieve types and factors from database
   }
-  
+
   setFormState = stateIndex => this.setState({ formState: this.formStates[stateIndex] });
-  
+
   updateState = (stateProperty, stateValue) => this.setState({ [stateProperty]: stateValue });
 
   handleNext = event => this.setState(state => ({ formPage: state.formPage + 1 }));
   handleBack = event => this.setState(state => ({ formPage: state.formPage - 1 }));
+  handleSubmit = event => {
+    const tagOptions = this.state.tagOptions
+    const topics = Object.keys(tagOptions).filter(topic => tagOptions[topic]);
+    const body = {
+      url: this.state.url,
+      title: this.state.article.title,
+      topics,
+    }
+    fetch('/articles/add', {
+      method: 'post',
+      body: JSON.stringify(body)
+    })
+    .then(response => response.json())
+    .then(result => console.log(result));
+  }
 
   handleRadioSelection = event => {
     this.setState({
@@ -38,8 +53,8 @@ class BookmarkForm extends Component {
   };
 
   handleCheckboxChange = event => {
-    const tagOptions = {...this.state.tagOptions}
-    tagOptions[event.target.name] = event.target.checked
+    const tagOptions = { ...this.state.tagOptions };
+    tagOptions[event.target.value] = event.target.checked;
     this.setState({
       tagOptions
     });
@@ -55,17 +70,19 @@ class BookmarkForm extends Component {
       ) : (page === 3 && this.state.formState === this.formStates[2]) ? (
         <CheckboxControl name="topics" topics={this.state.tagOptions} handleCheckboxChange={this.handleCheckboxChange} />
       ) : (
-        <div>Loading...</div>
-      )
-    
+              <div>Loading...</div>
+            )
+
     let nextButton = page === 3 ? null : <button onClick={this.handleNext}>Next</button>;
-    let backButton = page === 1 ? null : <button onClick={this.handleBack}>Back</button>;    
+    let backButton = page === 1 ? null : <button onClick={this.handleBack}>Back</button>;
+    let submitButton = page === 3 ? <button onClick={this.handleSubmit}>Submit</button> : null;
 
     return (
       <div className="bookmark-form">
         {currentPage}
         {backButton}
         {nextButton}
+        {submitButton}
       </div>
     );
   }
