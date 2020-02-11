@@ -33,16 +33,18 @@ class BookmarkForm extends Component {
   handleSubmit = event => {
     const tagOptions = this.state.tagOptions
     const topics = Object.keys(tagOptions).filter(topic => tagOptions[topic]);
+    console.log(topics);
     const body = {
-      url: this.state.url,
+      _id: this.state.url,
       title: this.state.article.title,
       topics,
     }
     fetch('/articles/add', {
       method: 'post',
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
+      headers: {"Content-Type": "application/json"}
     })
-    .then(response => response.json())
+    // .then(response => response.json())
     .then(result => console.log(result));
   }
 
