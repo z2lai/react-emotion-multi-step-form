@@ -1,21 +1,30 @@
-import React from "react";
 import { jsx, css } from "@emotion/core";
 import styled from '@emotion/styled';
 /** @jsx jsx */
 
-const StyledCheckbox = styled.div`
-  width: 30px;
-  height: 30px;
+const dynamicStyles = props =>
+  css`
+    color: ${props.checked ? 'black' : 'grey'};
+    background: ${props.checked ? 'linear-gradient(45deg, #FFC107 0%, #fff200 100%)' : '#f5f5f5'};
+  `
+
+const StyledCheckbox = styled.label`
   border: 1px solid black;
-  border-radius: 25%;
-  padding: 10px 5px;
-  background: ${props => props.checked ? '#fff200' : '#4b4b4b'};
+  border-radius: 25px;
+  padding: 7px 20px;
+  transition: all 0.3s;
+  ${dynamicStyles};
 `;
+
+const HiddenCheckbox = styled.input`
+  position: absolute;
+  opacity: 0;
+`
 
 const Checkbox = props => (
   <StyledCheckbox checked={props.checked}>
-    <input type="checkbox" {...props} />
-    {props.value};
+    <HiddenCheckbox type="checkbox" {...props} />
+    {props.value}
   </StyledCheckbox>
 );
 
