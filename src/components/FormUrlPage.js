@@ -20,6 +20,7 @@ class FormUrlPage extends React.Component {
       return alert("Invalid URL");
     }
     this.props.updateState('url', cleanUrl);
+    this.props.setFormState(1);
     fetch(`/articles/scrape?url=${cleanUrl}`)
       .then(res => res.json()) // body.json() returns another promise
       .then(articleInfo => {
@@ -29,7 +30,6 @@ class FormUrlPage extends React.Component {
         this.props.setFormState(2);
       })
       .catch(err => console.log(err));
-    this.props.setFormState(1);
   };
 
   validateUrl = Url => {

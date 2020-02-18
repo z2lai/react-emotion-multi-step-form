@@ -4,13 +4,13 @@ import RadioControl from "./RadioControl";
 import CheckboxControl from "./CheckboxControl";
 // this comment tells babel to convert jsx to calls to a function called jsx instead of React.createElement
 /** @jsx jsx */
-import { css, jsx } from '@emotion/core'
+import { css, jsx } from "@emotion/core";
 
 const formStyle = css`
   width: 640px;
   margin: auto;
   background: #f7f7f7;
-`
+`;
 
 class BookmarkForm extends Component {
   formStates = ["Initial", "Scraping Article", "Article Scraped"];
@@ -82,31 +82,29 @@ class BookmarkForm extends Component {
     });
   };
 
-  render() {
-    let page = this.state.formPage;
-    let currentPage =
-      page === 1 ? (
-        <FormUrlPage url={this.state.url} updateState={this.updateState} setFormState={this.setFormState} />
-      ) : page === 2 ? (
-        <RadioControl
-          name="type"
-          types={this.types}
-          selected={this.state.type}
-          handleRadioSelection={this.handleRadioSelection}
-        />
-      ) : page === 3 && this.state.formState === this.formStates[2] ? (
-        <CheckboxControl
-          name="topics"
-          topics={this.state.tagOptions}
-          handleCheckboxChange={this.handleCheckboxChange}
-        />
-      ) : (
-        <div>Loading...</div>
-      );
+  getCurrentPage = page => {
+    return page === 1 ? (
+      <FormUrlPage url={this.state.url} updateState={this.updateState} setFormState={this.setFormState} />
+    ) : page === 2 ? (
+      <RadioControl
+        name="type"
+        types={this.types}
+        selected={this.state.type}
+        handleRadioSelection={this.handleRadioSelection}
+      />
+    ) : page === 3 && this.state.formState === this.formStates[2] ? (
+      <CheckboxControl name="topics" topics={this.state.tagOptions} handleCheckboxChange={this.handleCheckboxChange} />
+    ) : (
+      <div>Loading...</div>
+    );
+  };
 
-    let nextButton = page === 3 ? null : <button onClick={this.handleNext}>Next</button>;
-    let backButton = page === 1 ? null : <button onClick={this.handleBack}>Back</button>;
-    let submitButton = page === 3 ? <button onClick={this.handleSubmit}>Submit</button> : null;
+  render() {
+    const page = this.state.formPage;
+    const currentPage = this.getCurrentPage(page);
+    const nextButton = page === 3 ? null : <button onClick={this.handleNext}>Next</button>;
+    const backButton = page === 1 ? null : <button onClick={this.handleBack}>Back</button>;
+    const submitButton = page === 3 ? <button onClick={this.handleSubmit}>Submit</button> : null;
 
     return (
       <div css={formStyle}>
