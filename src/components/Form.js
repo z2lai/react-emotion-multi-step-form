@@ -9,8 +9,12 @@ import CheckboxControl from "./CheckboxControl";
 const StyledForm = styled.div`
   width: 640px;
   margin: auto;
-  background: #f7f7f7;
-  border: 1px solid black;
+  padding: 0 36;
+  background-color: #eeeeee;
+  h1 {
+    padding: 32px 0;
+    font-size: 1.125rem;
+  }
 `;
 
 class Form extends React.Component {
@@ -109,6 +113,7 @@ class Form extends React.Component {
 
     return (
       <StyledForm>
+        <h1>Submit An Article To the Javascript Community Curation</h1>
         {currentPage}
         {backButton}
         {nextButton}

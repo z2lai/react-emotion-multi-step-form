@@ -1,6 +1,12 @@
 import React from "react";
+import styled from "@emotion/styled";
 
 const testUrl = 'https://css-tricks.com/javascript-scope-closures/';
+
+const FormInput = styled.div`
+  margin: 24px 0;
+  padding: 15px 10px;
+`
 
 class FormUrlPage extends React.Component {
   state = {
@@ -50,7 +56,7 @@ class FormUrlPage extends React.Component {
   render() {
     return (
       <div>
-        <h1>{testUrl}</h1>
+        {testUrl}
         <input
           type="text"
           required
