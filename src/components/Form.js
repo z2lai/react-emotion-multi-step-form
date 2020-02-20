@@ -1,18 +1,19 @@
-import { Component } from "react";
+import React from "react";
+import styled from "@emotion/styled";
+
 import FormUrlPage from "./FormUrlPage";
 import RadioControl from "./RadioControl";
 import CheckboxControl from "./CheckboxControl";
-// this comment tells babel to convert jsx to calls to a function called jsx instead of React.createElement
-/** @jsx jsx */
-import { css, jsx } from "@emotion/core";
 
-const formStyle = css`
+// Note: https://emotion.sh/docs/styled#styling-any-component
+const StyledForm = styled.div`
   width: 640px;
   margin: auto;
   background: #f7f7f7;
+  border: 1px solid black;
 `;
 
-class BookmarkForm extends Component {
+class Form extends React.Component {
   formStates = ["Initial", "Scraping Article", "Article Scraped"];
   types = ["Guide", "Tutorial", "Reference"]; // should be queried from database
   factors = ["Beginner Friendly", "Deep Dive", "Comphrensive"]; // should be queried from database
@@ -107,14 +108,14 @@ class BookmarkForm extends Component {
     const submitButton = page === 3 ? <button onClick={this.handleSubmit}>Submit</button> : null;
 
     return (
-      <div css={formStyle}>
+      <StyledForm>
         {currentPage}
         {backButton}
         {nextButton}
         {submitButton}
-      </div>
+      </StyledForm>
     );
   }
 }
 
-export default BookmarkForm;
+export default Form;
