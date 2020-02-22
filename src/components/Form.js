@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 
-import FormUrlPage from "./FormUrlPage";
+import UrlInputControl from "./UrlInputControl";
 import RadioControl from "./RadioControl";
 import CheckboxControl from "./CheckboxControl";
 
@@ -9,11 +9,19 @@ import CheckboxControl from "./CheckboxControl";
 const StyledForm = styled.div`
   width: 640px;
   margin: auto;
-  padding: 0 36;
+  padding: 0 3rem;
   background-color: #eeeeee;
   h1 {
     padding: 32px 0;
     font-size: 1.125rem;
+  }
+`;
+
+const FormSection = styled.section`
+  width: 100%;
+  margin: 1.875rem 0;
+  h2 {
+    
   }
 `;
 
@@ -50,11 +58,8 @@ class Form extends React.Component {
   }
 
   setFormState = stateIndex => this.setState({ formState: this.formStates[stateIndex] });
-
   updateState = (stateProperty, stateValue) => this.setState({ [stateProperty]: stateValue });
 
-  handleNext = event => this.setState(state => ({ formPage: state.formPage + 1 }));
-  handleBack = event => this.setState(state => ({ formPage: state.formPage - 1 }));
   handleSubmit = event => {
     const tagOptions = this.state.tagOptions;
     const topics = Object.keys(tagOptions).filter(topic => tagOptions[topic]);
@@ -87,36 +92,28 @@ class Form extends React.Component {
     });
   };
 
-  getCurrentPage = page => {
-    return page === 1 ? (
-      <FormUrlPage url={this.state.url} updateState={this.updateState} setFormState={this.setFormState} />
-    ) : page === 2 ? (
-      <RadioControl
-        name="type"
-        types={this.types}
-        selected={this.state.type}
-        handleRadioSelection={this.handleRadioSelection}
-      />
-    ) : page === 3 && this.state.formState === this.formStates[2] ? (
-      <CheckboxControl name="topics" topics={this.state.tagOptions} handleCheckboxChange={this.handleCheckboxChange} />
-    ) : (
-      <div>Loading...</div>
-    );
-  };
-
   render() {
-    const page = this.state.formPage;
-    const currentPage = this.getCurrentPage(page);
-    const nextButton = page === 3 ? null : <button onClick={this.handleNext}>Next</button>;
-    const backButton = page === 1 ? null : <button onClick={this.handleBack}>Back</button>;
-    const submitButton = page === 3 ? <button onClick={this.handleSubmit}>Submit</button> : null;
+    const submitButton = <button onClick={this.handleSubmit}>Submit</button>
 
     return (
       <StyledForm>
         <h1>Submit An Article To the Javascript Community Curation</h1>
-        {currentPage}
-        {backButton}
-        {nextButton}
+        <FormSection>
+          <UrlInputControl url={this.state.url} updateState={this.updateState} setFormState={this.setFormState} />
+        </FormSection>
+        <FormSection>
+          <RadioControl
+            name="type"
+            types={this.types}
+            selected={this.state.type}
+            handleRadioSelection={this.handleRadioSelection}
+          />
+        </FormSection>
+        <FormSection>
+          {this.state.formState === this.formStates[2] ?
+            <CheckboxControl name="topics" topics={this.state.tagOptions} handleCheckboxChange={this.handleCheckboxChange} />
+          : <div>Loading...</div>}
+        </FormSection>
         {submitButton}
       </StyledForm>
     );

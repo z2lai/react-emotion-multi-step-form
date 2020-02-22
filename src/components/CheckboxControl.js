@@ -11,15 +11,17 @@ import styled from '@emotion/styled';
 */
 
 const StyledCheckbox = styled.label`
+  display: inline-block;
   border: 1px solid black;
+  padding: 0 20px;
+  line-height: 2rem;
   border-radius: 25px;
-  padding: 7px 20px;
+  vertical-align: middle;
   transition: all 0.3s;
   ${props => ( // Note: This uses regular JS template literal, not emotion
     `color: ${props.checked ? 'black' : 'grey'};
     background: ${props.checked ? 'linear-gradient(45deg, #FFC107 0%, #fff200 100%)' : '#f5f5f5'};`
-  )
-  }
+  )}
 `;
 
 const HiddenCheckbox = styled.input`
