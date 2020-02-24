@@ -10,7 +10,7 @@ import styled from '@emotion/styled';
 //   `
 */
 
-const StyledCheckbox = styled.label`
+const StyledLabel = styled.label`
   display: inline-block;
   border: 1px solid black;
   padding: 0 20px;
@@ -30,10 +30,10 @@ const HiddenCheckbox = styled.input`
 `
 
 const Checkbox = props => (
-  <StyledCheckbox checked={props.checked}>
+  <StyledLabel checked={props.checked}>
     <HiddenCheckbox type="checkbox" {...props} />
     {props.value}
-  </StyledCheckbox>
+  </StyledLabel>
 );
 
 const CheckboxControl = props => {

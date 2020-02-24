@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 
-import UrlInputControl from "./UrlInputControl";
+import UrlControl from "./UrlControl";
 import RadioControl from "./RadioControl";
 import CheckboxControl from "./CheckboxControl";
 
@@ -10,19 +10,18 @@ const StyledForm = styled.div`
   width: 640px;
   margin: auto;
   padding: 0 3rem;
-  background-color: #eeeeee;
+  background-color: #FFFAFA;
+  text-align: left;
+  color: #222222;
   h1 {
     padding: 32px 0;
     font-size: 1.125rem;
   }
 `;
 
-const FormSection = styled.section`
+const StyledSection = styled.section`
   width: 100%;
   margin: 1.875rem 0;
-  h2 {
-    
-  }
 `;
 
 class Form extends React.Component {
@@ -98,22 +97,22 @@ class Form extends React.Component {
     return (
       <StyledForm>
         <h1>Submit An Article To the Javascript Community Curation</h1>
-        <FormSection>
-          <UrlInputControl url={this.state.url} updateState={this.updateState} setFormState={this.setFormState} />
-        </FormSection>
-        <FormSection>
+        <StyledSection>
+          <UrlControl url={this.state.url} updateState={this.updateState} setFormState={this.setFormState} />
+        </StyledSection>
+        <StyledSection>
           <RadioControl
             name="type"
             types={this.types}
             selected={this.state.type}
             handleRadioSelection={this.handleRadioSelection}
           />
-        </FormSection>
-        <FormSection>
+        </StyledSection>
+        <StyledSection>
           {this.state.formState === this.formStates[2] ?
             <CheckboxControl name="topics" topics={this.state.tagOptions} handleCheckboxChange={this.handleCheckboxChange} />
           : <div>Loading...</div>}
-        </FormSection>
+        </StyledSection>
         {submitButton}
       </StyledForm>
     );

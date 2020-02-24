@@ -3,14 +3,7 @@ import styled from "@emotion/styled";
 
 const testUrl = 'https://css-tricks.com/javascript-scope-closures/';
 
-const Wrapper = styled.div`
-  color: grey;
-  input {
-    color: #222222;
-  }
-`
-
-class UrlInputControl extends React.Component {
+class UrlControl extends React.Component {
   state = {
     invalidUrl: false,
     urlInput: this.props.url || '' // should I just remove this and use the url state of the parent?
@@ -57,8 +50,8 @@ class UrlInputControl extends React.Component {
 
   render() {
     return (
-      <Wrapper>
-        {testUrl}
+      <label>
+        <h2>Enter your article URL: {testUrl}</h2>
         <input
           type="text"
           required
@@ -68,9 +61,9 @@ class UrlInputControl extends React.Component {
           onKeyPress={this.submitUrl}
         />
         <button onClick={this.submitUrl}>Submit URL</button>
-      </Wrapper>
+      </label>
     );
   }
 }
 
-export default UrlInputControl;
+export default UrlControl;
