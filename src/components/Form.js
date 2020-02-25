@@ -14,14 +14,16 @@ const StyledForm = styled.div`
   text-align: left;
   color: #222222;
   h1 {
-    padding: 32px 0;
+    margin: 0;
+    padding: 1.5rem 0;
     font-size: 1.125rem;
+    text-align: center;
   }
 `;
 
 const StyledSection = styled.section`
   width: 100%;
-  margin: 1.875rem 0;
+  margin: 1rem 0;
 `;
 
 class Form extends React.Component {

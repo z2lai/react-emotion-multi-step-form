@@ -4,28 +4,48 @@ import styled from "@emotion/styled";
 import StyledControlWrapper from './StyledControlWrapper';
 
 const StyledLabel = styled.label`
-  color: pink;
+  flex: 1;
+  border: 1px solid black;
+  padding: 0 20px;
+  line-height: 4rem;
+  vertical-align: center;
+  transition: all 0.3s;
+  ${props => ( // Note: This uses regular JS template literal, not emotion
+    `color: ${props.checked ? "black" : "grey"};
+    background: ${props.checked ? "linear-gradient(45deg, #FFC107 0%, #fff200 100%)" : "#f5f5f5"};`
+  )}
 `;
 
-const Option = props => (
-  <StyledLabel>
-    <input type="radio" {...props} />
+const HiddenRadio = styled.input`
+  position: absolute;
+  opacity: 0;
+`;
+
+const Radio = props => (
+  <StyledLabel checked={props.checked}>
+    <HiddenRadio type="radio" {...props} />
     {props.value}
   </StyledLabel>
 );
 
+const StyledRadioWrapper = styled.div`
+  display: flex;
+`
+
 const RadioControl = props => (
   <StyledControlWrapper as="fieldset">
     <legend>Please select the type of article you are submitting:</legend>
-    {props.types.map(type => (
-      <Option
-        key={type}
-        name={props.name}
-        value={type}
-        checked={props.selected === type}
-        onChange={props.handleRadioSelection}
-      />
-    ))}
+    <StyledRadioWrapper>
+      {props.types.map(type => (
+        <Radio
+          key={type}
+          name={props.name}
+          value={type}
+          checked={props.selected === type}
+          onChange={props.handleRadioSelection}
+        />
+      ))}
+    </StyledRadioWrapper>
   </StyledControlWrapper>
 );
 

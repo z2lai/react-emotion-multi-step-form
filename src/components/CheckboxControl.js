@@ -20,11 +20,10 @@ const StyledLabel = styled.label`
   border-radius: 25px;
   vertical-align: middle;
   transition: all 0.3s;
-  ${(
-    props // Note: This uses regular JS template literal, not emotion
-  ) =>
+  ${props => ( // Note: This uses regular JS template literal, not emotion
     `color: ${props.checked ? "black" : "grey"};
-    background: ${props.checked ? "linear-gradient(45deg, #FFC107 0%, #fff200 100%)" : "#f5f5f5"};`}
+    background: ${props.checked ? "linear-gradient(45deg, #FFC107 0%, #fff200 100%)" : "#f5f5f5"};`
+  )}
 `;
 
 const HiddenCheckbox = styled.input`
@@ -45,8 +44,8 @@ const CheckboxControl = props => (
     {Object.keys(props.topics).map(topic => (
       <Checkbox
         key={topic}
-        value={topic}
         name={props.name}
+        value={topic}
         checked={props.topics[topic]}
         onChange={props.handleCheckboxChange}
       />

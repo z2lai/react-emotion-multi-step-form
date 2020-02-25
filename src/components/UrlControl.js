@@ -52,7 +52,7 @@ class UrlControl extends React.Component {
   render() {
     return (
       <StyledControlWrapper>
-        <label for="url">Enter your article URL: {testUrl}</label>
+        <label>Enter your article URL: {testUrl}</label>
         <input
           type="text"
           id="url"
