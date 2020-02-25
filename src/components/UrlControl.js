@@ -1,12 +1,13 @@
 import React from "react";
-import styled from "@emotion/styled";
 
-const testUrl = 'https://css-tricks.com/javascript-scope-closures/';
+import StyledControlWrapper from "./StyledControlWrapper";
+
+const testUrl = "https://css-tricks.com/javascript-scope-closures/";
 
 class UrlControl extends React.Component {
   state = {
     invalidUrl: false,
-    urlInput: this.props.url || '' // should I just remove this and use the url state of the parent?
+    urlInput: this.props.url || "" // should I just remove this and use the url state of the parent?
   };
 
   handleChange = event => {
@@ -20,14 +21,14 @@ class UrlControl extends React.Component {
       this.setState({ invalidUrl: true });
       return alert("Invalid URL");
     }
-    this.props.updateState('url', cleanUrl);
+    this.props.updateState("url", cleanUrl);
     this.props.setFormState(1);
     fetch(`/articles/scrape?url=${cleanUrl}`)
       .then(res => res.json()) // body.json() returns another promise
       .then(articleInfo => {
-        this.props.updateState('article', articleInfo);
+        this.props.updateState("article", articleInfo);
         let suggestedTags = this.suggestTags(articleInfo.topics, articleInfo.parentTopics);
-        this.props.updateState('tagOptions', suggestedTags);
+        this.props.updateState("tagOptions", suggestedTags);
         this.props.setFormState(2);
       })
       .catch(err => console.log(err));
@@ -46,14 +47,15 @@ class UrlControl extends React.Component {
       if (!topics[topic]) topics[topic] = false;
     });
     return topics;
-  }
+  };
 
   render() {
     return (
-      <label>
-        <h2>Enter your article URL: {testUrl}</h2>
+      <StyledControlWrapper>
+        <label for="url">Enter your article URL: {testUrl}</label>
         <input
           type="text"
+          id="url"
           required
           placeholder="Article URL"
           value={this.state.urlInput}
@@ -61,7 +63,7 @@ class UrlControl extends React.Component {
           onKeyPress={this.submitUrl}
         />
         <button onClick={this.submitUrl}>Submit URL</button>
-      </label>
+      </StyledControlWrapper>
     );
   }
 }

@@ -1,6 +1,8 @@
 import { jsx } from "@emotion/core";
-import styled from '@emotion/styled';
+import styled from "@emotion/styled";
 /** @jsx jsx */
+
+import StyledControlWrapper from './StyledControlWrapper';
 
 /* Note: From Emotion documentation: https://emotion.sh/docs/styled#composing-dynamic-styles
 // const dynamicStyles = props =>
@@ -18,16 +20,17 @@ const StyledLabel = styled.label`
   border-radius: 25px;
   vertical-align: middle;
   transition: all 0.3s;
-  ${props => ( // Note: This uses regular JS template literal, not emotion
-    `color: ${props.checked ? 'black' : 'grey'};
-    background: ${props.checked ? 'linear-gradient(45deg, #FFC107 0%, #fff200 100%)' : '#f5f5f5'};`
-  )}
+  ${(
+    props // Note: This uses regular JS template literal, not emotion
+  ) =>
+    `color: ${props.checked ? "black" : "grey"};
+    background: ${props.checked ? "linear-gradient(45deg, #FFC107 0%, #fff200 100%)" : "#f5f5f5"};`}
 `;
 
 const HiddenCheckbox = styled.input`
   position: absolute;
   opacity: 0;
-`
+`;
 
 const Checkbox = props => (
   <StyledLabel checked={props.checked}>
@@ -36,16 +39,19 @@ const Checkbox = props => (
   </StyledLabel>
 );
 
-const CheckboxControl = props => {
-  return Object.keys(props.topics).map(topic => (
-    <Checkbox
-      key={topic}
-      value={topic}
-      name={props.name}
-      checked={props.topics[topic]}
-      onChange={props.handleCheckboxChange}
-    />
-  ));
-};
+const CheckboxControl = props => (
+  <StyledControlWrapper as="fieldset">
+    <legend>Please select relevant topics to tag the article with:</legend>
+    {Object.keys(props.topics).map(topic => (
+      <Checkbox
+        key={topic}
+        value={topic}
+        name={props.name}
+        checked={props.topics[topic]}
+        onChange={props.handleCheckboxChange}
+      />
+    ))}
+  </StyledControlWrapper>
+);
 
 export default CheckboxControl;
