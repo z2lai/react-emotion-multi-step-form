@@ -1,8 +1,27 @@
 import React from "react";
+import styled from "@emotion/styled";
 
 import StyledControlWrapper from "./StyledControlWrapper";
 
 const testUrl = "https://css-tricks.com/javascript-scope-closures/";
+
+const StyledUrlWrapper = styled.div`
+  display: flex;
+  height: 3rem;
+`;
+
+const StyledInput = styled.input`
+  flex: 1 1 auto;
+  padding: 0 2px;
+  font-size: 1rem;
+  font-family: inherit;
+  color: #333;
+  background: #f5f5f5;
+`;
+
+const StyledButton = styled.button`
+  
+`
 
 class UrlControl extends React.Component {
   state = {
@@ -52,17 +71,19 @@ class UrlControl extends React.Component {
   render() {
     return (
       <StyledControlWrapper>
-        <label>Enter your article URL: {testUrl}</label>
-        <input
-          type="text"
-          id="url"
-          required
-          placeholder="Article URL"
-          value={this.state.urlInput}
-          onChange={this.handleChange}
-          onKeyPress={this.submitUrl}
-        />
-        <button onClick={this.submitUrl}>Submit URL</button>
+        <label>Article URL ({testUrl})</label>
+        <StyledUrlWrapper>
+          <StyledInput
+            type="text"
+            id="url"
+            required
+            placeholder="Article URL"
+            value={this.state.urlInput}
+            onChange={this.handleChange}
+            onKeyPress={this.submitUrl}
+          />
+          <StyledButton onClick={this.submitUrl}>Submit URL</StyledButton>
+        </StyledUrlWrapper>
       </StyledControlWrapper>
     );
   }

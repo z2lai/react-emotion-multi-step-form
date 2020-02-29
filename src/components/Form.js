@@ -22,7 +22,7 @@ const StyledForm = styled.div`
 `;
 
 const StyledSection = styled.section`
-  width: 100%;
+  display: flex;
   margin: 1rem 0;
 `;
 

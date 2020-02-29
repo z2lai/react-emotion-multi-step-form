@@ -18,7 +18,7 @@ const StyledLabel = styled.label`
   padding: 0 20px;
   line-height: 2rem;
   border-radius: 25px;
-  vertical-align: middle;
+  font-size: 1rem;
   transition: all 0.3s;
   ${props => ( // Note: This uses regular JS template literal, not emotion
     `color: ${props.checked ? "black" : "grey"};
@@ -40,7 +40,7 @@ const Checkbox = props => (
 
 const CheckboxControl = props => (
   <StyledControlWrapper as="fieldset">
-    <legend>Please select relevant topics to tag the article with:</legend>
+    <legend>Topic Tags</legend>
     {Object.keys(props.topics).map(topic => (
       <Checkbox
         key={topic}
