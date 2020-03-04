@@ -1,27 +1,34 @@
 import React from "react";
 import styled from "@emotion/styled";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import OutlinedInput from "@material-ui/core/OutlinedInput";
+import Button from "@material-ui/core/Button";
+
+import { StylesProvider } from "@material-ui/styles";
 
 import StyledControlWrapper from "./StyledControlWrapper";
 
 const testUrl = "https://css-tricks.com/javascript-scope-closures/";
 
-const StyledUrlWrapper = styled.div`
-  display: flex;
-  height: 3rem;
+const StyledFormControl = styled(FormControl)`
+  flex-direction: row
 `;
 
-const StyledInput = styled.input`
-  flex: 1 1 auto;
-  padding: 0 2px;
-  font-size: 1rem;
-  font-family: inherit;
-  color: #333;
-  background: #f5f5f5;
-`;
+// const StyledInput = styled.input`
+//   flex: 1 1 auto;
+//   border-radius: 4px 0 0 4px;
+//   padding: 0 2px;
+//   font-size: 1rem;
+//   font-family: inherit;
+//   color: #333;
+//   background: #f5f5f5;
+// `;
+const StyledInput = styled(OutlinedInput)``;
 
-const StyledButton = styled.button`
-  
-`
+const StyledButton = styled(Button)`
+  font: inherit;
+`;
 
 class UrlControl extends React.Component {
   state = {
@@ -70,21 +77,21 @@ class UrlControl extends React.Component {
 
   render() {
     return (
-      <StyledControlWrapper>
-        <label>Article URL ({testUrl})</label>
-        <StyledUrlWrapper>
+      <StylesProvider injectFirst>
+        <StyledFormControl varient="outlined">
+          <InputLabel htmlFor="url">Article URL</InputLabel>
           <StyledInput
             type="text"
             id="url"
-            required
-            placeholder="Article URL"
             value={this.state.urlInput}
             onChange={this.handleChange}
             onKeyPress={this.submitUrl}
           />
-          <StyledButton onClick={this.submitUrl}>Submit URL</StyledButton>
-        </StyledUrlWrapper>
-      </StyledControlWrapper>
+          <StyledButton variant="contained" disableElevation onClick={this.submitUrl}>
+            Submit URL
+          </StyledButton>
+        </StyledFormControl>
+      </StylesProvider>
     );
   }
 }
