@@ -12,7 +12,7 @@ import StyledControlWrapper from "./StyledControlWrapper";
 const testUrl = "https://css-tricks.com/javascript-scope-closures/";
 
 const StyledFormControl = styled(FormControl)`
-  flex-direction: row
+  flex-direction: row;
 `;
 
 // const StyledInput = styled.input`
@@ -78,18 +78,17 @@ class UrlControl extends React.Component {
   render() {
     return (
       <StylesProvider injectFirst>
-        <StyledFormControl varient="outlined">
+        <StyledFormControl variant="outlined">
           <InputLabel htmlFor="url">Article URL</InputLabel>
-          <StyledInput
+          <OutlinedInput
             type="text"
             id="url"
+            label="Article URL" // determines the size of the gap in the top border for the InputLabel to fit into
             value={this.state.urlInput}
             onChange={this.handleChange}
             onKeyPress={this.submitUrl}
           />
-          <StyledButton variant="contained" disableElevation onClick={this.submitUrl}>
-            Submit URL
-          </StyledButton>
+          <StyledButton variant="contained" disableElevation onClick={this.submitUrl}>Submit URL</StyledButton>
         </StyledFormControl>
       </StylesProvider>
     );
