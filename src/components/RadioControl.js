@@ -35,7 +35,7 @@ const StyledRadioWrapper = styled.div`
 
 const RadioControl = props => (
   <StyledControlWrapper as="fieldset">
-    <legend>Type of Article</legend>
+    <legend>Categorize Article</legend>
     <StyledRadioWrapper>
       {props.types.map(type => (
         <Radio

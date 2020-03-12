@@ -7,6 +7,10 @@ import CheckboxControl from "./CheckboxControl";
 
 // Note: https://emotion.sh/docs/styled#styling-any-component
 const StyledForm = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 640px;
   margin: auto;
   padding: 0 3rem;

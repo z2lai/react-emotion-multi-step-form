@@ -40,7 +40,7 @@ const Checkbox = props => (
 
 const CheckboxControl = props => (
   <StyledControlWrapper as="fieldset">
-    <legend>Topic Tags</legend>
+    <legend>Tag Article</legend>
     {Object.keys(props.topics).map(topic => (
       <Checkbox
         key={topic}
