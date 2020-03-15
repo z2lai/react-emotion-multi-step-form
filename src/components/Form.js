@@ -11,23 +11,20 @@ const StyledForm = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 640px;
-  margin: auto;
-  padding: 0 3rem;
-  background-color: #FFFAFA;
+  width: 600px;
+  height: 60px;
+  padding: 8px;
+  border-radius: 3px;
+  background-color: hsl(0, 0%, 100%);
+  box-shadow: 0 8px 10px hsl(120, 60%, 40%);
   text-align: left;
-  color: #222222;
+  color: hsl(0, 0%, 20%);
   h1 {
     margin: 0;
     padding: 1.5rem 0;
     font-size: 1.125rem;
     text-align: center;
   }
-`;
-
-const StyledSection = styled.section`
-  display: flex;
-  margin: 1rem 0;
 `;
 
 class Form extends React.Component {
@@ -102,23 +99,16 @@ class Form extends React.Component {
 
     return (
       <StyledForm>
-        <h1>Submit An Article To the Javascript Community Curation</h1>
-        <StyledSection>
           <UrlControl url={this.state.url} updateState={this.updateState} setFormState={this.setFormState} />
-        </StyledSection>
-        <StyledSection>
           <RadioControl
             name="type"
             types={this.types}
             selected={this.state.type}
             handleRadioSelection={this.handleRadioSelection}
           />
-        </StyledSection>
-        <StyledSection>
           {this.state.formState === this.formStates[2] ?
             <CheckboxControl name="topics" topics={this.state.tagOptions} handleCheckboxChange={this.handleCheckboxChange} />
           : <div>Loading...</div>}
-        </StyledSection>
         {submitButton}
       </StyledForm>
     );

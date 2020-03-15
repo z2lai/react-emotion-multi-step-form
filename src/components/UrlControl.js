@@ -1,33 +1,19 @@
 import React from "react";
 import styled from "@emotion/styled";
-import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
-import OutlinedInput from "@material-ui/core/OutlinedInput";
-import Button from "@material-ui/core/Button";
-
-import { StylesProvider } from "@material-ui/styles";
 
 import StyledControlWrapper from "./StyledControlWrapper";
 
 const testUrl = "https://css-tricks.com/javascript-scope-closures/";
 
-const StyledFormControl = styled(FormControl)`
-  flex-direction: row;
-`;
-
-// const StyledInput = styled.input`
-//   flex: 1 1 auto;
-//   border-radius: 4px 0 0 4px;
-//   padding: 0 2px;
-//   font-size: 1rem;
-//   font-family: inherit;
-//   color: #333;
-//   background: #f5f5f5;
-// `;
-const StyledInput = styled(OutlinedInput)``;
-
-const StyledButton = styled(Button)`
-  font: inherit;
+const StyledInput = styled.input`
+  display: inline-block;
+  width: 500px;
+  height: 40px;
+  margin-left: 50px;
+  border: none;
+  color: hsl(0, 0, 20);
+  font-size: 1rem;
+  letter-spacing: 1px;
 `;
 
 class UrlControl extends React.Component {
@@ -77,20 +63,12 @@ class UrlControl extends React.Component {
 
   render() {
     return (
-      <StylesProvider injectFirst>
-        <StyledFormControl variant="outlined">
-          <InputLabel htmlFor="url">Article URL</InputLabel>
-          <OutlinedInput
+          <StyledInput
             type="text"
-            id="url"
-            label="Article URL" // determines the size of the gap in the top border for the InputLabel to fit into
+            placeholder="Article URL"
             value={this.state.urlInput}
             onChange={this.handleChange}
-            onKeyPress={this.submitUrl}
           />
-          <StyledButton variant="contained" disableElevation onClick={this.submitUrl}>Submit URL</StyledButton>
-        </StyledFormControl>
-      </StylesProvider>
     );
   }
 }

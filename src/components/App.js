@@ -19,6 +19,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <h1>Submit An Article To the Javascript Community Curation</h1>
         <Form />;
       </div>
     );
