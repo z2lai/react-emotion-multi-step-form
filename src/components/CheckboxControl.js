@@ -2,7 +2,7 @@ import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
 /** @jsx jsx */
 
-import StyledControlWrapper from './StyledControlWrapper';
+import StyledInputWrapper from './StyledInputWrapper';
 
 /* Note: From Emotion documentation: https://emotion.sh/docs/styled#composing-dynamic-styles
 // const dynamicStyles = props =>
@@ -39,7 +39,7 @@ const Checkbox = props => (
 );
 
 const CheckboxControl = props => (
-  <StyledControlWrapper as="fieldset">
+  <StyledInputWrapper as="fieldset">
     <legend>Tag Article</legend>
     {Object.keys(props.topics).map(topic => (
       <Checkbox
@@ -50,7 +50,7 @@ const CheckboxControl = props => (
         onChange={props.handleCheckboxChange}
       />
     ))}
-  </StyledControlWrapper>
+  </StyledInputWrapper>
 );
 
 export default CheckboxControl;

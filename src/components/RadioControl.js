@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 
-import StyledControlWrapper from './StyledControlWrapper';
+import StyledInputWrapper from './StyledInputWrapper';
 
 const StyledLabel = styled.label`
   flex: 1;
@@ -34,7 +34,7 @@ const StyledRadioWrapper = styled.div`
 `
 
 const RadioControl = props => (
-  <StyledControlWrapper as="fieldset">
+  <StyledInputWrapper as="fieldset">
     <legend>Categorize Article</legend>
     <StyledRadioWrapper>
       {props.types.map(type => (
@@ -47,7 +47,7 @@ const RadioControl = props => (
         />
       ))}
     </StyledRadioWrapper>
-  </StyledControlWrapper>
+  </StyledInputWrapper>
 );
 
 export default RadioControl;

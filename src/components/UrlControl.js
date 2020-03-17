@@ -1,20 +1,11 @@
 import React from "react";
 import styled from "@emotion/styled";
 
-import StyledControlWrapper from "./StyledControlWrapper";
+import StyledInputWrapper from "./StyledInputWrapper";
 
 const testUrl = "https://css-tricks.com/javascript-scope-closures/";
 
-const StyledInput = styled.input`
-  display: inline-block;
-  width: 500px;
-  height: 40px;
-  margin-left: 50px;
-  border: none;
-  color: hsl(0, 0, 20);
-  font-size: 1rem;
-  letter-spacing: 1px;
-`;
+const StyledInput = styled.input``;
 
 class UrlControl extends React.Component {
   state = {
@@ -53,7 +44,7 @@ class UrlControl extends React.Component {
   suggestTags = (childTopics, parentTopics) => {
     let topics = {};
     childTopics.forEach(topic => {
-      if (!topics[topic]) topics[topic] = false;
+      if (!topics[topic]) topics[topic] = false; // initial checked status of topic checkbox
     });
     parentTopics.forEach(topic => {
       if (!topics[topic]) topics[topic] = false;
@@ -63,12 +54,9 @@ class UrlControl extends React.Component {
 
   render() {
     return (
-          <StyledInput
-            type="text"
-            placeholder="Article URL"
-            value={this.state.urlInput}
-            onChange={this.handleChange}
-          />
+      <StyledInputWrapper>
+        <StyledInput type="text" placeholder="Article URL" value={this.state.urlInput} onChange={this.handleChange} />
+      </StyledInputWrapper>
     );
   }
 }
