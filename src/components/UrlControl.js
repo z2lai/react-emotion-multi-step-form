@@ -5,7 +5,15 @@ import StyledInputWrapper from "./StyledInputWrapper";
 
 const testUrl = "https://css-tricks.com/javascript-scope-closures/";
 
-const StyledInput = styled.input``;
+const StyledInput = styled.input`
+  width: 100%;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  color: hsl(0, 0%, 20%);
+`;
 
 class UrlControl extends React.Component {
   state = {
@@ -54,7 +62,7 @@ class UrlControl extends React.Component {
 
   render() {
     return (
-      <StyledInputWrapper>
+      <StyledInputWrapper active={this.props.active}>
         <StyledInput type="text" placeholder="Article URL" value={this.state.urlInput} onChange={this.handleChange} />
       </StyledInputWrapper>
     );

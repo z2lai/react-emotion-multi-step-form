@@ -13,7 +13,7 @@ const StyledForm = styled.div`
   transform: translate(-50%, -50%);
   width: 600px;
   height: 60px;
-  padding: 8px;
+  padding: 10px 50px;
   border-radius: 3px;
   background-color: hsl(0, 0%, 100%);
   box-shadow: 0 8px 10px hsl(120, 60%, 40%);
@@ -27,8 +27,16 @@ const StyledForm = styled.div`
   }
 `;
 
+const StyledButton = styled.button`
+    position: absolute;
+    right: 5px;
+    height: 40px;
+    width: 40px;
+    border: none;
+  `
+
 class Form extends React.Component {
-  formStates = ["Initial", "Scraping Article", "Article Scraped"];
+  formStates = ["Initial", "Scraping Article", "Article Scraped"]; // Change this to two states - Loading Article and Loaded
   types = ["Guide", "Tutorial", "Reference"]; // should be queried from database
   factors = ["Beginner Friendly", "Deep Dive", "Comphrensive"]; // should be queried from database
 
@@ -60,6 +68,7 @@ class Form extends React.Component {
   }
 
   setFormState = stateIndex => this.setState({ formState: this.formStates[stateIndex] });
+
   updateState = (stateProperty, stateValue) => this.setState({ [stateProperty]: stateValue });
 
   handleSubmit = event => {
@@ -94,21 +103,30 @@ class Form extends React.Component {
     });
   };
 
+  handleNext = event => {
+    let page = this.state.formPage
+    if (page !== 3) {
+      this.setState({ formPage: page + 1 })
+    } else {
+      this.setState({ formPage: 1 })
+    }
+  }
+
   render() {
     const submitButton = <button onClick={this.handleSubmit}>Submit</button>
 
     return (
       <StyledForm>
-          <UrlControl url={this.state.url} updateState={this.updateState} setFormState={this.setFormState} />
-          <RadioControl
-            name="type"
-            types={this.types}
-            selected={this.state.type}
-            handleRadioSelection={this.handleRadioSelection}
-          />
-          {this.state.formState === this.formStates[2] ?
-            <CheckboxControl name="topics" topics={this.state.tagOptions} handleCheckboxChange={this.handleCheckboxChange} />
-          : <div>Loading...</div>}
+        <UrlControl active={this.state.formPage === 1} url={this.state.url} updateState={this.updateState} setFormState={this.setFormState} />
+        <RadioControl
+          active={this.state.formPage === 2}
+          name="type"
+          types={this.types}
+          selected={this.state.type}
+          handleRadioSelection={this.handleRadioSelection}
+        />
+        <CheckboxControl active={this.state.formPage === 3} name="topics" topics={this.state.tagOptions} handleCheckboxChange={this.handleCheckboxChange} />
+        <StyledButton onClick={this.handleNext}>Next</StyledButton>
         {submitButton}
       </StyledForm>
     );

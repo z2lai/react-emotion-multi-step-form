@@ -1,14 +1,16 @@
 import styled from "@emotion/styled";
 
 const StyledInputWrapper = styled.div`
-  display: inline-block;
+  position: absolute;
+  display: flex;
+  justify: center;
   width: 500px;
   height: 40px;
-  margin-left: 50px;
-  border: none;
-  color: hsl(0, 0, 20);
-  font-size: 1rem;
-  letter-spacing: 1px;
+  margin: auto;
+  ${props => (`
+      opacity: ${props.active ? "1" : "0"};
+      z-index: ${props.active ? "1" : "-1"};
+  `)}
 `;
 
 export default StyledInputWrapper;
