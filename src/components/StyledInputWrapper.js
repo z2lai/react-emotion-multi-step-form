@@ -2,15 +2,22 @@ import styled from "@emotion/styled";
 
 const StyledInputWrapper = styled.div`
   position: absolute;
+  height: 100%;
+  width: 100%;
+  max-width: 500px;
   display: flex;
-  justify: center;
-  width: 500px;
-  height: 40px;
-  margin: auto;
-  ${props => (`
-      opacity: ${props.active ? "1" : "0"};
-      z-index: ${props.active ? "1" : "-1"};
-  `)}
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: space-evenly;
+  transition: opacity 600ms;
+  ${props => props.active ? `
+    visibility: visible;
+    opacity: 1;
+    ` : `
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s linear 600ms,
+  `}
 `;
 
 export default StyledInputWrapper;

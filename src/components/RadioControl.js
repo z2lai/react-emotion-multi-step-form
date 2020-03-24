@@ -4,16 +4,23 @@ import styled from "@emotion/styled";
 import StyledInputWrapper from './StyledInputWrapper';
 
 const StyledLabel = styled.label`
-  border: 1px solid black;
   padding: 0 20px;
-  line-height: 3rem;
+  border-radius: 25px;
+  line-height: 2rem;
   font-size: 1rem;
   text-align: center;
-  transition: all 0.3s;
-  ${props => (`
-    color: ${props.checked ? "#333" : "grey"};
-    background: ${props.checked ? "linear-gradient(45deg, #FFC107 0%, #fff200 100%)" : "#f5f5f5"};
-  `)}
+  text-transform: capitalize;
+  ${props => `
+    border: 1px solid ${props.theme.colors[props.type]};
+    color: ${props.theme.colors[props.type]};
+    ${props.checked ? `
+      color: white;
+      background: ${props.theme.colors[props.type]};
+    ` : `
+      background: #f5f5f5;
+      transition : all 0.3s;
+    `}
+  `}
 `;
 
 const HiddenRadio = styled.input`
@@ -22,14 +29,14 @@ const HiddenRadio = styled.input`
 `;
 
 const RadioButton = props => (
-  <StyledLabel checked={props.checked}>
+  <StyledLabel type={props.value} checked={props.checked}>
     <HiddenRadio type="radio" {...props} />
     {props.value}
   </StyledLabel>
 );
 
 const RadioControl = props => (
-  <StyledInputWrapper>
+  <StyledInputWrapper active={props.active}>
     {props.types.map(type => (
       <RadioButton
         key={type}
