@@ -34,13 +34,8 @@ const Icon = styled.div`
     width: 34px;
     margin: 0 8px;
     border: none;
-    background: grey;
-`
-
-const InputContainer = styled.div`
-  position: relative;
-  margin: 0 8px;
-  flex: 1;
+    line-height: 40px;
+    text-align: center;
 `
 
 const StyledButton = styled.button`
@@ -48,7 +43,38 @@ const StyledButton = styled.button`
     width: 34px;
     margin: 0 8px;
     border: none;
+    background: none;
   `
+
+const NextIcon = styled.i`
+  width: 2px;
+  height: 17px;
+  top: 5px;
+  left: 14px;
+  background: hsl(0, 0%, 20%);
+  &::before {
+    position: absolute;
+    content: '';
+    width: 6px;
+    height: 6px;
+    bottom: -1px;
+    left: -3px;
+    border-color: hsl(0, 0%, 20%);
+    border-right: 2px solid;
+    border-bottom: 2px solid;
+    transform: rotate(45deg);
+  }
+  &::after {
+    position: absolute;
+    content: '';
+  }
+`
+
+const InputContainer = styled.div`
+  position: relative;
+  margin: 0 8px;
+  flex: 1;
+`
 
 class Form extends React.Component {
   formStates = ["Initial", "Scraping Article", "Article Scraped"]; // Change this to two states - Loading Article and Loaded
@@ -130,7 +156,9 @@ class Form extends React.Component {
   render() {
     return (
       <StyledForm>
-        <Icon />
+        <Icon>
+          <span className="icon-link"></span>
+        </Icon>
         <InputContainer>
           <UrlControl active={this.state.formPage === 1} url={this.state.url} updateState={this.updateState} setFormState={this.setFormState} />
           <RadioControl
@@ -142,7 +170,9 @@ class Form extends React.Component {
           />
           <CheckboxControl active={this.state.formPage === 3} name="topics" topics={this.state.tagOptions} handleCheckboxChange={this.handleCheckboxChange} />
         </InputContainer>
-        <StyledButton onClick={this.handleNext}>Next</StyledButton>
+        <StyledButton onClick={this.handleNext}>
+          <span className="icon-arrow-down2"></span>
+        </StyledButton>
       </StyledForm>
     );
   }

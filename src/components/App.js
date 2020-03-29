@@ -3,6 +3,7 @@ import { ThemeProvider } from 'emotion-theming'
 
 import Form from "./Form";
 import "../App.css";
+import "../fonts/icomoon/style.css"
 
 const theme = {
   colors: {
