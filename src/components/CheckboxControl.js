@@ -2,7 +2,7 @@ import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
 /** @jsx jsx */
 
-import StyledInputWrapper from './StyledInputWrapper';
+import { StyledInputWrapper, StyledInput } from './Input';
 
 /* Note: From Emotion documentation: https://emotion.sh/docs/styled#composing-dynamic-styles
 // const dynamicStyles = props =>

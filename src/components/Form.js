@@ -1,9 +1,11 @@
 import React from "react";
 import styled from "@emotion/styled";
 
+import Icon from "./Icon";
 import UrlControl from "./UrlControl";
 import RadioControl from "./RadioControl";
 import CheckboxControl from "./CheckboxControl";
+import { StyledInputWrapper, StyledInput } from './Input';
 
 // Note: https://emotion.sh/docs/styled#styling-any-component
 const StyledForm = styled.div`
@@ -15,7 +17,7 @@ const StyledForm = styled.div`
   height: 60px;
   padding: 10px 0;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   border-radius: 3px;
   background-color: hsl(0, 0%, 100%);
   box-shadow: 0 8px 10px hsl(120, 60%, 40%);
@@ -29,45 +31,27 @@ const StyledForm = styled.div`
   }
 `;
 
-const Icon = styled.div`
-    height: 40px;
-    width: 34px;
-    margin: 0 8px;
-    border: none;
-    line-height: 40px;
-    text-align: center;
+const IconContainer = styled.div`
+  height: 40px;
+  width: 34px;
+  margin: 0 0 0 8px;
+  overflow: hidden;
 `
-
-const StyledButton = styled.button`
-    height: 40px;
-    width: 34px;
-    margin: 0 8px;
-    border: none;
-    background: none;
-  `
-
-const NextIcon = styled.i`
-  width: 2px;
-  height: 17px;
-  top: 5px;
-  left: 14px;
-  background: hsl(0, 0%, 20%);
-  &::before {
-    position: absolute;
-    content: '';
-    width: 6px;
-    height: 6px;
-    bottom: -1px;
-    left: -3px;
-    border-color: hsl(0, 0%, 20%);
-    border-right: 2px solid;
-    border-bottom: 2px solid;
-    transform: rotate(45deg);
-  }
-  &::after {
-    position: absolute;
-    content: '';
-  }
+const IconsWrapper = styled.div`
+  position: relative;
+  display: flex;
+  flex-flow: column nowrap;
+  line-height: 40px;
+  transition: top 400ms;
+  ${props => (
+    (props.page === 1) ? `
+      top: 0px;
+    ` : (props.page === 2) ? ` 
+      top: -40px; 
+    ` : ` 
+      top: -80px;
+    `
+  )}
 `
 
 const InputContainer = styled.div`
@@ -76,13 +60,56 @@ const InputContainer = styled.div`
   flex: 1;
 `
 
+const NextButton = styled.button`
+  position: relative;
+  height: 40px;
+  width: 34px;
+  margin: 0 8px 0 0;
+  border: 1px black;
+  background: none;
+  outline: none;
+  cursor: pointer;
+  &:hover {
+    background: hsl(0, 0%, 95%);
+    border-radius: 3px;
+    transition: background 0.3s ease;
+  }
+  &:active {
+    top: 2px;
+    background-color: hsl(0, 0%, 100%);
+    transition-property: none;
+  }
+  `
+
+const NextIcon = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 2px;
+  height: 17px;
+  background: hsl(0, 0%, 20%);
+  &::before {
+    content: '';
+    position: absolute;
+    left: -3px;
+    bottom: 1px;
+    width: 6px;
+    height: 6px;
+    transform: rotate(45deg);
+    border-right: 2px solid;
+    border-bottom: 2px solid;
+    border-color: hsl(0, 0%, 20%);
+  }
+`
+
 class Form extends React.Component {
   formStates = ["Initial", "Scraping Article", "Article Scraped"]; // Change this to two states - Loading Article and Loaded
   types = ["guide", "tutorial", "reference"]; // should be queried from database
   factors = ["Beginner Friendly", "Deep Dive", "Comphrensive"]; // should be queried from database
 
   state = {
-    formPage: 1,
+    activePage: 1,
     // formState: this.formStates[0],
     formState: this.formStates[2],
     url: "",
@@ -145,34 +172,39 @@ class Form extends React.Component {
   };
 
   handleNext = event => {
-    let page = this.state.formPage
+    let page = this.state.activePage
     if (page !== 3) {
-      this.setState({ formPage: page + 1 })
+      this.setState({ activePage: page + 1 })
     } else {
-      this.setState({ formPage: 1 })
+      this.setState({ activePage: 1 })
     }
   }
 
   render() {
+    let activePage = this.state.activePage
     return (
       <StyledForm>
-        <Icon>
-          <span className="icon-link"></span>
-        </Icon>
+        <IconContainer>
+          <IconsWrapper page={activePage}>
+            <Icon className="icon-link" active={activePage === 1} />
+            <Icon className="icon-tree" active={activePage === 2} />
+            <Icon className="icon-price-tags" active={activePage === 3} />
+          </IconsWrapper>
+        </IconContainer>
         <InputContainer>
-          <UrlControl active={this.state.formPage === 1} url={this.state.url} updateState={this.updateState} setFormState={this.setFormState} />
+          <UrlControl active={activePage === 1} url={this.state.url} updateState={this.updateState} setFormState={this.setFormState} />
           <RadioControl
-            active={this.state.formPage === 2}
+            active={activePage === 2}
             name="type"
             types={this.types}
             selected={this.state.type}
             handleRadioSelection={this.handleRadioSelection}
           />
-          <CheckboxControl active={this.state.formPage === 3} name="topics" topics={this.state.tagOptions} handleCheckboxChange={this.handleCheckboxChange} />
+          <CheckboxControl active={activePage === 3} name="topics" topics={this.state.tagOptions} handleCheckboxChange={this.handleCheckboxChange} />
         </InputContainer>
-        <StyledButton onClick={this.handleNext}>
-          <span className="icon-arrow-down2"></span>
-        </StyledButton>
+        <NextButton onClick={this.handleNext}>
+          <NextIcon />
+        </NextButton>
       </StyledForm>
     );
   }

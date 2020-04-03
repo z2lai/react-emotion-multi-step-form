@@ -1,20 +1,8 @@
 import React from "react";
-import styled from "@emotion/styled";
 
-import StyledInputWrapper from "./StyledInputWrapper";
+import { StyledInputWrapper, StyledInput } from "./Input";
 
 // const testUrl = "https://css-tricks.com/javascript-scope-closures/";
-
-const StyledInput = styled.input`
-  height: 100%;
-  width: 100%;
-  border: none;
-  outline: none;
-  font-family: inherit;
-  font-size: 1rem;
-  letter-spacing: 1px;
-  color: hsl(0, 0%, 20%);
-`;
 
 class UrlControl extends React.Component {
   state = {

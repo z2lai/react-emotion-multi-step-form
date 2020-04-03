@@ -27,8 +27,8 @@ class App extends React.Component {
     return (
       <ThemeProvider theme={theme}>
       <div className="App">
-        <h1>Submit An Article To the Javascript Community Curation</h1>
-        <Form />;
+        <h1>Submit An Article To the Communal Curator</h1>
+        <Form />
       </div>
       </ThemeProvider>
     );

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 
-import StyledInputWrapper from './StyledInputWrapper';
+import { StyledInputWrapper } from './Input';
 
 const StyledLabel = styled.label`
   padding: 0 20px;
