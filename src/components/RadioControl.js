@@ -10,6 +10,7 @@ const StyledLabel = styled.label`
   font-size: 1rem;
   text-align: center;
   text-transform: capitalize;
+  cursor: pointer;
   ${props => `
     border: 1px solid ${props.theme.colors[props.type]};
     color: ${props.theme.colors[props.type]};
@@ -17,7 +18,7 @@ const StyledLabel = styled.label`
       color: white;
       background: ${props.theme.colors[props.type]};
     ` : `
-      background: #f5f5f5;
+      background: hsl(0, 0%, 100%);
       transition : all 0.3s;
     `}
   `}
