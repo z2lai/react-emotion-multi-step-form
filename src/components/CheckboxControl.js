@@ -40,8 +40,7 @@ const Checkbox = props => (
 
 const CheckboxControl = props => (
   <StyledInputWrapper active={props.active}>
-    <StyledInput type="text" placeholder="Article Tags" />
-    {/* {Object.keys(props.topics).map(topic => (
+    {Object.keys(props.topics).map(topic => (
       <Checkbox
         key={topic}
         name={props.name}
@@ -49,7 +48,8 @@ const CheckboxControl = props => (
         checked={props.topics[topic]}
         onChange={props.handleCheckboxChange}
       />
-    ))} */}
+    ))}
+    <StyledInput type="text" placeholder="Article Tags" />
   </StyledInputWrapper>
 );
 

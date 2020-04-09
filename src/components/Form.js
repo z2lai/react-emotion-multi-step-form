@@ -2,33 +2,51 @@ import React from "react";
 import styled from "@emotion/styled";
 
 import Icon from "./Icon";
+import TitleControl from "./TitleControl";
 import UrlControl from "./UrlControl";
 import RadioControl from "./RadioControl";
 import CheckboxControl from "./CheckboxControl";
 import { StyledInputWrapper, StyledInput } from './Input';
 
 // Note: https://emotion.sh/docs/styled#styling-any-component
+
 const StyledForm = styled.div`
+  text-align: center;
+  width: 900px;
+  height: 400px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border: 3px double hsl(0, 0%, 13%); 
+  transform: translate(-50%, -50%);
+  background: #B7DDC3;
+`
+
+const InputControl = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 600px;
-  height: 60px;
+  max-height: 60px;
   padding: 10px 0;
+  overflow: hidden;
   display: flex;
   justify-content: space-evenly;
+  align-items: flex-end;
   border-radius: 3px;
   background-color: hsl(0, 0%, 100%);
   box-shadow: 0 8px 10px hsl(120, 60%, 40%);
   text-align: left;
   color: hsl(0, 0%, 20%);
+  transition: max-height 1200ms;
   h1 {
     margin: 0;
     padding: 1.5rem 0;
     font-size: 1.125rem;
     text-align: center;
   }
+  ${props => (props.page === 3) ? "max-height: 320px;" : "" }
 `;
 
 const IconContainer = styled.div`
@@ -37,6 +55,7 @@ const IconContainer = styled.div`
   margin: 0 0 0 8px;
   overflow: hidden;
 `
+
 const IconsWrapper = styled.div`
   position: relative;
   display: flex;
@@ -56,8 +75,11 @@ const IconsWrapper = styled.div`
 
 const InputContainer = styled.div`
   position: relative;
+  min-height: 40px;
   margin: 0 8px;
   flex: 1;
+  display: flex;
+  flex-flow: column nowrap;
 `
 
 const NextButton = styled.button`
@@ -184,27 +206,31 @@ class Form extends React.Component {
     let activePage = this.state.activePage
     return (
       <StyledForm>
-        <IconContainer>
-          <IconsWrapper page={activePage}>
-            <Icon className="icon-link" active={activePage === 1} />
-            <Icon className="icon-tree" active={activePage === 2} />
-            <Icon className="icon-price-tags" active={activePage === 3} />
-          </IconsWrapper>
-        </IconContainer>
-        <InputContainer>
-          <UrlControl active={activePage === 1} url={this.state.url} updateState={this.updateState} setFormState={this.setFormState} />
-          <RadioControl
-            active={activePage === 2}
-            name="type"
-            types={this.types}
-            selected={this.state.type}
-            handleRadioSelection={this.handleRadioSelection}
-          />
-          <CheckboxControl active={activePage === 3} name="topics" topics={this.state.tagOptions} handleCheckboxChange={this.handleCheckboxChange} />
-        </InputContainer>
-        <NextButton onClick={this.handleNext}>
-          <NextIcon />
-        </NextButton>
+        <h1>Submit An Article To the Communal Curator</h1>
+        <TitleControl page={activePage} />
+        <InputControl page={activePage}>
+          <IconContainer>
+            <IconsWrapper page={activePage}>
+              <Icon className="icon-link" active={activePage === 1} />
+              <Icon className="icon-tree" active={activePage === 2} />
+              <Icon className="icon-price-tags" active={activePage === 3} />
+            </IconsWrapper>
+          </IconContainer>
+          <InputContainer>
+            <UrlControl active={activePage === 1} url={this.state.url} updateState={this.updateState} setFormState={this.setFormState} />
+            <RadioControl
+              active={activePage === 2}
+              name="type"
+              types={this.types}
+              selected={this.state.type}
+              handleRadioSelection={this.handleRadioSelection}
+            />
+            <CheckboxControl active={activePage === 3} name="topics" topics={this.state.tagOptions} handleCheckboxChange={this.handleCheckboxChange} />
+          </InputContainer>
+          <NextButton onClick={this.handleNext}>
+            <NextIcon />
+          </NextButton>
+        </InputControl>
       </StyledForm>
     );
   }
