@@ -40,13 +40,13 @@ const InputControl = styled.div`
   text-align: left;
   color: hsl(0, 0%, 20%);
   transition: max-height 1200ms;
+  ${props => (props.page === 3) ? "max-height: 320px;" : "" }
   h1 {
     margin: 0;
     padding: 1.5rem 0;
     font-size: 1.125rem;
     text-align: center;
   }
-  ${props => (props.page === 3) ? "max-height: 320px;" : "" }
 `;
 
 const IconContainer = styled.div`
@@ -75,7 +75,6 @@ const IconsWrapper = styled.div`
 
 const InputContainer = styled.div`
   position: relative;
-  min-height: 40px;
   margin: 0 8px;
   flex: 1;
   display: flex;

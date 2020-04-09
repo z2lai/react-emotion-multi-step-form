@@ -3,7 +3,6 @@ import styled from "@emotion/styled";
 export const StyledInputWrapper = styled.div`
   width: 100%
   max-width: 500px;
-  min-height: 40px;
   display: flex;
   flex-flow: row wrap;
   justify-content: space-evenly;
