@@ -12,14 +12,16 @@ const StyledLabel = styled.label`
   text-transform: capitalize;
   cursor: pointer;
   ${props => `
-    border: 1px solid ${props.theme.colors[props.type]};
-    color: ${props.theme.colors[props.type]};
+    border: 1px solid ${props.theme.colors.light[props.type]};
+    color: ${props.theme.colors.base[props.type]};
+    &:hover {
+      border: 1px solid ${props.theme.colors.base[props.type]};
+    }
     ${props.checked ? `
       color: white;
-      background: ${props.theme.colors[props.type]};
+      background: ${props.theme.colors.base[props.type]};
     ` : `
-      background: hsl(0, 0%, 100%);
-      transition : all 0.3s;
+      background: ${props.theme.colors.white};
     `}
   `}
 `;

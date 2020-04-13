@@ -3,19 +3,19 @@ import styled from "@emotion/styled";
 export const StyledInputWrapper = styled.div`
   width: 100%
   max-width: 500px;
+  min-height: 40px;
   display: flex;
   flex-flow: row wrap;
   justify-content: space-evenly;
   align-items: center;
-  transition: opacity 600ms;
   ${props => props.active ? `
     visibility: visible;
     opacity: 1;
+    transition: opacity 600ms;
     ` : `
-    display: none;
+    position: absolute;
     visibility: hidden;
     opacity: 0;
-    transition: visibility 0s linear 600ms,
   `}
 `;
 

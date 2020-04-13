@@ -11,36 +11,42 @@ import { StyledInputWrapper, StyledInput } from './Input';
 // Note: https://emotion.sh/docs/styled#styling-any-component
 
 const StyledForm = styled.div`
-  text-align: center;
+  box-sizing: content-box;
   width: 900px;
-  height: 400px;
+  height: 500px;
   position: absolute;
   top: 50%;
   left: 50%;
   border: 3px double hsl(0, 0%, 13%); 
   transform: translate(-50%, -50%);
+  text-align: center;
   background: #B7DDC3;
+  &:after {
+    content: " 🦄";
+  }
+`
+
+const StyledHeading = styled.h1`
+  margin: 50px 0 20px 0;
+  font-size: 1.875rem;
 `
 
 const InputControl = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  margin: 20px auto;
   width: 600px;
   max-height: 60px;
   padding: 10px 0;
   overflow: hidden;
   display: flex;
   justify-content: space-evenly;
-  align-items: flex-end;
+  align-items: flex-start;
   border-radius: 3px;
   background-color: hsl(0, 0%, 100%);
   box-shadow: 0 8px 10px hsl(120, 60%, 40%);
   text-align: left;
   color: hsl(0, 0%, 20%);
-  transition: max-height 1200ms;
-  ${props => (props.page === 3) ? "max-height: 320px;" : "" }
+  transition: max-height 600ms ease-in-out;
+  ${props => (props.page === 3) ? "max-height: 240px;" : "" }
   h1 {
     margin: 0;
     padding: 1.5rem 0;
@@ -205,7 +211,7 @@ class Form extends React.Component {
     let activePage = this.state.activePage
     return (
       <StyledForm>
-        <h1>Submit An Article To the Communal Curator</h1>
+        <StyledHeading>Submit An Article To the Communal Curator</StyledHeading>
         <TitleControl page={activePage} />
         <InputControl page={activePage}>
           <IconContainer>

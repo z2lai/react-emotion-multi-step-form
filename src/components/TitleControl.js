@@ -11,6 +11,7 @@ import styled from "@emotion/styled";
 */
 
 const TitleWrapper = styled.div`
+  padding: 5px 0;
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
@@ -18,6 +19,7 @@ const TitleWrapper = styled.div`
 `
 
 const StyledTitle = styled.span`
+  font-size: 1.25rem;
   opacity: 0.7;
   color: hsl(0, 0%, 93%);
   ${props => props.active ? `
@@ -36,9 +38,9 @@ const Title = props => (
 
 const TitleControl = props => (
   <TitleWrapper>
-    <Title title={'Input the URL to the Article'} active={props.page === 1} />
+    <Title title={'Input the Article URL'} active={props.page === 1} />
     <Title title={'Select the Resource Type'} active={props.page === 2} />
-    <Title title={'Select the Relevant Article Tags'} active={props.page === 3} />
+    <Title title={'Select the Article Tags'} active={props.page === 3} />
   </TitleWrapper>
 );
 
