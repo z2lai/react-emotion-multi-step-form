@@ -7,7 +7,7 @@ const StyledIcons = styled.div`
   text-align: center;
   ${props => props.active ? `
     visibility: visible;
-    ` : `
+  ` : `
     visibility: hidden;
     transition: visibility 0s linear 600ms;
   `}

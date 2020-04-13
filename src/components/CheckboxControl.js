@@ -15,19 +15,19 @@ import { StyledInput, StyledInputWrapper } from './Input';
 const StyledLabel = styled.label`
   display: inline-block;
   margin: 5px;
-  border: 1px solid rgba(183, 221, 195, 0.7);
   padding: 0 20px;
   line-height: 1.875;
   border-radius: 3px;
   font-size: 1rem;
-  transition: all 0.3s;
   cursor: pointer;
-  &:hover {
-    
-  }
+  transition: border 0.1s;
   ${props => `
-    color: ${props.checked ? "hsl(0, 0%, 20%)" : "hsl(0, 0%, 20%)"};
-    background: ${props.checked ? "linear-gradient(45deg, #FFC107 0%, #fff200 100%)" : "#f5f5f5"};
+    border: 1px solid ${props.theme.colors.extraLight.purple};
+    background: ${props.checked ? props.theme.colors.dark.purple : props.theme.colors.white};
+    color: ${props.checked ? props.theme.colors.white : props.theme.colors.black};
+    &:hover {
+      border: 1px solid ${props.theme.colors.base.purple};
+    }
   `}
 `;
 
@@ -53,10 +53,12 @@ const Divider = styled.div`
   &:before {
     content: '';
     display: block;
-    border-bottom: solid 1px #222222;
     transform: scaleX(0);
     transition: transform 400ms ease-in-out;
-    ${props => props.active ? "transform: scaleX(1);" : ""}
+    ${props => `
+      border-bottom: solid 1px ${props.theme.colors.black};
+      ${props.active ? "transform: scaleX(1);" : ""}
+    `}
   }
 `
 

@@ -8,21 +8,31 @@ import "../fonts/icomoon/style.css"
 const theme = {
   colors: {
     base: {
-      guide: 'hsl(120, 52%, 48%)',
-      tutorial: 'hsl(240, 52%, 48%)',
-      reference: 'hsl(0, 52%, 48%)',
-      turqoise: 'hsl(139, 36%, 79%)',
-    },
-    light: {
-      guide: 'hsl(120, 52%, 75%)',
-      tutorial: 'hsl(240, 52%, 75%)',
-      reference: 'hsl(0, 52%, 75%)',
-      grey: 'hsl(0, 0%, 93%)',
+      guide: 'hsl(120, 50%, 50%)',
+      tutorial: 'hsl(240, 50%, 50%)',
+      reference: 'hsl(0, 50%, 50%)',
+      turqoise: 'hsl(139, 50%, 50%)',
+      purple: 'hsl(319, 50%, 50%)',
     },
     dark: {
-      grey: 'hsl(0, 0%, 13%)'
+      guide: 'hsl(120, 50%, 35%)',
+      tutorial: 'hsl(240, 50%, 35%)',
+      reference: 'hsl(0, 50%, 35%)',
+      purple: 'hsl(319, 50%, 35%)',
+    },
+    light: {
+      guide: 'hsl(120, 50%, 75%)',
+      tutorial: 'hsl(240, 50%, 75%)',
+      reference: 'hsl(0, 50%, 75%)',
+      turqoise: 'hsl(139, 50%, 75%)',
+    },
+    extraLight: {
+      turqoise: 'hsl(139, 50%, 90%)',
+      purple: 'hsl(319, 50%, 90%)',
     },
     white: 'hsl(0, 100%, 99%)',
+    black: 'hsl(0, 0%, 13%)',
+    lightGrey: 'hsl(0, 0%, 93%)',
   }
 }
 

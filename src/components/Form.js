@@ -20,7 +20,7 @@ const StyledForm = styled.div`
   border: 3px double hsl(0, 0%, 13%); 
   transform: translate(-50%, -50%);
   text-align: center;
-  background: #B7DDC3;
+  ${props => `background: ${props.theme.colors.light.turqoise};`}
   &:after {
     content: " 🦄";
   }

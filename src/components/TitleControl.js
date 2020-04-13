@@ -20,13 +20,13 @@ const TitleWrapper = styled.div`
 
 const StyledTitle = styled.span`
   font-size: 1.25rem;
-  opacity: 0.7;
-  color: hsl(0, 0%, 93%);
   ${props => props.active ? `
     opacity: 1;
-    color: hsl(0, 0%, 13%);  
+    color: ${props.theme.colors.black};  
     transition: all 1200ms;
-    ` : `  
+  ` : `  
+    opacity: 0.5;
+    color: ${props.theme.colors.white};  
   `}
 `;
 

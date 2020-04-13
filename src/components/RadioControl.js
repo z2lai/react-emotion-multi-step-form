@@ -11,17 +11,21 @@ const StyledLabel = styled.label`
   text-align: center;
   text-transform: capitalize;
   cursor: pointer;
+  transition: background 0.3s ease-out;
   ${props => `
     border: 1px solid ${props.theme.colors.light[props.type]};
     color: ${props.theme.colors.base[props.type]};
-    &:hover {
-      border: 1px solid ${props.theme.colors.base[props.type]};
-    }
     ${props.checked ? `
-      color: white;
+      color: ${props.theme.colors.white};
       background: ${props.theme.colors.base[props.type]};
+      &:hover {
+        border: 1px solid ${props.theme.colors.light[props.type]};
+      }
     ` : `
       background: ${props.theme.colors.white};
+      &:hover {
+        border: 1px solid ${props.theme.colors.base[props.type]};
+      }
     `}
   `}
 `;
