@@ -35,10 +35,11 @@ const InputControl = styled.div`
   margin: 20px auto;
   width: 600px;
   max-height: 60px;
-  padding: 10px 0;
+  padding: 10px 8px;
   overflow: hidden;
   display: flex;
-  justify-content: space-evenly;
+  flex-flow: row wrap;
+  justify-content: space-between;
   align-items: flex-start;
   border-radius: 3px;
   background-color: hsl(0, 0%, 100%);
@@ -58,7 +59,6 @@ const InputControl = styled.div`
 const IconContainer = styled.div`
   height: 40px;
   width: 34px;
-  margin: 0 0 0 8px;
   overflow: hidden;
 `
 
@@ -91,7 +91,6 @@ const NextButton = styled.button`
   position: relative;
   height: 40px;
   width: 34px;
-  margin: 0 8px 0 0;
   border: 1px black;
   background: none;
   outline: none;

@@ -7,19 +7,19 @@ const StyledLabel = styled.label`
   padding: 0 20px;
   border-radius: 25px;
   line-height: 2rem;
-  font-size: 1rem;
+  font-size: 1.125rem;
   text-align: center;
   text-transform: capitalize;
   cursor: pointer;
   transition: background 0.3s ease-out;
   ${props => `
-    border: 1px solid ${props.theme.colors.light[props.type]};
+    border: 1px solid ${props.theme.colors.extraLight[props.type]};
     color: ${props.theme.colors.base[props.type]};
     ${props.checked ? `
       color: ${props.theme.colors.white};
       background: ${props.theme.colors.base[props.type]};
       &:hover {
-        border: 1px solid ${props.theme.colors.light[props.type]};
+        border: 1px solid ${props.theme.colors.extraLight[props.type]};
       }
     ` : `
       background: ${props.theme.colors.white};

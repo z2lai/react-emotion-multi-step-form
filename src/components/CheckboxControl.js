@@ -22,11 +22,11 @@ const StyledLabel = styled.label`
   cursor: pointer;
   transition: border 0.1s;
   ${props => `
-    border: 1px solid ${props.theme.colors.extraLight.purple};
-    background: ${props.checked ? props.theme.colors.dark.purple : props.theme.colors.white};
+    border: 1px solid ${props.theme.colors.extraLight.indigo};
+    background: ${props.checked ? props.theme.colors.dark.indigo : props.theme.colors.white};
     color: ${props.checked ? props.theme.colors.white : props.theme.colors.black};
     &:hover {
-      border: 1px solid ${props.theme.colors.base.purple};
+      border: 1px solid ${props.theme.colors.base.indigo};
     }
   `}
 `;
@@ -49,7 +49,7 @@ const CheckBoxContainer = styled.div`
 
 const Divider = styled.div`
   width: 100%;
-  max-width: 500px;
+  max-width: 584px;
   &:before {
     content: '';
     display: block;
