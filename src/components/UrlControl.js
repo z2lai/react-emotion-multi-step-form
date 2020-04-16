@@ -1,6 +1,6 @@
 import React from "react";
 
-import { StyledInputWrapper, StyledInput } from "./StyledInput";
+import { InputWrapper, StyledInput } from "./StyledComponents";
 
 // const testUrl = "https://css-tricks.com/javascript-scope-closures/";
 
@@ -51,9 +51,9 @@ class UrlControl extends React.Component {
 
   render() {
     return (
-      <StyledInputWrapper active={this.props.active}>
+      <InputWrapper active={this.props.active}>
         <StyledInput type="text" placeholder="Article URL" value={this.state.urlInput} onChange={this.handleChange} />
-      </StyledInputWrapper>
+      </InputWrapper>
     );
   }
 }

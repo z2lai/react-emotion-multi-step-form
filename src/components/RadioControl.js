@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 
-import { StyledInputWrapper } from './StyledInput';
+import { InputWrapper } from './StyledComponents';
 
 const StyledLabel = styled.label`
   padding: 0 20px;
@@ -44,7 +44,7 @@ const RadioButton = props => (
 );
 
 const RadioControl = props => (
-  <StyledInputWrapper active={props.active}>
+  <InputWrapper active={props.active}>
     {props.types.map(type => (
       <RadioButton
         key={type}
@@ -54,7 +54,7 @@ const RadioControl = props => (
         onChange={props.handleRadioSelection}
       />
     ))}
-  </StyledInputWrapper>
+  </InputWrapper>
 );
 
 export default RadioControl;

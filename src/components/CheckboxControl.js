@@ -2,7 +2,7 @@ import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
 /** @jsx jsx */
 
-import { StyledInput, StyledInputWrapper } from './StyledInput';
+import { StyledInput, InputWrapper } from './StyledComponents';
 
 /* Note: From Emotion documentation: https://emotion.sh/docs/styled#composing-dynamic-styles
 // const dynamicStyles = props =>
@@ -66,7 +66,7 @@ const Divider = styled.div`
 `
 
 const CheckboxControl = props => (
-  <StyledInputWrapper active={props.active}>
+  <InputWrapper active={props.active}>
     <StyledInput type="text" placeholder="Article Tags" />
     <Divider active={props.active} />
     <CheckBoxContainer>
@@ -80,7 +80,7 @@ const CheckboxControl = props => (
         />
       ))}
     </CheckBoxContainer>
-  </StyledInputWrapper >
+  </InputWrapper >
 );
 
 export default CheckboxControl;

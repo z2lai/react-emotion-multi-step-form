@@ -1,21 +1,5 @@
 import styled from "@emotion/styled";
 
-export const StyledForm = styled.div`
-  box-sizing: content-box;
-  width: 900px;
-  height: 500px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  border: 3px double hsl(0, 0%, 13%); 
-  transform: translate(-50%, -50%);
-  text-align: center;
-  ${props => `background: ${props.theme.colors.light.turqoise};`}
-  &:after {
-    content: " 🦄";
-  }
-`
-
 export const TitleContainer = styled.div`
   padding: 5px 0;
   display: flex;
@@ -84,6 +68,35 @@ export const InputContainer = styled.div`
   display: flex;
   flex-flow: column nowrap;
 `
+
+export const InputWrapper = styled.div`
+  max-width: 500px;
+  min-height: 40px;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  align-items: center;
+  ${props => props.active ? `
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 600ms;
+  ` : `
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+  `}
+`;
+
+export const StyledInput = styled.input`
+  width: 100%;
+  height: 40px;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  color: hsl(0, 0%, 20%);
+`;
 
 export const NextButton = styled.button`
   position: relative;

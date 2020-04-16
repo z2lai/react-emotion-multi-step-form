@@ -1,6 +1,7 @@
 import React from "react";
+import styled from "@emotion/styled";
 
-import { StyledForm, Heading, TitleContainer, FormBody, IconContainer, IconWrapper, InputContainer, NextButton, NextButtonIcon } from "./StyledForm";
+import { Heading, TitleContainer, FormBody, IconContainer, IconWrapper, InputContainer, NextButton, NextButtonIcon } from "./StyledComponents";
 import Title from "./Title";
 import Icon from "./Icon";
 import UrlControl from "./UrlControl";
@@ -8,6 +9,22 @@ import RadioControl from "./RadioControl";
 import CheckboxControl from "./CheckboxControl";
 
 // Note: https://emotion.sh/docs/styled#styling-any-component
+
+const StyledForm = styled.div`
+  box-sizing: content-box;
+  width: 900px;
+  height: 500px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border: 3px double hsl(0, 0%, 13%); 
+  transform: translate(-50%, -50%);
+  text-align: center;
+  ${props => `background: ${props.theme.colors.light.turqoise};`}
+  &:after {
+    content: " 🦄";
+  }
+`
 
 class Form extends React.Component {
   formStates = ["Initial", "Scraping Article", "Article Scraped"]; // Change this to two states - Loading Article and Loaded
