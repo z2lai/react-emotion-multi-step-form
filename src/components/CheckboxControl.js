@@ -2,7 +2,7 @@ import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
 /** @jsx jsx */
 
-import { StyledInput, StyledInputWrapper } from './Input';
+import { StyledInput, StyledInputWrapper } from './StyledInput';
 
 /* Note: From Emotion documentation: https://emotion.sh/docs/styled#composing-dynamic-styles
 // const dynamicStyles = props =>
@@ -19,6 +19,7 @@ const StyledLabel = styled.label`
   line-height: 1.875;
   border-radius: 3px;
   font-size: 1rem;
+  font-weight: 500;
   cursor: pointer;
   transition: border 0.1s;
   ${props => `
@@ -45,6 +46,8 @@ const Checkbox = props => (
 
 const CheckBoxContainer = styled.div`
   margin-top: 10px;
+  max-height: 126px;
+  overflow: hidden;
 `
 
 const Divider = styled.div`

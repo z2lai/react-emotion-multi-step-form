@@ -1,133 +1,13 @@
 import React from "react";
-import styled from "@emotion/styled";
 
+import { StyledForm, Heading, TitleContainer, FormBody, IconContainer, IconWrapper, InputContainer, NextButton, NextButtonIcon } from "./StyledForm";
+import Title from "./Title";
 import Icon from "./Icon";
-import TitleControl from "./TitleControl";
 import UrlControl from "./UrlControl";
 import RadioControl from "./RadioControl";
 import CheckboxControl from "./CheckboxControl";
-import { StyledInputWrapper, StyledInput } from './Input';
 
 // Note: https://emotion.sh/docs/styled#styling-any-component
-
-const StyledForm = styled.div`
-  box-sizing: content-box;
-  width: 900px;
-  height: 500px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  border: 3px double hsl(0, 0%, 13%); 
-  transform: translate(-50%, -50%);
-  text-align: center;
-  ${props => `background: ${props.theme.colors.light.turqoise};`}
-  &:after {
-    content: " 🦄";
-  }
-`
-
-const StyledHeading = styled.h1`
-  margin: 50px 0 20px 0;
-  font-size: 1.875rem;
-`
-
-const InputControl = styled.div`
-  margin: 20px auto;
-  width: 600px;
-  max-height: 60px;
-  padding: 10px 8px;
-  overflow: hidden;
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
-  align-items: flex-start;
-  border-radius: 3px;
-  background-color: hsl(0, 0%, 100%);
-  box-shadow: 0 8px 10px hsl(120, 60%, 40%);
-  text-align: left;
-  color: hsl(0, 0%, 20%);
-  transition: max-height 600ms ease-in-out;
-  ${props => (props.page === 3) ? "max-height: 240px;" : "" }
-  h1 {
-    margin: 0;
-    padding: 1.5rem 0;
-    font-size: 1.125rem;
-    text-align: center;
-  }
-`;
-
-const IconContainer = styled.div`
-  height: 40px;
-  width: 34px;
-  overflow: hidden;
-`
-
-const IconsWrapper = styled.div`
-  position: relative;
-  display: flex;
-  flex-flow: column nowrap;
-  line-height: 40px;
-  transition: top 400ms;
-  ${props => (
-    (props.page === 1) ? `
-      top: 0px;
-    ` : (props.page === 2) ? ` 
-      top: -40px; 
-    ` : ` 
-      top: -80px;
-    `
-  )}
-`
-
-const InputContainer = styled.div`
-  position: relative;
-  margin: 0 8px;
-  flex: 1;
-  display: flex;
-  flex-flow: column nowrap;
-`
-
-const NextButton = styled.button`
-  position: relative;
-  height: 40px;
-  width: 34px;
-  border: 1px black;
-  background: none;
-  outline: none;
-  cursor: pointer;
-  &:hover {
-    background: hsl(0, 0%, 95%);
-    border-radius: 3px;
-    transition: background 0.3s ease;
-  }
-  &:active {
-    top: 2px;
-    background-color: hsl(0, 0%, 100%);
-    transition-property: none;
-  }
-  `
-
-const NextIcon = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 2px;
-  height: 17px;
-  background: hsl(0, 0%, 20%);
-  &::before {
-    content: '';
-    position: absolute;
-    left: -3px;
-    bottom: 1px;
-    width: 6px;
-    height: 6px;
-    transform: rotate(45deg);
-    border-right: 2px solid;
-    border-bottom: 2px solid;
-    border-color: hsl(0, 0%, 20%);
-  }
-`
 
 class Form extends React.Component {
   formStates = ["Initial", "Scraping Article", "Article Scraped"]; // Change this to two states - Loading Article and Loaded
@@ -153,7 +33,11 @@ class Form extends React.Component {
       nodejs: false,
       es6: false,
       express: false,
-      architecture: false
+      architecture: false,
+      architecture1: false,
+      architecture2: false,
+      architecture3: false,
+      architecture4: false,
     }
   };
 
@@ -210,15 +94,19 @@ class Form extends React.Component {
     let activePage = this.state.activePage
     return (
       <StyledForm>
-        <StyledHeading>Submit An Article To the Communal Curator</StyledHeading>
-        <TitleControl page={activePage} />
-        <InputControl page={activePage}>
+        <Heading>Submit An Article To the Communal Curator</Heading>
+        <TitleContainer>
+          <Title title={'Input the Article URL'} active={activePage === 1} />
+          <Title title={'Select the Resource Type'} active={activePage === 2} />
+          <Title title={'Select the Article Tags'} active={activePage === 3} />
+        </TitleContainer>
+        <FormBody page={activePage}>
           <IconContainer>
-            <IconsWrapper page={activePage}>
+            <IconWrapper page={activePage}>
               <Icon className="icon-link" active={activePage === 1} />
               <Icon className="icon-tree" active={activePage === 2} />
               <Icon className="icon-price-tags" active={activePage === 3} />
-            </IconsWrapper>
+            </IconWrapper>
           </IconContainer>
           <InputContainer>
             <UrlControl active={activePage === 1} url={this.state.url} updateState={this.updateState} setFormState={this.setFormState} />
@@ -232,9 +120,9 @@ class Form extends React.Component {
             <CheckboxControl active={activePage === 3} name="topics" topics={this.state.tagOptions} handleCheckboxChange={this.handleCheckboxChange} />
           </InputContainer>
           <NextButton onClick={this.handleNext}>
-            <NextIcon />
+            <NextButtonIcon />
           </NextButton>
-        </InputControl>
+        </FormBody>
       </StyledForm>
     );
   }

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { StyledInputWrapper, StyledInput } from "./Input";
+import { StyledInputWrapper, StyledInput } from "./StyledInput";
 
 // const testUrl = "https://css-tricks.com/javascript-scope-closures/";
 

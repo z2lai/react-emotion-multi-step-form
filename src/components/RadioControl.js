@@ -1,25 +1,26 @@
 import React from "react";
 import styled from "@emotion/styled";
 
-import { StyledInputWrapper } from './Input';
+import { StyledInputWrapper } from './StyledInput';
 
 const StyledLabel = styled.label`
   padding: 0 20px;
   border-radius: 25px;
   line-height: 2rem;
-  font-size: 1.125rem;
+  font-size: 1rem;
+  font-weight: 500;
   text-align: center;
   text-transform: capitalize;
   cursor: pointer;
   transition: background 0.3s ease-out;
   ${props => `
-    border: 1px solid ${props.theme.colors.extraLight[props.type]};
+    border: 1px solid ${props.theme.colors.light[props.type]};
     color: ${props.theme.colors.base[props.type]};
     ${props.checked ? `
       color: ${props.theme.colors.white};
       background: ${props.theme.colors.base[props.type]};
       &:hover {
-        border: 1px solid ${props.theme.colors.extraLight[props.type]};
+        border: 1px solid ${props.theme.colors.light[props.type]};
       }
     ` : `
       background: ${props.theme.colors.white};
