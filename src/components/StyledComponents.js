@@ -94,6 +94,7 @@ export const StyledInput = styled.input`
   outline: none;
   font-family: inherit;
   font-size: 1rem;
+  font-weight: 500;
   letter-spacing: 1px;
   color: hsl(0, 0%, 20%);
 `;

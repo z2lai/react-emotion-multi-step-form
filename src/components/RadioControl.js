@@ -12,7 +12,7 @@ const StyledLabel = styled.label`
   text-align: center;
   text-transform: capitalize;
   cursor: pointer;
-  transition: background 0.3s ease-out;
+  transition: border 0.1s;
   ${props => `
     border: 1px solid ${props.theme.colors.light[props.type]};
     color: ${props.theme.colors.base[props.type]};

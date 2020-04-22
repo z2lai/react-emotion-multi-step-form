@@ -35,7 +35,7 @@ const theme = {
       indigo: 'hsl(279, 50%, 90%)',
     },
     white: 'hsl(0, 100%, 99%)',
-    black: 'hsl(0, 0%, 13%)',
+    black: 'hsl(0, 0%, 25%)',
     lightGrey: 'hsl(0, 0%, 93%)',
   }
 }
