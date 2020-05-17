@@ -24,7 +24,7 @@ const StyledTitle = styled.span`
 
 const Title = props => (
   <StyledTitle active={props.active}>
-    {props.title}
+    {props.value}
   </StyledTitle>
 )
 

@@ -45,13 +45,13 @@ const RadioButton = props => (
 
 const RadioControl = props => (
   <InputWrapper active={props.active}>
-    {props.types.map(type => (
+    {props.options.map(option => (
       <RadioButton
-        key={type}
         name={props.name}
-        value={type}
-        checked={props.selected === type}
-        onChange={props.handleRadioSelection}
+        key={option}
+        value={option}
+        checked={option === props.selection}
+        onChange={event => props.handleSelection(event.target.value)}
       />
     ))}
   </InputWrapper>

@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
 /** @jsx jsx */
@@ -11,6 +13,27 @@ import { StyledInput, InputWrapper } from './StyledComponents';
 //     background: ${props.checked ? 'linear-gradient(45deg, #FFC107 0%, #fff200 100%)' : '#f5f5f5'};
 //   `
 */
+
+const Divider = styled.div`
+  width: 100%;
+  max-width: 584px;
+  &:before {
+    content: '';
+    display: block;
+    transform: scaleX(0);
+    transition: transform 400ms ease-in-out;
+    ${props => `
+      border-bottom: solid 1px ${props.theme.colors.black};
+      ${props.active ? "transform: scaleX(1);" : ""}
+    `}
+  }
+`
+
+const CheckBoxContainer = styled.div`
+  margin-top: 10px;
+  max-height: 126px;
+  overflow: hidden;
+`
 
 const StyledLabel = styled.label`
   display: inline-block;
@@ -44,43 +67,34 @@ const Checkbox = props => (
   </StyledLabel>
 );
 
-const CheckBoxContainer = styled.div`
-  margin-top: 10px;
-  max-height: 126px;
-  overflow: hidden;
-`
+const CheckboxControl = props => {
+  const [tagFilter, setTagFilter] = useState(''); // create custom hook to debounce
 
-const Divider = styled.div`
-  width: 100%;
-  max-width: 584px;
-  &:before {
-    content: '';
-    display: block;
-    transform: scaleX(0);
-    transition: transform 400ms ease-in-out;
-    ${props => `
-      border-bottom: solid 1px ${props.theme.colors.black};
-      ${props.active ? "transform: scaleX(1);" : ""}
-    `}
-  }
-`
-
-const CheckboxControl = props => (
-  <InputWrapper active={props.active}>
-    <StyledInput type="text" placeholder="Article Tags" />
-    <Divider active={props.active} />
-    <CheckBoxContainer>
-      {Object.keys(props.topics).map(topic => (
-        <Checkbox
-          key={topic}
-          name={props.name}
-          value={topic}
-          checked={props.topics[topic]}
-          onChange={props.handleCheckboxChange}
-        />
-      ))}
-    </CheckBoxContainer>
-  </InputWrapper >
-);
+  return (
+    <InputWrapper active={props.active}>
+      <StyledInput
+        type="text"
+        placeholder="Filter Tags"
+        value={tagFilter}
+        onChange={event => setTagFilter(event.target.value.toLowerCase())}
+      />
+      <Divider active={props.active} />
+      <CheckBoxContainer>
+        {Object.keys(props.options)
+          .filter(option => option.toLowerCase().includes(tagFilter))
+          .map(option => (
+            <Checkbox
+              name={props.name}
+              key={option}
+              value={option}
+              checked={props.options[option]}
+              onChange={props.handleSelection}
+            />
+          ))
+        }
+      </CheckBoxContainer>
+    </InputWrapper >
+  )
+};
 
 export default CheckboxControl;

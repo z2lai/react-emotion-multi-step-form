@@ -15,7 +15,7 @@ export const Heading = styled.h1`
 
 export const FormBody = styled.div`
   margin: 20px auto;
-  width: 600px;
+  width: 500px;
   max-height: 60px;
   padding: 10px 8px;
   overflow: hidden;
@@ -28,7 +28,7 @@ export const FormBody = styled.div`
   box-shadow: 0 8px 10px hsl(120, 60%, 40%);
   text-align: left;
   color: hsl(0, 0%, 20%);
-  transition: max-height 600ms ease-in-out;
+  transition: max-height 700ms cubic-bezier(0, 0, 0, 0.5);
   ${props => (props.page === 3) ? "max-height: 240px;" : ""}
   h1 {
     margin: 0;
@@ -49,7 +49,7 @@ export const IconWrapper = styled.div`
   display: flex;
   flex-flow: column nowrap;
   line-height: 40px;
-  transition: top 400ms;
+  transition: top 400ms ease-out;
   ${props => (
     (props.page === 1) ? `
       top: 0px;
@@ -79,7 +79,7 @@ export const InputWrapper = styled.div`
   ${props => props.active ? `
     visibility: visible;
     opacity: 1;
-    transition: opacity 600ms;
+    transition: opacity 600ms ease-out;
   ` : `
     position: absolute;
     visibility: hidden;

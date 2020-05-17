@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 
 import { Heading, TitleContainer, FormBody, IconContainer, IconWrapper, InputContainer, NextButton, NextButtonIcon } from "./StyledComponents";
@@ -26,123 +26,126 @@ const StyledForm = styled.div`
   }
 `
 
-class Form extends React.Component {
-  formStates = ["Initial", "Scraping Article", "Article Scraped"]; // Change this to two states - Loading Article and Loaded
-  types = ["guide", "tutorial", "reference"]; // should be queried from database
-  factors = ["Beginner Friendly", "Deep Dive", "Comphrensive"]; // should be queried from database
+const Form = props => {
+  const typeOptions = ["guide", "tutorial", "reference"]; // should be queried from database
+  // const factors = ["Beginner Friendly", "Deep Dive", "Comphrensive"]; // should be queried from database
 
-  state = {
-    activePage: 1,
-    // formState: this.formStates[0],
-    formState: this.formStates[2],
-    url: "",
-    type: "",
-    factor: "",
-    tags: {},
-    article: {},
-    // tagOptions: {},
-    tagOptions: {
-      syntax: false,
-      object: false,
-      "execution context": false,
-      scope: false,
-      closures: false,
-      nodejs: false,
-      es6: false,
-      express: false,
-      architecture: false,
-      architecture1: false,
-      architecture2: false,
-      architecture3: false,
-      architecture4: false,
-    }
-  };
-
-  componentDidMount() {
-    // retrieve types and factors from database
-  }
-
-  setFormState = stateIndex => this.setState({ formState: this.formStates[stateIndex] });
-
-  updateState = (stateProperty, stateValue) => this.setState({ [stateProperty]: stateValue });
-
-  handleSubmit = event => {
-    const tagOptions = this.state.tagOptions;
-    const topics = Object.keys(tagOptions).filter(topic => tagOptions[topic]);
-    console.log(topics);
-    const body = {
-      _id: this.state.url,
-      title: this.state.article.title,
-      topics
-    };
-    fetch("/articles/add", {
-      method: "post",
-      body: JSON.stringify(body),
-      headers: { "Content-Type": "application/json" }
-    })
-      // .then(response => response.json())
-      .then(result => console.log(result));
-  };
-
-  handleRadioSelection = event => {
-    this.setState({
-      [event.target.name]: event.target.value
-    });
-  };
-
-  handleCheckboxChange = event => {
-    const tagOptions = { ...this.state.tagOptions };
-    tagOptions[event.target.value] = event.target.checked;
-    this.setState({
-      tagOptions
-    });
-  };
-
-  handleNext = event => {
-    let page = this.state.activePage
-    if (page !== 3) {
-      this.setState({ activePage: page + 1 })
+  const [activePage, setActivePage] = useState(1);
+  const [isScraped, setIsScraped] = useState(false);
+  const [article, setArticle] = useState({
+    url: '',
+    type: '',
+    tags: [],
+    title: ''
+  });
+  const [tagOptions, setTagOptions] = useState({
+    syntax: false,
+    object: false,
+    scope: false,
+    "execution context": false,
+    closures: false,
+    nodejs: false,
+    es6: false,
+    express: false,
+    architecture: false,
+    architecture1: false,
+    architecture2: false,
+    architecture3: false,
+    architecture4: false,
+  });
+  const [error, setError] = useState({
+    errorStatus: false,
+    errorMessage: ''
+  })
+  
+  const toggleError = message => {
+    if (message) {
+      setError({ errorStatus: true, errorMessage: message });
+      alert(`Error: ${message}`);
     } else {
-      this.setState({ activePage: 1 })
+      setError({ errorStatus: false, errorMessage: '' });
     }
   }
+  // setFormState = stateIndex => this.setState({ formState: this.formStates[stateIndex] });
 
-  render() {
-    let activePage = this.state.activePage
-    return (
-      <StyledForm>
-        <Heading>Submit An Article To the Communal Curator</Heading>
-        <TitleContainer>
-          <Title title={'Input the Article URL'} active={activePage === 1} />
-          <Title title={'Select the Resource Type'} active={activePage === 2} />
-          <Title title={'Select the Article Tags'} active={activePage === 3} />
-        </TitleContainer>
-        <FormBody page={activePage}>
-          <IconContainer>
-            <IconWrapper page={activePage}>
-              <Icon className="icon-link" active={activePage === 1} />
-              <Icon className="icon-tree" active={activePage === 2} />
-              <Icon className="icon-price-tags" active={activePage === 3} />
-            </IconWrapper>
-          </IconContainer>
-          <InputContainer>
-            <UrlControl active={activePage === 1} url={this.state.url} updateState={this.updateState} setFormState={this.setFormState} />
-            <RadioControl
-              active={activePage === 2}
-              name="type"
-              types={this.types}
-              selected={this.state.type}
-              handleRadioSelection={this.handleRadioSelection}
-            />
-            <CheckboxControl active={activePage === 3} name="topics" topics={this.state.tagOptions} handleCheckboxChange={this.handleCheckboxChange} />
-          </InputContainer>
-          <NextButton onClick={this.handleNext}>
-            <NextButtonIcon />
-          </NextButton>
-        </FormBody>
-      </StyledForm>
-    );
-  }
+  // updateState = (stateProperty, stateValue) => this.setState({ [stateProperty]: stateValue });
+
+  // handleSubmit = event => {
+  //   const tagOptions = this.state.tagOptions;
+  //   const topics = Object.keys(tagOptions).filter(topic => tagOptions[topic]);
+  //   console.log(topics);
+  //   const body = {
+  //     _id: this.state.url,
+  //     title: this.state.article.title,
+  //     topics
+  //   };
+  //   fetch("/articles/add", {
+  //     method: "post",
+  //     body: JSON.stringify(body),
+  //     headers: { "Content-Type": "application/json" }
+  //   })
+  //     // .then(response => response.json())
+  //     .then(result => console.log(result));
+  // };
+
+  const handleTagSelection = event => {
+    const options = { ...tagOptions };
+    options[event.target.value] = event.target.checked;
+    setTagOptions(options);
+  };
+
+  const handleNext = event => {
+    let page = activePage;
+    if (page !== 3) {
+      setActivePage(page + 1);
+    } else {
+      setActivePage(1);
+    }
+  };
+
+  return (
+    <StyledForm>
+      <Heading>Submit An Article To the Communal Curator</Heading>
+      <TitleContainer>
+        <Title value={article.url || 'Input the Article URL'} active={activePage === 1} />
+        <Title value={article.type || 'Select the Resource Type'} active={activePage === 2} />
+        <Title value={'Select the Article Tags'} active={activePage === 3} />
+      </TitleContainer>
+      <FormBody page={activePage}>
+        <IconContainer>
+          <IconWrapper page={activePage}>
+            <Icon className="icon-link" active={activePage === 1} />
+            <Icon className="icon-tree" active={activePage === 2} />
+            <Icon className="icon-price-tags" active={activePage === 3} />
+          </IconWrapper>
+        </IconContainer>
+        <InputContainer>
+          <UrlControl
+            active={activePage === 1}
+            value={article.url}
+            setUrl={value => setArticle({ ...article, url: value })}
+            setIsScraped={() => setIsScraped(true)}
+            toggleError={toggleError}
+          />
+          <RadioControl
+            active={activePage === 2}
+            name="type"
+            selection={article.type}
+            options={typeOptions}
+            handleSelection={selection => setArticle({ ...article, type: selection })}
+          />
+          <CheckboxControl 
+            active={activePage === 3} 
+            name="topics" 
+            options={tagOptions}
+            handleSelection={handleTagSelection} />
+        </InputContainer>
+        <NextButton onClick={handleNext}>
+          <NextButtonIcon />
+        </NextButton>
+      </FormBody>
+    </StyledForm>
+  );
 }
 
 export default Form;
