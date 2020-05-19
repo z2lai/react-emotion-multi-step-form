@@ -31,8 +31,8 @@ const Divider = styled.div`
 
 const CheckBoxContainer = styled.div`
   margin-top: 10px;
-  max-height: 126px;
-  overflow: hidden;
+  height: 126px;
+  overflow: scroll;
 `
 
 const StyledLabel = styled.label`
@@ -67,31 +67,36 @@ const Checkbox = props => (
   </StyledLabel>
 );
 
-const CheckboxControl = props => {
+const CheckboxControl = ({ active, name, tagOptions, handleSelection }) => {
   const [tagFilter, setTagFilter] = useState(''); // create custom hook to debounce
 
   return (
-    <InputWrapper active={props.active}>
+    <InputWrapper active={active}>
       <StyledInput
         type="text"
         placeholder="Filter Tags"
         value={tagFilter}
         onChange={event => setTagFilter(event.target.value.toLowerCase())}
       />
-      <Divider active={props.active} />
+      <Divider active={active} />
       <CheckBoxContainer>
-        {Object.keys(props.options)
-          .filter(option => option.toLowerCase().includes(tagFilter))
-          .map(option => (
-            <Checkbox
-              name={props.name}
-              key={option}
-              value={option}
-              checked={props.options[option]}
-              onChange={props.handleSelection}
-            />
-          ))
-        }
+        {tagOptions.parentTopics.map(parentTopic => {
+          const index = tagOptions.parentTopics.indexOf(parentTopic);
+          const subTopicsFiltered = Object.keys(tagOptions.subTopicGroups[index])
+            .filter(subTopic => subTopic.toLowerCase().includes(tagFilter))
+          if (subTopicsFiltered.length > 0) {
+            console.log(subTopicsFiltered);
+            return subTopicsFiltered.map(subTopic => (
+              <Checkbox
+                name={name}
+                key={subTopic}
+                value={subTopic}
+                checked={tagOptions.subTopicGroups[index][subTopic]}
+                onChange={handleSelection}
+              />
+            ))
+          }
+        })}
       </CheckBoxContainer>
     </InputWrapper >
   )

@@ -39,25 +39,47 @@ const Form = props => {
     title: ''
   });
   const [tagOptions, setTagOptions] = useState({
-    syntax: false,
-    object: false,
-    scope: false,
-    "execution context": false,
-    closures: false,
-    nodejs: false,
-    es6: false,
-    express: false,
-    architecture: false,
-    architecture1: false,
-    architecture2: false,
-    architecture3: false,
-    architecture4: false,
+    parentTopics: ['recommendations', 'parent categories', 'syntax', 'fundamentals'],
+    subTopicGroups: [
+      {
+        syntax: false,
+        object: false,
+        scope: false,
+        "execution context": false,
+        closures: false,
+        nodejs: false,
+        es6: false,
+        express: false,
+        architecture: false,
+      },
+      {
+        syntax: false,
+        fundamentals: false,
+        "Object Oriented Programming": false,
+        "ES6": false,
+        "web browser": false,
+        "developer tools": false,
+        "best practice": false,
+      },
+      {
+        operators: false,
+        "control flow": false,
+        "data types": false,
+      },
+      {
+        "execution context": false,
+        scope: false,
+        "error handling": false,
+        asynchronous: false
+      }
+    ]
   });
+
   const [error, setError] = useState({
     errorStatus: false,
     errorMessage: ''
   })
-  
+
   const toggleError = message => {
     if (message) {
       setError({ errorStatus: true, errorMessage: message });
@@ -89,8 +111,9 @@ const Form = props => {
   // };
 
   const handleTagSelection = event => {
+    const tag = event.target
     const options = { ...tagOptions };
-    options[event.target.value] = event.target.checked;
+    options.subTopicGroups.map(group => group[tag.value] = tag.checked)
     setTagOptions(options);
   };
 
@@ -134,10 +157,10 @@ const Form = props => {
             options={typeOptions}
             handleSelection={selection => setArticle({ ...article, type: selection })}
           />
-          <CheckboxControl 
-            active={activePage === 3} 
-            name="topics" 
-            options={tagOptions}
+          <CheckboxControl
+            active={activePage === 3}
+            name="topics"
+            tagOptions={tagOptions}
             handleSelection={handleTagSelection} />
         </InputContainer>
         <NextButton onClick={handleNext}>

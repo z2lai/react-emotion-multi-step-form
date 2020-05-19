@@ -49,7 +49,7 @@ export const IconWrapper = styled.div`
   display: flex;
   flex-flow: column nowrap;
   line-height: 40px;
-  transition: top 400ms ease-out;
+  transition: top 300ms ease-out;
   ${props => (
     (props.page === 1) ? `
       top: 0px;
