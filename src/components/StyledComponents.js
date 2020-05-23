@@ -43,7 +43,6 @@ export const FormBody = styled.div`
   background-color: hsl(0, 0%, 100%);
   box-shadow: 0 8px 10px hsl(120, 60%, 40%);
   text-align: left;
-  color: hsl(0, 0%, 20%);
   transition: max-height 400ms ease-out;
   ${props => (props.page === 3) ? "max-height: 240px;" : ""}
   h1 {
@@ -115,7 +114,6 @@ export const StyledInput = styled.input`
   outline: none;
   font: inherit;
   letter-spacing: 1px;
-  color: hsl(0, 0%, 20%);
 `;
 
 export const NextButton = styled.button`

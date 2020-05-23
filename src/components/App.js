@@ -36,6 +36,7 @@ const theme = {
     },
     white: 'hsl(0, 100%, 99%)',
     black: 'hsl(0, 0%, 25%)',
+    grey: 'hsl(0, 0%, 35%)',
     lightGrey: 'hsl(0, 0%, 93%)',
   }
 }

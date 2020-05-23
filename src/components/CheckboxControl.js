@@ -78,11 +78,11 @@ const StyledLabel = styled.label`
   position: relative;
   display: inline-flex;
   font-size: 1.125rem;
-  font-weight: 500;
   text-transform: lowercase;
   cursor: pointer;
   ${props => `
-    color: ${props.checked ? props.theme.colors.dark.indigo : 'initial'};
+    font-weight: ${props.checked ? '600' : '500'};
+    color: ${props.checked ? props.theme.colors.dark.indigo : props.theme.colors.black};
     :hover {
       color: ${props.theme.colors.dark.indigo};
     }
@@ -167,7 +167,7 @@ const CheckboxControl = ({ active, name, tagOptions, handleSelection }) => {
                 </GroupHeading>
                 <GroupContainer>
                   {subTopicsFiltered.map(subTopic => (
-                    <CustomCheckBoxWrapper>
+                    <CustomCheckBoxWrapper key={subTopic}>
                       <CustomCheckbox
                         name={name}
                         key={subTopic}
