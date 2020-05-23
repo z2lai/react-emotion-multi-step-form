@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
 
-import { Heading, TitleContainer, FormBody, IconContainer, IconWrapper, InputContainer, NextButton, NextButtonIcon } from "./StyledComponents";
+import { StyledForm, Heading, TitleContainer, FormBody, IconContainer, IconWrapper, InputContainer, NextButton, NextButtonIcon } from "./StyledComponents";
 import Title from "./Title";
 import Icon from "./Icon";
 import UrlControl from "./UrlControl";
@@ -9,22 +9,6 @@ import RadioControl from "./RadioControl";
 import CheckboxControl from "./CheckboxControl";
 
 // Note: https://emotion.sh/docs/styled#styling-any-component
-
-const StyledForm = styled.div`
-  box-sizing: content-box;
-  width: 900px;
-  height: 500px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  border: 3px double hsl(0, 0%, 13%); 
-  transform: translate(-50%, -50%);
-  text-align: center;
-  ${props => `background: ${props.theme.colors.light.turqoise};`}
-  &:after {
-    content: " 🦄";
-  }
-`
 
 const Form = props => {
   const typeOptions = ["guide", "tutorial", "reference"]; // should be queried from database
@@ -39,7 +23,7 @@ const Form = props => {
     title: ''
   });
   const [tagOptions, setTagOptions] = useState({
-    parentTopics: ['recommendations', 'parent categories', 'syntax', 'fundamentals'],
+    parentTopics: ['suggestions', 'parent categories', 'syntax', 'fundamentals'],
     subTopicGroups: [
       {
         syntax: false,
@@ -113,7 +97,11 @@ const Form = props => {
   const handleTagSelection = event => {
     const tag = event.target
     const options = { ...tagOptions };
-    options.subTopicGroups.map(group => group[tag.value] = tag.checked)
+    options.subTopicGroups.forEach(group => {
+      if (group.hasOwnProperty(tag.value)) {
+        group[tag.value] = tag.checked
+      }
+    })
     setTagOptions(options);
   };
 
@@ -130,9 +118,9 @@ const Form = props => {
     <StyledForm>
       <Heading>Submit An Article To the Communal Curator</Heading>
       <TitleContainer>
-        <Title value={article.url || 'Input the Article URL'} active={activePage === 1} />
-        <Title value={article.type || 'Select the Resource Type'} active={activePage === 2} />
-        <Title value={'Select the Article Tags'} active={activePage === 3} />
+        <Title value={article.url || 'Input Article URL'} active={activePage === 1} />
+        <Title value={article.type || 'Select Resource Type'} active={activePage === 2} />
+        <Title value={'Select Article Tags'} active={activePage === 3} />
       </TitleContainer>
       <FormBody page={activePage}>
         <IconContainer>

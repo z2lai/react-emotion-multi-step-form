@@ -2,9 +2,11 @@ import React from "react";
 import styled from "@emotion/styled";
 
 const StyledIcons = styled.div`
-  height: auto;  
+  height: 40px;
   width: 100%;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   ${props => props.active ? `
     visibility: visible;
   ` : `
@@ -15,7 +17,7 @@ const StyledIcons = styled.div`
 
 const Icon = props => (
   <StyledIcons active={props.active}>
-    <span className={props.className}></span>
+    <div className={props.className}></div>
   </StyledIcons>
 )
 

@@ -1,5 +1,21 @@
 import styled from "@emotion/styled";
 
+export const StyledForm = styled.div`
+  box-sizing: content-box;
+  width: 900px;
+  height: 500px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border: 3px double hsl(0, 0%, 13%); 
+  transform: translate(-50%, -50%);
+  text-align: center;
+  ${props => `background: ${props.theme.colors.light.turqoise};`}
+  &:after {
+    content: " 🦄";
+  }
+`
+
 export const TitleContainer = styled.div`
   padding: 5px 0;
   display: flex;
@@ -28,7 +44,7 @@ export const FormBody = styled.div`
   box-shadow: 0 8px 10px hsl(120, 60%, 40%);
   text-align: left;
   color: hsl(0, 0%, 20%);
-  transition: max-height 700ms cubic-bezier(0, 0, 0, 0.5);
+  transition: max-height 400ms ease-out;
   ${props => (props.page === 3) ? "max-height: 240px;" : ""}
   h1 {
     margin: 0;
@@ -72,10 +88,14 @@ export const InputContainer = styled.div`
 export const InputWrapper = styled.div`
   max-width: 500px;
   min-height: 40px;
+  max-height: 220px;
+  overflow: hidden;
   display: flex;
   flex-flow: row wrap;
   justify-content: space-evenly;
   align-items: center;
+  font-size: 1.125rem;
+  font-weight: 500;
   ${props => props.active ? `
     visibility: visible;
     opacity: 1;
@@ -91,10 +111,9 @@ export const StyledInput = styled.input`
   width: 100%;
   height: 40px;
   border: none;
+  padding: 2px 0 0 0;
   outline: none;
-  font-family: inherit;
-  font-size: 1rem;
-  font-weight: 500;
+  font: inherit;
   letter-spacing: 1px;
   color: hsl(0, 0%, 20%);
 `;

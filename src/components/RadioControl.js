@@ -4,11 +4,11 @@ import styled from "@emotion/styled";
 import { InputWrapper } from './StyledComponents';
 
 const StyledLabel = styled.label`
-  padding: 0 20px;
+  padding: 2px 20px 0 20px;
   border-radius: 25px;
   line-height: 2rem;
-  font-size: 1rem;
-  font-weight: 500;
+  font-size: inherit;
+  font-weight: inherit;
   text-align: center;
   text-transform: capitalize;
   cursor: pointer;
