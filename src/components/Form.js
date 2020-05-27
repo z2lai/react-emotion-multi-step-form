@@ -11,7 +11,7 @@ import CheckboxControl from "./CheckboxControl";
 // Note: https://emotion.sh/docs/styled#styling-any-component
 
 const Form = props => {
-  const typeOptions = ["guide", "tutorial", "reference"]; // should be queried from database
+  const typeOptions = ["guide", "tutorial", "reference"]; // should be queried from database in a useEffect hook
   // const factors = ["Beginner Friendly", "Deep Dive", "Comphrensive"]; // should be queried from database
 
   const [activePage, setActivePage] = useState(1);
@@ -23,8 +23,8 @@ const Form = props => {
     title: ''
   });
   const [tagOptions, setTagOptions] = useState({
-    parentTopics: ['suggestions', 'parent categories', 'syntax', 'fundamentals'],
-    subTopicGroups: [
+    groupHeadings: ['suggestions', 'parent categories', 'syntax', 'fundamentals'], // need to move this out of state as it never changes
+    groups: [
       {
         syntax: false,
         object: false,
@@ -59,11 +59,16 @@ const Form = props => {
     ]
   });
 
+  // Move this into useEffect hook for loading tag options
+  let tagOptionsArray = [];
+  tagOptions.groups.forEach(group => tagOptionsArray = [...tagOptionsArray, ...Object.keys(group)]);
+
   const [error, setError] = useState({
     errorStatus: false,
     errorMessage: ''
   })
 
+  // Use this function for all input validations
   const toggleError = message => {
     if (message) {
       setError({ errorStatus: true, errorMessage: message });
@@ -93,17 +98,6 @@ const Form = props => {
   //     // .then(response => response.json())
   //     .then(result => console.log(result));
   // };
-
-  const handleTagSelection = event => {
-    const tag = event.target
-    const options = { ...tagOptions };
-    options.subTopicGroups.forEach(group => {
-      if (group.hasOwnProperty(tag.value)) {
-        group[tag.value] = tag.checked
-      }
-    })
-    setTagOptions(options);
-  };
 
   const handleNext = event => {
     let page = activePage;
@@ -143,13 +137,17 @@ const Form = props => {
             name="type"
             selection={article.type}
             options={typeOptions}
-            handleSelection={selection => setArticle({ ...article, type: selection })}
+            setType={type => setArticle({ ...article, type })}
           />
           <CheckboxControl
             active={activePage === 3}
             name="topics"
-            tagOptions={tagOptions}
-            handleSelection={handleTagSelection} />
+            options={tagOptions}
+            setOptionGroups={groups => setTagOptions({ groupHeadings: tagOptions.groupHeadings, groups })} // need to move groupHeadings out of state as it never changes
+            optionsArray={tagOptionsArray}
+            tags={article.tags} 
+            setTags={tags => setArticle({ ...article, tags })}
+          />
         </InputContainer>
         <NextButton onClick={handleNext}>
           <NextButtonIcon />

@@ -1,8 +1,9 @@
 import { useState } from "react";
-
 import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
 /** @jsx jsx */
+import ChipInput from 'material-ui-chip-input';
+
 
 import { StyledInput, InputWrapper } from './StyledComponents';
 
@@ -71,7 +72,8 @@ const GroupHeading = styled.div`
 
 const CustomCheckBoxWrapper = styled.div`
   flex: 1 1 50%;
-  margin: 5px 0;
+  margin: 3px 0;
+  padding: 0 2px;
 `
     
 const StyledLabel = styled.label`
@@ -81,7 +83,7 @@ const StyledLabel = styled.label`
   text-transform: lowercase;
   cursor: pointer;
   ${props => `
-    font-weight: ${props.checked ? '600' : '500'};
+    font-weight: ${props.checked ? '500' : '500'};
     color: ${props.checked ? props.theme.colors.dark.indigo : props.theme.colors.black};
     :hover {
       color: ${props.theme.colors.dark.indigo};
@@ -109,7 +111,7 @@ flex: none;
 width: 16px;
 height: 16px;
 margin-top: 3px;
-margin-right: 5px;
+margin-right: 10px;
 border-radius: 3px;
 ${props => `
 border: ${props.checked ? 'none' : '2px solid grey'};
@@ -141,39 +143,94 @@ const CustomCheckbox = props => (
   </StyledLabel>
 );
 
-const CheckboxControl = ({ active, name, tagOptions, handleSelection }) => {
+const CheckboxControl = ({ active, name, options, setOptionGroups, OptionsArray, tags, setTags }) => {
   const [tagFilter, setTagFilter] = useState(''); // create custom hook to debounce
+
+  const onBeforeAdd = tagName => {
+    // Check that there's at least one topic left after the filter
+    // Check that the
+    return true;
+  }
+
+  const updateTagOptions = tagName => {
+    const groups = options.groups;
+    groups.forEach(group => {
+      if (group.hasOwnProperty(tagName)) {
+        group[tagName] = !group[tagName]
+      }
+    })
+    setOptionGroups(groups);
+  };
+
+  const addTag = tagName => {
+    if (tags.includes(tagName)) {
+      alert("Duplicate Tag!");
+    } else {
+      setTags([...tags, tagName])
+      setTagFilter('');
+      updateTagOptions(tagName);
+    }
+  };
+
+  const deleteTag = tagName => {
+    const index = tags.indexOf(tagName);
+    if (index === -1) {
+      alert("Tag cannot be deleted as it doesn't exist!")
+    } else {
+      const newArr = tags;
+      newArr.splice(index,1);
+      setTags(newArr);
+    }
+    updateTagOptions(tagName);
+  };
+
+  const handleCheckboxChange = event => {
+    const checkbox = event.target
+    if (checkbox.checked) {
+      addTag(checkbox.value);
+    } else {
+      deleteTag(checkbox.value);
+    }
+  }
 
   return (
     <InputWrapper active={active}>
-      <StyledInput
+      {/* <StyledInput
         type="text"
         placeholder="Tags"
         value={tagFilter}
         onChange={event => setTagFilter(event.target.value.toLowerCase())}
-      />
-      <Divider active={active} />
+      /> */}
+      <ChipInput
+        placeholder="Tags"
+        helperText=""
+        fullWidth
+        inputValue={tagFilter}
+        onUpdateInput={(event) => setTagFilter(event.target.value.toLowerCase())}
+        onAdd={chip => addTag(chip)}
+        onDelete={(chip, index) => deleteTag(chip)}
+        value={tags}
+        />
+      {/* <Divider active={active} /> */}
       <CheckBoxSection>
-        {tagOptions.parentTopics.map(parentTopic => {
-          const index = tagOptions.parentTopics.indexOf(parentTopic);
-          const subTopicGroup = tagOptions.subTopicGroups[index]
-          const subTopicsFiltered = Object.keys(subTopicGroup)
-            .filter(subTopic => subTopic.toLowerCase().includes(tagFilter))
-          if (subTopicsFiltered.length > 0) {
+        {options.groupHeadings.map((groupHeading, groupIndex) => {
+          const topicGroup = options.groups[groupIndex]
+          const filteredTopicGroup = Object.keys(topicGroup).filter(topic => topic.toLowerCase().includes(tagFilter))
+          if (filteredTopicGroup.length > 0) {
             return (
-              <div key={parentTopic}>
+              <div key={groupHeading}>
                 <GroupHeading>
-                  {parentTopic}
+                  {groupHeading}
                 </GroupHeading>
                 <GroupContainer>
-                  {subTopicsFiltered.map(subTopic => (
-                    <CustomCheckBoxWrapper key={subTopic}>
+                  {filteredTopicGroup.map(topic => (
+                    <CustomCheckBoxWrapper key={topic}>
                       <CustomCheckbox
                         name={name}
-                        key={subTopic}
-                        value={subTopic}
-                        checked={subTopicGroup[subTopic]}
-                        onChange={handleSelection}
+                        key={topic}
+                        value={topic}
+                        checked={topicGroup[topic]}
+                        onChange={event => handleCheckboxChange(event)}
                       />
                     </CustomCheckBoxWrapper>
                     ))}
