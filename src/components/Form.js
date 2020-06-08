@@ -25,43 +25,43 @@ const Form = props => {
   const [tagOptions, setTagOptions] = useState({
     groupHeadings: ['suggestions', 'parent categories', 'syntax', 'fundamentals'], // need to move this out of state as it never changes
     groups: [
-      {
-        syntax: false,
-        object: false,
-        scope: false,
-        "execution context": false,
-        closures: false,
-        nodejs: false,
-        es6: false,
-        express: false,
-        architecture: false,
-      },
-      {
-        syntax: false,
-        fundamentals: false,
-        "Object Oriented Programming": false,
-        "ES6": false,
-        "web browser": false,
-        "developer tools": false,
-        "best practice": false,
-      },
-      {
-        operators: false,
-        "control flow": false,
-        "data types": false,
-      },
-      {
-        "execution context": false,
-        scope: false,
-        "error handling": false,
-        asynchronous: false
-      }
+      [ 
+        'object',
+        'scope',
+        'execution context',
+        'closures',
+        'nodejs',
+        'es6',
+        'express',
+      ],
+      [
+        'asynchronous',
+        'execution context',
+        'syntax',
+        'context',
+        'fundamentals',
+        'object',
+        'object oriented programming',
+        'ES6',
+        'web browser',
+        'developer tools',
+        'best practice',
+      ],
+      [
+        'operators',
+        'control flow',
+        'data types',
+        'express',
+        'nodejs',
+      ],
+      [
+        'scope',
+        'error handling',
+        'asynchronous',
+        'closures',
+      ],
     ]
   });
-
-  // Move this into useEffect hook for loading tag options
-  let tagOptionsArray = [];
-  tagOptions.groups.forEach(group => tagOptionsArray = [...tagOptionsArray, ...Object.keys(group)]);
 
   const [error, setError] = useState({
     errorStatus: false,
@@ -143,8 +143,6 @@ const Form = props => {
             active={activePage === 3}
             name="topics"
             options={tagOptions}
-            setOptionGroups={groups => setTagOptions({ groupHeadings: tagOptions.groupHeadings, groups })} // need to move groupHeadings out of state as it never changes
-            optionsArray={tagOptionsArray}
             tags={article.tags} 
             setTags={tags => setArticle({ ...article, tags })}
           />

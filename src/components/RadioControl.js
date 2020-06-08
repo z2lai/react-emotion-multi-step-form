@@ -51,7 +51,7 @@ const RadioControl = props => (
         key={option}
         value={option}
         checked={option === props.selection}
-        onChange={event => props.setTyoe(event.target.value)}
+        onChange={event => props.setType(event.target.value)}
       />
     ))}
   </InputWrapper>
