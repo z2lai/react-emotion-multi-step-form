@@ -22,23 +22,50 @@ const StyledTypeahead = styled(Typeahead)`
   #typeahead {
     visibility: hidden;
   }
-  .rbt-input-multi.focus {
-    background-color: #fff;
-    border-color: #80bdff;
-    box-shadow: 0 0 0 0 .2rem rgba(0, 123, 255, 0.25);
-    color: #495057;
-    outline: 0;
-  }
-  input.rbt-input-main {
-    background-color: transparent;
-    border: 0px;
-    box-shadow: none;
-    cursor: inherit;
-    outline: none;
-    padding: 0px;
-    width: 100%;
-    z-index: 1;
-  }
+  ${props => `
+    .rbt-input-wrapper {
+      display: flex;
+      width: 100%;
+      padding: 0.375rem 2.125rem 0.375rem 0.75rem;
+      overflow: hidden;
+      align-items: flex-start;
+      flex-flow: row wrap;
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.5;
+      color: ${props.theme.colors.extraDark.indigo};
+      background-color: #fff;
+      background-clip: padding-box;
+      border: 1px solid #ced4da;
+      border-radius: 0.25rem;
+      transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+    .rbt-input-wrapper.focus {
+      outline: 0;
+      background-color: #fff;
+      color: #495057;
+      border-color: ${props.theme.colors.light.indigo};
+      box-shadow: 0 0 0 0.2rem rgba(166, 0, 255, .25);
+    }
+    input.rbt-input-main {
+      background-color: transparent;
+      border: 0px;
+      box-shadow: none;
+      cursor: inherit;
+      outline: none;
+      padding: 0px;
+      width: 100%;
+      z-index: 1;
+    }
+    .rbt-token {
+      background-color: ${props.theme.colors.extraLight.indigo};
+      color: ${props.theme.colors.base.indigo};
+    }
+    .rbt-token-active {
+      background-color: ${props.theme.colors.base.indigo};
+      color: #FFF;
+    }
+  `}
 `
 
 const Divider = styled.div`
@@ -59,7 +86,11 @@ const Divider = styled.div`
 const CheckBoxSection = styled.div`
   height: 180px;
   width: 100%;
-  overflow: auto
+  margin-top: 5px;
+  overflow: auto;
+  ${props => `
+    color: ${props.theme.colors.extraDark.indigo};
+  `}
 `
 
 const GroupContainer = styled.div`
@@ -69,7 +100,7 @@ const GroupContainer = styled.div`
 `
 
 const GroupHeading = styled.div`
-  margin: 10px 0 5px 0;
+  margin: 0 0 5px 0;
   font-size: 1.25rem;
   font-weight: bold;
   text-transform: capitalize;
@@ -86,12 +117,12 @@ const CheckboxControl = ({ active, name, options, tags, setTags }) => {
   const [filteredOptions, setFilteredOptions] = useState(options);
   const [selected, setSelected] = useState([]);
   const [activeIndex, setActiveIndex] = useState(-1);
-  
+
   const typeaheadRef = useRef();
   const inputWrapperRef = useRef();
   const inputNodeRef = useRef();
-  const _handleKeyDown = useRef();
-  
+  const _handleKeyDownRef = useRef(); // this variable can be overwritten as handleKeyDownOverride maintains reference to the original _handleKeyDown definition reference due to closure
+
   // Move this into useEffect hook for loading tag options
   const optionsArray = options.groups.slice(1, options.groups.length).flat()
   // const optionsArray = filteredOptions.groups.flat();
@@ -99,15 +130,13 @@ const CheckboxControl = ({ active, name, options, tags, setTags }) => {
   const BACKSPACE = 8;
   const TAB = 9;
   const RETURN = 13;
-  const ESC = 27;
-  const SPACE = 32;
-  const LEFT = 37;
   const UP = 38;
-  const RIGHT = 39;
   const DOWN = 40;
 
   const handleInputChange = inputValue => {
     console.log("Input Changed")
+    console.log(inputValue);
+    console.log(typeaheadRef);
     setActiveIndex(-1);
     updateFilter(inputValue);
   }
@@ -143,13 +172,20 @@ const CheckboxControl = ({ active, name, options, tags, setTags }) => {
     setSelected(newSelected);
   }
 
-  const handleInputRemove = tag => {
+  const handleTokenRemove = token => {
     console.log('Remove Handled');
     const newSelected = [...selected]
-    newSelected.splice(newSelected.indexOf(tag), 1);
+    newSelected.splice(newSelected.indexOf(token), 1);
     updateFilter(inputNodeRef.current.value, newSelected)
     setSelected(newSelected);
     typeaheadRef.current.focus();
+  }
+
+  const handleCheckboxKeyPress = event => {
+    if (event.keyCode === 'Enter') {
+      event.currentTarget.click();
+      event.stopPropagation();
+    }
   }
 
   const handleCheckboxChange = event => {
@@ -169,7 +205,7 @@ const CheckboxControl = ({ active, name, options, tags, setTags }) => {
 
   const updateActiveIndex = (currentIndex, keyCode, items) => {
     let newIndex = currentIndex;
-    newIndex += keyCode === UP ? -1 : 1;
+    newIndex += (keyCode === UP) ? -1 : 1;
     if (newIndex === items.length) {
       newIndex = -1;
     } else if (newIndex === -2) {
@@ -179,13 +215,11 @@ const CheckboxControl = ({ active, name, options, tags, setTags }) => {
   }
 
   // This function is only called once on initial render to override typeahead's internal _handleKeyDown method
+  // Example from github issues: https://github.com/ericgio/react-bootstrap-typeahead/issues/461
   const handleKeyDownOverride = event => {
-    // console.log(selected);
-    // console.log(typeahead.current.state.activeIndex);
-    // console.log(typeahead.current.items);
-    // console.log("activeIndex: ")
-    // console.log(activeIndex);
     // console.log(typeahead.current.state.text);
+    // console.log(typeahead.current.items);
+    // console.log(typeahead.current.state.activeIndex);
 
     const inputNode = event.currentTarget;
     switch (event.keyCode) {
@@ -211,82 +245,86 @@ const CheckboxControl = ({ active, name, options, tags, setTags }) => {
       case TAB:
         if (typeaheadRef.current.isMenuShown) {
           event.keyCode = event.shiftKey ? UP : DOWN;
-          updateActiveIndex(typeaheadRef.current.state.activeIndex, event.keyCode, typeaheadRef.current.items);
+          updateActiveIndex(typeaheadRef.current.state.activeIndex, event.key, typeaheadRef.current.items);
         }
         break;
       default:
         break;
     };
-    return _handleKeyDown.current(event);
+    return _handleKeyDownRef.current(event);
   }
 
+  const handleClearOverride = () => {
+    setSelected([]);
+    typeaheadRef.current.clear();
+    handleInputChange('');
+  }
+
+  const handleBlur = () => {
+    typeaheadRef.current.hideMenu()
+    inputWrapperRef.current.classList.remove('focus');
+  }
+
+  const handleFocus = () => {
+    inputWrapperRef.current.classList.add('focus');
+  }
+
+  // Override typeahead internal methods
   useEffect(() => {
-    _handleKeyDown.current = typeaheadRef.current._handleKeyDown
-  // Only need to override ._handleKeyDown once on initial render as the typeahead component (object) imported from the library
-  // does not change for each render, hence keeps the same methods throughout its lifecycle
-    typeaheadRef.current._handleKeyDown = handleKeyDownOverride; 
+    // Keep ._handleKeyDown definition in ref so that handleKeyDownOverride can call it (see its definition at the end of file)
+    _handleKeyDownRef.current = typeaheadRef.current._handleKeyDown
+    // Only need to override internal methods once on initial render as the typeahead component (object) imported from the library
+    // does not change for each render - keeps the same methods throughout its lifecycle
+    typeaheadRef.current._handleKeyDown = handleKeyDownOverride;
+    typeaheadRef.current._handleClear = handleClearOverride;
     inputNodeRef.current = typeaheadRef.current.getInput();
   }, []);
 
-  // useEffect(() => {
-  //   console.log(selected);
-  //   typeahead.current._handleKeyDown = overrideHandleKeyDown;
-  // }, [typeahead]);
+  useEffect(() => {
+    if (active) {
+      inputNodeRef.current.focus();
+    }
+  }, [active]);
 
-  // const handleBackspace = function (e, onKeyDown) {
-  //   console.log("HandleBackspace!");
-  //   console.log(e.currentTarget);
-  //   if (e.keyCode === BACKSPACE && wrapperRef.current) {
-  //     const { children } = wrapperRef.current;
-  //     const lastToken = children[children.length - 2];
-  //     lastToken && lastToken.focus();
-  //   }
-  //   onKeyDown(e);
-  // }
-
-  let optionsIndexCounter = -1;
+  let optionsIndexCounter = -1; // find a better place to store this index counter
 
   return (
     <InputWrapper active={active}>
       <StyledTypeahead // https://github.com/ericgio/react-bootstrap-typeahead/blob/1cf74a4e3f65d4d80e992d1f926bfaf9f5a349bc/src/components/Typeahead.react.js
         id="typeahead"
-        maxHeight="100px"
-        autoFocus
-        clearButton
+        maxHeight="1px"
         multiple
+        clearButton
         options={optionsArray}
-        onInputChange={inputValue => handleInputChange(inputValue)} // only includes input changes directly from keyboard keys
         // onKeyDown={e => console.log('onKeyDown Prop!')}
-        minLength={1}
-        onChange={selected => handleInputSelection(selected)}
+        onInputChange={inputValue => handleInputChange(inputValue)} // only includes input changes directly from keyboard keys
+        minLength={1} // to activate menu/hint
         selected={selected}
-        // onFocus={e => console.log(`Focus on ${e}`)}
-        onBlur={() => typeaheadRef.current.hideMenu()}
+        onChange={selected => handleInputSelection(selected)}
+        onBlur={() => handleBlur()}
+        onFocus={() => handleFocus()}
         onMenuToggle={() => setActiveIndex(-1)}
         ref={typeaheadRef}
         renderInput={({ inputRef, referenceElementRef, inputClassName, ...inputProps }, state) => {
           // https://github.com/ericgio/react-bootstrap-typeahead/blob/746f26e5ee33bfdd186d64b03248b361647d834e/src/components/TypeaheadInputMulti.react.js
           return (
-            <div className="rbt-input-multi form-control rbt-input" tabIndex="-1" onClick={e => typeaheadRef.current.focus()}>
-              <div className="rbt-input-wrapper" ref={inputWrapperRef}>
-                {state.selected.map((option, idx) => (
-                  <Token key={idx} option={option} onRemove={option => handleInputRemove(option)}>
-                    {option}
-                  </Token>
-                ))}
-                <Hint // https://github.com/ericgio/react-bootstrap-typeahead/blob/0c69fcaf308e4053403af8164ebbc242e4d64f3c/src/components/Hint.react.js
-                  shouldSelect={(shouldSelect, e) => e.keyCode !== TAB && (e.keyCode === RETURN || shouldSelect)}
-                >
-                  <Input // https://github.com/ericgio/react-bootstrap-typeahead/blob/746f26e5ee33bfdd186d64b03248b361647d834e/src/components/Input.react.js
-                    {...inputProps}
-                    // onKeyDown={e => handleBackspace(e, onKeyDown)}
-                    ref={element => {
-                      inputRef(element);
-                      referenceElementRef(element);
-                    }}
-                  />
-                </Hint>
-              </div>
+            <div className="rbt-input-wrapper" ref={inputWrapperRef}>
+              {state.selected.map((option, idx) => (
+                <Token key={idx} option={option} onRemove={option => handleTokenRemove(option)}>
+                  {option}
+                </Token>
+              ))}
+              <Hint // https://github.com/ericgio/react-bootstrap-typeahead/blob/0c69fcaf308e4053403af8164ebbc242e4d64f3c/src/components/Hint.react.js
+                shouldSelect={(shouldSelect, e) => e.keyCode !== TAB && (e.keyCode === RETURN || shouldSelect)}
+              >
+                <Input // https://github.com/ericgio/react-bootstrap-typeahead/blob/746f26e5ee33bfdd186d64b03248b361647d834e/src/components/Input.react.js
+                  {...inputProps}
+                  ref={element => {
+                    inputRef(element);
+                    referenceElementRef(element);
+                  }}
+                />
+              </Hint>
             </div>
           );
         }}
@@ -314,6 +352,7 @@ const CheckboxControl = ({ active, name, options, tags, setTags }) => {
                           highlight={filter}
                           focused={optionsIndexCounter === activeIndex}
                           checked={selected.includes(option)}
+                          onKeyPress={event => handleCheckboxKeyPress(event)}
                           onChange={event => handleCheckboxChange(event)}
                         />
                       </CheckboxWrapper>

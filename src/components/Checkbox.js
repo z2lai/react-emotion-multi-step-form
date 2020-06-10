@@ -15,20 +15,21 @@ const StyledLabel = styled.label`
   position: relative;
   margin: 0;
   display: inline-flex;
+  line-height: 1.25rem;
   font-size: 1.125rem;
   text-transform: lowercase;
   cursor: pointer;
-  span {
-    white-space: pre;
-  }
   ${props => `
-    font-weight: ${props.focused ? '700' : '400'};
-    color: ${props.checked ? props.theme.colors.dark.indigo : props.theme.colors.black};
+    font-weight: ${props.focused ? '600' : '500'};
+    color: ${props.checked ? props.theme.colors.dark.indigo : 'inherit'};
     :hover {
       color: ${props.theme.colors.dark.indigo};
     }
+    input + div {
+      box-shadow: ${props.focused ? `0 0 0 2px ${props.theme.colors.base.indigo}` : `none`};
+    }
     input:focus + div {
-      box-shadow: 0 0 0 1px ${props.theme.colors.base.indigo};
+      box-shadow: 0 0 0 2px ${props.theme.colors.base.indigo};
     }
     mark {
       padding: 0;
@@ -59,7 +60,7 @@ margin-top: 3px;
 margin-right: 10px;
 border-radius: 3px;
 ${props => `
-  border: ${props.checked ? 'none' : '2px solid grey'};
+  border: ${props.checked ? 'none' : `2px solid ${props.theme.colors.extraDark.indigo}`};
   background: ${props.checked ? props.theme.colors.dark.indigo : 'none'};
   svg {
     visibility: ${props.checked ? 'visible' : 'hidden'};
@@ -91,13 +92,14 @@ const TextWithHighlight = ({ text = '', highlight = '' }) => {
   return <Fragment>{textWithHighlight}</Fragment>
 }
 
-const CustomCheckbox = ({ name, value, highlight, focused, checked, onChange }) => (
+const CustomCheckbox = ({ name, value, highlight, focused, checked, onKeyPress, onChange }) => (
   <StyledLabel checked={checked} focused={focused}>
     <HiddenCheckbox
       type="checkbox"
       name={name}
       value={value}
       checked={checked}
+      onKeyPress={onKeyPress}
       onChange={onChange}
     />
     <StyledCheckbox checked={checked}>
@@ -106,7 +108,6 @@ const CustomCheckbox = ({ name, value, highlight, focused, checked, onChange }) 
       </Icon>
     </StyledCheckbox>
     <TextWithHighlight text={value} highlight={highlight} />
-    {focused}
   </StyledLabel>
 );
 
