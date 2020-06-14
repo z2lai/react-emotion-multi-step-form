@@ -20,7 +20,7 @@ const StyledLabel = styled.label`
   text-transform: lowercase;
   cursor: pointer;
   ${props => `
-    font-weight: ${props.focused ? '600' : '500'};
+    font-weight: ${props.focused ? '600' : '400'};
     color: ${props.checked ? props.theme.colors.dark.indigo : 'inherit'};
     :hover {
       color: ${props.theme.colors.dark.indigo};
@@ -32,6 +32,7 @@ const StyledLabel = styled.label`
       box-shadow: 0 0 0 2px ${props.theme.colors.base.indigo};
     }
     mark {
+      display: inline;
       padding: 0;
       font-weight: bold;
       background-color: inherit;
@@ -87,9 +88,9 @@ const TextWithHighlight = ({ text = '', highlight = '' }) => {
   const textWithHighlight = parts.map((part, i) => (
     regex.test(part) ?
       <mark key={i}>{part}</mark> :
-      (part.length > 0 || (i > 0 && i < parts.length - 1)) && <span key={i}>{part}</span>
+      (part.length > 0 || (i > 0 && i < parts.length - 1)) && <Fragment key={i}>{part}</Fragment>
   ));
-  return <Fragment>{textWithHighlight}</Fragment>
+  return <span>{textWithHighlight}</span>
 }
 
 const CustomCheckbox = ({ name, value, highlight, focused, checked, onKeyPress, onChange }) => (

@@ -17,11 +17,12 @@ const Form = props => {
   const [activePage, setActivePage] = useState(1);
   const [isScraped, setIsScraped] = useState(false);
   const [article, setArticle] = useState({
-    url: '',
+    // url: '',
     type: '',
     tags: [],
     title: ''
   });
+  const [url, setUrl] = useState('');
   const [tagOptions, setTagOptions] = useState({
     groupHeadings: ['suggestions', 'parent categories', 'syntax', 'fundamentals'], // need to move this out of state as it never changes
     groups: [
@@ -99,6 +100,11 @@ const Form = props => {
   //     .then(result => console.log(result));
   // };
 
+  const handleUrlChange = url => {
+    console.log(url);
+    setUrl(url)
+  }
+
   const handleNext = event => {
     let page = activePage;
     if (page !== 3) {
@@ -112,7 +118,7 @@ const Form = props => {
     <StyledForm>
       <Heading>Submit An Article To the Communal Curator</Heading>
       <TitleContainer>
-        <Title value={article.url || 'Input Article URL'} active={activePage === 1} />
+        {/* <Title value={article.url || 'Input Article URL'} active={activePage === 1} /> */}
         <Title value={article.type || 'Select Resource Type'} active={activePage === 2} />
         <Title value={'Select Article Tags'} active={activePage === 3} />
       </TitleContainer>
@@ -127,8 +133,9 @@ const Form = props => {
         <InputContainer>
           <UrlControl
             active={activePage === 1}
-            value={article.url}
-            setUrl={value => setArticle({ ...article, url: value })}
+            // value={article.url}
+            value={url}
+            handleChange={handleUrlChange}
             setIsScraped={() => setIsScraped(true)}
             toggleError={toggleError}
           />

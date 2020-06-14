@@ -90,16 +90,15 @@ export const InputWrapper = styled.div`
   max-height: 220px;
   overflow: hidden;
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: ${props => props.column ? 'column nowrap' : 'row wrap'};
   justify-content: space-evenly;
   align-items: center;
   font-size: 1.125rem;
-  font-weight: 500;
   ${props => props.active ? `
     visibility: visible;
     opacity: 1;
     transition: opacity 600ms ease-out;
-  ` : `
+  ` : ` 
     position: absolute;
     visibility: hidden;
     opacity: 0;
@@ -112,7 +111,6 @@ export const StyledInput = styled.input`
   border: none;
   padding: 2px 0 0 0;
   outline: none;
-  font: inherit;
   letter-spacing: 1px;
 `;
 
@@ -147,7 +145,7 @@ export const NextButtonIcon = styled.div`
   &::before {
     content: '';
     position: absolute;
-    left: -3px;
+    left: -2px;
     bottom: 1px;
     width: 6px;
     height: 6px;

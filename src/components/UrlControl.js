@@ -43,7 +43,8 @@ const UrlControl = props => {
         type="text"
         placeholder="Article URL"
         value={props.value}
-        onChange={event => props.setUrl(event.target.value)} />
+        onChange={event => props.handleChange(event.target.value)} 
+      />
     </InputWrapper>
   );
 }

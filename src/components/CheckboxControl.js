@@ -5,9 +5,12 @@ import styled from "@emotion/styled";
 import 'bootstrap/dist/css/bootstrap.css';
 import 'react-bootstrap-typeahead/css/Typeahead.css'
 import { Typeahead, Hint, Input, Token } from 'react-bootstrap-typeahead';
+// Typeahead Components: https://github.com/ericgio/react-bootstrap-typeahead/blob/1cf74a4e3f65d4d80e992d1f926bfaf9f5a349bc/src/components/Typeahead.react.js
+// Typeahead internal methods: https://github.com/ericgio/react-bootstrap-typeahead/blob/1cf74a4e3f65d4d80e992d1f926bfaf9f5a349bc/src/core/Typeahead.js
 
 import { InputWrapper } from './StyledComponents';
 import Checkbox from './Checkbox';
+import debounce from '../utils/debounce';
 
 /* Note: From Emotion documentation: https://emotion.sh/docs/styled#composing-dynamic-styles
 // const dynamicStyles = props =>
@@ -26,7 +29,7 @@ const StyledTypeahead = styled(Typeahead)`
     .rbt-input-wrapper {
       display: flex;
       width: 100%;
-      padding: 0.375rem 2.125rem 0.375rem 0.75rem;
+      padding: 0.375rem 0.75rem;
       overflow: hidden;
       align-items: flex-start;
       flex-flow: row wrap;
@@ -58,11 +61,12 @@ const StyledTypeahead = styled(Typeahead)`
       z-index: 1;
     }
     .rbt-token {
+      margin: 0 3px 0 0;
       background-color: ${props.theme.colors.extraLight.indigo};
-      color: ${props.theme.colors.base.indigo};
+      color: ${props.theme.colors.dark.indigo};
     }
     .rbt-token-active {
-      background-color: ${props.theme.colors.base.indigo};
+      background-color: ${props.theme.colors.dark.indigo};
       color: #FFF;
     }
   `}
@@ -83,11 +87,16 @@ const Divider = styled.div`
   }
 `
 
-const CheckBoxSection = styled.div`
-  height: 180px;
+const CheckBoxSectionContainer = styled.div`
+  height: 162px;
   width: 100%;
-  margin-top: 5px;
   overflow: auto;
+  margin-top: 10px;
+`
+
+const CheckBoxSectionWrapper = styled.div`
+  height: auto;
+  width: 100%;
   ${props => `
     color: ${props.theme.colors.extraDark.indigo};
   `}
@@ -132,18 +141,22 @@ const CheckboxControl = ({ active, name, options, tags, setTags }) => {
   const RETURN = 13;
   const UP = 38;
   const DOWN = 40;
+  const DEBOUNCETIME = 100;
 
   const handleInputChange = inputValue => {
     console.log("Input Changed")
-    console.log(inputValue);
-    console.log(typeaheadRef);
+    console.log(inputNodeRef.current.value);
     setActiveIndex(-1);
-    updateFilter(inputValue);
+    // Since there's a debounce delay in this method handling input change, inputValue might be stale if the input node value was modified
+    // immediately through a more inner non-debounced handler (the one attached to Input component). So it's better to updateFilter with 
+    // the actual input node value to get the most updated value
+    // updateFilter(inputValue);
+    updateFilter(inputNodeRef.current.value)
   }
 
-  const updateFilter = (inputValue, s = selected) => {
-    console.log(`Filter updated to: ${inputValue}`)
-    console.log(s);
+  const updateFilter = (inputValue, excluded = selected) => {
+    // console.log(`Filter updated to: ${inputValue}`)
+    // console.log(excluded);
     const filter = inputValue.trim();
     setFilter(filter);
     if (filter === '') {
@@ -154,7 +167,7 @@ const CheckboxControl = ({ active, name, options, tags, setTags }) => {
     const filteredGroups = [];
     for (let i = 1; i < groupHeadings.length; i++) { // skip index 0 to exclude "Suggested" group
       const filteredGroup = groups[i].filter(option => (
-        option.toLowerCase().includes(filter) && !s.includes(option)
+        option.toLowerCase().includes(filter) && !excluded.includes(option)
       ))
       if (filteredGroup.length > 0) {
         filteredGroupHeadings.push(groupHeadings[i]);
@@ -176,13 +189,16 @@ const CheckboxControl = ({ active, name, options, tags, setTags }) => {
     console.log('Remove Handled');
     const newSelected = [...selected]
     newSelected.splice(newSelected.indexOf(token), 1);
-    updateFilter(inputNodeRef.current.value, newSelected)
     setSelected(newSelected);
+    if (inputNodeRef.current.value.length > 0) {
+      updateFilter(inputNodeRef.current.value, newSelected)
+    }
     typeaheadRef.current.focus();
   }
 
   const handleCheckboxKeyPress = event => {
-    if (event.keyCode === 'Enter') {
+    console.log('Keypress on Checkbox!')
+    if (event.key === 'Enter') {
       event.currentTarget.click();
       event.stopPropagation();
     }
@@ -216,19 +232,29 @@ const CheckboxControl = ({ active, name, options, tags, setTags }) => {
 
   // This function is only called once on initial render to override typeahead's internal _handleKeyDown method
   // Example from github issues: https://github.com/ericgio/react-bootstrap-typeahead/issues/461
-  const handleKeyDownOverride = event => {
+  const handleKeyDown = event => {
     // console.log(typeahead.current.state.text);
     // console.log(typeahead.current.items);
     // console.log(typeahead.current.state.activeIndex);
 
     const inputNode = event.currentTarget;
     switch (event.keyCode) {
+      // case RETURN:
+      //   console.log("Enter pressed!")
+      //   // Synthetic events are reused for performance reasons, then they are released/nullified. To keep the original synthetic event
+      //   // around, use event.persist(). See https://fb.me/react-event-pooling for more information.
+      //   event.persist()
+      //   // Delay the Enter key from selecting until after the input has finished handling the debounced typing events.
+      //   setTimeout(() => {
+      //     console.log("Enter triggered!")
+      //     _handleKeyDownRef.current(event) 
+      //   }, DEBOUNCETIME + 3000);
+      //   return;
       case BACKSPACE:
         if (inputNode.value.length === 0 && typeaheadRef.current.props.selected.length) {
           // Prevent browser from going back.
           event.preventDefault();
-          // If the input is selected and there is no text, focus the last
-          // token when the user hits backspace.
+          // If the input is selected and there is no text, focus the last token when the user hits backspace.
           if (inputWrapperRef.current) {
             const { children } = inputWrapperRef.current;
             const lastToken = children[children.length - 2];
@@ -245,16 +271,16 @@ const CheckboxControl = ({ active, name, options, tags, setTags }) => {
       case TAB:
         if (typeaheadRef.current.isMenuShown) {
           event.keyCode = event.shiftKey ? UP : DOWN;
-          updateActiveIndex(typeaheadRef.current.state.activeIndex, event.key, typeaheadRef.current.items);
+          updateActiveIndex(typeaheadRef.current.state.activeIndex, event.keyCode, typeaheadRef.current.items);
         }
         break;
       default:
         break;
     };
-    return _handleKeyDownRef.current(event);
+    _handleKeyDownRef.current(event);
   }
 
-  const handleClearOverride = () => {
+  const handleClear = () => {
     setSelected([]);
     typeaheadRef.current.clear();
     handleInputChange('');
@@ -275,8 +301,8 @@ const CheckboxControl = ({ active, name, options, tags, setTags }) => {
     _handleKeyDownRef.current = typeaheadRef.current._handleKeyDown
     // Only need to override internal methods once on initial render as the typeahead component (object) imported from the library
     // does not change for each render - keeps the same methods throughout its lifecycle
-    typeaheadRef.current._handleKeyDown = handleKeyDownOverride;
-    typeaheadRef.current._handleClear = handleClearOverride;
+    typeaheadRef.current._handleKeyDown = handleKeyDown;
+    typeaheadRef.current._handleClear = handleClear;
     inputNodeRef.current = typeaheadRef.current.getInput();
   }, []);
 
@@ -289,20 +315,20 @@ const CheckboxControl = ({ active, name, options, tags, setTags }) => {
   let optionsIndexCounter = -1; // find a better place to store this index counter
 
   return (
-    <InputWrapper active={active}>
-      <StyledTypeahead // https://github.com/ericgio/react-bootstrap-typeahead/blob/1cf74a4e3f65d4d80e992d1f926bfaf9f5a349bc/src/components/Typeahead.react.js
+    <InputWrapper active={active} column>
+      <StyledTypeahead
         id="typeahead"
         maxHeight="1px"
         multiple
-        clearButton
+        // clearButton
         options={optionsArray}
         // onKeyDown={e => console.log('onKeyDown Prop!')}
-        onInputChange={inputValue => handleInputChange(inputValue)} // only includes input changes directly from keyboard keys
+        onInputChange={debounce(handleInputChange, DEBOUNCETIME)} // only includes input changes directly from keyboard keys
         minLength={1} // to activate menu/hint
         selected={selected}
-        onChange={selected => handleInputSelection(selected)}
-        onBlur={() => handleBlur()}
-        onFocus={() => handleFocus()}
+        onChange={handleInputSelection}
+        onBlur={handleBlur}
+        onFocus={handleFocus}
         onMenuToggle={() => setActiveIndex(-1)}
         ref={typeaheadRef}
         renderInput={({ inputRef, referenceElementRef, inputClassName, ...inputProps }, state) => {
@@ -310,7 +336,7 @@ const CheckboxControl = ({ active, name, options, tags, setTags }) => {
           return (
             <div className="rbt-input-wrapper" ref={inputWrapperRef}>
               {state.selected.map((option, idx) => (
-                <Token key={idx} option={option} onRemove={option => handleTokenRemove(option)}>
+                <Token key={idx} option={option} onRemove={handleTokenRemove}>
                   {option}
                 </Token>
               ))}
@@ -330,40 +356,42 @@ const CheckboxControl = ({ active, name, options, tags, setTags }) => {
         }}
       />
       {/* <Divider active={active} /> */}
-      <CheckBoxSection>
-        {filteredOptions.groupHeadings.map((heading, index) => {
-          const groupOptions = filteredOptions.groups[index]
-          if (groupOptions.length === 0) {
-            return
-          } else {
-            return (
-              <div key={heading}>
-                <GroupHeading>
-                  {heading}
-                </GroupHeading>
-                <GroupContainer>
-                  {groupOptions.map((option, index) => {
-                    optionsIndexCounter++
-                    return (
-                      <CheckboxWrapper key={option}>
-                        <Checkbox
-                          name={name}
-                          value={option}
-                          highlight={filter}
-                          focused={optionsIndexCounter === activeIndex}
-                          checked={selected.includes(option)}
-                          onKeyPress={event => handleCheckboxKeyPress(event)}
-                          onChange={event => handleCheckboxChange(event)}
-                        />
-                      </CheckboxWrapper>
-                    )
-                  })}
-                </GroupContainer>
-              </div>
-            )
-          }
-        })}
-      </CheckBoxSection>
+      <CheckBoxSectionContainer>
+        <CheckBoxSectionWrapper>
+          {filteredOptions.groupHeadings.map((heading, index) => {
+            const groupOptions = filteredOptions.groups[index]
+            if (groupOptions.length === 0) {
+              return null;
+            } else {
+              return (
+                <div key={heading}>
+                  <GroupHeading>
+                    {heading}
+                  </GroupHeading>
+                  <GroupContainer>
+                    {groupOptions.map((option, index) => {
+                      optionsIndexCounter++
+                      return (
+                        <CheckboxWrapper key={option}>
+                          <Checkbox
+                            name={name}
+                            value={option}
+                            highlight={filter}
+                            focused={optionsIndexCounter === activeIndex}
+                            checked={selected.includes(option)}
+                            onKeyPress={handleCheckboxKeyPress}
+                            onChange={handleCheckboxChange}
+                          />
+                        </CheckboxWrapper>
+                      )
+                    })}
+                  </GroupContainer>
+                </div>
+              )
+            }
+          })}
+        </CheckBoxSectionWrapper>
+      </CheckBoxSectionContainer>
     </InputWrapper>
   )
 };

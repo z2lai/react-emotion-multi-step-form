@@ -4,6 +4,7 @@ import styled from "@emotion/styled";
 import { InputWrapper } from './StyledComponents';
 
 const StyledLabel = styled.label`
+  margin: 0;
   padding: 2px 20px 0 20px;
   border-radius: 25px;
   line-height: 2rem;
@@ -15,10 +16,10 @@ const StyledLabel = styled.label`
   transition: border 0.1s;
   ${props => `
     border: 1px solid ${props.theme.colors.light[props.type]};
-    color: ${props.theme.colors.base[props.type]};
+    color: ${props.theme.colors.dark[props.type]};
     ${props.checked ? `
       color: ${props.theme.colors.white};
-      background: ${props.theme.colors.base[props.type]};
+      background: ${props.theme.colors.dark[props.type]};
       &:hover {
         border: 1px solid ${props.theme.colors.light[props.type]};
       }
