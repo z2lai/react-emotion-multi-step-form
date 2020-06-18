@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+// Note: https://emotion.sh/docs/styled#styling-any-component
 
 export const StyledForm = styled.div`
   box-sizing: content-box;

@@ -2,6 +2,8 @@ import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
 /** @jsx jsx */
 
+import log from "../tests/log";
+
 /* Note: From Emotion documentation: https://emotion.sh/docs/styled#composing-dynamic-styles
 // const dynamicStyles = props =>
 //   css`
@@ -28,4 +30,4 @@ const Title = props => (
   </StyledTitle>
 )
 
-export default Title;
+export default log(Title);

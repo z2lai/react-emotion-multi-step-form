@@ -3,6 +3,8 @@ import styled from "@emotion/styled";
 
 import { InputWrapper } from './StyledComponents';
 
+import log from "../tests/log";
+
 const StyledLabel = styled.label`
   margin: 0;
   padding: 2px 20px 0 20px;
@@ -15,7 +17,7 @@ const StyledLabel = styled.label`
   cursor: pointer;
   transition: border 0.1s;
   ${props => `
-    border: 1px solid ${props.theme.colors.light[props.type]};
+    border: 1px solid white;
     color: ${props.theme.colors.dark[props.type]};
     ${props.checked ? `
       color: ${props.theme.colors.white};
@@ -44,18 +46,21 @@ const RadioButton = props => (
   </StyledLabel>
 );
 
-const RadioControl = props => (
-  <InputWrapper active={props.active}>
-    {props.options.map(option => (
-      <RadioButton
-        name={props.name}
-        key={option}
-        value={option}
-        checked={option === props.selection}
-        onChange={event => props.setType(event.target.value)}
-      />
-    ))}
-  </InputWrapper>
-);
+const RadioControl = props => {
+  const options = ["guide", "tutorial", "reference"]; // should be queried from database in a useEffect hook
+  return (
+    <InputWrapper active={props.active}>
+      {options.map(option => (
+        <RadioButton
+          name={props.name}
+          key={option}
+          value={option}
+          checked={option === props.selection}
+          onChange={event => props.handleChange(event.target.value)}
+        />
+      ))}
+    </InputWrapper>
+  )
+};
 
-export default RadioControl;
+export default log(RadioControl);

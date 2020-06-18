@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/core";
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import styled from "@emotion/styled";
 import 'bootstrap/dist/css/bootstrap.css';
 import 'react-bootstrap-typeahead/css/Typeahead.css'
@@ -11,6 +11,9 @@ import { Typeahead, Hint, Input, Token } from 'react-bootstrap-typeahead';
 import { InputWrapper } from './StyledComponents';
 import Checkbox from './Checkbox';
 import debounce from '../utils/debounce';
+import throttle from '../utils/throttle';
+
+import log from "../tests/log";
 
 /* Note: From Emotion documentation: https://emotion.sh/docs/styled#composing-dynamic-styles
 // const dynamicStyles = props =>
@@ -87,20 +90,28 @@ const Divider = styled.div`
   }
 `
 
-const CheckBoxSectionContainer = styled.div`
+const CheckboxSectionContainer = styled.div`
   height: 162px;
   width: 100%;
   overflow: auto;
   margin-top: 10px;
 `
 
-const CheckBoxSectionWrapper = styled.div`
+const BaseCheckboxSectionWrapper = props => {
+  console.log('BaseCheckboxSectionWrapper Rendered');
+  console.log(props);
+  return null;
+}
+
+const CheckboxSectionWrapper = styled.div`
   height: auto;
   width: 100%;
   ${props => `
     color: ${props.theme.colors.extraDark.indigo};
   `}
 `
+
+const MemoizedCheckboxSectionWrapper = React.memo(CheckboxSectionWrapper);
 
 const GroupContainer = styled.div`
   display: flex;
@@ -130,7 +141,7 @@ const CheckboxControl = ({ active, name, options, tags, setTags }) => {
   const typeaheadRef = useRef();
   const inputWrapperRef = useRef();
   const inputNodeRef = useRef();
-  const _handleKeyDownRef = useRef(); // this variable can be overwritten as handleKeyDownOverride maintains reference to the original _handleKeyDown definition reference due to closure
+  const _handleKeyDownRef = useRef(); // this variable can be overwritten as handleKeyDown maintains reference to the original _handleKeyDown definition reference due to closure
 
   // Move this into useEffect hook for loading tag options
   const optionsArray = options.groups.slice(1, options.groups.length).flat()
@@ -142,6 +153,7 @@ const CheckboxControl = ({ active, name, options, tags, setTags }) => {
   const UP = 38;
   const DOWN = 40;
   const DEBOUNCETIME = 100;
+  const THROTTLEPERIOD = 100;
 
   const handleInputChange = inputValue => {
     console.log("Input Changed")
@@ -184,8 +196,8 @@ const CheckboxControl = ({ active, name, options, tags, setTags }) => {
     }
     setSelected(newSelected);
   }
-
-  const handleTokenRemove = token => {
+ 
+  const removeToken = (token, selected) => {
     console.log('Remove Handled');
     const newSelected = [...selected]
     newSelected.splice(newSelected.indexOf(token), 1);
@@ -194,6 +206,15 @@ const CheckboxControl = ({ active, name, options, tags, setTags }) => {
       updateFilter(inputNodeRef.current.value, newSelected)
     }
     typeaheadRef.current.focus();
+  }
+   // In order to throttle removeToken, the returned throttled function (and its closure) has to be memoized so that it can be called
+   // by each handleTokenRemove event handler that gets defined on each render
+  const memoizedThrottledRemoveToken = useCallback(throttle(removeToken, THROTTLEPERIOD), [])
+  // In handleTokenRemove event handler, the throttled and memoized removeToken function is called with the following arguments:
+  //  1. "token" from the event listener
+  //  2. "selected" from state - this value gets refreshed as handleTokenRemove gets defined on each render
+  const handleTokenRemove = token => {  
+    memoizedThrottledRemoveToken(token, selected);
   }
 
   const handleCheckboxKeyPress = event => {
@@ -230,8 +251,10 @@ const CheckboxControl = ({ active, name, options, tags, setTags }) => {
     setActiveIndex(newIndex);
   }
 
-  // This function is only called once on initial render to override typeahead's internal _handleKeyDown method
+ 
   // Example from github issues: https://github.com/ericgio/react-bootstrap-typeahead/issues/461
+  // This handler replaces Typeahead's internal handler once on initial render so there should be no references to state 
+  // in here as they will be stale
   const handleKeyDown = event => {
     // console.log(typeahead.current.state.text);
     // console.log(typeahead.current.items);
@@ -295,9 +318,11 @@ const CheckboxControl = ({ active, name, options, tags, setTags }) => {
     inputWrapperRef.current.classList.add('focus');
   }
 
-  // Override typeahead internal methods
+  const handleMenuToggle = () => setActiveIndex(-1);
+
+  // Override typeahead internal methods only once on initial render
   useEffect(() => {
-    // Keep ._handleKeyDown definition in ref so that handleKeyDownOverride can call it (see its definition at the end of file)
+    // Keep ._handleKeyDown definition in ref so that handleKeyDown can call it (see its definition at the end of file)
     _handleKeyDownRef.current = typeaheadRef.current._handleKeyDown
     // Only need to override internal methods once on initial render as the typeahead component (object) imported from the library
     // does not change for each render - keeps the same methods throughout its lifecycle
@@ -318,8 +343,9 @@ const CheckboxControl = ({ active, name, options, tags, setTags }) => {
     <InputWrapper active={active} column>
       <StyledTypeahead
         id="typeahead"
-        maxHeight="1px"
         multiple
+        maxHeight="1px"
+        dropup
         // clearButton
         options={optionsArray}
         // onKeyDown={e => console.log('onKeyDown Prop!')}
@@ -329,7 +355,7 @@ const CheckboxControl = ({ active, name, options, tags, setTags }) => {
         onChange={handleInputSelection}
         onBlur={handleBlur}
         onFocus={handleFocus}
-        onMenuToggle={() => setActiveIndex(-1)}
+        onMenuToggle={handleMenuToggle}
         ref={typeaheadRef}
         renderInput={({ inputRef, referenceElementRef, inputClassName, ...inputProps }, state) => {
           // https://github.com/ericgio/react-bootstrap-typeahead/blob/746f26e5ee33bfdd186d64b03248b361647d834e/src/components/TypeaheadInputMulti.react.js
@@ -356,9 +382,9 @@ const CheckboxControl = ({ active, name, options, tags, setTags }) => {
         }}
       />
       {/* <Divider active={active} /> */}
-      <CheckBoxSectionContainer>
-        <CheckBoxSectionWrapper>
-          {filteredOptions.groupHeadings.map((heading, index) => {
+      <CheckboxSectionContainer>
+        <MemoizedCheckboxSectionWrapper>
+          {filteredOptions.groupHeadings.map((heading, index) => { // need to refactor this component to prevent unnecessary re-rendering on every state change
             const groupOptions = filteredOptions.groups[index]
             if (groupOptions.length === 0) {
               return null;
@@ -390,16 +416,16 @@ const CheckboxControl = ({ active, name, options, tags, setTags }) => {
               )
             }
           })}
-        </CheckBoxSectionWrapper>
-      </CheckBoxSectionContainer>
+        </MemoizedCheckboxSectionWrapper>
+      </CheckboxSectionContainer>
     </InputWrapper>
   )
 };
 
-export default CheckboxControl;
+export default log(CheckboxControl);
 
 /*
-// Internal _handleKeyDown method of Typeahead component that is overwritten by handleKeyDownOverride
+// Internal _handleKeyDown method of Typeahead component that is overwritten by handleKeyDown
 // and called at the end of the function:
  _handleKeyDown = (e: SyntheticKeyboardEvent<HTMLInputElement>) => {
     const { activeItem } = this.state;

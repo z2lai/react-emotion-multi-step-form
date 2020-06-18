@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import styled from "@emotion/styled";
 
 import { StyledForm, Heading, TitleContainer, FormBody, IconContainer, IconWrapper, InputContainer, NextButton, NextButtonIcon } from "./StyledComponents";
@@ -7,26 +7,28 @@ import Icon from "./Icon";
 import UrlControl from "./UrlControl";
 import RadioControl from "./RadioControl";
 import CheckboxControl from "./CheckboxControl";
+import log from "../tests/log";
 
-// Note: https://emotion.sh/docs/styled#styling-any-component
+const MemoizedTitle = React.memo(Title);
+const MemoizedIcon = React.memo(Icon);
+const MemoizedRadioControl = React.memo(RadioControl);
+const MemoizedCheckboxControl = React.memo(CheckboxControl);
 
 const Form = props => {
-  const typeOptions = ["guide", "tutorial", "reference"]; // should be queried from database in a useEffect hook
   // const factors = ["Beginner Friendly", "Deep Dive", "Comphrensive"]; // should be queried from database
 
   const [activePage, setActivePage] = useState(1);
   const [isScraped, setIsScraped] = useState(false);
   const [article, setArticle] = useState({
-    // url: '',
     type: '',
     tags: [],
     title: ''
   });
-  const [url, setUrl] = useState('');
+  const [url, setUrl] = useState(''); // url has to be separated from article object as we don't want all components that use article for props to re-render whenever we update article state with a new url through the input onChange event handler
   const [tagOptions, setTagOptions] = useState({
     groupHeadings: ['suggestions', 'parent categories', 'syntax', 'fundamentals'], // need to move this out of state as it never changes
     groups: [
-      [ 
+      [
         'object',
         'scope',
         'execution context',
@@ -100,10 +102,20 @@ const Form = props => {
   //     .then(result => console.log(result));
   // };
 
-  const handleUrlChange = url => {
-    console.log(url);
-    setUrl(url)
-  }
+  const memoizedhandleTypeChange = useCallback(
+    type => {
+      setArticle({ ...article, type })
+    },
+    []
+  );
+  
+  // Combine this function with the function above?
+  const memoizedhandleTagChange = useCallback(
+    tags => {
+      setArticle({ ...article, tags })
+    },
+    [article]
+  );
 
   const handleNext = event => {
     let page = activePage;
@@ -118,40 +130,39 @@ const Form = props => {
     <StyledForm>
       <Heading>Submit An Article To the Communal Curator</Heading>
       <TitleContainer>
-        {/* <Title value={article.url || 'Input Article URL'} active={activePage === 1} /> */}
-        <Title value={article.type || 'Select Resource Type'} active={activePage === 2} />
-        <Title value={'Select Article Tags'} active={activePage === 3} />
+        {/* <MemoizedTitle value={article.url || 'Input Article URL'} active={activePage === 1} /> */}
+        <MemoizedTitle value={article.type || 'Select Resource Type'} active={activePage === 2} />
+        <MemoizedTitle value={'Select Article Tags'} active={activePage === 3} />
       </TitleContainer>
       <FormBody page={activePage}>
         <IconContainer>
           <IconWrapper page={activePage}>
-            <Icon className="icon-link" active={activePage === 1} />
-            <Icon className="icon-tree" active={activePage === 2} />
-            <Icon className="icon-price-tags" active={activePage === 3} />
+            <MemoizedIcon className="icon-link" active={activePage === 1} />
+            <MemoizedIcon className="icon-tree" active={activePage === 2} />
+            <MemoizedIcon className="icon-price-tags" active={activePage === 3} />
           </IconWrapper>
         </IconContainer>
         <InputContainer>
           <UrlControl
+            name="url"
             active={activePage === 1}
-            // value={article.url}
             value={url}
-            handleChange={handleUrlChange}
+            handleChange={setUrl}
             setIsScraped={() => setIsScraped(true)}
             toggleError={toggleError}
           />
-          <RadioControl
-            active={activePage === 2}
+          <MemoizedRadioControl // this component probably does not need to be memoized as it's relatively small
             name="type"
+            active={activePage === 2}
             selection={article.type}
-            options={typeOptions}
-            setType={type => setArticle({ ...article, type })}
+            handleChange={memoizedhandleTypeChange}
           />
-          <CheckboxControl
-            active={activePage === 3}
+          <MemoizedCheckboxControl
             name="topics"
+            active={activePage === 3}
             options={tagOptions}
-            tags={article.tags} 
-            setTags={tags => setArticle({ ...article, tags })}
+            tags={article.tags}
+            setTags={memoizedhandleTagChange}
           />
         </InputContainer>
         <NextButton onClick={handleNext}>
@@ -162,4 +173,4 @@ const Form = props => {
   );
 }
 
-export default Form;
+export default log(Form);

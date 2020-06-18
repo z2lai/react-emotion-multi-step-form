@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "@emotion/styled";
 
+import log from "../tests/log";
+
 const StyledIcons = styled.div`
   height: 40px;
   width: 100%;
@@ -21,4 +23,4 @@ const Icon = props => (
   </StyledIcons>
 )
 
-export default Icon;
+export default log(Icon);
