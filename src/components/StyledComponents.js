@@ -2,62 +2,44 @@ import styled from "@emotion/styled";
 // Note: https://emotion.sh/docs/styled#styling-any-component
 
 export const StyledForm = styled.div`
+  margin: 100px auto;
   box-sizing: content-box;
   width: 900px;
   height: 500px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
   border: 3px double hsl(0, 0%, 13%); 
-  transform: translate(-50%, -50%);
   text-align: center;
+  perspective: 800px;
   ${props => `background: ${props.theme.colors.light.turqoise};`}
   &:after {
     content: " 🦄";
   }
 `
 
-export const TitleContainer = styled.div`
-  padding: 5px 0;
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: center;
-  font-size: 1.125rem;
-`
-
 export const Heading = styled.h1`
-  margin: 50px 0 20px 0;
+  margin: 50px 0 15px 0;
   font-size: 1.875rem;
 `
 
-export const FormBody = styled.div`
-  margin: 20px auto;
-  width: 500px;
-  max-height: 60px;
-  padding: 10px 8px;
-  overflow: hidden;
+export const TitleContainer = styled.div`
+  font-size: 1.5rem;
+  line-height: 1;
   display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
-  align-items: flex-start;
-  border-radius: 3px;
-  background-color: hsl(0, 0%, 100%);
-  box-shadow: 0 8px 10px hsl(120, 60%, 40%);
-  text-align: left;
-  transition: max-height 400ms ease-out;
-  ${props => (props.page === 3) ? "max-height: 240px;" : ""}
-  h1 {
-    margin: 0;
-    padding: 1.5rem 0;
-    font-size: 1.125rem;
-    text-align: center;
-  }
-`;
+  flex-flow: column nowrap;
+  align-items: center;
+`
+export const ErrorMessage = styled.div`
+  margin: 0 auto 5px auto;
+  height: 20px;
+  line-height: 20px;
+  font-size: 1.125rem;
+  color: hsl(16, 100%, 40%);
+`
 
 export const IconContainer = styled.div`
   height: 40px;
   width: 34px;
   overflow: hidden;
+  ${props => (props.page === 4) ? 'display: none' : ''};
 `
 
 export const IconWrapper = styled.div`
@@ -80,9 +62,11 @@ export const IconWrapper = styled.div`
 export const InputContainer = styled.div`
   position: relative;
   margin: 0 8px;
+  height: 220px;
   flex: 1;
   display: flex;
   flex-flow: column nowrap;
+  ${props => (props.page === 4) ? 'display: none' : ''};
 `
 
 export const InputWrapper = styled.div`
@@ -123,17 +107,22 @@ export const NextButton = styled.button`
   background: none;
   outline: none;
   cursor: pointer;
+  transition: transform 400ms;
   &:hover {
-    background: hsl(0, 0%, 95%);
+    background: hsl(0, 0%, 90%);
     border-radius: 3px;
-    transition: background 0.3s ease;
+    transition: background 0.3s ease, transform 400ms;
   }
-  &:active {
-    top: 2px;
-    background-color: hsl(0, 0%, 100%);
-    transition-property: none;
-  }
-  `
+  ${props => (props.page === 4) ? `
+    transform: rotate(-90deg);
+  ` : `
+    &:active {
+      top: 3px;
+      background-color: hsl(0, 0%, 100%);
+      transition-property: none;
+    }
+  `}
+`
 
 export const NextButtonIcon = styled.div`
   position: absolute;

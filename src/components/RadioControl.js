@@ -18,17 +18,15 @@ const StyledLabel = styled.label`
   transition: border 0.1s;
   ${props => `
     border: 1px solid white;
-    color: ${props.theme.colors.dark[props.type]};
+    color: ${props.theme.colors.dark[props.color]};
     ${props.checked ? `
       color: ${props.theme.colors.white};
-      background: ${props.theme.colors.dark[props.type]};
-      &:hover {
-        border: 1px solid ${props.theme.colors.light[props.type]};
-      }
+      background: ${props.theme.colors.dark[props.color]};
+      border: 1px solid ${props.theme.colors.light[props.color]};
     ` : `
       background: ${props.theme.colors.white};
       &:hover {
-        border: 1px solid ${props.theme.colors.base[props.type]};
+        border: 1px solid ${props.theme.colors.base[props.color]};
       }
     `}
   `}
@@ -36,27 +34,49 @@ const StyledLabel = styled.label`
 
 const HiddenRadio = styled.input`
   position: absolute;
-  opacity: 0;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  clip-path: inset(50%);
 `;
 
-const RadioButton = props => (
-  <StyledLabel type={props.value} checked={props.checked}>
-    <HiddenRadio type="radio" {...props} />
-    {props.value}
-  </StyledLabel>
+const RadioWrapper = styled.div`
+  input:focus + label {
+    box-shadow: ${props => `0 0 0 2px ${props.theme.colors.light[props.color]}`};
+  }
+`
+
+const RadioButton = ({ name, value, checked, onKeyPress, onChange }) => (
+  <RadioWrapper color={value}>
+    <HiddenRadio
+      type="radio"
+      name={name}
+      id={value}
+      value={value}
+      checked={checked}
+      onKeyPress={onKeyPress}
+      onChange={onChange}
+    />
+    <StyledLabel htmlFor={value} checked={checked} color={value}>
+      {value}
+    </StyledLabel>
+  </RadioWrapper>
 );
 
-const RadioControl = props => {
+const RadioControl = ({ active, name, selection, handleChange }) => {
   const options = ["guide", "tutorial", "reference"]; // should be queried from database in a useEffect hook
   return (
-    <InputWrapper active={props.active}>
+    <InputWrapper active={active}>
       {options.map(option => (
         <RadioButton
-          name={props.name}
           key={option}
+          name={name}
           value={option}
-          checked={option === props.selection}
-          onChange={event => props.handleChange(event.target.value)}
+          checked={option === selection}
+          onKeyPress={event => handleChange(event.target.value)}
+          onChange={event => handleChange(event.target.value)}
         />
       ))}
     </InputWrapper>

@@ -20,13 +20,13 @@ const StyledLabel = styled.label`
   text-transform: lowercase;
   cursor: pointer;
   ${props => `
-    font-weight: ${props.focused ? '600' : '400'};
+    font-weight: ${props.focusState ? '600' : '400'};
     color: ${props.checked ? props.theme.colors.dark.indigo : 'inherit'};
     :hover {
       color: ${props.theme.colors.dark.indigo};
     }
     input + div {
-      box-shadow: ${props.focused ? `0 0 0 2px ${props.theme.colors.base.indigo}` : `none`};
+      box-shadow: ${props.focusState ? `0 0 0 2px ${props.theme.colors.base.indigo}` : `none`};
     }
     input:focus + div {
       box-shadow: 0 0 0 2px ${props.theme.colors.base.indigo};
@@ -93,8 +93,8 @@ const TextWithHighlight = ({ text = '', highlight = '' }) => {
   return <span>{textWithHighlight}</span>
 }
 
-const CustomCheckbox = ({ name, value, highlight, focused, checked, onKeyPress, onChange }) => (
-  <StyledLabel checked={checked} focused={focused}>
+const CustomCheckbox = ({ name, value, highlight, autocomplete, checked, onKeyPress, onChange }) => (
+  <StyledLabel checked={checked} focusState={autocomplete}>
     <HiddenCheckbox
       type="checkbox"
       name={name}

@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from "react";
-import styled from "@emotion/styled";
 
-import { StyledForm, Heading, TitleContainer, FormBody, IconContainer, IconWrapper, InputContainer, NextButton, NextButtonIcon } from "./StyledComponents";
+import { StyledForm, Heading, TitleContainer, ErrorMessage, IconContainer, IconWrapper, InputContainer, NextButton, NextButtonIcon } from "./StyledComponents";
 import Title from "./Title";
+import FormBody from "./FormBody";
 import Icon from "./Icon";
 import UrlControl from "./UrlControl";
 import RadioControl from "./RadioControl";
@@ -20,11 +20,14 @@ const Form = props => {
   const [activePage, setActivePage] = useState(1);
   const [isScraped, setIsScraped] = useState(false);
   const [article, setArticle] = useState({
+    url: '',
     type: '',
     tags: [],
     title: ''
   });
   const [url, setUrl] = useState(''); // url has to be separated from article object as we don't want all components that use article for props to re-render whenever we update article state with a new url through the input onChange event handler
+  const [type, setType] = useState('');
+  const [tags, setTags] = useState([]);
   const [tagOptions, setTagOptions] = useState({
     groupHeadings: ['suggestions', 'parent categories', 'syntax', 'fundamentals'], // need to move this out of state as it never changes
     groups: [
@@ -67,17 +70,16 @@ const Form = props => {
   });
 
   const [error, setError] = useState({
-    errorStatus: false,
-    errorMessage: ''
+    status: false,
+    message: ''
   })
 
   // Use this function for all input validations
   const toggleError = message => {
     if (message) {
-      setError({ errorStatus: true, errorMessage: message });
-      alert(`Error: ${message}`);
+      setError({ status: true, message });
     } else {
-      setError({ errorStatus: false, errorMessage: '' });
+      setError({ status: false, message: '' });
     }
   }
   // setFormState = stateIndex => this.setState({ formState: this.formStates[stateIndex] });
@@ -102,70 +104,115 @@ const Form = props => {
   //     .then(result => console.log(result));
   // };
 
+  const handleUrlChange = url => {
+    toggleError();
+    setUrl(url);
+  }
+
   const memoizedhandleTypeChange = useCallback(
     type => {
-      setArticle({ ...article, type })
-    },
-    []
-  );
-  
-  // Combine this function with the function above?
-  const memoizedhandleTagChange = useCallback(
-    tags => {
-      setArticle({ ...article, tags })
+      toggleError();
+      setType(type);
     },
     [article]
   );
 
+  // Combine this function with the function above?
+  const memoizedhandleTagChange = useCallback(
+    tags => {
+      toggleError();
+      setTags(tags);
+    },
+    [article]
+  );
+  
+  const submit = () => {
+    console.log('Article submitted!');
+  };
+
   const handleNext = event => {
-    let page = activePage;
-    if (page !== 3) {
-      setActivePage(page + 1);
+    switch (activePage) {
+      case 1:
+        if (url === '') return toggleError('Please fill in the URL!');
+        setArticle({ ...article, url });
+        break;
+      case 2:
+        if (type === '') return toggleError('Please select a Type!');
+        setArticle({ ...article, type });
+        break;
+      case 3:
+        if (tags.length === 0) return toggleError('Please select a Tag!');
+        setArticle({ ...article, tags });
+        break;
+    }
+    if (error.status = true) toggleError();
+
+    if (activePage !== 4) {
+      setActivePage(activePage + 1);
     } else {
-      setActivePage(1);
+      submit();
     }
   };
+
+  const handleTitleClick = page => {
+    setActivePage(page);
+  }
 
   return (
     <StyledForm>
       <Heading>Submit An Article To the Communal Curator</Heading>
       <TitleContainer>
-        {/* <MemoizedTitle value={article.url || 'Input Article URL'} active={activePage === 1} /> */}
-        <MemoizedTitle value={article.type || 'Select Resource Type'} active={activePage === 2} />
-        <MemoizedTitle value={'Select Article Tags'} active={activePage === 3} />
+        <MemoizedTitle 
+          value={article.url || 'Input Article URL'} 
+          page={1} 
+          active={activePage === 1} 
+          setActivePage={setActivePage} 
+        />
+        <MemoizedTitle 
+          value={article.type || 'Select Resource Type'} 
+          page={2} 
+          active={activePage === 2} 
+          setActivePage={setActivePage} 
+        />
+        <MemoizedTitle 
+          value={(article.tags.length && article.tags.join(', ')) || 'Select Article Tags'} 
+          page={3} 
+          active={activePage === 3} 
+          setActivePage={setActivePage} 
+        />
       </TitleContainer>
-      <FormBody page={activePage}>
-        <IconContainer>
+      <ErrorMessage>{error.message}</ErrorMessage>
+      <FormBody page={activePage} errorStatus={error.status}>
+        <IconContainer page={activePage}>
           <IconWrapper page={activePage}>
             <MemoizedIcon className="icon-link" active={activePage === 1} />
             <MemoizedIcon className="icon-tree" active={activePage === 2} />
             <MemoizedIcon className="icon-price-tags" active={activePage === 3} />
           </IconWrapper>
         </IconContainer>
-        <InputContainer>
+        <InputContainer page={activePage}>
           <UrlControl
             name="url"
             active={activePage === 1}
             value={url}
-            handleChange={setUrl}
+            handleChange={handleUrlChange}
             setIsScraped={() => setIsScraped(true)}
             toggleError={toggleError}
           />
           <MemoizedRadioControl // this component probably does not need to be memoized as it's relatively small
             name="type"
             active={activePage === 2}
-            selection={article.type}
+            selection={type}
             handleChange={memoizedhandleTypeChange}
           />
           <MemoizedCheckboxControl
             name="topics"
             active={activePage === 3}
             options={tagOptions}
-            tags={article.tags}
             setTags={memoizedhandleTagChange}
           />
         </InputContainer>
-        <NextButton onClick={handleNext}>
+        <NextButton onClick={handleNext} page={activePage}>
           <NextButtonIcon />
         </NextButton>
       </FormBody>

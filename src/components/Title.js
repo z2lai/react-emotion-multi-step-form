@@ -1,4 +1,5 @@
 import { jsx } from "@emotion/core";
+import { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 /** @jsx jsx */
 
@@ -12,22 +13,43 @@ import log from "../tests/log";
 //   `
 */
 
+// Might need to change this to a link element for accessibility
 const StyledTitle = styled.span`
-  font-size: 1.25rem;
+  margin: 5px 0;
+  text-transform: capitalize;
+  transition: all 600ms;
   ${props => props.active ? `
-    opacity: 1;
-    color: ${props.theme.colors.black};  
-    transition: all 1200ms;
-  ` : `  
-    opacity: 0.5;
+    color: ${props.theme.colors.dark.indigo};  
+  ` : props.activated ? `
+    color: ${props.theme.colors.extraDark.indigo};
+    cursor: pointer;
+  ` : `
     color: ${props.theme.colors.white};  
+    opacity: 0.5;
   `}
 `;
 
-const Title = props => (
-  <StyledTitle active={props.active}>
-    {props.value}
-  </StyledTitle>
-)
+const Title = ({ active, value, page, setActivePage }) => {
+  const [activated, setActivated] = useState(false);
+
+  useEffect(() => {
+    if (active && !activated) {
+      setActivated(true);
+    }
+  }, [active])
+
+  const handleClick = event => {
+    if (activated) {
+      console.log('click!');
+      setActivePage(page);
+    }
+  }
+
+  return (
+    <StyledTitle active={active} activated={activated} onClick={handleClick}>
+      {value}
+    </StyledTitle>
+  )
+}
 
 export default log(Title);

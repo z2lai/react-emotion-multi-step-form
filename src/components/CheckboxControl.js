@@ -132,7 +132,8 @@ const CheckboxWrapper = styled.div`
   padding: 0 2px;
 `
 
-const CheckboxControl = ({ active, name, options, tags, setTags }) => {
+const CheckboxControl = ({ active, name, options, setTags }) => {
+  console.log('CheckboxControl Re-rendered!');
   const [filter, setFilter] = useState(''); // create custom hook to debounce
   const [filteredOptions, setFilteredOptions] = useState(options);
   const [selected, setSelected] = useState([]);
@@ -153,15 +154,16 @@ const CheckboxControl = ({ active, name, options, tags, setTags }) => {
   const UP = 38;
   const DOWN = 40;
   const DEBOUNCETIME = 100;
-  const THROTTLEPERIOD = 100;
+  const THROTTLEPERIOD = 10;
 
   const handleInputChange = inputValue => {
     console.log("Input Changed")
-    console.log(inputNodeRef.current.value);
+    console.log(inputValue);
+    // console.log(inputNodeRef.current.value);
     setActiveIndex(-1);
     // Since there's a debounce delay in this method handling input change, inputValue might be stale if the input node value was modified
-    // immediately through a more inner non-debounced handler (the one attached to Input component). So it's better to updateFilter with 
-    // the actual input node value to get the most updated value
+    // immediately after through another non-debounced handler (the one that handles 'Enter' key events and sets input value to ''). 
+    // So it's better to updateFilter with the actual input node value to get the most updated value (uncontrolled input approach with refs)
     // updateFilter(inputValue);
     updateFilter(inputNodeRef.current.value)
   }
@@ -337,6 +339,10 @@ const CheckboxControl = ({ active, name, options, tags, setTags }) => {
     }
   }, [active]);
 
+  useEffect(() => {
+    setTags(selected);
+  }, [selected]);
+
   let optionsIndexCounter = -1; // find a better place to store this index counter
 
   return (
@@ -349,7 +355,7 @@ const CheckboxControl = ({ active, name, options, tags, setTags }) => {
         // clearButton
         options={optionsArray}
         // onKeyDown={e => console.log('onKeyDown Prop!')}
-        onInputChange={debounce(handleInputChange, DEBOUNCETIME)} // only includes input changes directly from keyboard keys
+        onInputChange={debounce(handleInputChange, DEBOUNCETIME)} // only handles direct input changes from editing keys, "Enter" is excluded
         minLength={1} // to activate menu/hint
         selected={selected}
         onChange={handleInputSelection}
@@ -403,7 +409,7 @@ const CheckboxControl = ({ active, name, options, tags, setTags }) => {
                             name={name}
                             value={option}
                             highlight={filter}
-                            focused={optionsIndexCounter === activeIndex}
+                            autocomplete={optionsIndexCounter === activeIndex}
                             checked={selected.includes(option)}
                             onKeyPress={handleCheckboxKeyPress}
                             onChange={handleCheckboxChange}
