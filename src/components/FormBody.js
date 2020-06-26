@@ -43,23 +43,21 @@ const StyledFormBody = styled.div`
   border-radius: 3px;
   background-color: hsl(0, 0%, 100%);
   text-align: left;
-  ${props => `
-    ${(props.page === 3) ? `
-      max-height: 240px;
-      transition: max-height 10000ms ease-out;
-    ` : (props.page === 4) ? `
-      max-width: 120px;
-      max-height: 40px;
-      padding: 0px 8px;
-    ` : `
+  ${props => (props.page === 3) ? `
+    max-height: 240px;
+    transition: max-height 400ms ease-out;
+  ` : (props.page === 4) ? `
+    max-width: 120px;
+    max-height: 40px;
+    padding: 0px 8px;
+  ` : `
   `}
-    ${props.errorStatus ? css`
-      box-shadow: 0 8px 10px hsl(16, 100%, 40%);
-      animation: ${headShake} .5s  ease-in-out infinite;
-    ` : `
-      box-shadow: 0 8px 10px hsl(120, 60%, 40%);
-      animation: none;
-    `}
+  ${props => props.errorStatus ? css`
+    box-shadow: 0 8px 10px hsl(16, 100%, 40%);
+    animation: ${headShake} .5s  ease-in-out infinite;
+  ` : `
+    box-shadow: 0 8px 10px hsl(120, 60%, 40%);
+    animation: none;
   `}
   h1 {
     margin: 0;

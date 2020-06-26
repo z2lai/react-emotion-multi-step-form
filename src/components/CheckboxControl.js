@@ -335,7 +335,9 @@ const CheckboxControl = ({ active, name, options, setTags }) => {
 
   useEffect(() => {
     if (active) {
-      inputNodeRef.current.focus();
+      // Delay focus until after FormBody has finished height transition, otherwise the content won't be properly positioned
+      // at the start of the transition and will shift during transition
+      setTimeout(() => inputNodeRef.current.focus(), 400);
     }
   }, [active]);
 
