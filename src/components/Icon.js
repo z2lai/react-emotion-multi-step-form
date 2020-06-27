@@ -9,17 +9,19 @@ const StyledIcons = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  ${props => props.active ? `
-    visibility: visible;
-  ` : `
-    visibility: hidden;
-    transition: visibility 0s linear 600ms;
+  transition: opacity 600ms, transform 600ms;
+  ${props => `
+    ${(props.page === 4) ? `
+      opacity: 0;
+      transform: rotate(360deg);
+    ` : `
+    `}
   `}
 `;
 
-const Icon = props => (
-  <StyledIcons active={props.active}>
-    <div className={props.className}></div>
+const Icon = ({ className, active, page }) => (
+  <StyledIcons active={active} page={page}>
+    <div className={className}></div>
   </StyledIcons>
 )
 

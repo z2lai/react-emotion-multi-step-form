@@ -32,8 +32,8 @@ const headShake = keyframes`
 const StyledFormBody = styled.div`
   margin: 0 auto 20px auto;
   max-width: 500px;
-  max-height: 60px;
-  transition: max-height 150ms ease-out, max-width 400ms ease-out;
+  height: 60px;
+  transition: height 150ms ease-out, max-width 150ms ease-out;
   padding: 10px 8px;
   overflow: hidden;
   display: flex;
@@ -44,12 +44,13 @@ const StyledFormBody = styled.div`
   background-color: hsl(0, 0%, 100%);
   text-align: left;
   ${props => (props.page === 3) ? `
-    max-height: 240px;
-    transition: max-height 400ms ease-out;
+    height: 240px;
+    transition: height 400ms ease-out, max-width 150ms ease-out;
   ` : (props.page === 4) ? `
     max-width: 120px;
-    max-height: 40px;
+    height: 40px;
     padding: 0px 8px;
+    transition: height 150ms ease-out, max-width 400ms ease-out;
   ` : `
   `}
   ${props => props.errorStatus ? css`

@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from "react";
 
-import { StyledForm, Heading, TitleContainer, ErrorMessage, IconContainer, IconWrapper, InputContainer, NextButton, NextButtonIcon } from "./StyledComponents";
+import { StyledForm, Heading, TitleContainer, ErrorMessage, IconContainer, IconWrapper, InputContainer, 
+  SubmitLabel, NextButton, NextButtonIcon } from "./StyledComponents";
 import Title from "./Title";
 import FormBody from "./FormBody";
 import Icon from "./Icon";
@@ -187,7 +188,7 @@ const Form = props => {
           <IconWrapper page={activePage}>
             <MemoizedIcon className="icon-link" active={activePage === 1} />
             <MemoizedIcon className="icon-tree" active={activePage === 2} />
-            <MemoizedIcon className="icon-price-tags" active={activePage === 3} />
+            <MemoizedIcon className="icon-price-tags" active={activePage === 3} page={activePage} />
           </IconWrapper>
         </IconContainer>
         <InputContainer page={activePage}>
@@ -211,6 +212,7 @@ const Form = props => {
             options={tagOptions}
             setTags={memoizedhandleTagChange}
           />
+          <SubmitLabel page={activePage} />
         </InputContainer>
         <NextButton onClick={handleNext} page={activePage}>
           <NextButtonIcon />

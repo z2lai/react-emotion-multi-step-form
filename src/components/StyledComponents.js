@@ -39,7 +39,6 @@ export const IconContainer = styled.div`
   height: 40px;
   width: 34px;
   overflow: hidden;
-  ${props => (props.page === 4) ? 'display: none' : ''};
 `
 
 export const IconWrapper = styled.div`
@@ -66,7 +65,6 @@ export const InputContainer = styled.div`
   flex: 1;
   display: flex;
   flex-flow: column nowrap;
-  ${props => (props.page === 4) ? 'display: none' : ''};
 `
 
 export const InputWrapper = styled.div`
@@ -75,7 +73,7 @@ export const InputWrapper = styled.div`
   max-height: 220px;
   overflow: hidden;
   display: flex;
-  flex-flow: ${props => props.column ? 'column nowrap' : 'row wrap'};
+  flex-flow: ${props => props.column ? 'column nowrap' : 'row nowrap'};
   justify-content: space-evenly;
   align-items: center;
   font-size: 1.125rem;
@@ -99,6 +97,26 @@ export const StyledInput = styled.input`
   letter-spacing: 1px;
 `;
 
+export const SubmitLabel = styled.div`
+  font-size: 1.125rem;
+  font-weight: 500;
+  &:before {
+    content: "Submit";
+    position: absolute;
+    top: 8px;
+    left: -30px;
+    transition: opacity 300ms ease-in-out 150ms, transform 300ms ease-in-out 150ms;
+    ${props => (props.page === 4) ? `
+      opacity: 1;
+      visibility: visible;
+    ` : `
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(-60px);
+    `}
+  }
+`
+
 export const NextButton = styled.button`
   position: relative;
   height: 40px;
@@ -107,11 +125,11 @@ export const NextButton = styled.button`
   background: none;
   outline: none;
   cursor: pointer;
-  transition: transform 400ms;
+  transition: transform 300ms;
   &:hover {
     background: hsl(0, 0%, 90%);
     border-radius: 3px;
-    transition: background 0.3s ease, transform 400ms;
+    transition: background 300ms ease, transform 300ms;
   }
   ${props => (props.page === 4) ? `
     transform: rotate(-90deg);
