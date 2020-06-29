@@ -5,7 +5,7 @@ import { css, keyframes } from '@emotion/core';
 import log from "../tests/log";
 
 const headShake = keyframes`
-  0 {
+  0% {
     transform: translateX(0)
   }
   12.5% {
@@ -25,6 +25,16 @@ const headShake = keyframes`
   }
 `
 
+const bounceRight = keyframes`
+  0%,
+  100% {
+    transform: translate(-1px, -8px);
+  }
+  50% {
+    transform: translate(-1px, 0px);
+  }
+`
+
 // When interpolating keyframes into plain strings you have to wrap it in css call, like this: css`animation: ${keyframes({ /* ... */ })}`
 // https://github.com/emotion-js/emotion/issues/1066#issuecomment-546703172
 // How to use animation name as a partial (with other properties defined with prop values): https://styled-components.com/docs/api#keyframes
@@ -34,7 +44,7 @@ const StyledFormBody = styled.div`
   max-width: 500px;
   height: 60px;
   transition: height 150ms ease-out, max-width 150ms ease-out;
-  padding: 10px 8px;
+  padding: 10px;
   overflow: hidden;
   display: flex;
   flex-flow: row nowrap;
@@ -46,11 +56,20 @@ const StyledFormBody = styled.div`
   ${props => (props.page === 3) ? `
     height: 240px;
     transition: height 400ms ease-out, max-width 150ms ease-out;
-  ` : (props.page === 4) ? `
+  ` : (props.page === 4) ? css`
     max-width: 120px;
     height: 40px;
-    padding: 0px 8px;
+    padding: 0px 10px;
     transition: height 150ms ease-out, max-width 400ms ease-out;
+    z-index: 1;
+    cursor: pointer;
+    &:active {
+      box-shadow: 0 4px 5px hsl(120,60%,40%);
+      transform: translateY(2px);
+    }
+    &:hover > button > div {
+      animation: ${bounceRight} 1s ease-in-out infinite;
+    }
   ` : `
   `}
   ${props => props.errorStatus ? css`
@@ -68,9 +87,23 @@ const StyledFormBody = styled.div`
   }
 `;
 
-const FormBody = ({ page, errorStatus, children }) => {
+const FormBody = ({ page, errorState, children }) => {
   console.log('FormBody Re-rendered!');
+  const [buttonAttributes, setButtonAttributes] = useState({
+    role: "",
+    tabIndex: "-1",
+    onClick: null,
+    onKeyUp: null,
+  });
   const ref = useRef();
+
+  // Add submit form function and animations
+  const handleInteraction = event => {
+    if (event.button === 0 || event.key === 'Enter' || event.key === ' ') {
+      event.stopPropagation();
+      console.log('Form Submitted!');
+    }
+  }
 
   // When errorStatus gets set to true, FormBody will re-render with animation. Once animation ends, DOM node style will be manually changed.
   const handleAnimationIteration = event => {
@@ -81,11 +114,42 @@ const FormBody = ({ page, errorStatus, children }) => {
   useEffect(() => {
     // Only the onClick event of the Next button can toggle errorStatus to true
     // The onChange event is the only other event and they all toggle errorStatus to false
-    if (errorStatus) ref.current.style.animationPlayState = "running";
+    if (errorState) ref.current.style.animationPlayState = "running";
   });
 
+
+  useEffect(() => {
+    if (page === 4) {
+      setButtonAttributes({
+        role: "button",
+        tabIndex: "0",
+        onClick: handleInteraction,
+        onKeyUp: handleInteraction,
+      });
+    } else {
+      setButtonAttributes({
+        role: "",
+        tabIndex: "-1",
+        onClick: null,
+        onKeyUp: null,
+      });
+    }
+  }, [page]);
+
+  useEffect(() => {
+    if (buttonAttributes.role === 'button') {
+      setTimeout(() => ref.current.focus(), 400);
+    }
+  }, [buttonAttributes]);
+
   return (
-    <StyledFormBody ref={ref} page={page} errorStatus={errorStatus} onAnimationIteration={handleAnimationIteration}>
+    <StyledFormBody
+      ref={ref}
+      page={page}
+      errorStatus={errorState}
+      onAnimationIteration={handleAnimationIteration}
+      {...buttonAttributes}
+    >
       {children}
     </StyledFormBody>
   )

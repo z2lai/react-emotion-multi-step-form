@@ -71,16 +71,16 @@ const Form = props => {
   });
 
   const [error, setError] = useState({
-    status: false,
+    state: false,
     message: ''
   })
 
   // Use this function for all input validations
-  const toggleError = message => {
+  const triggerError = message => {
     if (message) {
-      setError({ status: true, message });
+      setError({ state: true, message });
     } else {
-      setError({ status: false, message: '' });
+      setError({ state: false, message: '' });
     }
   }
   // setFormState = stateIndex => this.setState({ formState: this.formStates[stateIndex] });
@@ -106,13 +106,13 @@ const Form = props => {
   // };
 
   const handleUrlChange = url => {
-    toggleError();
+    setError();
     setUrl(url);
   }
 
   const memoizedhandleTypeChange = useCallback(
     type => {
-      toggleError();
+      setError();
       setType(type);
     },
     [article]
@@ -121,7 +121,7 @@ const Form = props => {
   // Combine this function with the function above?
   const memoizedhandleTagChange = useCallback(
     tags => {
-      toggleError();
+      setError();
       setTags(tags);
     },
     [article]
@@ -134,19 +134,19 @@ const Form = props => {
   const handleNext = event => {
     switch (activePage) {
       case 1:
-        if (url === '') return toggleError('Please fill in the URL!');
+        if (url === '') return triggerError('Please fill in the URL!');
         setArticle({ ...article, url });
         break;
       case 2:
-        if (type === '') return toggleError('Please select a Type!');
+        if (type === '') return triggerError('Please select a Type!');
         setArticle({ ...article, type });
         break;
       case 3:
-        if (tags.length === 0) return toggleError('Please select a Tag!');
+        if (tags.length === 0) return triggerError('Please select a Tag!');
         setArticle({ ...article, tags });
         break;
     }
-    if (error.status = true) toggleError();
+    if (error.state = true) triggerError();
 
     if (activePage !== 4) {
       setActivePage(activePage + 1);
@@ -167,23 +167,26 @@ const Form = props => {
           value={article.url || 'Input Article URL'} 
           page={1} 
           active={activePage === 1} 
-          setActivePage={setActivePage} 
-        />
+          setActivePage={setActivePage}
+          errorState={error.state}
+          />
         <MemoizedTitle 
           value={article.type || 'Select Resource Type'} 
           page={2} 
           active={activePage === 2} 
           setActivePage={setActivePage} 
-        />
+          errorState={error.state}
+          />
         <MemoizedTitle 
           value={(article.tags.length && article.tags.join(', ')) || 'Select Article Tags'} 
           page={3} 
           active={activePage === 3} 
           setActivePage={setActivePage} 
+          errorState={error.state}
         />
       </TitleContainer>
       <ErrorMessage>{error.message}</ErrorMessage>
-      <FormBody page={activePage} errorStatus={error.status}>
+      <FormBody page={activePage} errorState={error.state}>
         <IconContainer page={activePage}>
           <IconWrapper page={activePage}>
             <MemoizedIcon className="icon-link" active={activePage === 1} />
@@ -198,7 +201,7 @@ const Form = props => {
             value={url}
             handleChange={handleUrlChange}
             setIsScraped={() => setIsScraped(true)}
-            toggleError={toggleError}
+            toggleError={triggerError}
           />
           <MemoizedRadioControl // this component probably does not need to be memoized as it's relatively small
             name="type"
@@ -214,7 +217,7 @@ const Form = props => {
           />
           <SubmitLabel page={activePage} />
         </InputContainer>
-        <NextButton onClick={handleNext} page={activePage}>
+        <NextButton onClick={handleNext} page={activePage} disabled={activePage === 4}>
           <NextButtonIcon />
         </NextButton>
       </FormBody>

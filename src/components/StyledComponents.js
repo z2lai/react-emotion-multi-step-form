@@ -103,8 +103,8 @@ export const SubmitLabel = styled.div`
   &:before {
     content: "Submit";
     position: absolute;
-    top: 8px;
-    left: -30px;
+    top: 7px;
+    left: -34px;
     transition: opacity 300ms ease-in-out 150ms, transform 300ms ease-in-out 150ms;
     ${props => (props.page === 4) ? `
       opacity: 1;
@@ -124,21 +124,24 @@ export const NextButton = styled.button`
   border: 1px black;
   background: none;
   outline: none;
-  cursor: pointer;
   transition: transform 300ms;
-  &:hover {
-    background: hsl(0, 0%, 90%);
-    border-radius: 3px;
-    transition: background 300ms ease, transform 300ms;
-  }
-  ${props => (props.page === 4) ? `
-    transform: rotate(-90deg);
-  ` : `
-    &:active {
-      top: 3px;
-      background-color: hsl(0, 0%, 100%);
-      transition-property: none;
-    }
+  cursor: pointer;
+  ${props => `
+    ${(props.page === 4) ? `
+      transform: rotate(-90deg);
+      pointer-events: none;
+    ` : `
+      &:hover {
+        background: hsl(0, 0%, 90%);
+        border-radius: 3px;
+        transition: background 300ms ease, transform 300ms;
+      }
+      &:active {
+        top: 3px;
+        background-color: hsl(0, 0%, 100%);
+        transition-property: none;
+      }
+    `}
   `}
 `
 

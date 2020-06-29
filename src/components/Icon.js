@@ -9,7 +9,7 @@ const StyledIcons = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: opacity 600ms, transform 600ms;
+  transition: opacity 600ms, transform 400ms;
   ${props => `
     ${(props.page === 4) ? `
       opacity: 0;
