@@ -29,7 +29,7 @@ const StyledTitle = styled.span`
   `}
 `;
 
-const Title = ({ active, value, page, setActivePage, errorState }) => {
+const Title = ({ active, value, page, changeActivePage, errorState }) => {
   const [activated, setActivated] = useState(false);
 
   useEffect(() => {
@@ -39,9 +39,9 @@ const Title = ({ active, value, page, setActivePage, errorState }) => {
   }, [active])
 
   const handleClick = event => {
-    if (activated && !errorState) {
+    if (activated && !active) {
       console.log('click!');
-      setActivePage(page);
+      changeActivePage(page);
     }
   }
 

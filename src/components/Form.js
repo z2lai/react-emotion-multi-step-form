@@ -1,7 +1,9 @@
 import React, { useState, useCallback } from "react";
 
-import { StyledForm, Heading, TitleContainer, ErrorMessage, IconContainer, IconWrapper, InputContainer, 
-  SubmitLabel, NextButton, NextButtonIcon } from "./StyledComponents";
+import {
+  StyledForm, Heading, TitleContainer, ErrorMessage, IconContainer, IconWrapper, InputContainer,
+  SubmitLabel, NextButton, NextButtonIcon
+} from "./StyledComponents";
 import Title from "./Title";
 import FormBody from "./FormBody";
 import Icon from "./Icon";
@@ -75,14 +77,6 @@ const Form = props => {
     message: ''
   })
 
-  // Use this function for all input validations
-  const triggerError = message => {
-    if (message) {
-      setError({ state: true, message });
-    } else {
-      setError({ state: false, message: '' });
-    }
-  }
   // setFormState = stateIndex => this.setState({ formState: this.formStates[stateIndex] });
 
   // updateState = (stateProperty, stateValue) => this.setState({ [stateProperty]: stateValue });
@@ -106,13 +100,15 @@ const Form = props => {
   // };
 
   const handleUrlChange = url => {
-    setError();
+    console.log('handleUrlChange')
+    setErrorMessage();
     setUrl(url);
   }
 
   const memoizedhandleTypeChange = useCallback(
     type => {
-      setError();
+      console.log('handleType');
+      setErrorMessage();
       setType(type);
     },
     [article]
@@ -121,67 +117,74 @@ const Form = props => {
   // Combine this function with the function above?
   const memoizedhandleTagChange = useCallback(
     tags => {
-      setError();
+      console.log('handleTag');
+      setErrorMessage();
       setTags(tags);
     },
     [article]
   );
-  
+
   const submit = () => {
     console.log('Article submitted!');
   };
 
-  const handleNext = event => {
+  const setErrorMessage = message => {
+    if (message) {
+      setError({ state: true, message });
+    } else {
+      setError({ state: false, message: '' });
+    }
+  }
+
+  const changeActivePage = newActivePage => {
+    const isNextPage = newActivePage > activePage;
+
     switch (activePage) {
       case 1:
-        if (url === '') return triggerError('Please fill in the URL!');
+        if (isNextPage && url === '') return setErrorMessage('Please fill in the URL!');
         setArticle({ ...article, url });
         break;
       case 2:
-        if (type === '') return triggerError('Please select a Type!');
+        if (isNextPage && type === '') return setErrorMessage('Please select a Type!');
         setArticle({ ...article, type });
         break;
       case 3:
-        if (tags.length === 0) return triggerError('Please select a Tag!');
+        if (isNextPage && tags.length === 0) return setErrorMessage('Please select a Tag!');
         setArticle({ ...article, tags });
         break;
     }
-    if (error.state = true) triggerError();
-
-    if (activePage !== 4) {
-      setActivePage(activePage + 1);
-    } else {
-      submit();
-    }
-  };
-
-  const handleTitleClick = page => {
-    setActivePage(page);
+    setErrorMessage();
+    setActivePage(newActivePage);
   }
+
+  const handleNext = event => {
+    // if (error.state = true) setErrorMessage();
+    changeActivePage(activePage + 1);
+  };
 
   return (
     <StyledForm>
       <Heading>Submit An Article To the Communal Curator</Heading>
       <TitleContainer>
-        <MemoizedTitle 
-          value={article.url || 'Input Article URL'} 
-          page={1} 
-          active={activePage === 1} 
-          setActivePage={setActivePage}
+        <MemoizedTitle
+          value={article.url || 'Input Article URL'}
+          page={1}
+          active={activePage === 1}
+          changeActivePage={changeActivePage}
           errorState={error.state}
-          />
-        <MemoizedTitle 
-          value={article.type || 'Select Resource Type'} 
-          page={2} 
-          active={activePage === 2} 
-          setActivePage={setActivePage} 
+        />
+        <MemoizedTitle
+          value={article.type || 'Select Resource Type'}
+          page={2}
+          active={activePage === 2}
+          changeActivePage={changeActivePage}
           errorState={error.state}
-          />
-        <MemoizedTitle 
-          value={(article.tags.length && article.tags.join(', ')) || 'Select Article Tags'} 
-          page={3} 
-          active={activePage === 3} 
-          setActivePage={setActivePage} 
+        />
+        <MemoizedTitle
+          value={(article.tags.length && article.tags.join(', ')) || 'Select Article Tags'}
+          page={3}
+          active={activePage === 3}
+          changeActivePage={changeActivePage}
           errorState={error.state}
         />
       </TitleContainer>
@@ -201,7 +204,7 @@ const Form = props => {
             value={url}
             handleChange={handleUrlChange}
             setIsScraped={() => setIsScraped(true)}
-            toggleError={triggerError}
+            setErrorMessage={setErrorMessage}
           />
           <MemoizedRadioControl // this component probably does not need to be memoized as it's relatively small
             name="type"

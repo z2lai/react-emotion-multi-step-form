@@ -72,7 +72,7 @@ const StyledFormBody = styled.div`
     }
   ` : `
   `}
-  ${props => props.errorStatus ? css`
+  ${props => props.errorState ? css`
     box-shadow: 0 8px 10px hsl(16, 100%, 40%);
     animation: ${headShake} .5s  ease-in-out infinite;
   ` : `
@@ -97,7 +97,7 @@ const FormBody = ({ page, errorState, children }) => {
   });
   const ref = useRef();
 
-  // Add submit form function and animations
+  // Add submit form function and animations for page 4
   const handleInteraction = event => {
     if (event.button === 0 || event.key === 'Enter' || event.key === ' ') {
       event.stopPropagation();
@@ -105,15 +105,15 @@ const FormBody = ({ page, errorState, children }) => {
     }
   }
 
-  // When errorStatus gets set to true, FormBody will re-render with animation. Once animation ends, DOM node style will be manually changed.
+  // When errorState gets set to true, FormBody will re-render with animation. Once the first iteration finishes, the animation should pause
   const handleAnimationIteration = event => {
     // Manually change DOM node instead of setting state to avoid re-render
     ref.current.style.animationPlayState = "paused"
   }
 
   useEffect(() => {
-    // Only the onClick event of the Next button can toggle errorStatus to true
-    // The onChange event is the only other event and they all toggle errorStatus to false
+    // Only the onClick event of NextButton or Title can set errorState to true
+    // Every other action should set errorState to false, otherwise the animation will run
     if (errorState) ref.current.style.animationPlayState = "running";
   });
 
@@ -146,7 +146,7 @@ const FormBody = ({ page, errorState, children }) => {
     <StyledFormBody
       ref={ref}
       page={page}
-      errorStatus={errorState}
+      errorState={errorState}
       onAnimationIteration={handleAnimationIteration}
       {...buttonAttributes}
     >

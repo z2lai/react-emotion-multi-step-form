@@ -342,7 +342,8 @@ const CheckboxControl = ({ active, name, options, setTags }) => {
   }, [active]);
 
   useEffect(() => {
-    setTags(selected);
+    setTags(selected); //! this is being called on initial render which triggers a re-render of formBody and the entire tree
+    console.log('Tags set!');
   }, [selected]);
 
   let optionsIndexCounter = -1; // find a better place to store this index counter
