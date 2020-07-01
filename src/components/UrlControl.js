@@ -6,7 +6,7 @@ import log from "../tests/log";
 
 // const testUrl = "https://css-tricks.com/javascript-scope-closures/";
 
-const UrlControl = props => {
+const UrlControl = React.forwardRef(({ active, value, handleChange, setIsScraped }, ref) => {
   const validateUrl = url => {
     if (url.length > 0) return url;
   };
@@ -22,33 +22,35 @@ const UrlControl = props => {
     return topics;
   };
 
-  const submitUrl = event => {
-    const cleanUrl = this.validateUrl(props.url);
-    if (!cleanUrl) {
-      props.toggleError('Invalid URL');
-      return
-    }
-    props.toggleError();
-    fetch(`/articles/scrape?url=${cleanUrl}`)
-      .then(res => res.json()) // body.json() returns another promise
-      .then(article => {
-        let tagOptions = suggestTags(article.topics, article.parentTopics);
-        props.setTagOptions(tagOptions);
-        props.setIsScraped();
-      })
-      .catch(err => console.log(err));
-  };
+  // const submitUrl = event => {
+  //   const cleanUrl = this.validateUrl(props.url);
+  //   if (!cleanUrl) {
+  //     props.toggleError('Invalid URL');
+  //     return
+  //   }
+  //   props.toggleError();
+  //   fetch(`/articles/scrape?url=${cleanUrl}`)
+  //     .then(res => res.json()) // body.json() returns another promise
+  //     .then(article => {
+  //       let tagOptions = suggestTags(article.topics, article.parentTopics);
+  //       props.setTagOptions(tagOptions);
+  //       props.setIsScraped();
+  //     })
+  //     .catch(err => console.log(err));
+  // };
 
   return (
-    <InputWrapper active={props.active}>
+    <InputWrapper active={active}>
       <StyledInput
+        autoFocus
+        ref={ref}
         type="text"
         placeholder="Article URL"
-        value={props.value}
-        onChange={e => props.handleChange(e.target.value)}
+        value={value}
+        onChange={e => handleChange(e.target.value)}
       />
     </InputWrapper>
   );
-}
+})
 
-export default log(UrlControl);
+export default UrlControl;

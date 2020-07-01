@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useRef, useCallback, useEffect } from "react";
 
 import {
   StyledForm, Heading, TitleContainer, ErrorMessage, IconContainer, IconWrapper, InputContainer,
@@ -77,6 +77,10 @@ const Form = props => {
     message: ''
   })
 
+  const formRef = useRef();
+  const urlInputRef = useRef();
+  const tagInputRef = useRef();
+
   // setFormState = stateIndex => this.setState({ formState: this.formStates[stateIndex] });
 
   // updateState = (stateProperty, stateValue) => this.setState({ [stateProperty]: stateValue });
@@ -141,29 +145,40 @@ const Form = props => {
 
     switch (activePage) {
       case 1:
-        if (isNextPage && url === '') return setErrorMessage('Please fill in the URL!');
+        if (isNextPage && url === '') {
+          urlInputRef.current.focus();
+          return setErrorMessage('Please fill in the URL!');
+        }
         setArticle({ ...article, url });
         break;
       case 2:
-        if (isNextPage && type === '') return setErrorMessage('Please select a Type!');
+        if (isNextPage && type === '') {
+          formRef.current.focus();
+          return setErrorMessage('Please select a Type!');
+        }
         setArticle({ ...article, type });
         break;
       case 3:
-        if (isNextPage && tags.length === 0) return setErrorMessage('Please select a Tag!');
+        if (isNextPage && tags.length === 0) {
+          tagInputRef.current.focus();
+          return setErrorMessage('Please select a Tag!');
+        }
         setArticle({ ...article, tags });
         break;
     }
     setErrorMessage();
     setActivePage(newActivePage);
+    formRef.current.focus();
   }
 
   const handleNext = event => {
-    // if (error.state = true) setErrorMessage();
     changeActivePage(activePage + 1);
   };
 
+  // useEffect(() => console.log(urlInputRef), []);
+
   return (
-    <StyledForm>
+    <StyledForm ref={formRef} tabIndex={-1}>
       <Heading>Submit An Article To the Communal Curator</Heading>
       <TitleContainer>
         <MemoizedTitle
@@ -200,11 +215,11 @@ const Form = props => {
         <InputContainer page={activePage}>
           <UrlControl
             name="url"
+            ref={urlInputRef}
             active={activePage === 1}
             value={url}
             handleChange={handleUrlChange}
             setIsScraped={() => setIsScraped(true)}
-            setErrorMessage={setErrorMessage}
           />
           <MemoizedRadioControl // this component probably does not need to be memoized as it's relatively small
             name="type"
@@ -214,6 +229,7 @@ const Form = props => {
           />
           <MemoizedCheckboxControl
             name="topics"
+            ref={tagInputRef}
             active={activePage === 3}
             options={tagOptions}
             setTags={memoizedhandleTagChange}

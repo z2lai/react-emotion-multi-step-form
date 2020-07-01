@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/core";
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback, useImperativeHandle } from "react";
 import styled from "@emotion/styled";
 import 'bootstrap/dist/css/bootstrap.css';
 import 'react-bootstrap-typeahead/css/Typeahead.css'
@@ -132,7 +132,7 @@ const CheckboxWrapper = styled.div`
   padding: 0 2px;
 `
 
-const CheckboxControl = ({ active, name, options, setTags }) => {
+const CheckboxControl = React.forwardRef(({ active, name, options, setTags }, ref) => {
   console.log('CheckboxControl Re-rendered!');
   const [filter, setFilter] = useState(''); // create custom hook to debounce
   const [filteredOptions, setFilteredOptions] = useState(options);
@@ -143,6 +143,12 @@ const CheckboxControl = ({ active, name, options, setTags }) => {
   const inputWrapperRef = useRef();
   const inputNodeRef = useRef();
   const _handleKeyDownRef = useRef(); // this variable can be overwritten as handleKeyDown maintains reference to the original _handleKeyDown definition reference due to closure
+
+  useImperativeHandle(ref, () => ({
+    focus: () => {
+      inputNodeRef.current.focus()
+    }
+  }));
 
   // Move this into useEffect hook for loading tag options
   const optionsArray = options.groups.slice(1, options.groups.length).flat()
@@ -155,6 +161,30 @@ const CheckboxControl = ({ active, name, options, setTags }) => {
   const DOWN = 40;
   const DEBOUNCETIME = 100;
   const THROTTLEPERIOD = 10;
+
+  // Override typeahead internal methods only once on initial render
+  useEffect(() => {
+    // Keep ._handleKeyDown definition in ref so that handleKeyDown can call it (see its definition at the end of file)
+    _handleKeyDownRef.current = typeaheadRef.current._handleKeyDown
+    // Only need to override internal methods once on initial render as the typeahead component (object) imported from the library
+    // does not change for each render - keeps the same methods throughout its lifecycle
+    typeaheadRef.current._handleKeyDown = handleKeyDown;
+    typeaheadRef.current._handleClear = handleClear;
+    inputNodeRef.current = typeaheadRef.current.getInput();
+  }, []);
+
+  useEffect(() => {
+    if (active) {
+      // Delay focus until after FormBody has finished height transition, otherwise the content won't be properly positioned
+      // at the start of the transition and will shift during transition
+      setTimeout(() => inputNodeRef.current.focus(), 400);
+    }
+  }, [active]);
+
+  useEffect(() => {
+    setTags(selected); //! this is being called on initial render which triggers a re-render of formBody and the entire tree
+    console.log('Tags set!');
+  }, [selected]);
 
   const handleInputChange = inputValue => {
     console.log("Input Changed")
@@ -322,32 +352,7 @@ const CheckboxControl = ({ active, name, options, setTags }) => {
 
   const handleMenuToggle = () => setActiveIndex(-1);
 
-  // Override typeahead internal methods only once on initial render
-  useEffect(() => {
-    // Keep ._handleKeyDown definition in ref so that handleKeyDown can call it (see its definition at the end of file)
-    _handleKeyDownRef.current = typeaheadRef.current._handleKeyDown
-    // Only need to override internal methods once on initial render as the typeahead component (object) imported from the library
-    // does not change for each render - keeps the same methods throughout its lifecycle
-    typeaheadRef.current._handleKeyDown = handleKeyDown;
-    typeaheadRef.current._handleClear = handleClear;
-    inputNodeRef.current = typeaheadRef.current.getInput();
-  }, []);
-
-  useEffect(() => {
-    if (active) {
-      // Delay focus until after FormBody has finished height transition, otherwise the content won't be properly positioned
-      // at the start of the transition and will shift during transition
-      setTimeout(() => inputNodeRef.current.focus(), 400);
-    }
-  }, [active]);
-
-  useEffect(() => {
-    setTags(selected); //! this is being called on initial render which triggers a re-render of formBody and the entire tree
-    console.log('Tags set!');
-  }, [selected]);
-
   let optionsIndexCounter = -1; // find a better place to store this index counter
-
   return (
     <InputWrapper active={active} column>
       <StyledTypeahead
@@ -429,9 +434,9 @@ const CheckboxControl = ({ active, name, options, setTags }) => {
       </CheckboxSectionContainer>
     </InputWrapper>
   )
-};
+});
 
-export default log(CheckboxControl);
+export default CheckboxControl;
 
 /*
 // Internal _handleKeyDown method of Typeahead component that is overwritten by handleKeyDown

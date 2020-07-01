@@ -75,7 +75,7 @@ const RadioControl = ({ active, name, selection, handleChange }) => {
           name={name}
           value={option}
           checked={option === selection}
-          onKeyPress={event => handleChange(event.target.value)}
+          onKeyup={event => handleChange(event.target.value)}
           onChange={event => handleChange(event.target.value)}
         />
       ))}

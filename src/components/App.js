@@ -58,9 +58,9 @@ class App extends React.Component {
   render() {
     return (
       <ThemeProvider theme={theme}>
-      <div className="App">
-        <Form />
-      </div>
+        <div className="App">
+          <Form />
+        </div>
       </ThemeProvider>
     );
   }
