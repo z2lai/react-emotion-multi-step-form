@@ -7,6 +7,7 @@ import log from "../tests/log";
 // const testUrl = "https://css-tricks.com/javascript-scope-closures/";
 
 const UrlControl = React.forwardRef(({ active, value, handleChange, setIsScraped }, ref) => {
+  console.log("UrlControl re-rendered!");
   const validateUrl = url => {
     if (url.length > 0) return url;
   };

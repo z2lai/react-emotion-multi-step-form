@@ -9,16 +9,16 @@ const headShake = keyframes`
     transform: translateX(0)
   }
   12.5% {
-    transform: translateX(-6px) rotateY(-9deg)
+    transform: translateX(6px) rotateY(9deg)
   }
   37.5% {
-    transform: translateX(5px) rotateY(7deg)
+    transform: translateX(-5px) rotateY(-7deg)
   }
   62.5% {
-    transform: translateX(-3px) rotateY(-5deg)
+    transform: translateX(3px) rotateY(5deg)
   }
   87.5% {
-    transform: translateX(2px) rotateY(3deg)
+    transform: translateX(-2px) rotateY(-3deg)
   }
   100% {
     transform: translateX(0)
@@ -53,22 +53,30 @@ const StyledFormBody = styled.div`
   border-radius: 3px;
   background-color: hsl(0, 0%, 100%);
   text-align: left;
-  ${props => (props.page === 3) ? `
+  &:focus {
+    outline: none;
+  }
+  ${props => (props.activePage === 3) ? `
     height: 240px;
     transition: height 400ms ease-out, max-width 150ms ease-out;
-  ` : (props.page === 4) ? css`
+  ` : (props.activePage === 4) ? css`
     max-width: 120px;
     height: 40px;
     padding: 0px 10px;
-    transition: height 150ms ease-out, max-width 400ms ease-out;
+    transition: height 150ms ease-out, max-width 400ms ease-out, transform 100ms, box-shadow: 100ms;
     z-index: 1;
     cursor: pointer;
-    &:active {
+    &:focus {
+      outline: 1px auto ${props.theme.colors.light.indigo};
+    }
+    &:active, &.active {
       box-shadow: 0 4px 5px hsl(120,60%,40%);
       transform: translateY(2px);
     }
-    &:hover > button > div {
-      animation: ${bounceRight} 1s ease-in-out infinite;
+    @media (prefers-reduced-motion: no-preference) {
+      &:hover > button > div {
+        animation: ${bounceRight} 1s ease-in-out infinite;
+      }
     }
   ` : `
   `}
@@ -87,7 +95,7 @@ const StyledFormBody = styled.div`
   }
 `;
 
-const FormBody = ({ page, errorState, children }) => {
+const FormBody = ({ activePage, buttonRef, errorState, children }) => {
   console.log('FormBody Re-rendered!');
   const [buttonAttributes, setButtonAttributes] = useState({
     role: "",
@@ -97,10 +105,70 @@ const FormBody = ({ page, errorState, children }) => {
   });
   const ref = useRef();
 
+  const simulateMouseEvent = (element, eventName) => {
+    element.dispatchEvent(new MouseEvent(eventName, {
+      view: window,
+      bubbles: true,
+      cancelable: true,
+      button: 0
+    }));
+  };
+
+  // const handleKeyboardEvent = event => {
+  //   if (event.key === 'Enter') {
+  //     console.log(buttonRef);
+  //     if (event.type === 'keydown') simulateMouseEvent(buttonRef.current, 'mousedown')
+  //     else if (event.type === 'keyup') {
+  //       simulateMouseEvent(buttonRef.current, 'mouseup')
+  //       simulateMouseEvent(buttonRef.current, 'click')
+  //     }
+  //   }
+  // }
+
+  // const returnHandleKeyDown = event => {
+  //   let isHotkeyActive = false;
+  //   return event => {
+  //     console.log(isHotkeyActive);
+  //     if (!isHotkeyActive && event.key === 'Enter') {
+  //       isHotkeyActive = true;
+  //       buttonRef.current.classList.add('active');
+  //       const handleKeyUp = event => {
+  //         isHotkeyActive = false;
+  //         buttonRef.current.classList.remove('active');
+  //         simulateMouseEvent(buttonRef.current, 'click')
+  //         ref.current.removeEventListener('keyup', handleKeyUp, false);
+  //       }
+  //       ref.current.addEventListener('keyup', handleKeyUp, false);
+  //     }
+  //   }
+  // }
+
+  const handleKeyDown = event => {
+    console.log(event.repeat);
+    if (event.key === 'Enter' && !event.repeat) {
+      if (activePage !== 4) {
+        buttonRef.current.classList.add('active');
+        const handleKeyUp = event => {
+          buttonRef.current.classList.remove('active');
+          simulateMouseEvent(buttonRef.current, 'click')
+          ref.current.removeEventListener('keyup', handleKeyUp, false);
+        }
+        ref.current.addEventListener('keyup', handleKeyUp, false);
+      } else {
+        ref.current.classList.add('active');
+        const handleKeyUp = event => {
+          ref.current.classList.remove('active');
+          simulateMouseEvent(ref.current, 'click')
+          ref.current.removeEventListener('keyup', handleKeyUp, false);
+        }
+        ref.current.addEventListener('keyup', handleKeyUp, false);
+      }
+    }
+  }
+
   // Add submit form function and animations for page 4
-  const handleInteraction = event => {
-    if (event.button === 0 || event.key === 'Enter' || event.key === ' ') {
-      event.stopPropagation();
+  const handleSubmit = event => {
+    if (event.button === 0) {
       console.log('Form Submitted!');
     }
   }
@@ -119,22 +187,20 @@ const FormBody = ({ page, errorState, children }) => {
 
 
   useEffect(() => {
-    if (page === 4) {
+    if (activePage === 4) {
       setButtonAttributes({
         role: "button",
         tabIndex: "0",
-        onClick: handleInteraction,
-        onKeyUp: handleInteraction,
+        onClick: handleSubmit,
       });
     } else {
       setButtonAttributes({
         role: "",
         tabIndex: "-1",
         onClick: null,
-        onKeyUp: null,
       });
     }
-  }, [page]);
+  }, [activePage]);
 
   useEffect(() => {
     if (buttonAttributes.role === 'button') {
@@ -145,7 +211,8 @@ const FormBody = ({ page, errorState, children }) => {
   return (
     <StyledFormBody
       ref={ref}
-      page={page}
+      activePage={activePage}
+      onKeyDown={handleKeyDown}
       errorState={errorState}
       onAnimationIteration={handleAnimationIteration}
       {...buttonAttributes}
@@ -155,4 +222,4 @@ const FormBody = ({ page, errorState, children }) => {
   )
 }
 
-export default log(FormBody);
+export default FormBody;

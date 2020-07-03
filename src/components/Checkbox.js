@@ -93,14 +93,14 @@ const TextWithHighlight = ({ text = '', highlight = '' }) => {
   return <span>{textWithHighlight}</span>
 }
 
-const CustomCheckbox = ({ name, value, highlight, autocomplete, checked, onKeyPress, onChange }) => (
+const CustomCheckbox = ({ name, value, highlight, autocomplete, checked, onKeyDown, onChange }) => (
   <StyledLabel checked={checked} focusState={autocomplete}>
     <HiddenCheckbox
       type="checkbox"
       name={name}
       value={value}
       checked={checked}
-      onKeyPress={onKeyPress}
+      onKeyDown={onKeyDown}
       onChange={onChange}
     />
     <StyledCheckbox checked={checked}>

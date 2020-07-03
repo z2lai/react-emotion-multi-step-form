@@ -18,6 +18,7 @@ const MemoizedRadioControl = React.memo(RadioControl);
 const MemoizedCheckboxControl = React.memo(CheckboxControl);
 
 const Form = props => {
+  console.log('Form re-rendered!');
   // const factors = ["Beginner Friendly", "Deep Dive", "Comphrensive"]; // should be queried from database
 
   const [activePage, setActivePage] = useState(1);
@@ -80,6 +81,7 @@ const Form = props => {
   const formRef = useRef();
   const urlInputRef = useRef();
   const tagInputRef = useRef();
+  const buttonRef = useRef();
 
   // setFormState = stateIndex => this.setState({ formState: this.formStates[stateIndex] });
 
@@ -204,7 +206,7 @@ const Form = props => {
         />
       </TitleContainer>
       <ErrorMessage>{error.message}</ErrorMessage>
-      <FormBody page={activePage} errorState={error.state}>
+      <FormBody activePage={activePage} buttonRef={buttonRef} errorState={error.state}>
         <IconContainer page={activePage}>
           <IconWrapper page={activePage}>
             <MemoizedIcon className="icon-link" active={activePage === 1} />
@@ -236,7 +238,7 @@ const Form = props => {
           />
           <SubmitLabel page={activePage} />
         </InputContainer>
-        <NextButton onClick={handleNext} page={activePage} disabled={activePage === 4}>
+        <NextButton ref={buttonRef} onClick={handleNext} page={activePage} disabled={activePage === 4}>
           <NextButtonIcon />
         </NextButton>
       </FormBody>

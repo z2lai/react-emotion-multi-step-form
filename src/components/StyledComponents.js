@@ -96,6 +96,22 @@ export const StyledInput = styled.input`
   outline: none;
   letter-spacing: 1px;
 `;
+/* Make styling consistent with Typeahead input:
+  height: 38px;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: ${props.theme.colors.extraDark.indigo};
+  background-color: #fff;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  :focus {
+    border-color: ${props.theme.colors.light.indigo};
+    border-radius: 0.25rem;
+  }
+*/
 
 export const SubmitLabel = styled.div`
   font-size: 1.125rem;
@@ -136,7 +152,7 @@ export const NextButton = styled.button`
         border-radius: 3px;
         transition: background 300ms ease, transform 300ms;
       }
-      &:active {
+      &:active, &.active {
         top: 3px;
         background-color: hsl(0, 0%, 100%);
         transition-property: none;

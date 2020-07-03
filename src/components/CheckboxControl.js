@@ -47,10 +47,11 @@ const StyledTypeahead = styled(Typeahead)`
       transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     }
     .rbt-input-wrapper.focus {
-      outline: 0;
+      outline: none;
       background-color: #fff;
       color: #495057;
       border-color: ${props.theme.colors.light.indigo};
+      border-radius: 0.25rem;
       box-shadow: 0 0 0 0.2rem rgba(166, 0, 255, .25);
     }
     input.rbt-input-main {
@@ -188,7 +189,6 @@ const CheckboxControl = React.forwardRef(({ active, name, options, setTags }, re
 
   const handleInputChange = inputValue => {
     console.log("Input Changed")
-    console.log(inputValue);
     // console.log(inputNodeRef.current.value);
     setActiveIndex(-1);
     // Since there's a debounce delay in this method handling input change, inputValue might be stale if the input node value was modified
@@ -249,11 +249,11 @@ const CheckboxControl = React.forwardRef(({ active, name, options, setTags }, re
     memoizedThrottledRemoveToken(token, selected);
   }
 
-  const handleCheckboxKeyPress = event => {
-    console.log('Keypress on Checkbox!')
+  const handleCheckboxKeyDown = event => {
+    console.log('KeyDown on Checkbox!')
     if (event.key === 'Enter') {
-      event.currentTarget.click();
       event.stopPropagation();
+      event.currentTarget.click(); // might need to replace with event.dispatchEvent for IE due to no activeElement API
     }
   }
 
@@ -285,21 +285,23 @@ const CheckboxControl = React.forwardRef(({ active, name, options, setTags }, re
 
  
   // Example from github issues: https://github.com/ericgio/react-bootstrap-typeahead/issues/461
-  // This handler replaces Typeahead's internal handler once on initial render so there should be no references to state 
-  // in here as they will be stale
+  // This handler replaces Typeahead's internal onKeyDown handler (which gets passed to the input element) once on initial render 
+  // so there should be no references to state in here as they will be stale.
   const handleKeyDown = event => {
     // console.log(typeahead.current.state.text);
     // console.log(typeahead.current.items);
     // console.log(typeahead.current.state.activeIndex);
-
+    console.log("HandlekEyDown!");
     const inputNode = event.currentTarget;
     switch (event.keyCode) {
-      // case RETURN:
-      //   console.log("Enter pressed!")
+      case RETURN:
+        console.log("Enter pressed!")
+        if (inputNode.value.length > 0) event.stopPropagation();
+        break;
       //   // Synthetic events are reused for performance reasons, then they are released/nullified. To keep the original synthetic event
       //   // around, use event.persist(). See https://fb.me/react-event-pooling for more information.
       //   event.persist()
-      //   // Delay the Enter key from selecting until after the input has finished handling the debounced typing events.
+      //   // Delay the Enter key from selecting until after the input has finished handling the debounced typing events - logic moved to handleInputChange
       //   setTimeout(() => {
       //     console.log("Enter triggered!")
       //     _handleKeyDownRef.current(event) 
@@ -332,7 +334,7 @@ const CheckboxControl = React.forwardRef(({ active, name, options, setTags }, re
       default:
         break;
     };
-    _handleKeyDownRef.current(event);
+    _handleKeyDownRef.current(event); // definition of _handleKeyDownRef at the bottom of this file
   }
 
   const handleClear = () => {
@@ -387,7 +389,7 @@ const CheckboxControl = React.forwardRef(({ active, name, options, setTags }, re
                   {...inputProps}
                   ref={element => {
                     inputRef(element);
-                    referenceElementRef(element);
+                    // referenceElementRef(element); to position the menu, may be a container element, hence the need for separate refs.
                   }}
                 />
               </Hint>
@@ -419,7 +421,7 @@ const CheckboxControl = React.forwardRef(({ active, name, options, setTags }, re
                             highlight={filter}
                             autocomplete={optionsIndexCounter === activeIndex}
                             checked={selected.includes(option)}
-                            onKeyPress={handleCheckboxKeyPress}
+                            onKeyDown={handleCheckboxKeyDown}
                             onChange={handleCheckboxChange}
                           />
                         </CheckboxWrapper>
