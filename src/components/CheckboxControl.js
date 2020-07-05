@@ -36,9 +36,8 @@ const StyledTypeahead = styled(Typeahead)`
       overflow: hidden;
       align-items: flex-start;
       flex-flow: row wrap;
-      font-size: 1rem;
       font-weight: 400;
-      line-height: 1.5;
+      line-height: 26px;
       color: ${props.theme.colors.extraDark.indigo};
       background-color: #fff;
       background-clip: padding-box;
@@ -65,7 +64,7 @@ const StyledTypeahead = styled(Typeahead)`
       z-index: 1;
     }
     .rbt-token {
-      margin: 0 3px 0 0;
+      margin: 0 3px 3px 0;
       background-color: ${props.theme.colors.extraLight.indigo};
       color: ${props.theme.colors.dark.indigo};
     }

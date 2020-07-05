@@ -90,18 +90,22 @@ export const InputWrapper = styled.div`
 
 export const StyledInput = styled.input`
   width: 100%;
-  height: 40px;
-  border: none;
-  padding: 2px 0 0 0;
+  line-height: 26px;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  padding: 0.375rem 0.75rem;
   outline: none;
-  letter-spacing: 1px;
+  color: ${props => props.theme.colors.extraDark.indigo};
+  transition: border-color 0.15s ease-in-out;
+  &:focus {
+    border-color: ${props => props.theme.colors.light.indigo};
+  }
 `;
 /* Make styling consistent with Typeahead input:
   height: 38px;
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
   padding: 0.375rem 0.75rem;
-  font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
   color: ${props.theme.colors.extraDark.indigo};
