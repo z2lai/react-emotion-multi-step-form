@@ -79,6 +79,7 @@ const Form = props => {
   })
 
   const formRef = useRef();
+  const formBodyRef = useRef();
   const urlInputRef = useRef();
   const tagInputRef = useRef();
   const buttonRef = useRef();
@@ -123,7 +124,6 @@ const Form = props => {
   // Combine this function with the function above?
   const memoizedhandleTagChange = useCallback(
     tags => {
-      console.log('handleTag');
       setErrorMessage();
       setTags(tags);
     },
@@ -155,7 +155,7 @@ const Form = props => {
         break;
       case 2:
         if (isNextPage && type === '') {
-          formRef.current.focus();
+          formBodyRef.current.focus();
           return setErrorMessage('Please select a Type!');
         }
         setArticle({ ...article, type });
@@ -170,7 +170,7 @@ const Form = props => {
     }
     setErrorMessage();
     setActivePage(newActivePage);
-    formRef.current.focus();
+    formBodyRef.current.focus();
   }
 
   const handleNext = event => {
@@ -206,7 +206,7 @@ const Form = props => {
         />
       </TitleContainer>
       <ErrorMessage>{error.message}</ErrorMessage>
-      <FormBody activePage={activePage} buttonRef={buttonRef} errorState={error.state}>
+      <FormBody ref={formBodyRef} buttonRef={buttonRef} activePage={activePage} errorState={error.state}>
         <IconContainer page={activePage}>
           <IconWrapper page={activePage}>
             <MemoizedIcon className="icon-link" active={activePage === 1} />

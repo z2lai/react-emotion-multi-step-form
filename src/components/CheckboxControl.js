@@ -32,6 +32,8 @@ const StyledTypeahead = styled(Typeahead)`
     .rbt-input-wrapper {
       display: flex;
       width: 100%;
+      border: 1px solid #ced4da;
+      border-radius: 0.25rem;
       padding: 0.375rem 0.75rem;
       overflow: hidden;
       align-items: flex-start;
@@ -41,16 +43,10 @@ const StyledTypeahead = styled(Typeahead)`
       color: ${props.theme.colors.extraDark.indigo};
       background-color: #fff;
       background-clip: padding-box;
-      border: 1px solid #ced4da;
-      border-radius: 0.25rem;
       transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     }
     .rbt-input-wrapper.focus {
-      outline: none;
-      background-color: #fff;
-      color: #495057;
       border-color: ${props.theme.colors.light.indigo};
-      border-radius: 0.25rem;
       box-shadow: 0 0 0 0.2rem rgba(166, 0, 255, .25);
     }
     input.rbt-input-main {
@@ -96,12 +92,6 @@ const CheckboxSectionContainer = styled.div`
   overflow: auto;
   margin-top: 10px;
 `
-
-const BaseCheckboxSectionWrapper = props => {
-  console.log('BaseCheckboxSectionWrapper Rendered');
-  console.log(props);
-  return null;
-}
 
 const CheckboxSectionWrapper = styled.div`
   height: auto;
@@ -157,6 +147,7 @@ const CheckboxControl = React.forwardRef(({ active, name, options, setTags }, re
   const BACKSPACE = 8;
   const TAB = 9;
   const RETURN = 13;
+  const ESC = 27;
   const UP = 38;
   const DOWN = 40;
   const DEBOUNCETIME = 100;
@@ -188,14 +179,17 @@ const CheckboxControl = React.forwardRef(({ active, name, options, setTags }, re
 
   const handleInputChange = inputValue => {
     console.log("Input Changed")
-    // console.log(inputNodeRef.current.value);
+    console.log(`onInputChange Value: ${inputValue}`);
+    console.log(`inputNodeRef Value: ${inputNodeRef.current.value}`);
     setActiveIndex(-1);
-    // Since there's a debounce delay in this method handling input change, inputValue might be stale if the input node value was modified
-    // immediately after through another non-debounced handler (the one that handles 'Enter' key events and sets input value to ''). 
-    // So it's better to updateFilter with the actual input node value to get the most updated value (uncontrolled input approach with refs)
-    // updateFilter(inputValue);
-    updateFilter(inputNodeRef.current.value)
+    // Since there's a debounce delay when handleInputChange is called from onInputChange, inputValue might be stale if handleInputChange was called 
+    // immediately after from a non-debounced handler (e.g. handleInputSelection handles when selection is made on 'Enter' key and sets input value to '').
+    // - So it's better to updateFilter with the actual input node value to get the most updated value (uncontrolled input approach with refs)
+    //updateFilter(inputNodeRef.current.value)
+    // - OR, we can just debounce handleInputChange itself so that it will be debounced regardless of where it is called
+    updateFilter(inputValue);
   }
+  const debouncedHandleInputChange = debounce(handleInputChange, DEBOUNCETIME);
 
   const updateFilter = (inputValue, excluded = selected) => {
     // console.log(`Filter updated to: ${inputValue}`)
@@ -209,25 +203,25 @@ const CheckboxControl = React.forwardRef(({ active, name, options, setTags }, re
     const filteredGroupHeadings = [];
     const filteredGroups = [];
     for (let i = 1; i < groupHeadings.length; i++) { // skip index 0 to exclude "Suggested" group
-      const filteredGroup = groups[i].filter(option => (
+    const filteredGroup = groups[i].filter(option => (
         option.toLowerCase().includes(filter) && !excluded.includes(option)
-      ))
-      if (filteredGroup.length > 0) {
-        filteredGroupHeadings.push(groupHeadings[i]);
-        filteredGroups.push(filteredGroup);
-      }
-    };
-    setFilteredOptions({ groupHeadings: filteredGroupHeadings, groups: filteredGroups });
+        ))
+        if (filteredGroup.length > 0) {
+          filteredGroupHeadings.push(groupHeadings[i]);
+          filteredGroups.push(filteredGroup);
+        }
+      };
+      setFilteredOptions({ groupHeadings: filteredGroupHeadings, groups: filteredGroups });
   }
-
+  
   const handleInputSelection = newSelected => {
     console.log('Selected Changed');
     if (newSelected.length > selected.length) {
-      handleInputChange('');
+      debouncedHandleInputChange('');
     }
     setSelected(newSelected);
   }
- 
+  
   const removeToken = (token, selected) => {
     console.log('Remove Handled');
     const newSelected = [...selected]
@@ -238,8 +232,8 @@ const CheckboxControl = React.forwardRef(({ active, name, options, setTags }, re
     }
     typeaheadRef.current.focus();
   }
-   // In order to throttle removeToken, the returned throttled function (and its closure) has to be memoized so that it can be called
-   // by each handleTokenRemove event handler that gets defined on each render
+  // In order to throttle removeToken, the returned throttled function (and its closure) has to be memoized so that it can be called
+  // by each handleTokenRemove event handler that gets defined on each render
   const memoizedThrottledRemoveToken = useCallback(throttle(removeToken, THROTTLEPERIOD), [])
   // In handleTokenRemove event handler, the throttled and memoized removeToken function is called with the following arguments:
   //  1. "token" from the event listener
@@ -247,7 +241,7 @@ const CheckboxControl = React.forwardRef(({ active, name, options, setTags }, re
   const handleTokenRemove = token => {  
     memoizedThrottledRemoveToken(token, selected);
   }
-
+  
   const handleCheckboxKeyDown = event => {
     console.log('KeyDown on Checkbox!')
     if (event.key === 'Enter') {
@@ -255,15 +249,15 @@ const CheckboxControl = React.forwardRef(({ active, name, options, setTags }, re
       event.currentTarget.click(); // might need to replace with event.dispatchEvent for IE due to no activeElement API
     }
   }
-
+  
   const handleCheckboxChange = event => {
     const selection = event.target.value;
     const checked = event.target.checked;
     const newSelected = [...selected]
     if (checked) {
       newSelected.push(selection);
-      typeaheadRef.current.clear()
-      handleInputChange('');
+      typeaheadRef.current.clear() // typeaheadRef.current.clear() sets states thus is asynchronous in clearing the input
+      debouncedHandleInputChange('');
     } else {
       newSelected.splice(newSelected.indexOf(selection), 1);
     }
@@ -290,7 +284,6 @@ const CheckboxControl = React.forwardRef(({ active, name, options, setTags }, re
     // console.log(typeahead.current.state.text);
     // console.log(typeahead.current.items);
     // console.log(typeahead.current.state.activeIndex);
-    console.log("HandlekEyDown!");
     const inputNode = event.currentTarget;
     switch (event.keyCode) {
       case RETURN:
@@ -300,12 +293,14 @@ const CheckboxControl = React.forwardRef(({ active, name, options, setTags }, re
       //   // Synthetic events are reused for performance reasons, then they are released/nullified. To keep the original synthetic event
       //   // around, use event.persist(). See https://fb.me/react-event-pooling for more information.
       //   event.persist()
-      //   // Delay the Enter key from selecting until after the input has finished handling the debounced typing events - logic moved to handleInputChange
+      //   // Delay the Enter key from selecting until after the input has finished handling the debounced typing events logic moved to handleInputChange
       //   setTimeout(() => {
       //     console.log("Enter triggered!")
       //     _handleKeyDownRef.current(event) 
       //   }, DEBOUNCETIME + 3000);
       //   return;
+      case ESC:
+
       case BACKSPACE:
         if (inputNode.value.length === 0 && typeaheadRef.current.props.selected.length) {
           // Prevent browser from going back.
@@ -339,7 +334,7 @@ const CheckboxControl = React.forwardRef(({ active, name, options, setTags }, re
   const handleClear = () => {
     setSelected([]);
     typeaheadRef.current.clear();
-    handleInputChange('');
+    debouncedHandleInputChange('');
   }
 
   const handleBlur = () => {
@@ -364,7 +359,7 @@ const CheckboxControl = React.forwardRef(({ active, name, options, setTags }, re
         // clearButton
         options={optionsArray}
         // onKeyDown={e => console.log('onKeyDown Prop!')}
-        onInputChange={debounce(handleInputChange, DEBOUNCETIME)} // only handles direct input changes from editing keys, "Enter" is excluded
+        onInputChange={debouncedHandleInputChange} // only handles direct input changes from editing keys - excludes input clear from pressing 'Enter'
         minLength={1} // to activate menu/hint
         selected={selected}
         onChange={handleInputSelection}

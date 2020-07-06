@@ -71,7 +71,6 @@ export const InputWrapper = styled.div`
   max-width: 500px;
   min-height: 40px;
   max-height: 220px;
-  overflow: hidden;
   display: flex;
   flex-flow: ${props => props.column ? 'column nowrap' : 'row nowrap'};
   justify-content: space-evenly;
@@ -99,6 +98,7 @@ export const StyledInput = styled.input`
   transition: border-color 0.15s ease-in-out;
   &:focus {
     border-color: ${props => props.theme.colors.light.indigo};
+    box-shadow: 0 0 0 0.2rem rgba(166, 0, 255, .25);
   }
 `;
 /* Make styling consistent with Typeahead input:

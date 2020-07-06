@@ -95,7 +95,7 @@ const StyledFormBody = styled.div`
   }
 `;
 
-const FormBody = ({ activePage, buttonRef, errorState, children }) => {
+const FormBody = React.forwardRef(({ activePage, buttonRef, errorState, children }, ref) => {
   console.log('FormBody Re-rendered!');
   const [buttonAttributes, setButtonAttributes] = useState({
     role: "",
@@ -103,7 +103,6 @@ const FormBody = ({ activePage, buttonRef, errorState, children }) => {
     onClick: null,
     onKeyUp: null,
   });
-  const ref = useRef();
 
   const simulateMouseEvent = (element, eventName) => {
     element.dispatchEvent(new MouseEvent(eventName, {
@@ -144,7 +143,6 @@ const FormBody = ({ activePage, buttonRef, errorState, children }) => {
   // }
 
   const handleKeyDown = event => {
-    console.log(event.repeat);
     if (event.key === 'Enter' && !event.repeat) {
       if (activePage !== 4) {
         buttonRef.current.classList.add('active');
@@ -220,6 +218,6 @@ const FormBody = ({ activePage, buttonRef, errorState, children }) => {
       {children}
     </StyledFormBody>
   )
-}
+});
 
 export default FormBody;
