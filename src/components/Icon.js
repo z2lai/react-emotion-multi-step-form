@@ -25,4 +25,4 @@ const Icon = ({ className, active, page }) => (
   </StyledIcons>
 )
 
-export default log(Icon);
+export default Icon;

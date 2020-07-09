@@ -52,4 +52,4 @@ const Title = ({ active, value, page, changeActivePage, errorState }) => {
   )
 }
 
-export default log(Title);
+export default Title;

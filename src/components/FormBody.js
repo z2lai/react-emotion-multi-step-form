@@ -96,7 +96,7 @@ const StyledFormBody = styled.div`
 `;
 
 const FormBody = React.forwardRef(({ activePage, buttonRef, errorState, children }, ref) => {
-  console.log('FormBody Re-rendered!');
+  // console.log('FormBody Re-rendered!');
   const [buttonAttributes, setButtonAttributes] = useState({
     role: "",
     tabIndex: "-1",

@@ -6,8 +6,8 @@ import log from "../tests/log";
 
 // const testUrl = "https://css-tricks.com/javascript-scope-closures/";
 
-const UrlControl = React.forwardRef(({ active, value, handleChange, setIsScraped }, ref) => {
-  console.log("UrlControl re-rendered!");
+const TextInput = ({ inputRef, active, value, handleChange, setIsScraped }) => {
+  console.log("TextInput rendered!");
   const validateUrl = url => {
     if (url.length > 0) return url;
   };
@@ -44,7 +44,7 @@ const UrlControl = React.forwardRef(({ active, value, handleChange, setIsScraped
     <InputWrapper active={active}>
       <StyledInput
         autoFocus
-        ref={ref}
+        ref={inputRef}
         type="text"
         placeholder="Article URL"
         value={value}
@@ -52,6 +52,6 @@ const UrlControl = React.forwardRef(({ active, value, handleChange, setIsScraped
       />
     </InputWrapper>
   );
-})
+};
 
-export default UrlControl;
+export default TextInput;

@@ -1,5 +1,6 @@
 import React, { useState, useRef, useCallback, useEffect } from "react";
 
+import useForm from '../useForm';
 import {
   StyledForm, Heading, TitleContainer, ErrorMessage, IconContainer, IconWrapper, InputContainer,
   SubmitLabel, NextButton, NextButtonIcon
@@ -7,7 +8,7 @@ import {
 import Title from "./Title";
 import FormBody from "./FormBody";
 import Icon from "./Icon";
-import UrlControl from "./UrlControl";
+import TextInput from "./TextInput";
 import RadioControl from "./RadioControl";
 import CheckboxControl from "./CheckboxControl";
 import log from "../tests/log";
@@ -18,7 +19,8 @@ const MemoizedRadioControl = React.memo(RadioControl);
 const MemoizedCheckboxControl = React.memo(CheckboxControl);
 
 const Form = props => {
-  console.log('Form re-rendered!');
+  console.log('Form rendered!');
+  const { registerInput, inputs } = useForm();
   // const factors = ["Beginner Friendly", "Deep Dive", "Comphrensive"]; // should be queried from database
 
   const [activePage, setActivePage] = useState(1);
@@ -144,31 +146,44 @@ const Form = props => {
 
   const changeActivePage = newActivePage => {
     const isNextPage = newActivePage > activePage;
-
-    switch (activePage) {
-      case 1:
-        if (isNextPage && url === '') {
-          urlInputRef.current.focus();
-          return setErrorMessage('Please fill in the URL!');
-        }
-        setArticle({ ...article, url });
-        break;
-      case 2:
-        if (isNextPage && type === '') {
-          formBodyRef.current.focus();
-          return setErrorMessage('Please select a Type!');
-        }
-        setArticle({ ...article, type });
-        break;
-      case 3:
-        if (isNextPage && tags.length === 0) {
-          tagInputRef.current.focus();
-          return setErrorMessage('Please select a Tag!');
-        }
-        setArticle({ ...article, tags });
-        break;
+    /* 
+      1. Focus Input or FormBody
+      2. setErrorMessage 
+    */
+   if (isNextPage) {
+      const input = inputs[activePage - 1];
+      const error = input.validate(); // returns error message
+      console.log(error);
+      if (error) {
+        input.node.focus();
+        return setErrorMessage(error);
+      }
     }
-    setErrorMessage();
+
+    // switch (activePage) {
+    //   case 1:
+    //     if (isNextPage && url === '') {
+    //       urlInputRef.current.focus();
+    //       return setErrorMessage('Please fill in the URL!');
+    //     }
+    //     setArticle({ ...article, url });
+    //     break;
+    //   case 2:
+    //     if (isNextPage && type === '') {
+    //       formBodyRef.current.focus();
+    //       return setErrorMessage('Please select a Type!');
+    //     }
+    //     setArticle({ ...article, type });
+    //     break;
+    //   case 3:
+    //     if (isNextPage && tags.length === 0) {
+    //       tagInputRef.current.focus();
+    //       return setErrorMessage('Please select a Tag!');
+    //     }
+    //     setArticle({ ...article, tags });
+    //     break;
+    // }
+    setErrorMessage('');
     setActivePage(newActivePage);
     formBodyRef.current.focus();
   }
@@ -177,7 +192,7 @@ const Form = props => {
     changeActivePage(activePage + 1);
   };
 
-  // useEffect(() => console.log(urlInputRef), []);
+  useEffect(() => console.log(inputs));
 
   return (
     <StyledForm ref={formRef} tabIndex={-1}>
@@ -215,15 +230,29 @@ const Form = props => {
           </IconWrapper>
         </IconContainer>
         <InputContainer page={activePage}>
-          <UrlControl
-            name="url"
-            ref={urlInputRef}
-            active={activePage === 1}
-            value={url}
+          <TextInput
+            inputRef={registerInput('url', 'icon-link', {
+              required: 'Please input the URL', // boolean or error message string
+              // minLength: 3 or { value: 3, message: 'error message' },
+              // maxLength: 16 or { value: 16, message: 'error message' },
+              //pattern: `regex pattern`
+              //validate: { validator: customValidatorFunc, message: customMessageFunc }
+            })} // for associating page number, icon, input validation, error message and focusing input ref on error
             handleChange={handleUrlChange}
-            setIsScraped={() => setIsScraped(true)}
+            active={activePage === 1}
           />
-          <MemoizedRadioControl // this component probably does not need to be memoized as it's relatively small
+          <TextInput
+            inputRef={registerInput('test', 'icon-link', {
+              required: 'Please input the test-URL', // boolean or error message string
+              // minLength: 3 or { value: 3, message: 'error message' },
+              // maxLength: 16 or { value: 16, message: 'error message' },
+              //pattern: `regex pattern`
+              //validate: { validator: customValidatorFunc, message: customMessageFunc }
+            })} // for associating page number, icon, input validation, error message and focusing input ref on error
+            handleChange={handleUrlChange}
+            active={activePage === 2}
+          />
+          {/* <MemoizedRadioControl // this component probably does not need to be memoized as it's relatively small
             name="type"
             active={activePage === 2}
             selection={type}
@@ -235,7 +264,7 @@ const Form = props => {
             active={activePage === 3}
             options={tagOptions}
             setTags={memoizedhandleTagChange}
-          />
+          /> */}
           <SubmitLabel page={activePage} />
         </InputContainer>
         <NextButton ref={buttonRef} onClick={handleNext} page={activePage} disabled={activePage === 4}>
