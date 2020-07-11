@@ -41,21 +41,29 @@ export const IconContainer = styled.div`
   overflow: hidden;
 `
 
+// export const IconWrapper = styled.div`
+//   position: relative;
+//   display: flex;
+//   flex-flow: column nowrap;
+//   line-height: 40px;
+//   transition: top 300ms ease-out;
+//   ${props => (
+//     (props.index === 0) ? `
+//       top: 0px;
+//     ` : (props.page === 2) ? ` 
+//       top: -40px; 
+//     ` : ` 
+//       top: -80px;
+//     `
+//   )}
+// `
 export const IconWrapper = styled.div`
   position: relative;
   display: flex;
   flex-flow: column nowrap;
   line-height: 40px;
   transition: top 300ms ease-out;
-  ${props => (
-    (props.page === 1) ? `
-      top: 0px;
-    ` : (props.page === 2) ? ` 
-      top: -40px; 
-    ` : ` 
-      top: -80px;
-    `
-  )}
+  top: ${props => 0 + props.index * -40}px;
 `
 
 export const InputContainer = styled.div`

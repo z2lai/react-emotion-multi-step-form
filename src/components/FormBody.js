@@ -101,12 +101,12 @@ const StyledFormBody = styled.div`
   }
 `;
 
-const FormBody = React.forwardRef(({ buttonRef, children}, ref) => {
+const FormBody = React.forwardRef(({ buttonRef, children }, ref) => {
   console.log('FormBody rendered!');
   const inputs = useInputs()[0];
   const [activeIndex, changeActiveIndex] = useActiveIndex();
   const [error] = useError();
-  
+
   const buttonAttributesRef = useRef({
     role: "",
     tabIndex: "-1",
@@ -219,25 +219,31 @@ const FormBody = React.forwardRef(({ buttonRef, children}, ref) => {
   return (
     <StyledFormBody
       ref={ref}
-      activePage={activeIndex + 1}
-      onKeyDown={handleKeyDown}
       isError={error.state}
+      onKeyDown={handleKeyDown}
       onAnimationIteration={handleAnimationIteration}
+      // pass in height properties from active input
+      // pass in isSubmitPage boolean by determine if activeIndex = inputs.length
+      // activePage={activeIndex + 1}
       {...buttonAttributes}
     >
-      <IconContainer page={activeIndex + 1}>
-        <IconWrapper page={activeIndex + 1}>
-          {}
-          <Icon className="icon-link" active={activeIndex + 1 === 1} />
-          <Icon className="icon-tree" active={activeIndex + 1 === 2} />
-          <Icon className="icon-price-tags" active={activeIndex + 1 === 3} page={activeIndex + 1} />
+      <IconContainer>
+        <IconWrapper index={activeIndex}>
+          {(inputs.length > 0) ? inputs.map(input => <Icon key={input.iconClassName} className={input.iconClassName} />) : null}
         </IconWrapper>
       </IconContainer>
-      <InputContainer page={activeIndex + 1}>
+      <InputContainer>
         {children}
-        <SubmitLabel page={activeIndex + 1} />
+        <SubmitLabel
+          page={activeIndex + 1}  // pass in isSubmit boolean by determine if activeIndex = inputs.length
+        />
       </InputContainer>
-      <NextButton ref={buttonRef} onClick={handleNext} page={activeIndex + 1} disabled={activeIndex === 3}>
+      <NextButton
+        ref={buttonRef}
+        onClick={handleNext}
+        page={activeIndex + 1}  // pass in isSubmitPage boolean by determine if activeIndex = inputs.length
+        disabled={activeIndex === 3} // pass in isSubmitPage boolean by determine if activeIndex = inputs.length
+      >
         <NextButtonIcon />
       </NextButton>
     </StyledFormBody>

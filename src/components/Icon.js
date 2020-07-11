@@ -19,8 +19,8 @@ const StyledIcons = styled.div`
   `}
 `;
 
-const Icon = ({ className, active, page }) => (
-  <StyledIcons active={active} page={page}>
+const Icon = ({ className, page }) => (
+  <StyledIcons page={page}>
     <div className={className}></div>
   </StyledIcons>
 )
