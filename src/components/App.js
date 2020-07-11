@@ -1,6 +1,7 @@
 import React from "react";
 import { ThemeProvider } from 'emotion-theming'
 
+import { InputsProvider } from '../context/InputsContext';
 import Form from "./Form";
 import "../App.css";
 import "../fonts/icomoon/style.css"
@@ -59,7 +60,9 @@ class App extends React.Component {
     return (
       <ThemeProvider theme={theme}>
         <div className="App">
-          <Form />
+          <InputsProvider>
+            <Form />
+          </InputsProvider>
         </div>
       </ThemeProvider>
     );

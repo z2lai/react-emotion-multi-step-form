@@ -2,6 +2,11 @@ import React, { useState, useRef, useEffect } from "react";
 import styled from "@emotion/styled";
 import { css, keyframes } from '@emotion/core';
 
+import useActiveIndex from "../hooks/useActiveIndex";
+import useError from "../hooks/useError";
+import { IconContainer, IconWrapper, InputContainer, SubmitLabel, NextButton, NextButtonIcon } from "./StyledComponents";
+import Icon from "./Icon";
+
 import log from "../tests/log";
 
 const headShake = keyframes`
@@ -80,7 +85,7 @@ const StyledFormBody = styled.div`
     }
   ` : `
   `}
-  ${props => props.errorState ? css`
+  ${props => props.isError ? css`
     box-shadow: 0 8px 10px hsl(16, 100%, 40%);
     animation: ${headShake} .5s  ease-in-out infinite;
   ` : `
@@ -95,14 +100,21 @@ const StyledFormBody = styled.div`
   }
 `;
 
-const FormBody = React.forwardRef(({ activePage, buttonRef, errorState, children }, ref) => {
-  // console.log('FormBody Re-rendered!');
-  const [buttonAttributes, setButtonAttributes] = useState({
+const FormBody = React.forwardRef(({ buttonRef, children: inputs }, ref) => {
+  console.log('FormBody rendered!');
+  const [activeIndex, changeActiveIndex, error] = useActiveIndex();
+
+  useEffect(() => {
+    console.log('FormBody effect run with new error:');
+    console.log(error);
+  }, [error]);
+  
+  const buttonAttributesRef = useRef({
     role: "",
     tabIndex: "-1",
     onClick: null,
-    onKeyUp: null,
   });
+  const [buttonAttributes, setButtonAttributes] = useState(buttonAttributesRef.current);
 
   const simulateMouseEvent = (element, eventName) => {
     element.dispatchEvent(new MouseEvent(eventName, {
@@ -144,7 +156,7 @@ const FormBody = React.forwardRef(({ activePage, buttonRef, errorState, children
 
   const handleKeyDown = event => {
     if (event.key === 'Enter' && !event.repeat) {
-      if (activePage !== 4) {
+      if (activeIndex + 1 !== 4) {
         buttonRef.current.classList.add('active');
         const handleKeyUp = event => {
           buttonRef.current.classList.remove('active');
@@ -164,6 +176,10 @@ const FormBody = React.forwardRef(({ activePage, buttonRef, errorState, children
     }
   }
 
+  const handleNext = event => {
+    changeActiveIndex(activeIndex + 1);
+  };
+
   // Add submit form function and animations for page 4
   const handleSubmit = event => {
     if (event.button === 0) {
@@ -171,34 +187,30 @@ const FormBody = React.forwardRef(({ activePage, buttonRef, errorState, children
     }
   }
 
-  // When errorState gets set to true, FormBody will re-render with animation. Once the first iteration finishes, the animation should pause
+  // When error state gets set to true, FormBody will re-render with animation. Once the first iteration finishes, the animation should pause
   const handleAnimationIteration = event => {
     // Manually change DOM node instead of setting state to avoid re-render
     ref.current.style.animationPlayState = "paused"
   }
 
   useEffect(() => {
-    // Only the onClick event of NextButton or Title can set errorState to true
-    // Every other action should set errorState to false, otherwise the animation will run
-    if (errorState) ref.current.style.animationPlayState = "running";
+    // Only the onClick event of NextButton or Title can set error state to true
+    // Every other action should set error state to false, otherwise the animation will run
+    if (error.state) ref.current.style.animationPlayState = "running";
   });
 
 
   useEffect(() => {
-    if (activePage === 4) {
+    if (activeIndex + 1 === 4) {
       setButtonAttributes({
         role: "button",
         tabIndex: "0",
         onClick: handleSubmit,
       });
     } else {
-      setButtonAttributes({
-        role: "",
-        tabIndex: "-1",
-        onClick: null,
-      });
+      setButtonAttributes(buttonAttributesRef.current);
     }
-  }, [activePage]);
+  }, [activeIndex]);
 
   useEffect(() => {
     if (buttonAttributes.role === 'button') {
@@ -209,13 +221,26 @@ const FormBody = React.forwardRef(({ activePage, buttonRef, errorState, children
   return (
     <StyledFormBody
       ref={ref}
-      activePage={activePage}
+      activePage={activeIndex + 1}
       onKeyDown={handleKeyDown}
-      errorState={errorState}
+      isError={error.state}
       onAnimationIteration={handleAnimationIteration}
       {...buttonAttributes}
     >
-      {children}
+      <IconContainer page={activeIndex + 1}>
+        <IconWrapper page={activeIndex + 1}>
+          <Icon className="icon-link" active={activeIndex + 1 === 1} />
+          <Icon className="icon-tree" active={activeIndex + 1 === 2} />
+          <Icon className="icon-price-tags" active={activeIndex + 1 === 3} page={activeIndex + 1} />
+        </IconWrapper>
+      </IconContainer>
+      <InputContainer page={activeIndex + 1}>
+        {inputs}
+        <SubmitLabel page={activeIndex + 1} />
+      </InputContainer>
+      <NextButton ref={buttonRef} onClick={handleNext} page={activeIndex + 1} disabled={activeIndex === 3}>
+        <NextButtonIcon />
+      </NextButton>
     </StyledFormBody>
   )
 });
