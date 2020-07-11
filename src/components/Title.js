@@ -29,7 +29,7 @@ const StyledTitle = styled.span`
   `}
 `;
 
-const Title = ({ active, value, page, changeActivePage, errorState }) => {
+const Title = ({ active, value, page, changeActivePage }) => {
   const [activated, setActivated] = useState(false);
 
   useEffect(() => {

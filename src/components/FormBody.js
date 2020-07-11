@@ -3,7 +3,8 @@ import styled from "@emotion/styled";
 import { css, keyframes } from '@emotion/core';
 
 import useActiveIndex from "../hooks/useActiveIndex";
-import useError from "../hooks/useError";
+import useError from '../hooks/useError';
+import useInputs from "../hooks/useInputs";
 import { IconContainer, IconWrapper, InputContainer, SubmitLabel, NextButton, NextButtonIcon } from "./StyledComponents";
 import Icon from "./Icon";
 
@@ -100,14 +101,11 @@ const StyledFormBody = styled.div`
   }
 `;
 
-const FormBody = React.forwardRef(({ buttonRef, children: inputs }, ref) => {
+const FormBody = React.forwardRef(({ buttonRef, children}, ref) => {
   console.log('FormBody rendered!');
-  const [activeIndex, changeActiveIndex, error] = useActiveIndex();
-
-  useEffect(() => {
-    console.log('FormBody effect run with new error:');
-    console.log(error);
-  }, [error]);
+  const inputs = useInputs()[0];
+  const [activeIndex, changeActiveIndex] = useActiveIndex();
+  const [error] = useError();
   
   const buttonAttributesRef = useRef({
     role: "",
@@ -229,13 +227,14 @@ const FormBody = React.forwardRef(({ buttonRef, children: inputs }, ref) => {
     >
       <IconContainer page={activeIndex + 1}>
         <IconWrapper page={activeIndex + 1}>
+          {}
           <Icon className="icon-link" active={activeIndex + 1 === 1} />
           <Icon className="icon-tree" active={activeIndex + 1 === 2} />
           <Icon className="icon-price-tags" active={activeIndex + 1 === 3} page={activeIndex + 1} />
         </IconWrapper>
       </IconContainer>
       <InputContainer page={activeIndex + 1}>
-        {inputs}
+        {children}
         <SubmitLabel page={activeIndex + 1} />
       </InputContainer>
       <NextButton ref={buttonRef} onClick={handleNext} page={activeIndex + 1} disabled={activeIndex === 3}>

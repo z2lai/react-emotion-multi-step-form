@@ -6,7 +6,7 @@ import useError from './useError';
 const useActiveInputIndex = () => {
   console.log('useActiveIndex called!');
   const { inputs, activeIndex, setActiveIndex } = useContext(InputsContext);
-  const [error, setErrorMessage] = useError(); // error state is private and cannot be shared by multiple components
+  const setErrorMessage = useError()[1];
 
   const changeActiveIndex = index => {
     console.log(inputs);
@@ -30,7 +30,6 @@ const useActiveInputIndex = () => {
   return [
     activeIndex,
     changeActiveIndex,
-    error,
   ]
 }
 

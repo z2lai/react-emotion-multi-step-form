@@ -8,12 +8,6 @@ import log from "../tests/log";
 // const testUrl = "https://css-tricks.com/javascript-scope-closures/";
 
 const TextInput = ({ name, inputRef, placeholder }) => {
-  console.log("TextInput rendered!");
-
-  useEffect(() => {
-    // when activeInputName global state changes in the dependency array, compare it to name and setActive if true;
-  }, []);
-
   const validateUrl = url => {
     if (url.length > 0) return url;
   };

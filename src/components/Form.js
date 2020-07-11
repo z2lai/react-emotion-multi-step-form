@@ -12,7 +12,7 @@ import RadioControl from "./RadioControl";
 import CheckboxControl from "./CheckboxControl";
 import log from "../tests/log";
 import useActiveIndex from "../hooks/useActiveIndex";
-import useError from "../hooks/useError";
+import useError from '../hooks/useError';
 
 const MemoizedTitle = React.memo(Title);
 const MemoizedRadioControl = React.memo(RadioControl);
@@ -20,9 +20,9 @@ const MemoizedCheckboxControl = React.memo(CheckboxControl);
 
 const Form = props => {
   console.log('Form rendered!');
-  const registerInput = useInputs();
-  // const [activeIndex, changeActiveIndex] = useActiveIndex();
-  // const [error, setErrorMessage] = useError;q
+  const registerInput = useInputs()[1];
+  const [activeIndex, changeActiveIndex] = useActiveIndex();
+  const error = useError()[0];
   // const inputsRef = useRef();
   // const factors = ["Beginner Friendly", "Deep Dive", "Comphrensive"]; // should be queried from database
 
@@ -195,34 +195,30 @@ const Form = props => {
   return (
     <StyledForm ref={formRef} tabIndex={-1}>
       <Heading>Submit An Article To the Communal Curator</Heading>
-      {/* <TitleContainer>
+      <TitleContainer>
         <MemoizedTitle
           value={article.url || 'Input Article URL'}
-          page={1}
+          page={0}
           active={activeIndex === 0}
           changeActivePage={changeActiveIndex}
-          // errorState={error.state}
         />
         <MemoizedTitle
           value={article.type || 'Select Resource Type'}
-          page={2}
+          page={1}
           active={activeIndex === 1}
           changeActivePage={changeActiveIndex}
-          // errorState={error.state}
         />
         <MemoizedTitle
           value={(article.tags.length && article.tags.join(', ')) || 'Select Article Tags'}
-          page={3}
+          page={2}
           active={activeIndex === 2}
           changeActivePage={changeActiveIndex}
-          // errorState={error.state}
         />
-      </TitleContainer> */}
-      {/* <ErrorMessage>{error.message}</ErrorMessage> */}
+      </TitleContainer>
+      <ErrorMessage>{error.message}</ErrorMessage>
       <FormBody 
         ref={formBodyRef} 
         buttonRef={buttonRef} 
-        // errorState={error.state}q
       >
         <TextInput
           name="url"
