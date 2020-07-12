@@ -8,7 +8,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
     1. Icon class name for the icon that goes beside the input
     2. Validation criteria that gets checked when NextButton is clicked
     3. Input node ref to focus when input validation returns an error
-- For managing which input is active, manage a global state for :
+- For managing which input is active, manage a global state for:
     1. activeInputName that stores the name of the input that is active
     2. activeIndex that stores the index of the active input
     3. changeActiveIndex that changes activeIndex and does validation is going to next input
@@ -19,6 +19,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ### Todo
 1. Create a Context and a function component that returns the Context.Provider wrapper and stores the following shared state:
     - Array of input Objects
-    - activeIndex <--
+    - activeIndex
     - activeInputName
     - changeActiveIndex
+2. Render icons and active icon based on inputs and activeIndex
+3. Implement activeIndex management with input validation
+4. 

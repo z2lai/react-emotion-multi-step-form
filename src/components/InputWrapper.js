@@ -31,10 +31,12 @@ const InputWrapper = ({ name, column, children }) => {
 
   useEffect(() => {
     console.log('InputWrapper Effect Ran!');
-    if (inputs.length > 0) {
+    if (inputs.length > 0 && activeIndex < inputs.length) {
       console.log(inputs);
       const isActive = name === inputs[activeIndex].node.name;  // should I create new global state to store activeInputName instead?
       setIsActive(isActive);
+    } else {
+      setIsActive(false);
     }
   }, [inputs, activeIndex, name]);
 

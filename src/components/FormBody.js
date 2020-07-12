@@ -65,7 +65,7 @@ const StyledFormBody = styled.div`
   ${props => (props.activePage === 3) ? `
     height: 240px;
     transition: height 400ms ease-out, max-width 150ms ease-out;
-  ` : (props.activePage === 4) ? css`
+  ` : props.isSubmitPage ? css`
     max-width: 120px;
     height: 40px;
     padding: 0px 10px;
@@ -104,15 +104,59 @@ const StyledFormBody = styled.div`
 const FormBody = React.forwardRef(({ buttonRef, children }, ref) => {
   console.log('FormBody rendered!');
   const inputs = useInputs()[0];
-  const [activeIndex, changeActiveIndex] = useActiveIndex();
+  const [activeIndex, changeActiveIndex, isSubmitPage] = useActiveIndex();
   const [error] = useError();
 
+  // Add submit form function and animations for page 4
+  const handleSubmit = event => {
+    if (event.button === 0) {
+      console.log('Form Submitted!');
+    }
+  }
   const buttonAttributesRef = useRef({
-    role: "",
-    tabIndex: "-1",
-    onClick: null,
+    disabled: {
+      role: "",
+      tabIndex: "-1",
+      onClick: null,
+    },
+    enabled: {
+      role: "button",
+      tabIndex: "0",
+      onClick: handleSubmit,
+    }
   });
-  const [buttonAttributes, setButtonAttributes] = useState(buttonAttributesRef.current);
+  const [buttonAttributes, setButtonAttributes] = useState(buttonAttributesRef.current.disabled);
+
+  useEffect(() => {
+    // Only the onClick event of NextButton or Title can set error state to true
+    // Every other action should set error state to false, otherwise the animation will run
+    if (error.state) ref.current.style.animationPlayState = "running";
+  });
+
+  useEffect(() => {
+    if (isSubmitPage) {
+      setButtonAttributes(buttonAttributesRef.current.enabled);
+    } else {
+      setButtonAttributes(buttonAttributesRef.current.disabled);
+    }
+  }, [activeIndex]);
+
+  useEffect(() => {
+    if (buttonAttributes.role === 'button') {
+      // setTimeout(() => ref.current.focus(), 400);
+      ref.current.focus();
+    }
+  }, [buttonAttributes]);
+
+  // When error state gets set to true, FormBody will re-render with animation. Once the first iteration finishes, the animation should pause
+  const handleAnimationIteration = event => {
+    // Manually change DOM node instead of setting state to avoid re-render
+    ref.current.style.animationPlayState = "paused"
+  }
+
+  const handleNext = event => {
+    changeActiveIndex(activeIndex + 1);
+  };
 
   const simulateMouseEvent = (element, eventName) => {
     element.dispatchEvent(new MouseEvent(eventName, {
@@ -154,7 +198,7 @@ const FormBody = React.forwardRef(({ buttonRef, children }, ref) => {
 
   const handleKeyDown = event => {
     if (event.key === 'Enter' && !event.repeat) {
-      if (activeIndex + 1 !== 4) {
+      if (!isSubmitPage) {
         buttonRef.current.classList.add('active');
         const handleKeyUp = event => {
           buttonRef.current.classList.remove('active');
@@ -174,48 +218,6 @@ const FormBody = React.forwardRef(({ buttonRef, children }, ref) => {
     }
   }
 
-  const handleNext = event => {
-    changeActiveIndex(activeIndex + 1);
-  };
-
-  // Add submit form function and animations for page 4
-  const handleSubmit = event => {
-    if (event.button === 0) {
-      console.log('Form Submitted!');
-    }
-  }
-
-  // When error state gets set to true, FormBody will re-render with animation. Once the first iteration finishes, the animation should pause
-  const handleAnimationIteration = event => {
-    // Manually change DOM node instead of setting state to avoid re-render
-    ref.current.style.animationPlayState = "paused"
-  }
-
-  useEffect(() => {
-    // Only the onClick event of NextButton or Title can set error state to true
-    // Every other action should set error state to false, otherwise the animation will run
-    if (error.state) ref.current.style.animationPlayState = "running";
-  });
-
-
-  useEffect(() => {
-    if (activeIndex + 1 === 4) {
-      setButtonAttributes({
-        role: "button",
-        tabIndex: "0",
-        onClick: handleSubmit,
-      });
-    } else {
-      setButtonAttributes(buttonAttributesRef.current);
-    }
-  }, [activeIndex]);
-
-  useEffect(() => {
-    if (buttonAttributes.role === 'button') {
-      setTimeout(() => ref.current.focus(), 400);
-    }
-  }, [buttonAttributes]);
-
   return (
     <StyledFormBody
       ref={ref}
@@ -223,26 +225,25 @@ const FormBody = React.forwardRef(({ buttonRef, children }, ref) => {
       onKeyDown={handleKeyDown}
       onAnimationIteration={handleAnimationIteration}
       // pass in height properties from active input
-      // pass in isSubmitPage boolean by determine if activeIndex = inputs.length
-      // activePage={activeIndex + 1}
+      isSubmitPage={isSubmitPage}
       {...buttonAttributes}
     >
       <IconContainer>
         <IconWrapper index={activeIndex}>
-          {(inputs.length > 0) ? inputs.map(input => <Icon key={input.iconClassName} className={input.iconClassName} />) : null}
+          {(inputs.length > 0) ? 
+            inputs.map(input => <Icon key={input.iconClassName} className={input.iconClassName} isSubmitPage={isSubmitPage} />) :
+            null
+          }
         </IconWrapper>
       </IconContainer>
       <InputContainer>
         {children}
-        <SubmitLabel
-          page={activeIndex + 1}  // pass in isSubmit boolean by determine if activeIndex = inputs.length
-        />
+        <SubmitLabel isSubmitPage={isSubmitPage}/>
       </InputContainer>
       <NextButton
         ref={buttonRef}
         onClick={handleNext}
-        page={activeIndex + 1}  // pass in isSubmitPage boolean by determine if activeIndex = inputs.length
-        disabled={activeIndex === 3} // pass in isSubmitPage boolean by determine if activeIndex = inputs.length
+        isSubmitPage={isSubmitPage}
       >
         <NextButtonIcon />
       </NextButton>

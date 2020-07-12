@@ -134,7 +134,7 @@ export const SubmitLabel = styled.div`
     top: 7px;
     left: -34px;
     transition: opacity 300ms ease-in-out 150ms, transform 300ms ease-in-out 150ms;
-    ${props => (props.page === 4) ? `
+    ${props => props.isSubmitPage ? `
       opacity: 1;
       visibility: visible;
     ` : `
@@ -155,7 +155,7 @@ export const NextButton = styled.button`
   transition: transform 300ms;
   cursor: pointer;
   ${props => `
-    ${(props.page === 4) ? `
+    ${props.isSubmitPage ? `
       transform: rotate(-90deg);
       pointer-events: none;
     ` : `

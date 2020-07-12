@@ -11,7 +11,7 @@ const StyledIcons = styled.div`
   justify-content: center;
   transition: opacity 600ms, transform 400ms;
   ${props => `
-    ${(props.page === 4) ? `
+    ${props.isSubmitPage ? `
       opacity: 0;
       transform: rotate(360deg);
     ` : `
@@ -19,8 +19,8 @@ const StyledIcons = styled.div`
   `}
 `;
 
-const Icon = ({ className, page }) => (
-  <StyledIcons page={page}>
+const Icon = ({ className, isSubmitPage }) => (
+  <StyledIcons isSubmitPage={isSubmitPage}>
     <div className={className}></div>
   </StyledIcons>
 )

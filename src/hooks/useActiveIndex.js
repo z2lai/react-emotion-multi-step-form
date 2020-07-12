@@ -2,10 +2,12 @@ import { useState, useContext } from "react";
 
 import { InputsContext } from '../context/InputsContext';
 import useError from './useError';
+import useInputs from './useInputs';
 
 const useActiveInputIndex = () => {
   console.log('useActiveIndex called!');
-  const { inputs, activeIndex, setActiveIndex } = useContext(InputsContext);
+  const { activeIndex, setActiveIndex, isSubmitPage, setIsSubmitPage } = useContext(InputsContext);
+  const inputs = useInputs()[0];
   const setErrorMessage = useError()[1];
 
   const changeActiveIndex = index => {
@@ -25,11 +27,17 @@ const useActiveInputIndex = () => {
     }
     setErrorMessage('');
     setActiveIndex(index);
+    if (index === inputs.length) {
+      setIsSubmitPage(true);
+    } else {
+      setIsSubmitPage(false) 
+    }
   }
 
   return [
     activeIndex,
     changeActiveIndex,
+    isSubmitPage,
   ]
 }
 

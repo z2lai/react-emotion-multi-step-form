@@ -13,6 +13,8 @@ export const InputsProvider = props => {
     state: false,
     message: ''
   })
+  const [isSubmitPage, setIsSubmitPage] = useState(false);
+
   const inputsRef = useRef({});
 
   useEffect(() => {
@@ -39,6 +41,8 @@ export const InputsProvider = props => {
     setActiveIndex,
     error,
     setError,
+    isSubmitPage,
+    setIsSubmitPage,
   }
 
   return <InputsContext.Provider value={inputsContext}>{children}</InputsContext.Provider>;

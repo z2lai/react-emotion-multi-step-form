@@ -229,9 +229,7 @@ const Form = props => {
             // maxLength: 16 or { value: 16, message: 'error message' },
             //pattern: `regex pattern`
             //validate: { validator: customValidatorFunc, message: customMessageFunc }
-          })} // for associating page number, icon, input validation, error message and focusing input ref on error
-          // handleChange={handleUrlChange}
-          // active={activeInputIndex === 0}
+          })}
         />
         <TextInput
           name='type'
