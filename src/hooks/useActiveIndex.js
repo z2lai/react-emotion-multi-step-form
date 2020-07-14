@@ -11,6 +11,7 @@ const useActiveInputIndex = () => {
   const setErrorMessage = useError()[1];
 
   const changeActiveIndex = index => {
+    console.log('changeActiveIndex called!')
     console.log(inputs);
     const isNextIndex = index > activeIndex;
     /* 

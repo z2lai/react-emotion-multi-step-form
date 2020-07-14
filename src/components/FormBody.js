@@ -2,11 +2,12 @@ import React, { useState, useRef, useEffect } from "react";
 import styled from "@emotion/styled";
 import { css, keyframes } from '@emotion/core';
 
+import { IconContainer, IconWrapper, InputContainer, SubmitLabel, NextButton, NextButtonIcon } from "./StyledComponents";
+import Icon from "./Icon";
+
 import useActiveIndex from "../hooks/useActiveIndex";
 import useError from '../hooks/useError';
 import useInputs from "../hooks/useInputs";
-import { IconContainer, IconWrapper, InputContainer, SubmitLabel, NextButton, NextButtonIcon } from "./StyledComponents";
-import Icon from "./Icon";
 
 import log from "../tests/log";
 

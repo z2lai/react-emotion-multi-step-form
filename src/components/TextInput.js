@@ -1,27 +1,46 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import InputWrapper from "./InputWrapper";
 import { StyledInput } from "./StyledComponents";
+
+import useInputs from "../hooks/useInputs";
 
 import log from "../tests/log";
 
 // const testUrl = "https://css-tricks.com/javascript-scope-closures/";
 
 const TextInput = ({ name, inputRef, placeholder }) => {
-  const validateUrl = url => {
-    if (url.length > 0) return url;
-  };
+  console.log('TextInput rendered!');
+  // const getInput = useInputs()[2];
+  // const [value, setValue] = useState();
+  // const handleInputChange = useRef();
 
-  const suggestTags = (childTopics, parentTopics) => {
-    let topics = {};
-    childTopics.forEach(topic => {
-      if (!topics[topic]) topics[topic] = false; // initial checked status of topic checkbox
-    });
-    parentTopics.forEach(topic => {
-      if (!topics[topic]) topics[topic] = false;
-    });
-    return topics;
-  };
+  // useEffect(() => {
+  //   console.log('TextInput Effect!');
+  //   console.log(getInput(name));
+  //   handleInputChange.current = getInput(name).handleChange;
+  // }, [getInput, name]);
+
+  // const handleChange = event => {
+  //   setValue(event.target.value);
+  //   handleInputChange.current(event.target.value);
+  // }
+
+  
+  // const validateUrl = url => {
+  //   if (url.length > 0) return url;
+  // };
+
+  // const suggestTags = (childTopics, parentTopics) => {
+  //   let topics = {};
+  //   childTopics.forEach(topic => {
+  //     if (!topics[topic]) topics[topic] = false; // initial checked status of topic checkbox
+  //   });
+  //   parentTopics.forEach(topic => {
+  //     if (!topics[topic]) topics[topic] = false;
+  //   });
+  //   return topics;
+  // };
 
   // const submitUrl = event => {
   //   const cleanUrl = this.validateUrl(props.url);
@@ -48,7 +67,7 @@ const TextInput = ({ name, inputRef, placeholder }) => {
         ref={inputRef}
         placeholder={placeholder}
         // value={value}
-        // onChange={e => handleChange(e.target.value)}
+        // onChange={handleChange}
       />
     </InputWrapper>
   );

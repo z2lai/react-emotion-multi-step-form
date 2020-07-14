@@ -75,25 +75,25 @@ export const InputContainer = styled.div`
   flex-flow: column nowrap;
 `
 
-export const InputWrapper = styled.div`
-  max-width: 500px;
-  min-height: 40px;
-  max-height: 220px;
-  display: flex;
-  flex-flow: ${props => props.column ? 'column nowrap' : 'row nowrap'};
-  justify-content: space-evenly;
-  align-items: center;
-  font-size: 1.125rem;
-  ${props => props.active ? `
-    visibility: visible;
-    opacity: 1;
-    transition: opacity 600ms ease-out;
-  ` : ` 
-    position: absolute;
-    visibility: hidden;
-    opacity: 0;
-  `}
-`;
+// export const InputWrapper = styled.div`
+//   max-width: 500px;
+//   min-height: 40px;
+//   max-height: 220px;
+//   display: flex;
+//   flex-flow: ${props => props.column ? 'column nowrap' : 'row nowrap'};
+//   justify-content: space-evenly;
+//   align-items: center;
+//   font-size: 1.125rem;
+//   ${props => props.active ? `
+//     visibility: visible;
+//     opacity: 1;
+//     transition: opacity 600ms ease-out;
+//   ` : ` 
+//     position: absolute;
+//     visibility: hidden;
+//     opacity: 0;
+//   `}
+// `;
 
 export const StyledInput = styled.input`
   width: 100%;

@@ -24,7 +24,7 @@ const StyledInputWrapper = styled.div`
   `}
 `;
 
-const InputWrapper = ({ name, column, children }) => {
+const InputWrapper = ({ inputRef, name, column, children }) => {
   console.log('InputWrapper Rendered!');
   const { inputs, activeIndex } = useContext(InputsContext);
   const [isActive, setIsActive] = useState(false);
@@ -33,7 +33,10 @@ const InputWrapper = ({ name, column, children }) => {
     console.log('InputWrapper Effect Ran!');
     if (inputs.length > 0 && activeIndex < inputs.length) {
       console.log(inputs);
-      const isActive = name === inputs[activeIndex].node.name;  // should I create new global state to store activeInputName instead?
+      // should I create new global state or hook to store activeInputName instead?
+      const activeInputNode = inputs[activeIndex].node;
+      const activeInputName = activeInputNode.name || activeInputNode.dataset.name;
+      const isActive = name === activeInputName;  
       setIsActive(isActive);
     } else {
       setIsActive(false);
@@ -41,9 +44,14 @@ const InputWrapper = ({ name, column, children }) => {
   }, [inputs, activeIndex, name]);
 
   return (
-    <StyledInputWrapper isActive={isActive} column={column}>
+    <StyledInputWrapper
+      data-name={name}
+      ref={inputRef}
+      column={column}
+      isActive={isActive}
+    >
       {children}
-    </StyledInputWrapper >
+    </StyledInputWrapper>
   )
 }
 

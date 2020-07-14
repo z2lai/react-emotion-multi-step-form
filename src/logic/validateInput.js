@@ -1,6 +1,8 @@
 const validateInput = (inputNode, criteria) => {
+    console.log('validateInput called!');
     console.log(inputNode);
-    const { name, value } = inputNode;
+    const { name, value } = inputNode; // there is no single node for radio buttons
+    console.log(value)
     const {
       required,
       minLength,

@@ -1,11 +1,20 @@
-import { useRef, useEffect, useContext } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import { InputsContext } from "../context/InputsContext";
 import validateInput from '../logic/validateInput';
 
 const useInputs = () => {
-  const { inputs, updateInputs } = useContext(InputsContext);
-  // const inputsRef = useRef({});
   console.log('useInputs called!');
+  const { inputs, updateInputs, inputsRef } = useContext(InputsContext);
+  const [value, setvalue] = useState();
+
+  const getInput = name => {
+    return inputsRef.current[name];
+  }
+
+  const handleInputChange = input => {
+
+  }
+  // const inputsRef = useRef({});
   // console.log(inputsRef.current);
   // const inputsTempRef = useRef({});
   // const setRef = useCallback(node => {
@@ -32,6 +41,10 @@ const useInputs = () => {
     // }
     // associate page number, icon, input validation, error message and focusing input ref on error
     const input = {
+      value: null,
+      handleChange: function (value) {
+        this.value = value;
+      }.bind(this),
       iconClassName,
       validationCriteria,
       validate: function () {
@@ -42,6 +55,8 @@ const useInputs = () => {
       console.log('Ref callback run with node:');
       console.log(node);
       if (node) {
+        console.log(node.name);
+        console.log(node.dataset.name);
         input.node = node;
         updateInputs(input);
         // inputsRef.current[node.name] = input;
@@ -54,6 +69,9 @@ const useInputs = () => {
   return [
     inputs,
     registerInput,
+    getInput,
+    value,
+    handleInputChange,
   ]
 }
 

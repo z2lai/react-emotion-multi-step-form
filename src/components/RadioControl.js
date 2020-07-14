@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 
-import { InputWrapper } from './StyledComponents';
+import InputWrapper from "./InputWrapper";
 
 import log from "../tests/log";
 
@@ -19,7 +19,7 @@ const StyledLabel = styled.label`
   ${props => `
     border: 1px solid white;
     color: ${props.theme.colors.dark[props.color]};
-    ${props.checked ? `
+    ${props.isChecked ? `
       color: ${props.theme.colors.white};
       background: ${props.theme.colors.dark[props.color]};
       border: 1px solid ${props.theme.colors.light[props.color]};
@@ -48,39 +48,55 @@ const RadioWrapper = styled.div`
   }
 `
 
-const RadioButton = ({ name, value, checked, onKeyPress, onChange }) => (
-  <RadioWrapper color={value}>
+export const RadioOption = props => ( // additional props are added through compound component pattern, so cannot destructure
+  <RadioWrapper color={props.value}>
     <HiddenRadio
       type="radio"
-      name={name}
-      id={value}
-      value={value}
-      checked={checked}
-      onKeyPress={onKeyPress}
-      onChange={onChange}
+      name={props.name}
+      id={props.value}
+      value={props.value}
+      onChange={event => props.handleChange(event.target.value)}
     />
-    <StyledLabel htmlFor={value} checked={checked} color={value}>
-      {value}
+    <StyledLabel 
+      htmlFor={props.value} 
+      isChecked={props.isChecked} 
+      color={props.value}
+    >
+      {props.value}
     </StyledLabel>
   </RadioWrapper>
 );
 
-const RadioControl = ({ active, name, selection, handleChange }) => {
-  const options = ["guide", "tutorial", "reference"]; // should be queried from database in a useEffect hook
-  return (
-    <InputWrapper active={active}>
-      {options.map(option => (
-        <RadioButton
-          key={option}
-          name={name}
-          value={option}
-          checked={option === selection}
-          onKeyup={event => handleChange(event.target.value)}
-          onChange={event => handleChange(event.target.value)}
-        />
-      ))}
-    </InputWrapper>
-  )
-};
+export const RadioControl = ({ inputRef, name, value, handleChange, children }) => (
+  <InputWrapper name={name} inputRef={inputRef}>
+    {React.Children.map(children, child => {
+      if (child.type === RadioOption) {
+        return React.cloneElement(child, {
+          name: name,
+          isChecked: child.props.value === value,
+          handleChange: handleChange,
+        });
+      }
+      return child;
+    })}
+  </InputWrapper>
+)
 
-export default log(RadioControl);
+// const RadioControl = ({ active, name, handleChange, children }) => {
+//   const options = ["guide", "tutorial", "reference"]; // should be queried from database in a useEffect hook
+//   return (
+//     <InputWrapper name={name} ref={inputRef}>
+//       {options.map(option => (
+//         <RadioOption
+//           key={option}
+//           name={name}
+//           value={option}
+//           onKeyup={event => handleChange(event.target.value)}
+//           onChange={event => handleChange(event.target.value)}
+//         />
+//       ))}
+//     </InputWrapper>
+//   )
+// };
+
+// export default log(RadioControl);

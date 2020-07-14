@@ -8,14 +8,13 @@ import {
 import Title from "./Title";
 import FormBody from "./FormBody";
 import TextInput from "./TextInput";
-import RadioControl from "./RadioControl";
+import { RadioControl, RadioOption } from "./RadioControl";
 import CheckboxControl from "./CheckboxControl";
 import log from "../tests/log";
 import useActiveIndex from "../hooks/useActiveIndex";
 import useError from '../hooks/useError';
 
 const MemoizedTitle = React.memo(Title);
-const MemoizedRadioControl = React.memo(RadioControl);
 const MemoizedCheckboxControl = React.memo(CheckboxControl);
 
 const Form = props => {
@@ -159,38 +158,33 @@ const Form = props => {
   //     }
   //   }
 
-  //   // switch (activePage) {
-  //   //   case 1:
-  //   //     if (isNextPage && url === '') {
-  //   //       urlInputRef.current.focus();
-  //   //       return setErrorMessage('Please fill in the URL!');
-  //   //     }
-  //   //     setArticle({ ...article, url });
-  //   //     break;
-  //   //   case 2:
-  //   //     if (isNextPage && type === '') {
-  //   //       formBodyRef.current.focus();
-  //   //       return setErrorMessage('Please select a Type!');
-  //   //     }
-  //   //     setArticle({ ...article, type });
-  //   //     break;
-  //   //   case 3:
-  //   //     if (isNextPage && tags.length === 0) {
-  //   //       tagInputRef.current.focus();
-  //   //       return setErrorMessage('Please select a Tag!');
-  //   //     }
-  //   //     setArticle({ ...article, tags });
-  //   //     break;
-  //   // }
-  //   setErrorMessage('');
+  // switch (activePage) {
+  //   case 1:
+  //     if (isNextPage && url === '') {
+  //       urlInputRef.current.focus();
+  //       return setErrorMessage('Please fill in the URL!');
+  //     }
+  //     setArticle({ ...article, url });
+  //     break;
+  //   case 2:
+  //     if (isNextPage && type === '') {
+  //       formBodyRef.current.focus();
+  //       return setErrorMessage('Please select a Type!');
+  //     }
+  //     setArticle({ ...article, type });
+  //     break;
+  //   case 3:
+  //     if (isNextPage && tags.length === 0) {
+  //       tagInputRef.current.focus();
+  //       return setErrorMessage('Please select a Tag!');
+  //     }
+  //     setArticle({ ...article, tags });
+  //     break;
+  // }
+  // setErrorMessage('');
   //   setActivePage(newActivePage);
   //   formBodyRef.current.focus();
   // }
-
-  // useEffect(() => {
-  //   inputsRef.current = Object.values(inputs) // need to change inputs to a set to guaruntee order when converted to array
-  //   console.log(inputsRef.current);
-  // }, []);
 
   return (
     <StyledForm ref={formRef} tabIndex={-1}>
@@ -216,11 +210,11 @@ const Form = props => {
         />
       </TitleContainer>
       <ErrorMessage>{error.message}</ErrorMessage>
-      <FormBody 
-        ref={formBodyRef} 
-        buttonRef={buttonRef} 
+      <FormBody
+        ref={formBodyRef}
+        buttonRef={buttonRef}
       >
-        <TextInput
+        <TextInput // Need to make this controlled to be consistent with other custom input components. Add option for user to use regular uncontrolled text input element instead of TextInput
           name="url"
           placeholder='url'
           inputRef={registerInput('icon-link', {
@@ -231,32 +225,28 @@ const Form = props => {
             //validate: { validator: customValidatorFunc, message: customMessageFunc }
           })}
         />
-        <TextInput
-          name='type'
-          placeholder='type'
+        <RadioControl
+          name="type"
+          value={type}
+          handleChange={memoizedhandleTypeChange}
           inputRef={registerInput('icon-tree', {
             required: 'Please select a Type!',
           })}
-          // active={activeInputIndex === 1}
-          />
-        <TextInput
+        >
+          <RadioOption value="guide"/>
+          <RadioOption value="tutorial"/>
+          <RadioOption value="reference"/>
+        </RadioControl>
+        {/* <TextInput
           name='tags'
           placeholder='tags'
           inputRef={registerInput('icon-price-tags', {
             required: 'Please select a Tag!',
           })}
-          // active={activeInputIndex === 2}
-        />
-        {/* <MemoizedRadioControl // this component probably does not need to be memoized as it's relatively small
-            name="type"
-            active={activePage === 2}
-            selection={type}
-            handleChange={memoizedhandleTypeChange}
-          />
-          <MemoizedCheckboxControl
+        /> */}
+        {/* <MemoizedCheckboxControl
             name="topics"
             ref={tagInputRef}
-            active={activePage === 3}
             options={tagOptions}
             setTags={memoizedhandleTagChange}
           /> */}

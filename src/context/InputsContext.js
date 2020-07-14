@@ -27,8 +27,9 @@ export const InputsProvider = props => {
   }, [inputsRef.current]);
 
   const updateInputs = input => {
-    if (!inputsRef.current.hasOwnProperty(input.node.name)) {
-      inputsRef.current[input.node.name] = input;
+    const name = input.node.name || input.node.dataset.name;
+    if (!inputsRef.current.hasOwnProperty(name)) {
+      inputsRef.current[name] = input;
       console.log('input registered! inputsref.current:')
       console.log(inputsRef.current)
     }
@@ -37,6 +38,7 @@ export const InputsProvider = props => {
   const inputsContext = {
     inputs,
     updateInputs,
+    inputsRef,
     activeIndex,
     setActiveIndex,
     error,

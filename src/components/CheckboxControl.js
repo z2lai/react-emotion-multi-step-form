@@ -8,7 +8,7 @@ import { Typeahead, Hint, Input, Token } from 'react-bootstrap-typeahead';
 // Typeahead Components: https://github.com/ericgio/react-bootstrap-typeahead/blob/1cf74a4e3f65d4d80e992d1f926bfaf9f5a349bc/src/components/Typeahead.react.js
 // Typeahead internal methods: https://github.com/ericgio/react-bootstrap-typeahead/blob/1cf74a4e3f65d4d80e992d1f926bfaf9f5a349bc/src/core/Typeahead.js
 
-import { InputWrapper } from './StyledComponents';
+import InputWrapper from './InputWrapper';
 import Checkbox from './Checkbox';
 import debounce from '../utils/debounce';
 import throttle from '../utils/throttle';
