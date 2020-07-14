@@ -11,9 +11,7 @@ import log from "../tests/log";
 
 const TextInput = ({ name, inputRef, placeholder }) => {
   console.log('TextInput rendered!');
-  // const getInput = useInputs()[2];
-  // const [value, setValue] = useState();
-  // const handleInputChange = useRef();
+  const { value, setValue } = useInputs(name, '');
 
   // useEffect(() => {
   //   console.log('TextInput Effect!');
@@ -21,12 +19,10 @@ const TextInput = ({ name, inputRef, placeholder }) => {
   //   handleInputChange.current = getInput(name).handleChange;
   // }, [getInput, name]);
 
-  // const handleChange = event => {
-  //   setValue(event.target.value);
-  //   handleInputChange.current(event.target.value);
-  // }
+  const handleChange = event => {
+    setValue(event.target.value);
+  }
 
-  
   // const validateUrl = url => {
   //   if (url.length > 0) return url;
   // };
@@ -66,8 +62,8 @@ const TextInput = ({ name, inputRef, placeholder }) => {
         name={name}
         ref={inputRef}
         placeholder={placeholder}
-        // value={value}
-        // onChange={handleChange}
+        value={value}
+        onChange={handleChange}
       />
     </InputWrapper>
   );

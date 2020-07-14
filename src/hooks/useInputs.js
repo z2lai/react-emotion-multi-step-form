@@ -2,18 +2,25 @@ import { useState, useRef, useEffect, useContext } from "react";
 import { InputsContext } from "../context/InputsContext";
 import validateInput from '../logic/validateInput';
 
-const useInputs = () => {
+const useInputs = (name, initialValue) => {
   console.log('useInputs called!');
-  const { inputs, updateInputs, inputsRef } = useContext(InputsContext);
-  const [value, setvalue] = useState();
+  const { inputs, addInput, inputsRef } = useContext(InputsContext);
+  const [value, setValue] = useState(initialValue);
 
-  const getInput = name => {
-    return inputsRef.current[name];
-  }
+  // const getInput = name => {
+  //   return inputsRef.current[name];
+  // }
 
-  const handleInputChange = input => {
+  useEffect(() => {
+    const input = inputsRef.current[name]
+    if (input) {
+      console.log(value);
+      input.value = value;
+      console.log('useInputs effect called, input updated:');
+      console.log(input);
+    }
+  }, [value])
 
-  }
   // const inputsRef = useRef({});
   // console.log(inputsRef.current);
   // const inputsTempRef = useRef({});
@@ -41,14 +48,10 @@ const useInputs = () => {
     // }
     // associate page number, icon, input validation, error message and focusing input ref on error
     const input = {
-      value: null,
-      handleChange: function (value) {
-        this.value = value;
-      }.bind(this),
       iconClassName,
       validationCriteria,
       validate: function () {
-        return validateInput(this.node, this.validationCriteria);
+        return validateInput(this.name, this.value, this.validationCriteria);
       },
     }
     return node => {
@@ -58,7 +61,7 @@ const useInputs = () => {
         console.log(node.name);
         console.log(node.dataset.name);
         input.node = node;
-        updateInputs(input);
+        addInput(input);
         // inputsRef.current[node.name] = input;
         // console.log('input registered! inputsref.current:')
         // console.log(inputsRef.current)
@@ -66,13 +69,12 @@ const useInputs = () => {
     };
   }
 
-  return [
+  return {
     inputs,
     registerInput,
-    getInput,
     value,
-    handleInputChange,
-  ]
+    setValue,
+  }
 }
 
 export default useInputs;

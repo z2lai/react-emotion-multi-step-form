@@ -3,6 +3,8 @@ import styled from "@emotion/styled";
 
 import InputWrapper from "./InputWrapper";
 
+import useInputs from "../hooks/useInputs";
+
 import log from "../tests/log";
 
 const StyledLabel = styled.label`
@@ -55,11 +57,11 @@ export const RadioOption = props => ( // additional props are added through comp
       name={props.name}
       id={props.value}
       value={props.value}
-      onChange={event => props.handleChange(event.target.value)}
+      onChange={props.handleChange}
     />
-    <StyledLabel 
-      htmlFor={props.value} 
-      isChecked={props.isChecked} 
+    <StyledLabel
+      htmlFor={props.value}
+      isChecked={props.isChecked}
       color={props.value}
     >
       {props.value}
@@ -67,20 +69,27 @@ export const RadioOption = props => ( // additional props are added through comp
   </RadioWrapper>
 );
 
-export const RadioControl = ({ inputRef, name, value, handleChange, children }) => (
-  <InputWrapper name={name} inputRef={inputRef}>
-    {React.Children.map(children, child => {
-      if (child.type === RadioOption) {
-        return React.cloneElement(child, {
-          name: name,
-          isChecked: child.props.value === value,
-          handleChange: handleChange,
-        });
-      }
-      return child;
-    })}
-  </InputWrapper>
-)
+export const RadioControl = ({ inputRef, name, children }) => {
+  const { value, setValue } = useInputs(name, '');
+  const handleChange = event => {
+    setValue(event.target.value);
+  }
+
+  return (
+    <InputWrapper name={name} inputRef={inputRef}>
+      {React.Children.map(children, child => {
+        if (child.type === RadioOption) {
+          return React.cloneElement(child, {
+            name: name,
+            isChecked: child.props.value === value,
+            handleChange: handleChange,
+          });
+        }
+        return child;
+      })}
+    </InputWrapper>
+  )
+}
 
 // const RadioControl = ({ active, name, handleChange, children }) => {
 //   const options = ["guide", "tutorial", "reference"]; // should be queried from database in a useEffect hook

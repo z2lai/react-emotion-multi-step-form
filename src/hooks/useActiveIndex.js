@@ -6,8 +6,7 @@ import useInputs from './useInputs';
 
 const useActiveInputIndex = () => {
   console.log('useActiveIndex called!');
-  const { activeIndex, setActiveIndex, isSubmitPage, setIsSubmitPage } = useContext(InputsContext);
-  const inputs = useInputs()[0];
+  const { inputsRef, inputs, inputValues, updateInputValues, activeIndex, setActiveIndex, isSubmitPage, setIsSubmitPage } = useContext(InputsContext);
   const setErrorMessage = useError()[1];
 
   const changeActiveIndex = index => {
@@ -26,6 +25,7 @@ const useActiveInputIndex = () => {
         return setErrorMessage(errorMessage);
       }
     }
+    updateInputValues();
     setErrorMessage('');
     setActiveIndex(index);
     if (index === inputs.length) {

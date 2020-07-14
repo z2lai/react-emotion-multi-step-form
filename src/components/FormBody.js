@@ -104,7 +104,7 @@ const StyledFormBody = styled.div`
 
 const FormBody = React.forwardRef(({ buttonRef, children }, ref) => {
   console.log('FormBody rendered!');
-  const inputs = useInputs()[0];
+  const { inputs } = useInputs();
   const [activeIndex, changeActiveIndex, isSubmitPage] = useActiveIndex();
   const [error] = useError();
 

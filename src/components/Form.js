@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback, useEffect } from "react";
+import React, { useState, useRef, useCallback, useEffect, useContext } from "react";
 
 import useInputs from '../hooks/useInputs';
 import {
@@ -10,16 +10,20 @@ import FormBody from "./FormBody";
 import TextInput from "./TextInput";
 import { RadioControl, RadioOption } from "./RadioControl";
 import CheckboxControl from "./CheckboxControl";
-import log from "../tests/log";
+
 import useActiveIndex from "../hooks/useActiveIndex";
 import useError from '../hooks/useError';
+import { InputsContext } from '../context/InputsContext';
+
+import log from "../tests/log";
 
 const MemoizedTitle = React.memo(Title);
 const MemoizedCheckboxControl = React.memo(CheckboxControl);
 
 const Form = props => {
   console.log('Form rendered!');
-  const registerInput = useInputs()[1];
+  const { inputValues } = useContext(InputsContext);
+  const { registerInput } = useInputs();
   const [activeIndex, changeActiveIndex] = useActiveIndex();
   const error = useError()[0];
   // const inputsRef = useRef();
@@ -191,13 +195,13 @@ const Form = props => {
       <Heading>Submit An Article To the Communal Curator</Heading>
       <TitleContainer>
         <MemoizedTitle
-          value={article.url || 'Input Article URL'}
+          value={inputValues['url'] || 'Input Article URL'}
           page={0}
           active={activeIndex === 0}
           changeActivePage={changeActiveIndex}
         />
         <MemoizedTitle
-          value={article.type || 'Select Resource Type'}
+          value={inputValues['type'] || 'Select Resource Type'}
           page={1}
           active={activeIndex === 1}
           changeActivePage={changeActiveIndex}
@@ -227,8 +231,8 @@ const Form = props => {
         />
         <RadioControl
           name="type"
-          value={type}
-          handleChange={memoizedhandleTypeChange}
+          // value={type}
+          // handleChange={memoizedhandleTypeChange}
           inputRef={registerInput('icon-tree', {
             required: 'Please select a Type!',
           })}
