@@ -63,8 +63,8 @@ const StyledFormBody = styled.div`
   &:focus {
     outline: none;
   }
-  ${props => (props.activePage === 3) ? `
-    height: 240px;
+  ${props => (props.inputHeight) ? `
+    height: ${props.inputHeight + 20}px;
     transition: height 400ms ease-out, max-width 150ms ease-out;
   ` : props.isSubmitPage ? css`
     max-width: 120px;
@@ -108,6 +108,8 @@ const FormBody = React.forwardRef(({ buttonRef, children }, ref) => {
   const [activeIndex, changeActiveIndex, isSubmitPage] = useActiveIndex();
   const [error] = useError();
 
+  const inputHeight = (inputs.length > 0 && activeIndex < inputs.length) ? inputs[activeIndex].height : '';
+
   // Add submit form function and animations for page 4
   const handleSubmit = event => {
     if (event.button === 0) {
@@ -134,20 +136,36 @@ const FormBody = React.forwardRef(({ buttonRef, children }, ref) => {
     if (error.state) ref.current.style.animationPlayState = "running";
   });
 
+  // This effect replaces the next two commented out effects
   useEffect(() => {
-    if (isSubmitPage) {
-      setButtonAttributes(buttonAttributesRef.current.enabled);
-    } else {
-      setButtonAttributes(buttonAttributesRef.current.disabled);
+    if (inputs.length > 0) {
+      if (!isSubmitPage) {
+        console.log('node to be focused:');
+        console.log(inputs[activeIndex].node);
+        setTimeout(() => inputs[activeIndex].node.focus(), 600);
+        setButtonAttributes(buttonAttributesRef.current.disabled);
+      } else {
+        setButtonAttributes(buttonAttributesRef.current.enabled);
+        setTimeout(() => ref.current.focus(), 400);
+        // ref.current.focus();
+      }
     }
-  }, [activeIndex]);
-
-  useEffect(() => {
-    if (buttonAttributes.role === 'button') {
-      // setTimeout(() => ref.current.focus(), 400);
-      ref.current.focus();
-    }
-  }, [buttonAttributes]);
+  }, [inputs, activeIndex])
+  
+  // useEffect(() => {
+  //   if (isSubmitPage) {
+  //     setButtonAttributes(buttonAttributesRef.current.enabled);
+  //   } else {
+  //     setButtonAttributes(buttonAttributesRef.current.disabled);
+  //   }
+  // }, [activeIndex]);
+  
+  // useEffect(() => {
+  //   if (buttonAttributes.role === 'button') {
+  //     // setTimeout(() => ref.current.focus(), 400);
+  //     ref.current.focus();
+  //   }
+  // }, [buttonAttributes]);
 
   // When error state gets set to true, FormBody will re-render with animation. Once the first iteration finishes, the animation should pause
   const handleAnimationIteration = event => {
@@ -222,6 +240,7 @@ const FormBody = React.forwardRef(({ buttonRef, children }, ref) => {
   return (
     <StyledFormBody
       ref={ref}
+      inputHeight={inputHeight}
       isError={error.state}
       onKeyDown={handleKeyDown}
       onAnimationIteration={handleAnimationIteration}

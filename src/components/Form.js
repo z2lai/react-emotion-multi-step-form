@@ -114,24 +114,22 @@ const Form = props => {
   // };
 
   const handleUrlChange = url => {
-    console.log('handleUrlChange')
-    setUrl(url);
+    console.log(`handleUrlChange called with: ${url}`);
   }
 
   const memoizedhandleTypeChange = useCallback(
     type => {
-      console.log('handleType');
-      setType(type);
+      console.log(`handleType called with: ${type}`);
     },
-    [article]
+    []
   );
 
   // Combine this function with the function above?
   const memoizedhandleTagChange = useCallback(
     tags => {
-      setTags(tags);
+      console.log(`handleType called with: ${tags}`);
     },
-    [article]
+    []
   );
 
   const submit = () => {
@@ -207,7 +205,7 @@ const Form = props => {
           changeActivePage={changeActiveIndex}
         />
         <MemoizedTitle
-          value={(article.tags.length && article.tags.join(', ')) || 'Select Article Tags'}
+          value={(inputValues['tags'] && inputValues['tags'].length) && inputValues['tags'].join(', ') || 'Select Article Tags'}
           page={2}
           active={activeIndex === 2}
           changeActivePage={changeActiveIndex}
@@ -218,42 +216,43 @@ const Form = props => {
         ref={formBodyRef}
         buttonRef={buttonRef}
       >
-        <TextInput // Need to make this controlled to be consistent with other custom input components. Add option for user to use regular uncontrolled text input element instead of TextInput
+        <TextInput // Add option for user to use regular uncontrolled text input element instead of TextInput
           name="url"
           placeholder='url'
-          inputRef={registerInput('icon-link', {
-            required: 'Please fill in the URL!', // boolean or error message string
-            // minLength: 3 or { value: 3, message: 'error message' },
-            // maxLength: 16 or { value: 16, message: 'error message' },
-            //pattern: `regex pattern`
-            //validate: { validator: customValidatorFunc, message: customMessageFunc }
-          })}
+          inputRef={registerInput(
+            'icon-link',
+            {
+              required: 'Please fill in the URL!',
+            },
+          )}
+          onChange={handleUrlChange}
         />
         <RadioControl
           name="type"
-          // value={type}
-          // handleChange={memoizedhandleTypeChange}
-          inputRef={registerInput('icon-tree', {
-            required: 'Please select a Type!',
-          })}
+          inputRef={registerInput(
+            'icon-tree',
+            {
+              required: 'Please select a Type!',
+            },
+          )}
+          onChange={memoizedhandleTypeChange}
         >
-          <RadioOption value="guide"/>
-          <RadioOption value="tutorial"/>
-          <RadioOption value="reference"/>
+          <RadioOption value="guide" />
+          <RadioOption value="tutorial" />
+          <RadioOption value="reference" />
         </RadioControl>
-        {/* <TextInput
-          name='tags'
-          placeholder='tags'
-          inputRef={registerInput('icon-price-tags', {
-            required: 'Please select a Tag!',
-          })}
-        /> */}
-        {/* <MemoizedCheckboxControl
-            name="topics"
-            ref={tagInputRef}
-            options={tagOptions}
-            setTags={memoizedhandleTagChange}
-          /> */}
+        <MemoizedCheckboxControl
+          name="tags"
+          inputRef={registerInput(
+            'icon-price-tags',
+            {
+              required: 'Please select a Tag!',
+            },
+            220, // this should be set within CheckboxControl to avoid layout bugs with inputWrapper+contents overflowing FormBody
+          )}
+          options={tagOptions}
+          onChange={memoizedhandleTagChange}
+        />
       </FormBody>
     </StyledForm>
   );

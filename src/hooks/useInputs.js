@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, useContext } from "react";
 import { InputsContext } from "../context/InputsContext";
 import validateInput from '../logic/validateInput';
 
-const useInputs = (name, initialValue) => {
+const useInputs = (name, initialValue, handleChange) => {
   console.log('useInputs called!');
   const { inputs, addInput, inputsRef } = useContext(InputsContext);
   const [value, setValue] = useState(initialValue);
@@ -12,11 +12,13 @@ const useInputs = (name, initialValue) => {
   // }
 
   useEffect(() => {
+    console.log('useInputs effect called');
+    if (handleChange) handleChange(value);
     const input = inputsRef.current[name]
     if (input) {
+      console.log('input to be updated with:');
       console.log(value);
       input.value = value;
-      console.log('useInputs effect called, input updated:');
       console.log(input);
     }
   }, [value])
@@ -41,7 +43,7 @@ const useInputs = (name, initialValue) => {
   //   setInputs(inputsArray);
   // }, [inputsRef.current]);
 
-  const registerInput = (iconClassName, validationCriteria = { required: true }) => {
+  const registerInput = (iconClassName, validationCriteria = { required: true }, height) => {
     // if (inputsRef.current.hasOwnProperty(inputName)) {
     //   console.log('register input skipped!');
     //   return;
@@ -49,6 +51,7 @@ const useInputs = (name, initialValue) => {
     // associate page number, icon, input validation, error message and focusing input ref on error
     const input = {
       iconClassName,
+      height,
       validationCriteria,
       validate: function () {
         return validateInput(this.name, this.value, this.validationCriteria);

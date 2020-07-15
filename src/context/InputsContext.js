@@ -44,9 +44,11 @@ export const InputsProvider = props => {
   const updateInputValues = () => {
     const newInputValues = {};
     inputs.map(input => {
-      const valueShallowCopy = Array.isArray(input.value) && [...input.value] ||
-        (typeof input.value === 'object') && { ...input.value } ||
-        input.value
+      const valueShallowCopy = (Array.isArray(input.value) && [...input.value]) ||
+        ((typeof input.value === 'object') && { ...input.value }) ||
+        input.value;
+      console.log('valueShallowCopy:');
+      console.log(valueShallowCopy);
       newInputValues[input.name] = valueShallowCopy;
     });
     console.log('setInputValues called with:')

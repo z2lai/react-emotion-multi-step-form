@@ -31,7 +31,10 @@ const useActiveInputIndex = () => {
     if (index === inputs.length) {
       setIsSubmitPage(true);
     } else {
-      setIsSubmitPage(false) 
+      setIsSubmitPage(false);
+      // console.log('node to be focused:');
+      // console.log(inputs[index].node);
+      // setTimeout(inputs[index].node.focus(), 3000);
     }
   }
 

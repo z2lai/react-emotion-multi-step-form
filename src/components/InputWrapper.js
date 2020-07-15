@@ -13,6 +13,7 @@ const StyledInputWrapper = styled.div`
   justify-content: space-evenly;
   align-items: center;
   font-size: 1.125rem;
+  outline: none;
   ${props => props.isActive ? `
     visibility: visible;
     opacity: 1;
@@ -24,7 +25,7 @@ const StyledInputWrapper = styled.div`
   `}
 `;
 
-const InputWrapper = ({ inputRef, name, column, children }) => {
+const InputWrapper = ({ name, inputRef, column, children }) => {
   console.log('InputWrapper Rendered!');
   const { inputs, activeIndex } = useContext(InputsContext);
   const [isActive, setIsActive] = useState(false);
@@ -47,6 +48,7 @@ const InputWrapper = ({ inputRef, name, column, children }) => {
     <StyledInputWrapper
       data-name={name}
       ref={inputRef}
+      tabIndex={-1}
       column={column}
       isActive={isActive}
     >

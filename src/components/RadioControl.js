@@ -69,8 +69,8 @@ export const RadioOption = props => ( // additional props are added through comp
   </RadioWrapper>
 );
 
-export const RadioControl = ({ inputRef, name, children }) => {
-  const { value, setValue } = useInputs(name, '');
+export const RadioControl = ({ name, inputRef, onChange, children }) => {
+  const { value, setValue } = useInputs(name, '', onChange);
   const handleChange = event => {
     setValue(event.target.value);
   }

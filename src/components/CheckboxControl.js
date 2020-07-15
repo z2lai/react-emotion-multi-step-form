@@ -13,6 +13,8 @@ import Checkbox from './Checkbox';
 import debounce from '../utils/debounce';
 import throttle from '../utils/throttle';
 
+import useInputs from "../hooks/useInputs";
+
 import log from "../tests/log";
 
 /* Note: From Emotion documentation: https://emotion.sh/docs/styled#composing-dynamic-styles
@@ -60,7 +62,8 @@ const StyledTypeahead = styled(Typeahead)`
       z-index: 1;
     }
     .rbt-token {
-      margin: 0 3px 3px 0;
+      padding-top: 3px;
+      line-height: 1rem;
       background-color: ${props.theme.colors.extraLight.indigo};
       color: ${props.theme.colors.dark.indigo};
     }
@@ -122,12 +125,13 @@ const CheckboxWrapper = styled.div`
   padding: 0 2px;
 `
 
-const CheckboxControl = React.forwardRef(({ active, name, options, setTags }, ref) => {
+const CheckboxControl = React.forwardRef(({ name, inputRef: inputRefExternal, onChange, options }, ref) => {
   console.log('CheckboxControl Re-rendered!');
-  const [filter, setFilter] = useState(''); // create custom hook to debounce
+  const [filter, setFilter] = useState('');
   const [filteredOptions, setFilteredOptions] = useState(options);
-  const [selected, setSelected] = useState([]);
-  const [activeIndex, setActiveIndex] = useState(-1);
+  const [activeSelectionIndex, setActiveSelectionIndex] = useState(-1);
+  // const [selected, setSelected] = useState([]);
+  const { value: selected, setValue: setSelected } = useInputs(name, [], onChange);
 
   const typeaheadRef = useRef();
   const inputWrapperRef = useRef();
@@ -164,24 +168,25 @@ const CheckboxControl = React.forwardRef(({ active, name, options, setTags }, re
     inputNodeRef.current = typeaheadRef.current.getInput();
   }, []);
 
-  useEffect(() => {
-    if (active) {
-      // Delay focus until after FormBody has finished height transition, otherwise the content won't be properly positioned
-      // at the start of the transition and will shift during transition
-      setTimeout(() => inputNodeRef.current.focus(), 400);
-    }
-  }, [active]);
+  // useEffect(() => {
+  //   if (active) {
+  //     // Delay focus until after FormBody has finished height transition, otherwise the content won't be properly positioned
+  //     // at the start of the transition and will shift during transition
+  //     setTimeout(() => inputNodeRef.current.focus(), 400);
+  //   }
+  // }, [active]);
 
-  useEffect(() => {
-    setTags(selected); //! this is being called on initial render which triggers a re-render of formBody and the entire tree
-    console.log('Tags set!');
-  }, [selected]);
+  // This effect has been moved to useInputs to be reused by all input components
+  // useEffect(() => {
+  //   onChange(selected); //! this is being called on initial render which triggers a re-render of formBody and the entire tree
+  //   console.log('Tags set!');
+  // }, [selected]);
 
   const handleInputChange = inputValue => {
     console.log("Input Changed")
     console.log(`onInputChange Value: ${inputValue}`);
     console.log(`inputNodeRef Value: ${inputNodeRef.current.value}`);
-    setActiveIndex(-1);
+    setActiveSelectionIndex(-1);
     // Since there's a debounce delay when handleInputChange is called from onInputChange, inputValue might be stale if handleInputChange was called 
     // immediately after from a non-debounced handler (e.g. handleInputSelection handles when selection is made on 'Enter' key and sets input value to '').
     // - So it's better to updateFilter with the actual input node value to get the most updated value (uncontrolled input approach with refs)
@@ -273,7 +278,7 @@ const CheckboxControl = React.forwardRef(({ active, name, options, setTags }, re
     } else if (newIndex === -2) {
       newIndex = items.length - 1;
     }
-    setActiveIndex(newIndex);
+    setActiveSelectionIndex(newIndex);
   }
 
  
@@ -346,11 +351,11 @@ const CheckboxControl = React.forwardRef(({ active, name, options, setTags }, re
     inputWrapperRef.current.classList.add('focus');
   }
 
-  const handleMenuToggle = () => setActiveIndex(-1);
+  const handleMenuToggle = () => setActiveSelectionIndex(-1);
 
   let optionsIndexCounter = -1; // find a better place to store this index counter
   return (
-    <InputWrapper active={active} column>
+    <InputWrapper name={name} column>
       <StyledTypeahead
         id="typeahead"
         multiple
@@ -381,8 +386,10 @@ const CheckboxControl = React.forwardRef(({ active, name, options, setTags }, re
               >
                 <Input // https://github.com/ericgio/react-bootstrap-typeahead/blob/746f26e5ee33bfdd186d64b03248b361647d834e/src/components/Input.react.js
                   {...inputProps}
+                  name={name} //? this text input shares the same name as the checkbox inputs, does this work?
                   ref={element => {
                     inputRef(element);
+                    inputRefExternal(element);
                     // referenceElementRef(element); to position the menu, may be a container element, hence the need for separate refs.
                   }}
                 />
@@ -413,7 +420,7 @@ const CheckboxControl = React.forwardRef(({ active, name, options, setTags }, re
                             name={name}
                             value={option}
                             highlight={filter}
-                            autocomplete={optionsIndexCounter === activeIndex}
+                            autocomplete={optionsIndexCounter === activeSelectionIndex}
                             checked={selected.includes(option)}
                             onKeyDown={handleCheckboxKeyDown}
                             onChange={handleCheckboxChange}

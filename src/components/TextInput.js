@@ -9,9 +9,9 @@ import log from "../tests/log";
 
 // const testUrl = "https://css-tricks.com/javascript-scope-closures/";
 
-const TextInput = ({ name, inputRef, placeholder }) => {
+const TextInput = ({ name, inputRef, placeholder, onChange }) => {
   console.log('TextInput rendered!');
-  const { value, setValue } = useInputs(name, '');
+  const { value, setValue } = useInputs(name, '', onChange);
 
   // useEffect(() => {
   //   console.log('TextInput Effect!');
