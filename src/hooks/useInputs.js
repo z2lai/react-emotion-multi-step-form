@@ -4,44 +4,19 @@ import validateInput from '../logic/validateInput';
 
 const useInputs = (name, initialValue, handleChange) => {
   console.log('useInputs called!');
-  const { inputs, addInput, inputsRef } = useContext(InputsContext);
+  const { inputs, addInput, getInput, inputValues } = useContext(InputsContext);
   const [value, setValue] = useState(initialValue);
-
-  // const getInput = name => {
-  //   return inputsRef.current[name];
-  // }
 
   useEffect(() => {
     console.log('useInputs effect called');
     if (handleChange) handleChange(value);
-    const input = inputsRef.current[name]
+    const input = getInput && getInput(name);
     if (input) {
       console.log('input to be updated with:');
       console.log(value);
       input.value = value;
-      console.log(input);
     }
   }, [value])
-
-  // const inputsRef = useRef({});
-  // console.log(inputsRef.current);
-  // const inputsTempRef = useRef({});
-  // const setRef = useCallback(node => {
-  //   if (node) {
-  //     const input = {...inputObj.current}
-  //     input.node = node;
-  //     inputsRef.current.push(input)
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   console.log('inputsRef Effect fired!');
-  //   console.log(inputsRef.current);
-  //   const inputsArray = Object.values(inputsRef.current); // need to change inputs to a set to guaruntee order when converted to array
-  //   console.log('setInputs to be called with inputsArray:')
-  //   console.log(inputsArray);
-  //   setInputs(inputsArray);
-  // }, [inputsRef.current]);
 
   const registerInput = (iconClassName, validationCriteria = { required: true }, height) => {
     // if (inputsRef.current.hasOwnProperty(inputName)) {
@@ -77,6 +52,7 @@ const useInputs = (name, initialValue, handleChange) => {
     registerInput,
     value,
     setValue,
+    inputValues,
   }
 }
 

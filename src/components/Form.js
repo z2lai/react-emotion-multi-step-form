@@ -22,9 +22,8 @@ const MemoizedCheckboxControl = React.memo(CheckboxControl);
 
 const Form = props => {
   console.log('Form rendered!');
-  const { inputValues } = useContext(InputsContext);
-  const { registerInput } = useInputs();
-  const [activeIndex, changeActiveIndex] = useActiveIndex();
+  const { registerInput, inputValues } = useInputs();
+  const { activeIndex, changeActiveIndex } = useActiveIndex();
   const error = useError()[0];
   // const inputsRef = useRef();
   // const factors = ["Beginner Friendly", "Deep Dive", "Comphrensive"]; // should be queried from database

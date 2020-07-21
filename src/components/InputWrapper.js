@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import styled from "@emotion/styled";
 
-import { InputsContext } from "../context/InputsContext";
 import log from "../tests/log";
+import useActiveIndex from "../hooks/useActiveIndex";
 
 const StyledInputWrapper = styled.div`
   max-width: 500px;
@@ -27,22 +27,21 @@ const StyledInputWrapper = styled.div`
 
 const InputWrapper = ({ name, inputRef, column, children }) => {
   console.log('InputWrapper Rendered!');
-  const { inputs, activeIndex } = useContext(InputsContext);
+  const { activeInput } = useActiveIndex();
   const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
-    console.log('InputWrapper Effect Ran!');
-    if (inputs.length > 0 && activeIndex < inputs.length) {
-      console.log(inputs);
-      // should I create new global state or hook to store activeInputName instead?
-      const activeInputNode = inputs[activeIndex].node;
+    console.log(`InputWrapper Effect Ran for ${name}!`);
+    console.log(activeInput);
+    if (activeInput) {
+      const activeInputNode = activeInput.node;
       const activeInputName = activeInputNode.name || activeInputNode.dataset.name;
-      const isActive = name === activeInputName;  
+      const isActive = name === activeInputName;
       setIsActive(isActive);
     } else {
       setIsActive(false);
     }
-  }, [inputs, activeIndex, name]);
+  }, [activeInput]);
 
   return (
     <StyledInputWrapper

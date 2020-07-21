@@ -105,7 +105,7 @@ const StyledFormBody = styled.div`
 const FormBody = React.forwardRef(({ buttonRef, children }, ref) => {
   console.log('FormBody rendered!');
   const { inputs } = useInputs();
-  const [activeIndex, changeActiveIndex, isSubmitPage] = useActiveIndex();
+  const { activeIndex, changeActiveIndex, isSubmitPage } = useActiveIndex();
   const [error] = useError();
 
   const inputHeight = (inputs.length > 0 && activeIndex < inputs.length) ? inputs[activeIndex].height : '';

@@ -1,48 +1,44 @@
-import { useState, useContext } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 
 import { InputsContext } from '../context/InputsContext';
 import useError from './useError';
 import useInputs from './useInputs';
 
-const useActiveInputIndex = () => {
+const useActiveIndex = () => {
   console.log('useActiveIndex called!');
-  const { inputsRef, inputs, inputValues, updateInputValues, activeIndex, setActiveIndex, isSubmitPage, setIsSubmitPage } = useContext(InputsContext);
+  const { getInput, activeIndex, updateActiveIndex, updateInputValues } = useContext(InputsContext);
   const setErrorMessage = useError()[1];
+  const [ activeInput, setActiveInput ] = useState(null);
+
+  useEffect(() => {
+    console.log('useActiveIndex effect ran to possibly setActiveInput');
+    console.log(getInput);
+    const input = getInput(activeIndex);
+    if (input) setActiveInput(input);
+  }, [getInput, activeIndex]);
 
   const changeActiveIndex = index => {
     console.log('changeActiveIndex called!')
-    console.log(inputs);
+    // Validate input if moving to one of the next pages
     const isNextIndex = index > activeIndex;
-    /* 
-      1. Focus Input or FormBody
-      2. setErrorMessage 
-    */
     if (isNextIndex) {
-      const input = inputs[activeIndex]; 
-      const errorMessage = input.validate();
+      const errorMessage = activeInput.validate();
       if (errorMessage) {
-        input.node.focus();
+        activeInput.node.focus();
         return setErrorMessage(errorMessage);
       }
     }
+    // If no error on input validation, then update global state for inputValues
     updateInputValues();
     setErrorMessage('');
-    setActiveIndex(index);
-    if (index === inputs.length) {
-      setIsSubmitPage(true);
-    } else {
-      setIsSubmitPage(false);
-      // console.log('node to be focused:');
-      // console.log(inputs[index].node);
-      // setTimeout(inputs[index].node.focus(), 3000);
-    }
+    updateActiveIndex(index);
   }
 
-  return [
+  return {
     activeIndex,
     changeActiveIndex,
-    isSubmitPage,
-  ]
+    activeInput,
+  }
 }
 
-export default useActiveInputIndex;
+export default useActiveIndex;
