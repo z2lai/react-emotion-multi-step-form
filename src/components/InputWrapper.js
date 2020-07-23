@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useRef } from "react";
 import styled from "@emotion/styled";
 
 import log from "../tests/log";
@@ -26,22 +26,32 @@ const StyledInputWrapper = styled.div`
 `;
 
 const InputWrapper = ({ name, inputRef, column, children }) => {
-  console.log('InputWrapper Rendered!');
+  console.log(`InputWrapper Rendered! for ${name}`);
   const { activeInput } = useActiveIndex();
-  const [isActive, setIsActive] = useState(false);
+  const isActiveRef = useRef(false);
+  // const [isActive, setIsActive] = useState(false);
 
-  useEffect(() => {
-    console.log(`InputWrapper Effect Ran for ${name}!`);
-    console.log(activeInput);
-    if (activeInput) {
-      const activeInputNode = activeInput.node;
-      const activeInputName = activeInputNode.name || activeInputNode.dataset.name;
-      const isActive = name === activeInputName;
-      setIsActive(isActive);
-    } else {
-      setIsActive(false);
-    }
-  }, [activeInput]);
+  // useEffect(() => {
+  //   console.log(`InputWrapper Effect Ran for ${name}!`);
+  //   console.log(activeInput);
+  //   if (activeInput) {
+  //     const activeInputNode = activeInput.node;
+  //     const activeInputName = activeInputNode.name || activeInputNode.dataset.name;
+  //     const isActive = name === activeInputName;
+  //     setIsActive(isActive);
+  //   } else {
+  //     setIsActive(false);
+  //   }
+  // }, [activeInput]);
+  console.log(activeInput);
+  if (activeInput) {
+    const activeInputNode = activeInput.node;
+    const activeInputName = activeInputNode.name || activeInputNode.dataset.name;
+    isActiveRef.current = name === activeInputName;
+    console.log(`${name} active: ${isActiveRef.current}`);
+  } else {
+    isActiveRef.current = false;
+  };
 
   return (
     <StyledInputWrapper
@@ -49,7 +59,7 @@ const InputWrapper = ({ name, inputRef, column, children }) => {
       ref={inputRef}
       tabIndex={-1}
       column={column}
-      isActive={isActive}
+      isActive={isActiveRef.current}
     >
       {children}
     </StyledInputWrapper>

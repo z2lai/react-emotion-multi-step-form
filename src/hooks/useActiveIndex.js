@@ -6,19 +6,20 @@ import useInputs from './useInputs';
 
 const useActiveIndex = () => {
   console.log('useActiveIndex called!');
-  const { getInput, activeIndex, updateActiveIndex, updateInputValues } = useContext(InputsContext);
+  const { activeIndex, updateActiveIndex, activeInput, updateInputValues, isSubmitPage } = useContext(InputsContext);
   const setErrorMessage = useError()[1];
-  const [ activeInput, setActiveInput ] = useState(null);
+  // const [ activeInput, setActiveInput ] = useState(null);
 
-  useEffect(() => {
-    console.log('useActiveIndex effect ran to possibly setActiveInput');
-    console.log(getInput);
-    const input = getInput(activeIndex);
-    if (input) setActiveInput(input);
-  }, [getInput, activeIndex]);
+  // useEffect(() => {
+  //   console.log('useActiveIndex effect ran to possibly setActiveInput');
+  //   const input = getInput(activeIndex);
+  //   console.log('activeInput:');
+  //   console.log(input);
+  //   if (input) setActiveInput(input);
+  // }, [getInput, activeIndex]);
 
   const changeActiveIndex = index => {
-    console.log('changeActiveIndex called!')
+    console.log(`changeActiveIndex called with index: ${index}`);
     // Validate input if moving to one of the next pages
     const isNextIndex = index > activeIndex;
     if (isNextIndex) {
@@ -38,6 +39,7 @@ const useActiveIndex = () => {
     activeIndex,
     changeActiveIndex,
     activeInput,
+    isSubmitPage,
   }
 }
 

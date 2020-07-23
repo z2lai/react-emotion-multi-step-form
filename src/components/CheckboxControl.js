@@ -144,7 +144,7 @@ const CheckboxControl = React.forwardRef(({ name, inputRef: inputRefExternal, on
     }
   }));
 
-  // Move this into useEffect hook for loading tag options
+  //! Move this into useEffect hook for loading tag options and store OptionsArray in useRef so that it's localized for every instance of CheckboxControl
   const optionsArray = options.groups.slice(1, options.groups.length).flat()
   // const optionsArray = filteredOptions.groups.flat();
   const { groupHeadings, groups } = options;
@@ -166,6 +166,7 @@ const CheckboxControl = React.forwardRef(({ name, inputRef: inputRefExternal, on
     typeaheadRef.current._handleKeyDown = handleKeyDown;
     typeaheadRef.current._handleClear = handleClear;
     inputNodeRef.current = typeaheadRef.current.getInput();
+    console.log('CheckboxControl finished rendering!');
   }, []);
 
   // useEffect(() => {
@@ -353,7 +354,8 @@ const CheckboxControl = React.forwardRef(({ name, inputRef: inputRefExternal, on
 
   const handleMenuToggle = () => setActiveSelectionIndex(-1);
 
-  let optionsIndexCounter = -1; // find a better place to store this index counter
+  //! store this counter in useRef for same reason stated above (localized for every instance of CheckbocControl)
+  let optionsIndexCounter = -1;
   return (
     <InputWrapper name={name} column>
       <StyledTypeahead
