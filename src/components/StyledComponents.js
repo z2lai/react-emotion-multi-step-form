@@ -69,7 +69,7 @@ export const IconWrapper = styled.div`
 export const InputContainer = styled.div`
   position: relative;
   margin: 0 8px;
-  height: 220px;
+  height: ${props => props.inputWrapperHeight ? props.inputWrapperHeight : '40'}px;
   flex: 1;
   display: flex;
   flex-flow: column nowrap;

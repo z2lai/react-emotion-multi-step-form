@@ -6,11 +6,15 @@ import useActiveIndex from "../hooks/useActiveIndex";
 
 const StyledInputWrapper = styled.div`
   max-width: 500px;
-  min-height: 40px;
-  max-height: 220px;
+  height: 100%;
   display: flex;
-  flex-flow: ${props => props.column ? 'column nowrap' : 'row nowrap'};
-  justify-content: space-evenly;
+  ${props => props.column ? `
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+  ` : `
+    flex-flow: row nowrap;
+    justify-content: space-evenly;
+  `}
   align-items: center;
   font-size: 1.125rem;
   outline: none;

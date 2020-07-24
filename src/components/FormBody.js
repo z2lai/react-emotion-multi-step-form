@@ -63,8 +63,8 @@ const StyledFormBody = styled.div`
   &:focus {
     outline: none;
   }
-  ${props => (props.inputHeight) ? `
-    height: ${props.inputHeight + 20}px;
+  ${props => (props.inputWrapperHeight) ? `
+    height: ${props.inputWrapperHeight + 20}px;
     transition: height 400ms ease-out, max-width 150ms ease-out;
   ` : props.isSubmitPage ? css`
     max-width: 120px;
@@ -111,7 +111,7 @@ const FormBody = React.forwardRef(({ buttonRef, children }, ref) => {
 
   console.log(`Is Submit page: ${isSubmitPage}`);
 
-  const inputHeight = activeInput ? activeInput.height : '';
+  const inputWrapperHeight = activeInput ? activeInput.height : '';
 
   // Add submit form function and animations for page 4
   const handleSubmit = event => {
@@ -147,7 +147,7 @@ const FormBody = React.forwardRef(({ buttonRef, children }, ref) => {
     if (!isSubmitPage) {
       console.log('node to be focused:');
       console.log(activeInput.node);
-      setTimeout(() => activeInput.node.focus(), 400);
+      setTimeout(() => activeInput.node.focus(), 500);
       // setButtonAttributes(buttonAttributesRef.current.disabled);
     } else {
       // setButtonAttributes(buttonAttributesRef.current.enabled);
@@ -245,7 +245,7 @@ const handleKeyDown = event => {
 return (
   <StyledFormBody
     ref={ref}
-    inputHeight={inputHeight}
+    inputWrapperHeight={inputWrapperHeight}
     isError={error.state}
     onKeyDown={handleKeyDown}
     onAnimationIteration={handleAnimationIteration}
@@ -261,7 +261,7 @@ return (
         }
       </IconWrapper>
     </IconContainer>
-    <InputContainer>
+    <InputContainer inputWrapperHeight={inputWrapperHeight}>
       {children}
       <SubmitLabel isSubmitPage={isSubmitPage} />
     </InputContainer>

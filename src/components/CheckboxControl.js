@@ -90,10 +90,11 @@ const Divider = styled.div`
 `
 
 const CheckboxSectionContainer = styled.div`
-  height: 162px;
-  width: 100%;
-  overflow: auto;
   margin-top: 10px;
+  flex: 1 1 auto;
+  width: 100%;
+  height: 60px;
+  overflow: auto;
 `
 
 const CheckboxSectionWrapper = styled.div`
@@ -144,7 +145,7 @@ const CheckboxControl = React.forwardRef(({ name, inputRef: inputRefExternal, on
     }
   }));
 
-  //! Move this into useEffect hook for loading tag options and store OptionsArray in useRef so that it's localized for every instance of CheckboxControl
+  //? Move this into useEffect hook for loading tag options and store OptionsArray in useRef?
   const optionsArray = options.groups.slice(1, options.groups.length).flat()
   // const optionsArray = filteredOptions.groups.flat();
   const { groupHeadings, groups } = options;
@@ -354,7 +355,7 @@ const CheckboxControl = React.forwardRef(({ name, inputRef: inputRefExternal, on
 
   const handleMenuToggle = () => setActiveSelectionIndex(-1);
 
-  //! store this counter in useRef for same reason stated above (localized for every instance of CheckbocControl)
+  //? store this counter in useRef for same reason stated above?
   let optionsIndexCounter = -1;
   return (
     <InputWrapper name={name} column>

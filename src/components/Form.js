@@ -247,7 +247,7 @@ const Form = props => {
             {
               required: 'Please select a Tag!',
             },
-            220, // this should be set within CheckboxControl to avoid layout bugs with inputWrapper+contents overflowing FormBody
+            220,
           )}
           options={tagOptions}
           onChange={memoizedhandleTagChange}
