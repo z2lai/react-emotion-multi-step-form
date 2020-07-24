@@ -17,7 +17,7 @@ import { InputsContext } from '../context/InputsContext';
 
 import log from "../tests/log";
 
-const MemoizedTitle = React.memo(Title);
+// const MemoizedTitle = React.memo(Title);
 const MemoizedCheckboxControl = React.memo(CheckboxControl);
 
 const Form = props => {
@@ -191,19 +191,19 @@ const Form = props => {
     <StyledForm ref={formRef} tabIndex={-1}>
       <Heading>Submit An Article To the Communal Curator</Heading>
       <TitleContainer>
-        <MemoizedTitle
+        <Title
           value={inputValues['url'] || 'Input Article URL'}
           page={0}
           active={activeIndex === 0}
           changeActivePage={changeActiveIndex}
         />
-        <MemoizedTitle
+        <Title
           value={inputValues['type'] || 'Select Resource Type'}
           page={1}
           active={activeIndex === 1}
           changeActivePage={changeActiveIndex}
         />
-        <MemoizedTitle
+        <Title
           value={(inputValues['tags'] && inputValues['tags'].length) && inputValues['tags'].join(', ') || 'Select Article Tags'}
           page={2}
           active={activeIndex === 2}
