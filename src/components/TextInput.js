@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
+import React from "react";
 
 import InputWrapper from "./InputWrapper";
 import { StyledInput } from "./StyledComponents";
 
-import useInputs from "../hooks/useInputs";
+import useInputState from "../hooks/useInputState";
 
 import log from "../tests/log";
 
@@ -11,7 +11,7 @@ import log from "../tests/log";
 
 const TextInput = ({ name, inputRef, placeholder, onChange }) => {
   console.log('TextInput rendered!');
-  const { value, setValue } = useInputs(name, '', onChange);
+  const { value, setValue } = useInputState(name, '', onChange);
 
   // useEffect(() => {
   //   console.log('TextInput Effect!');

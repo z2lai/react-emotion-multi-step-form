@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 
 import InputWrapper from "./InputWrapper";
 
-import useInputs from "../hooks/useInputs";
+import useInputState from "../hooks/useInputState";
 
 import log from "../tests/log";
 
@@ -70,7 +70,7 @@ export const RadioOption = props => ( // additional props are added through comp
 );
 
 export const RadioControl = ({ name, inputRef, onChange, children }) => {
-  const { value, setValue } = useInputs(name, '', onChange);
+  const { value, setValue } = useInputState(name, '', onChange);
   const handleChange = event => {
     setValue(event.target.value);
   }

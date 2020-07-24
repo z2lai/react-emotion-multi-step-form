@@ -1,22 +1,10 @@
-import { useState, useRef, useEffect, useContext } from "react";
+import { useContext } from "react";
 import { InputsContext } from "../context/InputsContext";
 import validateInput from '../logic/validateInput';
 
-const useInputs = (name, initialValue, handleChange) => {
+const useInputs = () => {
   console.log('useInputs called!');
-  const { inputs, addInput, getInput, inputValues } = useContext(InputsContext);
-  const [value, setValue] = useState(initialValue);
-
-  useEffect(() => {
-    console.log(`useInputs effect called for ${name}`);
-    if (handleChange) handleChange(value);
-    const input = getInput(name);
-    if (input) {
-      console.log('input to be updated with:');
-      console.log(value);
-      input.value = value;
-    }
-  }, [value])
+  const { inputs, addInput, inputValues } = useContext(InputsContext);
 
   const registerInput = (iconClassName, validationCriteria = { required: true }, height) => {
     // if (inputsRef.current.hasOwnProperty(inputName)) {
@@ -48,10 +36,8 @@ const useInputs = (name, initialValue, handleChange) => {
   }
 
   return {
-    inputs,
     registerInput,
-    value,
-    setValue,
+    inputs,
     inputValues,
   }
 }

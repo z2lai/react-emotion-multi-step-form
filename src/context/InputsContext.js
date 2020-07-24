@@ -72,7 +72,7 @@ export const InputsProvider = props => {
   }
 
   const updateInputValues = () => {
-    const newInputValues = {};
+    const newInputValues = {...inputValues};
     inputs.map(input => {
       const valueShallowCopy = (Array.isArray(input.value) && [...input.value]) ||
         ((typeof input.value === 'object') && { ...input.value }) ||
@@ -91,7 +91,6 @@ export const InputsProvider = props => {
   const activeInput = getInput(activeIndex);
   // These two exported variables don't need to be stored in useRef as they should be shared (like global/shared state) between every call/render of InputsProvider
   const isSubmitPage = inputs.length > 0 && activeIndex === inputs.length;
-  console.log(`Is Submit page: ${isSubmitPage}`);
 
   // Effects run in the commit phase, ref callbacks are invoked in the commit phase as well but before effects
   useEffect(() => {

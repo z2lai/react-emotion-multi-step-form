@@ -13,7 +13,7 @@ import Checkbox from './Checkbox';
 import debounce from '../utils/debounce';
 import throttle from '../utils/throttle';
 
-import useInputs from "../hooks/useInputs";
+import useInputState from "../hooks/useInputState";
 
 import log from "../tests/log";
 
@@ -132,7 +132,7 @@ const CheckboxControl = React.forwardRef(({ name, inputRef: inputRefExternal, on
   const [filteredOptions, setFilteredOptions] = useState(options);
   const [activeSelectionIndex, setActiveSelectionIndex] = useState(-1);
   // const [selected, setSelected] = useState([]);
-  const { value: selected, setValue: setSelected } = useInputs(name, [], onChange);
+  const { value: selected, setValue: setSelected } = useInputState(name, [], onChange);
 
   const typeaheadRef = useRef();
   const inputWrapperRef = useRef();

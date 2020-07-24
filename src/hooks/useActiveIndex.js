@@ -1,8 +1,6 @@
-import { useState, useEffect, useRef, useContext } from "react";
+import { useContext } from "react";
 
 import { InputsContext } from '../context/InputsContext';
-import useError from './useError';
-import useInputs from './useInputs';
 
 const useActiveIndex = () => {
   console.log('useActiveIndex called!');
