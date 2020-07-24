@@ -28,7 +28,7 @@ const StyledInputWrapper = styled.div`
 const InputWrapper = ({ name, inputRef, column, children }) => {
   console.log(`InputWrapper Rendered! for ${name}`);
   const { activeInput } = useActiveIndex();
-  const isActiveRef = useRef(false);
+  // const isActiveRef = useRef(false);
   // const [isActive, setIsActive] = useState(false);
 
   // useEffect(() => {
@@ -43,14 +43,16 @@ const InputWrapper = ({ name, inputRef, column, children }) => {
   //     setIsActive(false);
   //   }
   // }, [activeInput]);
+
   console.log(activeInput);
+  let isActive = false;
   if (activeInput) {
     const activeInputNode = activeInput.node;
     const activeInputName = activeInputNode.name || activeInputNode.dataset.name;
-    isActiveRef.current = name === activeInputName;
-    console.log(`${name} active: ${isActiveRef.current}`);
+    isActive = name === activeInputName;
+    console.log(`${name} active: ${isActive}`);
   } else {
-    isActiveRef.current = false;
+    isActive = false;
   };
 
   return (
@@ -59,7 +61,7 @@ const InputWrapper = ({ name, inputRef, column, children }) => {
       ref={inputRef}
       tabIndex={-1}
       column={column}
-      isActive={isActiveRef.current}
+      isActive={isActive}
     >
       {children}
     </StyledInputWrapper>

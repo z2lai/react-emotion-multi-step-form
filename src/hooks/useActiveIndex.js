@@ -6,8 +6,7 @@ import useInputs from './useInputs';
 
 const useActiveIndex = () => {
   console.log('useActiveIndex called!');
-  const { activeIndex, updateActiveIndex, activeInput, updateInputValues, isSubmitPage } = useContext(InputsContext);
-  const setErrorMessage = useError()[1];
+  const { activeIndex, updateActiveIndex, activeInput, updateInputValues, isSubmitPage, error, setError } = useContext(InputsContext);
   // const [ activeInput, setActiveInput ] = useState(null);
 
   // useEffect(() => {
@@ -35,10 +34,21 @@ const useActiveIndex = () => {
     updateActiveIndex(index);
   }
 
+  const setErrorMessage = message => {
+    console.log(`setErrorMessage called with ${message}`);
+    if (message) {
+      setError({ state: true, message });
+    } else {
+      setError({ state: false, message: '' });
+    }
+  }
+
   return {
     activeIndex,
     changeActiveIndex,
     activeInput,
+    error,
+    setErrorMessage,
     isSubmitPage,
   }
 }

@@ -105,9 +105,9 @@ const StyledFormBody = styled.div`
 const FormBody = React.forwardRef(({ buttonRef, children }, ref) => {
   console.log('FormBody rendered!');
   // const { inputs } = useInputs();
-  const { activeIndex, changeActiveIndex, activeInput, isSubmitPage } = useActiveIndex();
+  const { activeIndex, changeActiveIndex, activeInput, error, isSubmitPage } = useActiveIndex();
   const { inputs } = useInputs();
-  const [error] = useError();
+  // const [error] = useError();
 
   console.log(`Is Submit page: ${isSubmitPage}`);
 
@@ -143,14 +143,15 @@ const FormBody = React.forwardRef(({ buttonRef, children }, ref) => {
 
   // This effect replaces the next two commented out effects
   useEffect(() => {
-    if (!activeInput) return;
+    if (inputs.length === 0) return;
     if (!isSubmitPage) {
       console.log('node to be focused:');
       console.log(activeInput.node);
-      setTimeout(() => activeInput.node.focus(), 600);
+      setTimeout(() => activeInput.node.focus(), 400);
       // setButtonAttributes(buttonAttributesRef.current.disabled);
     } else {
       // setButtonAttributes(buttonAttributesRef.current.enabled);
+      console.log('ref to be focused:');
       setTimeout(() => ref.current.focus(), 400);
       // ref.current.focus();
     }
