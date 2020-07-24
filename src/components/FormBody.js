@@ -102,7 +102,7 @@ const StyledFormBody = styled.div`
   }
 `;
 
-const FormBody = React.forwardRef(({ buttonRef, children }, ref) => {
+const FormBody = ({ onSubmit, children }) => {
   console.log('FormBody rendered!');
   // const { inputs } = useInputs();
   const { activeIndex, changeActiveIndex, activeInput, error, isSubmitPage } = useActiveIndex();
@@ -112,31 +112,31 @@ const FormBody = React.forwardRef(({ buttonRef, children }, ref) => {
   console.log(`Is Submit page: ${isSubmitPage}`);
   console.log(inputValues);
 
+  const ref = useRef();
+  const buttonRef = useRef();
+  
+  // const [buttonAttributes, setButtonAttributes] = useState(buttonAttributesRef.current.disabled);
+  //   const buttonAttributes = {
+  //     disabled: {
+  //       role: "",
+  //       tabIndex: "-1",
+  //       // onClick: null,
+  //     },
+  //     enabled: {
+  //       role: "button",
+  //       tabIndex: "0",
+  //       // onClick: handleSubmit,
+  //     }
+  //   };
+  // const buttonAttributes = isSubmitPage ? buttonAttributesRef.current.enabled : buttonAttributesRef.current.disabled;
   const inputContainerHeight = activeInput ? activeInput.height : '';
 
   // Add submit form function and animations for page 4
   const handleClick = event => {
     if (isSubmitPage && event.button === 0) {
-      console.log('Form submitted with the form fields:');
-      console.log(inputValues);
+      onSubmit(inputValues);
     }
   }
-
-  const buttonAttributesRef = useRef({
-    disabled: {
-      role: "",
-      tabIndex: "-1",
-      // onClick: null,
-    },
-    enabled: {
-      role: "button",
-      tabIndex: "0",
-      // onClick: handleSubmit,
-    }
-  });
-
-  // const [buttonAttributes, setButtonAttributes] = useState(buttonAttributesRef.current.disabled);
-  const buttonAttributes = isSubmitPage ? buttonAttributesRef.current.enabled : buttonAttributesRef.current.disabled;
 
   useEffect(() => {
     // Only the onClick event of NextButton or Title can set error state to true
@@ -255,7 +255,8 @@ const FormBody = React.forwardRef(({ buttonRef, children }, ref) => {
       onAnimationIteration={handleAnimationIteration}
       // pass in height properties from active input
       isSubmitPage={isSubmitPage}
-      {...buttonAttributes}
+      role={isSubmitPage ? "button" : null}
+      tabIndex={isSubmitPage ? "0" : "-1"}
     >
       <IconContainer>
         <IconWrapper index={activeIndex}>
@@ -278,6 +279,6 @@ const FormBody = React.forwardRef(({ buttonRef, children }, ref) => {
       </NextButton>
     </StyledFormBody>
   )
-});
+};
 
 export default FormBody;

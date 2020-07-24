@@ -28,16 +28,16 @@ const Form = props => {
   // const inputsRef = useRef();
   // const factors = ["Beginner Friendly", "Deep Dive", "Comphrensive"]; // should be queried from database
 
-  const [isScraped, setIsScraped] = useState(false);
-  const [article, setArticle] = useState({
-    url: '',
-    type: '',
-    tags: [],
-    title: ''
-  });
-  const [url, setUrl] = useState(''); // url has to be separated from article object as we don't want all components that use article for props to re-render whenever we update article state with a new url through the input onChange event handler
-  const [type, setType] = useState('');
-  const [tags, setTags] = useState([]);
+  // const [isScraped, setIsScraped] = useState(false);
+  // const [article, setArticle] = useState({
+  //   url: '',
+  //   type: '',
+  //   tags: [],
+  //   title: ''
+  // });
+  // const [url, setUrl] = useState(''); // url has to be separated from article object as we don't want all components that use article for props to re-render whenever we update article state with a new url through the input onChange event handler
+  // const [type, setType] = useState('');
+  // const [tags, setTags] = useState([]);
   const [tagOptions, setTagOptions] = useState({
     groupHeadings: ['suggestions', 'parent categories', 'syntax', 'fundamentals'], // need to move this out of state as it never changes
     groups: [
@@ -84,11 +84,11 @@ const Form = props => {
   //   message: ''
   // })
 
-  const formRef = useRef();
-  const formBodyRef = useRef();
-  const urlInputRef = useRef();
-  const tagInputRef = useRef();
-  const buttonRef = useRef();
+  // const formRef = useRef();
+  // const formBodyRef = useRef();
+  // const urlInputRef = useRef();
+  // const tagInputRef = useRef();
+  // const buttonRef = useRef();
 
   // setFormState = stateIndex => this.setState({ formState: this.formStates[stateIndex] });
 
@@ -112,28 +112,31 @@ const Form = props => {
   //     .then(result => console.log(result));
   // };
 
-  const handleUrlChange = url => {
-    console.log(`handleUrlChange called with: ${url}`);
-  }
+  const handleUrlChange = url => console.log(`handleUrlChange called with: ${url}`);
+  const handleTypeChange = type => console.log(`handleType called with: ${type}`);
+  const handleTagsChange = tags => console.log(`handleType called with: ${tags}`);
 
-  const memoizedhandleTypeChange = useCallback(
-    type => {
-      console.log(`handleType called with: ${type}`);
-    },
-    []
-  );
-
-  // Combine this function with the function above?
-  const memoizedhandleTagChange = useCallback(
-    tags => {
-      console.log(`handleType called with: ${tags}`);
-    },
-    []
-  );
-
-  const submit = () => {
-    console.log('Article submitted!');
+  const handleSubmit = payload => {
+    console.log('Form submitted with the form fields:');
+    console.log(payload);
   };
+
+  // const memoizedhandleTypeChange = useCallback(
+  //   type => {
+  //     console.log(`handleType called with: ${type}`);
+  //   },
+  //   []
+  // );
+
+
+  // // Combine this function with the function above?
+  // const memoizedhandleTagChange = useCallback(
+  //   tags => {
+  //     console.log(`handleType called with: ${tags}`);
+  //   },
+  //   []
+  // );
+
 
   // const setErrorMessage = message => {
   //   if (message) {
@@ -188,7 +191,7 @@ const Form = props => {
   // }
 
   return (
-    <StyledForm ref={formRef} tabIndex={-1}>
+    <StyledForm>
       <Heading>Submit An Article To the Communal Curator</Heading>
       <TitleContainer>
         <Title
@@ -211,10 +214,7 @@ const Form = props => {
         />
       </TitleContainer>
       <ErrorMessage>{error.message}</ErrorMessage>
-      <FormBody
-        ref={formBodyRef}
-        buttonRef={buttonRef}
-      >
+      <FormBody onSubmit={handleSubmit}>
         <TextInput // Add option for user to use regular uncontrolled text input element instead of TextInput
           name="url"
           placeholder='url'
@@ -234,7 +234,7 @@ const Form = props => {
               required: 'Please select a Type!',
             },
           )}
-          onChange={memoizedhandleTypeChange}
+          onChange={handleTypeChange}
         >
           <RadioOption value="guide" />
           <RadioOption value="tutorial" />
@@ -250,7 +250,7 @@ const Form = props => {
             220,
           )}
           options={tagOptions}
-          onChange={memoizedhandleTagChange}
+          onChange={handleTagsChange}
         />
       </FormBody>
     </StyledForm>
