@@ -84,17 +84,17 @@ const TextWithHighlight = ({ text = '', highlight = '' }) => {
   }
   // Split on highlight text and include text, ignore case
   const regex = new RegExp(`(${highlight})`, 'gi')
-  const parts = text.split(regex);
+  const parts = text.split(regex); // if match is found at start/end, an empty element is inserted at start/end
   const textWithHighlight = parts.map((part, i) => (
     regex.test(part) ?
       <mark key={i}>{part}</mark> :
-      (part.length > 0 || (i > 0 && i < parts.length - 1)) && <Fragment key={i}>{part}</Fragment>
+      (part.length > 0 || (i > 0 && i < parts.length - 1)) && <Fragment key={i}>{part}</Fragment> // exclude leading/trailing empty element
   ));
   return <span>{textWithHighlight}</span>
 }
 
-const CustomCheckbox = ({ name, value, highlight, autocomplete, checked, onKeyDown, onChange }) => (
-  <StyledLabel checked={checked} focusState={autocomplete}>
+const CustomCheckbox = ({ name, value, checked, onKeyDown, onChange, highlightedText, focusState }) => (
+  <StyledLabel checked={checked} focusState={focusState}>
     <HiddenCheckbox
       type="checkbox"
       name={name}
@@ -108,7 +108,7 @@ const CustomCheckbox = ({ name, value, highlight, autocomplete, checked, onKeyDo
         <polyline points="20 6 9 17 4 12" />
       </Icon>
     </StyledCheckbox>
-    <TextWithHighlight text={value} highlight={highlight} />
+    <TextWithHighlight text={value} highlight={highlightedText} />
   </StyledLabel>
 );
 

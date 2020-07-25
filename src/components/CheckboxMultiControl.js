@@ -1,17 +1,17 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/core";
-import React, { useState, useEffect, useRef, useCallback, useImperativeHandle } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import styled from "@emotion/styled";
-import 'bootstrap/dist/css/bootstrap.css';
-import 'react-bootstrap-typeahead/css/Typeahead.css'
-import { Typeahead, Hint, Input, Token } from 'react-bootstrap-typeahead';
+import "bootstrap/dist/css/bootstrap.css";
+import "react-bootstrap-typeahead/css/Typeahead.css";
+import { Typeahead, Hint, Input, Token } from "react-bootstrap-typeahead";
 // Typeahead Components: https://github.com/ericgio/react-bootstrap-typeahead/blob/1cf74a4e3f65d4d80e992d1f926bfaf9f5a349bc/src/components/Typeahead.react.js
 // Typeahead internal methods: https://github.com/ericgio/react-bootstrap-typeahead/blob/1cf74a4e3f65d4d80e992d1f926bfaf9f5a349bc/src/core/Typeahead.js
 
-import InputWrapper from './InputWrapper';
-import Checkbox from './Checkbox';
-import debounce from '../utils/debounce';
-import throttle from '../utils/throttle';
+import InputWrapper from "./InputWrapper";
+import Checkbox from "./Checkbox";
+import debounce from "../utils/debounce";
+import throttle from "../utils/throttle";
 
 import useInputState from "../hooks/useInputState";
 
@@ -30,7 +30,7 @@ const StyledTypeahead = styled(Typeahead)`
   #typeahead {
     visibility: hidden;
   }
-  ${props => `
+  ${(props) => `
     .rbt-input-wrapper {
       display: flex;
       width: 100%;
@@ -72,22 +72,22 @@ const StyledTypeahead = styled(Typeahead)`
       color: #FFF;
     }
   `}
-`
+`;
 
 const Divider = styled.div`
   width: 100%;
   margin-top: -5px;
   &:before {
-    content: '';
+    content: "";
     display: block;
     transform: scaleX(0);
     transition: transform 400ms ease-in-out;
-    ${props => `
+    ${(props) => `
       border-bottom: solid 1px ${props.theme.colors.black};
       ${props.active ? "transform: scaleX(1)" : ""};
     `}
   }
-`
+`;
 
 const CheckboxSectionContainer = styled.div`
   margin-top: 10px;
@@ -95,15 +95,15 @@ const CheckboxSectionContainer = styled.div`
   width: 100%;
   height: 60px;
   overflow: auto;
-`
+`;
 
 const CheckboxSectionWrapper = styled.div`
   height: auto;
   width: 100%;
-  ${props => `
+  ${(props) => `
     color: ${props.theme.colors.extraDark.indigo};
   `}
-`
+`;
 
 const MemoizedCheckboxSectionWrapper = React.memo(CheckboxSectionWrapper);
 
@@ -111,24 +111,24 @@ const GroupContainer = styled.div`
   display: flex;
   flex-flow: row wrap;
   padding: 0 10px;
-`
+`;
 
 const GroupHeading = styled.div`
   margin: 0 0 5px 0;
   font-size: 1.25rem;
   font-weight: bold;
   text-transform: capitalize;
-`
+`;
 
 const CheckboxWrapper = styled.div`
   flex: 1 1 50%;
   margin: 3px 0;
   padding: 0 2px;
-`
+`;
 
-const CheckboxControl = ({ name, inputRef: inputRefExternal, options, onChange }) => {
-  console.log('CheckboxControl Re-rendered!');
-  const [filter, setFilter] = useState('');
+const CheckboxMultiControl = ({ name, inputRef: inputRefExternal, options, onChange }) => {
+  console.log("CheckboxControl Re-rendered!");
+  const [filter, setFilter] = useState("");
   const [filteredOptions, setFilteredOptions] = useState(options);
   const [activeSelectionIndex, setActiveSelectionIndex] = useState(-1);
   // const [selected, setSelected] = useState([]);
@@ -145,10 +145,10 @@ const CheckboxControl = ({ name, inputRef: inputRefExternal, options, onChange }
   //   }
   // }));
 
-  //? Move this into useEffect hook for loading tag options and store OptionsArray in useRef?
-  const optionsArray = options.groups.slice(1, options.groups.length).flat()
+  const [groupHeadings, groups] = options;
+  const optionsArray = groups.flat();
+  const [filteredGroupHeadings, filteredGroups] = filteredOptions;
   // const optionsArray = filteredOptions.groups.flat();
-  const { groupHeadings, groups } = options;
   const BACKSPACE = 8;
   const TAB = 9;
   const RETURN = 13;
@@ -157,18 +157,6 @@ const CheckboxControl = ({ name, inputRef: inputRefExternal, options, onChange }
   const DOWN = 40;
   const DEBOUNCETIME = 100;
   const THROTTLEPERIOD = 10;
-
-  // Override typeahead internal methods only once on initial render
-  useEffect(() => {
-    // Keep ._handleKeyDown definition in ref so that handleKeyDown can call it (see its definition at the end of file)
-    _handleKeyDownRef.current = typeaheadRef.current._handleKeyDown
-    // Only need to override internal methods once on initial render as the typeahead component (object) imported from the library
-    // does not change for each render - keeps the same methods throughout its lifecycle
-    typeaheadRef.current._handleKeyDown = handleKeyDown;
-    typeaheadRef.current._handleClear = handleClear;
-    inputNodeRef.current = typeaheadRef.current.getInput();
-    console.log('CheckboxControl finished rendering!');
-  }, []);
 
   // useEffect(() => {
   //   if (active) {
@@ -184,18 +172,18 @@ const CheckboxControl = ({ name, inputRef: inputRefExternal, options, onChange }
   //   console.log('Tags set!');
   // }, [selected]);
 
-  const handleInputChange = inputValue => {
-    console.log("Input Changed")
+  const handleInputChange = (inputValue) => {
+    console.log("Input Changed");
     console.log(`onInputChange Value: ${inputValue}`);
     console.log(`inputNodeRef Value: ${inputNodeRef.current.value}`);
     setActiveSelectionIndex(-1);
-    // Since there's a debounce delay when handleInputChange is called from onInputChange, inputValue might be stale if handleInputChange was called 
+    // Since there's a debounce delay when handleInputChange is called from onInputChange, inputValue might be stale if handleInputChange was called
     // immediately after from a non-debounced handler (e.g. handleInputSelection handles when selection is made on 'Enter' key and sets input value to '').
     // - So it's better to updateFilter with the actual input node value to get the most updated value (uncontrolled input approach with refs)
     //updateFilter(inputNodeRef.current.value)
     // - OR, we can just debounce handleInputChange itself so that it will be debounced regardless of where it is called
     updateFilter(inputValue);
-  }
+  };
   const debouncedHandleInputChange = debounce(handleInputChange, DEBOUNCETIME);
 
   const updateFilter = (inputValue, excluded = selected) => {
@@ -203,99 +191,99 @@ const CheckboxControl = ({ name, inputRef: inputRefExternal, options, onChange }
     // console.log(excluded);
     const filter = inputValue.trim();
     setFilter(filter);
-    if (filter === '') {
+    if (filter === "") {
       setFilteredOptions(options);
       return;
     }
-    const filteredGroupHeadings = [];
-    const filteredGroups = [];
-    for (let i = 1; i < groupHeadings.length; i++) { // skip index 0 to exclude "Suggested" group
-    const filteredGroup = groups[i].filter(option => (
-        option.toLowerCase().includes(filter) && !excluded.includes(option)
-        ))
-        if (filteredGroup.length > 0) {
-          filteredGroupHeadings.push(groupHeadings[i]);
-          filteredGroups.push(filteredGroup);
-        }
-      };
-      setFilteredOptions({ groupHeadings: filteredGroupHeadings, groups: filteredGroups });
-  }
-  
-  const handleInputSelection = newSelected => {
-    console.log('Selected Changed');
+    const _groupHeadings = [];
+    const _groups = [];
+    groups.forEach((group, index) => {
+      // skip index 0 to exclude "Suggested" group
+      const filteredGroup = group.filter(
+        (option) => option.toLowerCase().includes(filter) && !excluded.includes(option)
+      );
+      if (filteredGroup.length > 0) {
+        _groupHeadings.push(groupHeadings[index]);
+        _groups.push(filteredGroup);
+      }
+    });
+    setFilteredOptions([_groupHeadings, _groups]);
+  };
+
+  const handleInputSelection = (newSelected) => {
+    console.log("Selected Changed");
     if (newSelected.length > selected.length) {
-      debouncedHandleInputChange('');
+      debouncedHandleInputChange("");
     }
     setSelected(newSelected);
-  }
-  
+  };
+
   const removeToken = (token, selected) => {
-    console.log('Remove Handled');
-    const newSelected = [...selected]
+    console.log("Remove Handled");
+    const newSelected = [...selected];
     newSelected.splice(newSelected.indexOf(token), 1);
     setSelected(newSelected);
     if (inputNodeRef.current.value.length > 0) {
-      updateFilter(inputNodeRef.current.value, newSelected)
+      updateFilter(inputNodeRef.current.value, newSelected);
     }
     typeaheadRef.current.focus();
-  }
+  };
   // In order to throttle removeToken, the returned throttled function (and its closure) has to be memoized so that it can be called
   // by each handleTokenRemove event handler that gets defined on each render
-  const memoizedThrottledRemoveToken = useCallback(throttle(removeToken, THROTTLEPERIOD), [])
+  const memoizedThrottledRemoveToken = useCallback(throttle(removeToken, THROTTLEPERIOD), []);
   // In handleTokenRemove event handler, the throttled and memoized removeToken function is called with the following arguments:
   //  1. "token" from the event listener
   //  2. "selected" from state - this value gets refreshed as handleTokenRemove gets defined on each render
-  const handleTokenRemove = token => {  
+  const handleTokenRemove = (token) => {
     memoizedThrottledRemoveToken(token, selected);
-  }
-  
-  const handleCheckboxKeyDown = event => {
-    console.log('KeyDown on Checkbox!')
-    if (event.key === 'Enter') {
+  };
+
+  const handleCheckboxKeyDown = (event) => {
+    console.log("KeyDown on Checkbox!");
+    if (event.key === "Enter") {
       event.stopPropagation();
       event.currentTarget.click(); // might need to replace with event.dispatchEvent for IE due to no activeElement API
     }
-  }
-  
-  const handleCheckboxChange = event => {
+  };
+
+  const handleCheckboxChange = (event) => {
     const selection = event.target.value;
     const checked = event.target.checked;
-    const newSelected = [...selected]
+    const newSelected = [...selected];
     if (checked) {
       newSelected.push(selection);
-      typeaheadRef.current.clear() // typeaheadRef.current.clear() sets states thus is asynchronous in clearing the input
-      debouncedHandleInputChange('');
+      typeaheadRef.current.clear(); // typeaheadRef.current.clear() sets states thus is asynchronous in clearing the input
+      debouncedHandleInputChange("");
     } else {
       newSelected.splice(newSelected.indexOf(selection), 1);
     }
     setSelected(newSelected);
     typeaheadRef.current.focus();
-  }
+  };
 
   const updateActiveIndex = (currentIndex, keyCode, items) => {
     let newIndex = currentIndex;
-    newIndex += (keyCode === UP) ? -1 : 1;
+    newIndex += keyCode === UP ? -1 : 1;
     if (newIndex === items.length) {
       newIndex = -1;
     } else if (newIndex === -2) {
       newIndex = items.length - 1;
     }
     setActiveSelectionIndex(newIndex);
-  }
+  };
 
- 
   // Example from github issues: https://github.com/ericgio/react-bootstrap-typeahead/issues/461
-  // This handler replaces Typeahead's internal onKeyDown handler (which gets passed to the input element) once on initial render 
+  // This handler replaces Typeahead's internal onKeyDown handler (which gets passed to the input element) once on initial render
   // so there should be no references to state in here as they will be stale.
-  const handleKeyDown = event => {
+  const handleKeyDown = (event) => {
     // console.log(typeahead.current.state.text);
     // console.log(typeahead.current.items);
     // console.log(typeahead.current.state.activeIndex);
     const inputNode = event.currentTarget;
     switch (event.keyCode) {
       case RETURN:
-        console.log("Enter pressed!")
-        if (inputNode.value.length > 0) event.stopPropagation();
+        console.log("Enter pressed!");
+        if (inputNode.value.length > 0) event.stopPropagation(); // stop Enter key from triggering FormBody keydown handler
         break;
       //   // Synthetic events are reused for performance reasons, then they are released/nullified. To keep the original synthetic event
       //   // around, use event.persist(). See https://fb.me/react-event-pooling for more information.
@@ -303,7 +291,7 @@ const CheckboxControl = ({ name, inputRef: inputRefExternal, options, onChange }
       //   // Delay the Enter key from selecting until after the input has finished handling the debounced typing events logic moved to handleInputChange
       //   setTimeout(() => {
       //     console.log("Enter triggered!")
-      //     _handleKeyDownRef.current(event) 
+      //     _handleKeyDownRef.current(event)
       //   }, DEBOUNCETIME + 3000);
       //   return;
       case ESC:
@@ -334,37 +322,48 @@ const CheckboxControl = ({ name, inputRef: inputRefExternal, options, onChange }
         break;
       default:
         break;
-    };
+    }
     _handleKeyDownRef.current(event); // definition of _handleKeyDownRef at the bottom of this file
-  }
+  };
 
   const handleClear = () => {
     setSelected([]);
     typeaheadRef.current.clear();
-    debouncedHandleInputChange('');
-  }
-
-  const handleBlur = () => {
-    typeaheadRef.current.hideMenu()
-    inputWrapperRef.current.classList.remove('focus');
-  }
+    debouncedHandleInputChange("");
+  };
 
   const handleFocus = () => {
-    inputWrapperRef.current.classList.add('focus');
-  }
+    inputWrapperRef.current.classList.add("focus");
+  };
+
+  const handleBlur = () => {
+    typeaheadRef.current.hideMenu(); // toggles hidden menu
+    inputWrapperRef.current.classList.remove("focus");
+  };
 
   const handleMenuToggle = () => setActiveSelectionIndex(-1);
 
-  //? store this counter in useRef for same reason stated above?
+  // Override typeahead internal methods only once on initial render
+  useEffect(() => {
+    // Keep ._handleKeyDown definition in ref so that handleKeyDown can call it (see its definition at the end of file)
+    _handleKeyDownRef.current = typeaheadRef.current._handleKeyDown;
+    // Only need to override internal methods once on initial render as the typeahead component (object) imported from the library
+    // does not change for each render - keeps the same methods throughout its lifecycle
+    typeaheadRef.current._handleKeyDown = handleKeyDown;
+    typeaheadRef.current._handleClear = handleClear;
+    inputNodeRef.current = typeaheadRef.current.getInput();
+    console.log("CheckboxControl finished rendering!");
+  }, []);
+
   let optionsIndexCounter = -1;
   return (
     <InputWrapper name={name} column>
       <StyledTypeahead
         id="typeahead"
         multiple
-        maxHeight="1px"
-        dropup
-        // clearButton
+        // maxHeight="1px"
+        // dropup
+        clearButton
         options={optionsArray}
         // onKeyDown={e => console.log('onKeyDown Prop!')}
         onInputChange={debouncedHandleInputChange} // only handles direct input changes from editing keys - excludes input clear from pressing 'Enter'
@@ -390,7 +389,7 @@ const CheckboxControl = ({ name, inputRef: inputRefExternal, options, onChange }
                 <Input // https://github.com/ericgio/react-bootstrap-typeahead/blob/746f26e5ee33bfdd186d64b03248b361647d834e/src/components/Input.react.js
                   {...inputProps}
                   name={name} //? this text input shares the same name as the checkbox inputs, does this work?
-                  ref={element => {
+                  ref={(element) => {
                     inputRef(element);
                     inputRefExternal(element);
                     // referenceElementRef(element); to position the menu, may be a container element, hence the need for separate refs.
@@ -404,45 +403,44 @@ const CheckboxControl = ({ name, inputRef: inputRefExternal, options, onChange }
       {/* <Divider active={active} /> */}
       <CheckboxSectionContainer>
         <MemoizedCheckboxSectionWrapper>
-          {filteredOptions.groupHeadings.map((heading, index) => { // need to refactor this component to prevent unnecessary re-rendering on every state change
-            const groupOptions = filteredOptions.groups[index]
-            if (groupOptions.length === 0) {
+          {filteredGroupHeadings.map((heading, index) => {
+            // need to refactor this component to prevent unnecessary re-rendering on every state change
+            const filteredGroup = filteredGroups[index];
+            if (filteredGroup.length === 0) { // when all options have been filtered out
               return null;
             } else {
               return (
                 <div key={heading}>
-                  <GroupHeading>
-                    {heading}
-                  </GroupHeading>
+                  <GroupHeading>{heading}</GroupHeading>
                   <GroupContainer>
-                    {groupOptions.map((option, index) => {
-                      optionsIndexCounter++
+                    {filteredGroup.map((option, index) => {
+                      optionsIndexCounter++;
                       return (
                         <CheckboxWrapper key={option}>
                           <Checkbox
                             name={name}
                             value={option}
-                            highlight={filter}
-                            autocomplete={optionsIndexCounter === activeSelectionIndex}
                             checked={selected.includes(option)}
                             onKeyDown={handleCheckboxKeyDown}
                             onChange={handleCheckboxChange}
+                            highlightedText={filter}
+                            focusState={optionsIndexCounter === activeSelectionIndex}
                           />
                         </CheckboxWrapper>
-                      )
+                      );
                     })}
                   </GroupContainer>
                 </div>
-              )
+              );
             }
           })}
         </MemoizedCheckboxSectionWrapper>
       </CheckboxSectionContainer>
     </InputWrapper>
-  )
+  );
 };
 
-export default CheckboxControl;
+export default CheckboxMultiControl;
 
 /*
 // Internal _handleKeyDown method of Typeahead component that is overwritten by handleKeyDown

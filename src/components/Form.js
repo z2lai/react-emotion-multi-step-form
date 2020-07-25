@@ -9,7 +9,7 @@ import Title from "./Title";
 import FormBody from "./FormBody";
 import TextInput from "./TextInput";
 import { RadioControl, RadioOption } from "./RadioControl";
-import CheckboxControl from "./CheckboxControl";
+import CheckboxMultiControl from "./CheckboxMultiControl";
 
 import useActiveIndex from "../hooks/useActiveIndex";
 import useError from '../hooks/useError';
@@ -18,7 +18,7 @@ import { InputsContext } from '../context/InputsContext';
 import log from "../tests/log";
 
 // const MemoizedTitle = React.memo(Title);
-const MemoizedCheckboxControl = React.memo(CheckboxControl);
+const MemoizedCheckboxMultiControl = React.memo(CheckboxMultiControl);
 
 const Form = props => {
   console.log('Form rendered!');
@@ -38,9 +38,9 @@ const Form = props => {
   // const [url, setUrl] = useState(''); // url has to be separated from article object as we don't want all components that use article for props to re-render whenever we update article state with a new url through the input onChange event handler
   // const [type, setType] = useState('');
   // const [tags, setTags] = useState([]);
-  const [tagOptions, setTagOptions] = useState({
-    groupHeadings: ['suggestions', 'parent categories', 'syntax', 'fundamentals'], // need to move this out of state as it never changes
-    groups: [
+  const [tagOptions, setTagOptions] = useState([
+    ['suggestions', 'parent categories', 'syntax', 'fundamentals'], // need to move this out of state as it never changes
+    [
       [
         'object',
         'scope',
@@ -77,7 +77,7 @@ const Form = props => {
         'closures',
       ],
     ]
-  });
+  ]);
 
   // const [error, setError] = useState({
   //   state: false,
@@ -240,7 +240,7 @@ const Form = props => {
           <RadioOption value="tutorial" />
           <RadioOption value="reference" />
         </RadioControl>
-        <MemoizedCheckboxControl
+        <MemoizedCheckboxMultiControl
           name="tags"
           inputRef={registerInput(
             'icon-price-tags',
