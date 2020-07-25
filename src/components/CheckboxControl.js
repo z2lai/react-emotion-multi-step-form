@@ -126,7 +126,7 @@ const CheckboxWrapper = styled.div`
   padding: 0 2px;
 `
 
-const CheckboxControl = React.forwardRef(({ name, inputRef: inputRefExternal, onChange, options }, ref) => {
+const CheckboxControl = ({ name, inputRef: inputRefExternal, options, onChange }) => {
   console.log('CheckboxControl Re-rendered!');
   const [filter, setFilter] = useState('');
   const [filteredOptions, setFilteredOptions] = useState(options);
@@ -139,11 +139,11 @@ const CheckboxControl = React.forwardRef(({ name, inputRef: inputRefExternal, on
   const inputNodeRef = useRef();
   const _handleKeyDownRef = useRef(); // this variable can be overwritten as handleKeyDown maintains reference to the original _handleKeyDown definition reference due to closure
 
-  useImperativeHandle(ref, () => ({
-    focus: () => {
-      inputNodeRef.current.focus()
-    }
-  }));
+  // useImperativeHandle(ref, () => ({
+  //   focus: () => {
+  //     inputNodeRef.current.focus()
+  //   }
+  // }));
 
   //? Move this into useEffect hook for loading tag options and store OptionsArray in useRef?
   const optionsArray = options.groups.slice(1, options.groups.length).flat()
@@ -440,7 +440,7 @@ const CheckboxControl = React.forwardRef(({ name, inputRef: inputRefExternal, on
       </CheckboxSectionContainer>
     </InputWrapper>
   )
-});
+};
 
 export default CheckboxControl;
 
