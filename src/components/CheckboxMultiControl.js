@@ -1,21 +1,22 @@
+import React, { useState, useEffect, useRef, useCallback } from "react";
 /** @jsx jsx */
 import { jsx } from "@emotion/core";
-import React, { useState, useEffect, useRef, useCallback } from "react";
 import styled from "@emotion/styled";
+
+import useInputState from "../hooks/useInputState";
+
 import "bootstrap/dist/css/bootstrap.css";
 import "react-bootstrap-typeahead/css/Typeahead.css";
 import { Typeahead, Hint, Input, Token } from "react-bootstrap-typeahead";
 // Typeahead Components: https://github.com/ericgio/react-bootstrap-typeahead/blob/1cf74a4e3f65d4d80e992d1f926bfaf9f5a349bc/src/components/Typeahead.react.js
 // Typeahead internal methods: https://github.com/ericgio/react-bootstrap-typeahead/blob/1cf74a4e3f65d4d80e992d1f926bfaf9f5a349bc/src/core/Typeahead.js
-
 import InputWrapper from "./InputWrapper";
 import Checkbox from "./Checkbox";
+import withLog from "./withLog";
+
 import debounce from "../utils/debounce";
 import throttle from "../utils/throttle";
 
-import useInputState from "../hooks/useInputState";
-
-import log from "../tests/log";
 
 /* Note: From Emotion documentation: https://emotion.sh/docs/styled#composing-dynamic-styles
 // const dynamicStyles = props =>

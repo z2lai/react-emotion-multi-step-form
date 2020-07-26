@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 
-import log from "../tests/log";
+import withLog from "./withLog";
 
 const StyledIcons = styled.div`
   height: 40px;

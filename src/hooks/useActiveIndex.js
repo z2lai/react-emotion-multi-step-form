@@ -1,10 +1,10 @@
 import { useContext } from "react";
 
-import { InputsContext } from '../context/InputsContext';
+import { FormContext } from '../context/FormContext';
 
 const useActiveIndex = () => {
   console.log('useActiveIndex called!');
-  const { activeIndex, updateActiveIndex, activeInput, updateInputValues, isSubmitPage, error, setError } = useContext(InputsContext);
+  const { activeIndex, updateActiveIndex, activeInput, updateInputValues, isSubmitPage, error, setError } = useContext(FormContext);
   // const [ activeInput, setActiveInput ] = useState(null);
 
   // useEffect(() => {

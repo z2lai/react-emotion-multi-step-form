@@ -1,9 +1,9 @@
 import { useState, useEffect, useContext } from "react";
-import { InputsContext } from "../context/InputsContext";
+import { FormContext } from "../context/FormContext";
 
 const useInputState = (name, initialValue, handleChange) => {
   console.log('useInputState called!');
-  const { getInput } = useContext(InputsContext);
+  const { getInput } = useContext(FormContext);
   const [value, setValue] = useState(initialValue);
 
   useEffect(() => {

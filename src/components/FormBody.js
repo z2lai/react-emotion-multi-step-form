@@ -1,15 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
-import styled from "@emotion/styled";
 import { css, keyframes } from '@emotion/core';
-
-import { IconContainer, IconWrapper, InputContainer, SubmitLabel, NextButton, NextButtonIcon } from "./StyledComponents";
-import Icon from "./Icon";
+import styled from "@emotion/styled";
 
 import useActiveIndex from "../hooks/useActiveIndex";
 import useError from '../hooks/useError';
 import useInputs from "../hooks/useInputs";
 
-import log from "../tests/log";
+import { IconContainer, IconWrapper, InputContainer, SubmitLabel, NextButton, NextButtonIcon } from "./StyledComponents";
+import Icon from "./Icon";
+import withLog from "./withLog";
 
 const headShake = keyframes`
   0% {

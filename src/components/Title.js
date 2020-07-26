@@ -1,9 +1,9 @@
-import { jsx } from "@emotion/core";
 import { useState, useEffect } from "react";
-import styled from "@emotion/styled";
 /** @jsx jsx */
+import { jsx } from "@emotion/core";
+import styled from "@emotion/styled";
 
-import log from "../tests/log";
+import withLog from "./withLog";
 
 /* Note: From Emotion documentation: https://emotion.sh/docs/styled#composing-dynamic-styles
 // const dynamicStyles = props =>

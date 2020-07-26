@@ -1,11 +1,10 @@
 import React from "react";
 import styled from "@emotion/styled";
 
-import InputWrapper from "./InputWrapper";
-
 import useInputState from "../hooks/useInputState";
 
-import log from "../tests/log";
+import InputWrapper from "./InputWrapper";
+import withLog from "./withLog";
 
 const StyledLabel = styled.label`
   margin: 0;

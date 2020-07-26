@@ -1,21 +1,16 @@
-import React, { useState, useRef, useCallback, useEffect, useContext } from "react";
+import React, { useState } from "react";
 
 import useInputs from '../hooks/useInputs';
-import {
-  StyledForm, Heading, TitleContainer, ErrorMessage, IconContainer, IconWrapper, InputContainer,
-  SubmitLabel, NextButton, NextButtonIcon
-} from "./StyledComponents";
+import useActiveIndex from "../hooks/useActiveIndex";
+
+import { StyledForm, Heading, TitleContainer, ErrorMessage } from "./StyledComponents";
 import Title from "./Title";
 import FormBody from "./FormBody";
 import TextInput from "./TextInput";
 import { RadioControl, RadioOption } from "./RadioControl";
 import CheckboxMultiControl from "./CheckboxMultiControl";
-
-import useActiveIndex from "../hooks/useActiveIndex";
-import useError from '../hooks/useError';
-import { InputsContext } from '../context/InputsContext';
-
-import log from "../tests/log";
+import withFormContextAndTheme from "./withFormContextAndTheme";
+import withLog from "./withLog";
 
 // const MemoizedTitle = React.memo(Title);
 const MemoizedCheckboxMultiControl = React.memo(CheckboxMultiControl);
@@ -257,4 +252,4 @@ const Form = props => {
   );
 }
 
-export default log(Form);
+export default withFormContextAndTheme(Form);

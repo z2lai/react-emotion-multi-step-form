@@ -1,11 +1,10 @@
 import React from "react";
 
-import InputWrapper from "./InputWrapper";
-import { StyledInput } from "./StyledComponents";
-
 import useInputState from "../hooks/useInputState";
 
-import log from "../tests/log";
+import InputWrapper from "./InputWrapper";
+import { StyledInput } from "./StyledComponents";
+import withLog from "./withLog";
 
 // const testUrl = "https://css-tricks.com/javascript-scope-closures/";
 

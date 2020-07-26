@@ -1,8 +1,9 @@
 import React, { useRef } from "react";
 import styled from "@emotion/styled";
 
-import log from "../tests/log";
 import useActiveIndex from "../hooks/useActiveIndex";
+
+import withLog from "./withLog";
 
 const StyledInputWrapper = styled.div`
   max-width: 500px;

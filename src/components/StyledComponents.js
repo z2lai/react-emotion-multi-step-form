@@ -133,7 +133,7 @@ export const SubmitLabel = styled.div`
     position: absolute;
     top: 7px;
     left: -34px;
-    transition: opacity 300ms ease-in-out 150ms, transform 300ms ease-in-out 150ms;
+    transition: opacity 450ms ease-in-out, transform 450ms ease-in-out;
     ${props => props.isSubmitPage ? `
       opacity: 1;
       visibility: visible;

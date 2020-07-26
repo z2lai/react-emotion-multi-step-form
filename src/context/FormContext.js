@@ -1,8 +1,8 @@
 import React, { createContext, useState, useEffect, useRef, useCallback } from "react";
 
-export const InputsContext = createContext({});
+export const FormContext = createContext({});
 
-export const InputsProvider = props => {
+export const FormProvider = props => {
   console.log('InputsProvider rendered!');
   const {
     children,
@@ -99,7 +99,7 @@ export const InputsProvider = props => {
     updateInputs();
   }, [inputsRef.current]); // only gets called when new inputs are added, not when existing inputs are updated
 
-  const inputsContext = {
+  const formContext = {
     inputs,
     addInput,
     getInput,
@@ -113,5 +113,5 @@ export const InputsProvider = props => {
     isSubmitPage,
   }
 
-  return <InputsContext.Provider value={inputsContext}>{children}</InputsContext.Provider>;
+  return <FormContext.Provider value={formContext}>{children}</FormContext.Provider>;
 };

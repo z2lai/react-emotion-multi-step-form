@@ -1,10 +1,10 @@
 import { useContext } from "react";
-import { InputsContext } from "../context/InputsContext";
+import { FormContext } from "../context/FormContext";
 import validateInput from '../logic/validateInput';
 
 const useInputs = () => {
   console.log('useInputs called!');
-  const { inputs, addInput, inputValues } = useContext(InputsContext);
+  const { inputs, addInput, inputValues } = useContext(FormContext);
 
   const registerInput = (iconClassName, validationCriteria = { required: true }, height) => {
     // if (inputsRef.current.hasOwnProperty(inputName)) {
