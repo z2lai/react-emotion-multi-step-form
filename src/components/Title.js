@@ -1,19 +1,9 @@
-import { useState, useEffect } from "react";
 /** @jsx jsx */
+import { useState, useEffect } from "react";
 import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
 
-import withLog from "./withLog";
-
-/* Note: From Emotion documentation: https://emotion.sh/docs/styled#composing-dynamic-styles
-// const dynamicStyles = props =>
-//   css`
-//     color: ${props.checked ? 'black' : 'grey'};
-//     background: ${props.checked ? 'linear-gradient(45deg, #FFC107 0%, #fff200 100%)' : '#f5f5f5'};
-//   `
-*/
-
-// Might need to change this to a link element for accessibility
+//? Change this to a link element for accessibility?
 const StyledTitle = styled.span`
   margin: 5px 0;
   text-transform: capitalize;
@@ -36,7 +26,7 @@ const Title = ({ active, value, page, changeActivePage }) => {
     if (active && !activated) {
       setActivated(true);
     }
-  }, [active])
+  }, [active, activated])
 
   const handleClick = event => {
     if (activated && !active) {

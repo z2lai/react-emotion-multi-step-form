@@ -54,4 +54,3 @@ const withFormContextAndTheme = Component => (
 )
 
 export default withFormContextAndTheme;
-

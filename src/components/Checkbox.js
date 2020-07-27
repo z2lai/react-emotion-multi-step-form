@@ -1,15 +1,7 @@
-import { Fragment } from 'react' 
 /** @jsx jsx */
+import { Fragment } from 'react' 
 import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
-
-/* Note: From Emotion documentation: https://emotion.sh/docs/styled#composing-dynamic-styles
-// const dynamicStyles = props =>
-//   css`
-//     color: ${props.checked ? 'black' : 'grey'};
-//     background: ${props.checked ? 'linear-gradient(45deg, #FFC107 0%, #fff200 100%)' : '#f5f5f5'};
-//   `
-*/
 
 const StyledLabel = styled.label`
   position: relative;

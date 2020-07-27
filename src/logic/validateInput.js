@@ -4,12 +4,12 @@ const validateInput = (name, value, criteria) => {
   console.log(value);
   const {
     required, // boolean or error message string
-    minLength, // e.g.3 or { value: 3, message: 'error message' }
-    maxLength, // e.g. 16 or { value: 16, message: 'error message' }
-    min, // e.g. 1
-    max, // e.g. 100
-    pattern, // `regex pattern`
-    validate // { validator: customValidatorFunc, message: customMessageFunc }
+    // minLength, // e.g. 3 or { value: 3, message: 'error message' }
+    // maxLength, // e.g. 16 or { value: 16, message: 'error message' }
+    // min, // e.g. 1
+    // max, // e.g. 100
+    // pattern, // `regex pattern`
+    // validate // { validator: customValidatorFunc, message: customMessageFunc }
   } = criteria;
 
   const dataType = (Array.isArray(value) && 'array') ||

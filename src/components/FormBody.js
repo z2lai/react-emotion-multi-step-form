@@ -1,14 +1,12 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import { css, keyframes } from '@emotion/core';
 import styled from "@emotion/styled";
 
 import useActiveIndex from "../hooks/useActiveIndex";
-import useError from '../hooks/useError';
 import useInputs from "../hooks/useInputs";
 
 import { IconContainer, IconWrapper, InputContainer, SubmitLabel, NextButton, NextButtonIcon } from "./StyledComponents";
 import Icon from "./Icon";
-import withLog from "./withLog";
 
 const headShake = keyframes`
   0% {
@@ -49,7 +47,6 @@ const StyledFormBody = styled.div`
   margin: 0 auto 20px auto;
   max-width: 500px;
   height: 60px;
-  transition: height 150ms ease-out, max-width 150ms ease-out;
   padding: 10px;
   overflow: hidden;
   display: flex;
@@ -59,6 +56,7 @@ const StyledFormBody = styled.div`
   border-radius: 3px;
   background-color: hsl(0, 0%, 100%);
   text-align: left;
+  transition: height 150ms ease-out, max-width 150ms ease-out;
   &:focus {
     outline: none;
   }
@@ -69,9 +67,9 @@ const StyledFormBody = styled.div`
     max-width: 120px;
     height: 40px;
     padding: 0px 10px;
-    transition: height 150ms ease-out, max-width 400ms ease-out, transform 100ms, box-shadow: 100ms;
     z-index: 1;
     cursor: pointer;
+    transition: height 150ms ease-out, max-width 400ms ease-out, transform 100ms, box-shadow: 100ms;
     &:focus {
       outline: 1px auto ${props.theme.colors.light.indigo};
     }
@@ -103,84 +101,26 @@ const StyledFormBody = styled.div`
 
 const FormBody = ({ onSubmit, children }) => {
   console.log('FormBody rendered!');
-  // const { inputs } = useInputs();
   const { activeIndex, changeActiveIndex, activeInput, error, isSubmitPage } = useActiveIndex();
   const { inputs, inputValues } = useInputs();
-  // const [error] = useError();
-
-  console.log(`Is Submit page: ${isSubmitPage}`);
-  console.log(inputValues);
 
   const ref = useRef();
   const buttonRef = useRef();
   
-  // const [buttonAttributes, setButtonAttributes] = useState(buttonAttributesRef.current.disabled);
-  //   const buttonAttributes = {
-  //     disabled: {
-  //       role: "",
-  //       tabIndex: "-1",
-  //       // onClick: null,
-  //     },
-  //     enabled: {
-  //       role: "button",
-  //       tabIndex: "0",
-  //       // onClick: handleSubmit,
-  //     }
-  //   };
-  // const buttonAttributes = isSubmitPage ? buttonAttributesRef.current.enabled : buttonAttributesRef.current.disabled;
   const inputContainerHeight = activeInput ? activeInput.height : '';
 
-  // Add submit form function and animations for page 4
+  const handleAnimationIteration = event => {
+    // Manually change DOM node instead of setting state to avoid re-render
+    ref.current.style.animationPlayState = "paused"
+  }
+
   const handleClick = event => {
     if (isSubmitPage && event.button === 0) {
       onSubmit(inputValues);
     }
   }
 
-  useEffect(() => {
-    // Only the onClick event of NextButton or Title can set error state to true
-    // Every other action should set error state to false, otherwise the animation will run
-    if (error.state) ref.current.style.animationPlayState = "running";
-  });
-
-  // This effect replaces the next two commented out effects
-  useEffect(() => {
-    if (inputs.length === 0) return;
-    if (!isSubmitPage) {
-      console.log('node to be focused:');
-      console.log(activeInput.node);
-      setTimeout(() => activeInput.node.focus(), 500);
-      // setButtonAttributes(buttonAttributesRef.current.disabled);
-    } else {
-      // setButtonAttributes(buttonAttributesRef.current.enabled);
-      console.log('ref to be focused:');
-      setTimeout(() => ref.current.focus(), 400);
-      // ref.current.focus();
-    }
-  }, [activeIndex, activeInput])
-
-  // useEffect(() => {
-  //   if (isSubmitPage) {
-  //     setButtonAttributes(buttonAttributesRef.current.enabled);
-  //   } else {
-  //     setButtonAttributes(buttonAttributesRef.current.disabled);
-  //   }
-  // }, [activeIndex]);
-
-  // useEffect(() => {
-  //   if (buttonAttributes.role === 'button') {
-  //     // setTimeout(() => ref.current.focus(), 400);
-  //     ref.current.focus();
-  //   }
-  // }, [buttonAttributes]);
-
-  // When error state gets set to true, FormBody will re-render with animation. Once the first iteration finishes, the animation should pause
-  const handleAnimationIteration = event => {
-    // Manually change DOM node instead of setting state to avoid re-render
-    ref.current.style.animationPlayState = "paused"
-  }
-
-  const handleNext = event => {
+  const handleNextButtonClick = event => {
     changeActiveIndex(activeIndex + 1);
   };
 
@@ -193,74 +133,67 @@ const FormBody = ({ onSubmit, children }) => {
     }));
   };
 
-  // const handleKeyboardEvent = event => {
-  //   if (event.key === 'Enter') {
-  //     console.log(buttonRef);
-  //     if (event.type === 'keydown') simulateMouseEvent(buttonRef.current, 'mousedown')
-  //     else if (event.type === 'keyup') {
-  //       simulateMouseEvent(buttonRef.current, 'mouseup')
-  //       simulateMouseEvent(buttonRef.current, 'click')
-  //     }
-  //   }
-  // }
-
-  // const returnHandleKeyDown = event => {
-  //   let isHotkeyActive = false;
-  //   return event => {
-  //     console.log(isHotkeyActive);
-  //     if (!isHotkeyActive && event.key === 'Enter') {
-  //       isHotkeyActive = true;
-  //       buttonRef.current.classList.add('active');
-  //       const handleKeyUp = event => {
-  //         isHotkeyActive = false;
-  //         buttonRef.current.classList.remove('active');
-  //         simulateMouseEvent(buttonRef.current, 'click')
-  //         ref.current.removeEventListener('keyup', handleKeyUp, false);
-  //       }
-  //       ref.current.addEventListener('keyup', handleKeyUp, false);
-  //     }
-  //   }
-  // }
+  const clickButtonOnKeyDown = button => {
+    button.classList.add('active');
+    const handleKeyUp = event => {
+      button.classList.remove('active');
+      simulateMouseEvent(button, 'click')
+      ref.current.removeEventListener('keyup', handleKeyUp, false);
+      console.log('onKeyUp handler removed');
+    }
+    ref.current.addEventListener('keyup', handleKeyUp, false);
+    console.log('onKeyUp handler added');
+  }
 
   const handleKeyDown = event => {
     if (event.key === 'Enter' && !event.repeat) {
       if (!isSubmitPage) {
-        buttonRef.current.classList.add('active');
-        const handleKeyUp = event => {
-          buttonRef.current.classList.remove('active');
-          simulateMouseEvent(buttonRef.current, 'click')
-          ref.current.removeEventListener('keyup', handleKeyUp, false);
-        }
-        ref.current.addEventListener('keyup', handleKeyUp, false);
+        clickButtonOnKeyDown(buttonRef.current);
       } else {
-        ref.current.classList.add('active');
-        const handleKeyUp = event => {
-          ref.current.classList.remove('active');
-          simulateMouseEvent(ref.current, 'click')
-          ref.current.removeEventListener('keyup', handleKeyUp, false);
-        }
-        ref.current.addEventListener('keyup', handleKeyUp, false);
+        clickButtonOnKeyDown(ref.current);
       }
     }
   }
 
+  const handleNextButtonKeyDown = event => {
+    // Replace default behaviour with clickButtonOnKeyDown to streamline behaviour between Enter and Space keys
+    event.preventDefault();
+    event.stopPropagation(); // stop Enter or Space keys from triggering FormBody keydown handler
+    clickButtonOnKeyDown(event.currentTarget);
+  }
+
+  useEffect(() => {
+    if (error.state) ref.current.style.animationPlayState = "running";
+  }, [error]);
+
+  useEffect(() => {
+    if (inputs.length === 0) return;
+    if (!isSubmitPage) {
+      console.log('activeInput to be focused:')
+      console.log(activeInput);
+      setTimeout(() => activeInput.node.focus(), 500);
+    } else {
+      setTimeout(() => ref.current.focus(), 400);
+    }
+  }, [inputs.length, isSubmitPage, activeInput])
+
   return (
     <StyledFormBody
       ref={ref}
+      role={isSubmitPage ? "button" : null}
+      tabIndex={isSubmitPage ? "0" : "-1"}
       inputContainerHeight={inputContainerHeight}
       isError={error.state}
+      isSubmitPage={isSubmitPage}
       onKeyDown={handleKeyDown}
       onClick={handleClick}
       onAnimationIteration={handleAnimationIteration}
-      // pass in height properties from active input
-      isSubmitPage={isSubmitPage}
-      role={isSubmitPage ? "button" : null}
-      tabIndex={isSubmitPage ? "0" : "-1"}
     >
       <IconContainer>
         <IconWrapper index={activeIndex}>
           {(inputs.length > 0) ?
-            inputs.map(input => <Icon key={input.iconClassName} className={input.iconClassName} isSubmitPage={isSubmitPage} />) :
+            inputs.map((input, index) => 
+              <Icon key={`${input.iconClassName}${index}`} className={input.iconClassName} isSubmitPage={isSubmitPage} />) :
             null
           }
         </IconWrapper>
@@ -271,8 +204,10 @@ const FormBody = ({ onSubmit, children }) => {
       </InputContainer>
       <NextButton
         ref={buttonRef}
-        onClick={handleNext}
+        type="button"
         isSubmitPage={isSubmitPage}
+        onClick={handleNextButtonClick}
+        onKeyDown={handleNextButtonKeyDown}
       >
         <NextButtonIcon />
       </NextButton>

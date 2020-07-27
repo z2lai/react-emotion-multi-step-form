@@ -4,7 +4,6 @@ import styled from "@emotion/styled";
 import useInputState from "../hooks/useInputState";
 
 import InputWrapper from "./InputWrapper";
-import withLog from "./withLog";
 
 const StyledLabel = styled.label`
   margin: 0;
@@ -49,29 +48,31 @@ const RadioWrapper = styled.div`
   }
 `
 
-export const RadioOption = props => ( // additional props are added through compound component pattern, so cannot destructure
-  <RadioWrapper color={props.value}>
+export const RadioOption = ({ name, value, isChecked, handleChange }) => (
+  <RadioWrapper color={value}>
     <HiddenRadio
       type="radio"
-      name={props.name}
-      id={props.value}
-      value={props.value}
-      onChange={props.handleChange}
+      name={name}
+      id={value}
+      value={value}
+      onChange={handleChange}
     />
     <StyledLabel
-      htmlFor={props.value}
-      isChecked={props.isChecked}
-      color={props.value}
+      htmlFor={value}
+      isChecked={isChecked}
+      color={value}
     >
-      {props.value}
+      {value}
     </StyledLabel>
   </RadioWrapper>
 );
 
 export const RadioControl = ({ name, inputRef, onChange, children }) => {
-  const { value, setValue } = useInputState(name, '', onChange);
+  const { value, setValue } = useInputState(name, '');
   const handleChange = event => {
-    setValue(event.target.value);
+    const value = event.target.value;
+    if (onChange) onChange(value);
+    setValue(value);
   }
 
   return (
@@ -89,22 +90,3 @@ export const RadioControl = ({ name, inputRef, onChange, children }) => {
     </InputWrapper>
   )
 }
-
-// const RadioControl = ({ active, name, handleChange, children }) => {
-//   const options = ["guide", "tutorial", "reference"]; // should be queried from database in a useEffect hook
-//   return (
-//     <InputWrapper name={name} ref={inputRef}>
-//       {options.map(option => (
-//         <RadioOption
-//           key={option}
-//           name={name}
-//           value={option}
-//           onKeyup={event => handleChange(event.target.value)}
-//           onChange={event => handleChange(event.target.value)}
-//         />
-//       ))}
-//     </InputWrapper>
-//   )
-// };
-
-// export default log(RadioControl);

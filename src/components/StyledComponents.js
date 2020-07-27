@@ -1,5 +1,11 @@
 import styled from "@emotion/styled";
-// Note: https://emotion.sh/docs/styled#styling-any-component
+/* Note: From Emotion documentation: https://emotion.sh/docs/styled#composing-dynamic-styles
+const dynamicStyles = props =>
+  css`
+    color: ${props.checked ? 'black' : 'grey'};
+    background: ${props.checked ? 'linear-gradient(45deg, #FFC107 0%, #fff200 100%)' : '#f5f5f5'};
+  `
+*/
 
 export const StyledForm = styled.div`
   margin: 100px auto;
@@ -41,22 +47,6 @@ export const IconContainer = styled.div`
   overflow: hidden;
 `
 
-// export const IconWrapper = styled.div`
-//   position: relative;
-//   display: flex;
-//   flex-flow: column nowrap;
-//   line-height: 40px;
-//   transition: top 300ms ease-out;
-//   ${props => (
-//     (props.index === 0) ? `
-//       top: 0px;
-//     ` : (props.page === 2) ? ` 
-//       top: -40px; 
-//     ` : ` 
-//       top: -80px;
-//     `
-//   )}
-// `
 export const IconWrapper = styled.div`
   position: relative;
   display: flex;
@@ -75,26 +65,6 @@ export const InputContainer = styled.div`
   flex-flow: column nowrap;
 `
 
-// export const InputWrapper = styled.div`
-//   max-width: 500px;
-//   min-height: 40px;
-//   max-height: 220px;
-//   display: flex;
-//   flex-flow: ${props => props.column ? 'column nowrap' : 'row nowrap'};
-//   justify-content: space-evenly;
-//   align-items: center;
-//   font-size: 1.125rem;
-//   ${props => props.active ? `
-//     visibility: visible;
-//     opacity: 1;
-//     transition: opacity 600ms ease-out;
-//   ` : ` 
-//     position: absolute;
-//     visibility: hidden;
-//     opacity: 0;
-//   `}
-// `;
-
 export const StyledInput = styled.input`
   width: 100%;
   line-height: 26px;
@@ -109,21 +79,6 @@ export const StyledInput = styled.input`
     box-shadow: 0 0 0 0.2rem rgba(166, 0, 255, .25);
   }
 `;
-/* Make styling consistent with Typeahead input:
-  height: 38px;
-  border: 1px solid #ced4da;
-  border-radius: 0.25rem;
-  padding: 0.375rem 0.75rem;
-  font-weight: 400;
-  line-height: 1.5;
-  color: ${props.theme.colors.extraDark.indigo};
-  background-color: #fff;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  :focus {
-    border-color: ${props.theme.colors.light.indigo};
-    border-radius: 0.25rem;
-  }
-*/
 
 export const SubmitLabel = styled.div`
   font-size: 1.125rem;
@@ -165,7 +120,7 @@ export const NextButton = styled.button`
         transition: background 300ms ease, transform 300ms;
       }
       &:active, &.active {
-        top: 3px;
+        top: 2px;
         background-color: hsl(0, 0%, 100%);
         transition-property: none;
       }

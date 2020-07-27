@@ -1,9 +1,7 @@
-import React, { useRef } from "react";
+import React from "react";
 import styled from "@emotion/styled";
 
 import useActiveIndex from "../hooks/useActiveIndex";
-
-import withLog from "./withLog";
 
 const StyledInputWrapper = styled.div`
   max-width: 500px;
@@ -30,26 +28,10 @@ const StyledInputWrapper = styled.div`
   `}
 `;
 
-const InputWrapper = ({ name, inputRef, column, children }) => {
+const InputWrapper = ({ name, inputRef, column, onKeyDown, children }) => {
   console.log(`InputWrapper Rendered! for ${name}`);
   const { activeInput } = useActiveIndex();
-  // const isActiveRef = useRef(false);
-  // const [isActive, setIsActive] = useState(false);
 
-  // useEffect(() => {
-  //   console.log(`InputWrapper Effect Ran for ${name}!`);
-  //   console.log(activeInput);
-  //   if (activeInput) {
-  //     const activeInputNode = activeInput.node;
-  //     const activeInputName = activeInputNode.name || activeInputNode.dataset.name;
-  //     const isActive = name === activeInputName;
-  //     setIsActive(isActive);
-  //   } else {
-  //     setIsActive(false);
-  //   }
-  // }, [activeInput]);
-
-  console.log(activeInput);
   let isActive = false;
   if (activeInput) {
     const activeInputNode = activeInput.node;
@@ -62,11 +44,12 @@ const InputWrapper = ({ name, inputRef, column, children }) => {
 
   return (
     <StyledInputWrapper
-      data-name={name}
       ref={inputRef}
+      data-name={name}
       tabIndex={-1}
       column={column}
       isActive={isActive}
+      onKeyDown={onKeyDown}
     >
       {children}
     </StyledInputWrapper>

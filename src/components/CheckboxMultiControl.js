@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
 /** @jsx jsx */
+import { useState, useEffect, useRef, useCallback } from "react";
 import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
 
@@ -8,23 +8,11 @@ import useInputState from "../hooks/useInputState";
 import "bootstrap/dist/css/bootstrap.css";
 import "react-bootstrap-typeahead/css/Typeahead.css";
 import { Typeahead, Hint, Input, Token } from "react-bootstrap-typeahead";
-// Typeahead Components: https://github.com/ericgio/react-bootstrap-typeahead/blob/1cf74a4e3f65d4d80e992d1f926bfaf9f5a349bc/src/components/Typeahead.react.js
-// Typeahead internal methods: https://github.com/ericgio/react-bootstrap-typeahead/blob/1cf74a4e3f65d4d80e992d1f926bfaf9f5a349bc/src/core/Typeahead.js
 import InputWrapper from "./InputWrapper";
 import Checkbox from "./Checkbox";
-import withLog from "./withLog";
 
 import debounce from "../utils/debounce";
 import throttle from "../utils/throttle";
-
-
-/* Note: From Emotion documentation: https://emotion.sh/docs/styled#composing-dynamic-styles
-// const dynamicStyles = props =>
-//   css`
-//     color: ${props.checked ? 'black' : 'grey'};
-//     background: ${props.checked ? 'linear-gradient(45deg, #FFC107 0%, #fff200 100%)' : '#f5f5f5'};
-//   `
-*/
 
 const StyledTypeahead = styled(Typeahead)`
   width: 100%;
@@ -75,21 +63,6 @@ const StyledTypeahead = styled(Typeahead)`
   `}
 `;
 
-const Divider = styled.div`
-  width: 100%;
-  margin-top: -5px;
-  &:before {
-    content: "";
-    display: block;
-    transform: scaleX(0);
-    transition: transform 400ms ease-in-out;
-    ${(props) => `
-      border-bottom: solid 1px ${props.theme.colors.black};
-      ${props.active ? "transform: scaleX(1)" : ""};
-    `}
-  }
-`;
-
 const CheckboxSectionContainer = styled.div`
   margin-top: 10px;
   flex: 1 1 auto;
@@ -105,8 +78,6 @@ const CheckboxSectionWrapper = styled.div`
     color: ${props.theme.colors.extraDark.indigo};
   `}
 `;
-
-const MemoizedCheckboxSectionWrapper = React.memo(CheckboxSectionWrapper);
 
 const GroupContainer = styled.div`
   display: flex;
@@ -132,24 +103,16 @@ const CheckboxMultiControl = ({ name, inputRef: inputRefExternal, options, onCha
   const [filter, setFilter] = useState("");
   const [filteredOptions, setFilteredOptions] = useState(options);
   const [activeSelectionIndex, setActiveSelectionIndex] = useState(-1);
-  // const [selected, setSelected] = useState([]);
-  const { value: selected, setValue: setSelected } = useInputState(name, [], onChange);
+  const { value: selected, setValue: setSelected } = useInputState(name, []);
 
   const typeaheadRef = useRef();
   const inputWrapperRef = useRef();
   const inputNodeRef = useRef();
   const _handleKeyDownRef = useRef(); // this variable can be overwritten as handleKeyDown maintains reference to the original _handleKeyDown definition reference due to closure
 
-  // useImperativeHandle(ref, () => ({
-  //   focus: () => {
-  //     inputNodeRef.current.focus()
-  //   }
-  // }));
-
   const [groupHeadings, groups] = options;
   const optionsArray = groups.flat();
   const [filteredGroupHeadings, filteredGroups] = filteredOptions;
-  // const optionsArray = filteredOptions.groups.flat();
   const BACKSPACE = 8;
   const TAB = 9;
   const RETURN = 13;
@@ -158,20 +121,6 @@ const CheckboxMultiControl = ({ name, inputRef: inputRefExternal, options, onCha
   const DOWN = 40;
   const DEBOUNCETIME = 100;
   const THROTTLEPERIOD = 10;
-
-  // useEffect(() => {
-  //   if (active) {
-  //     // Delay focus until after FormBody has finished height transition, otherwise the content won't be properly positioned
-  //     // at the start of the transition and will shift during transition
-  //     setTimeout(() => inputNodeRef.current.focus(), 400);
-  //   }
-  // }, [active]);
-
-  // This effect has been moved to useInputs to be reused by all input components
-  // useEffect(() => {
-  //   onChange(selected); //! this is being called on initial render which triggers a re-render of formBody and the entire tree
-  //   console.log('Tags set!');
-  // }, [selected]);
 
   const handleInputChange = (inputValue) => {
     console.log("Input Changed");
@@ -188,9 +137,8 @@ const CheckboxMultiControl = ({ name, inputRef: inputRefExternal, options, onCha
   const debouncedHandleInputChange = debounce(handleInputChange, DEBOUNCETIME);
 
   const updateFilter = (inputValue, excluded = selected) => {
-    // console.log(`Filter updated to: ${inputValue}`)
-    // console.log(excluded);
     const filter = inputValue.trim();
+    console.log('updateFilter called - setFilter')
     setFilter(filter);
     if (filter === "") {
       setFilteredOptions(options);
@@ -199,7 +147,6 @@ const CheckboxMultiControl = ({ name, inputRef: inputRefExternal, options, onCha
     const _groupHeadings = [];
     const _groups = [];
     groups.forEach((group, index) => {
-      // skip index 0 to exclude "Suggested" group
       const filteredGroup = group.filter(
         (option) => option.toLowerCase().includes(filter) && !excluded.includes(option)
       );
@@ -211,19 +158,24 @@ const CheckboxMultiControl = ({ name, inputRef: inputRefExternal, options, onCha
     setFilteredOptions([_groupHeadings, _groups]);
   };
 
+  const handleSelectionChange = selected => {
+    if (onChange) onChange(selected);
+    setSelected(selected);
+  }
+
   const handleInputSelection = (newSelected) => {
     console.log("Selected Changed");
     if (newSelected.length > selected.length) {
       debouncedHandleInputChange("");
     }
-    setSelected(newSelected);
+    handleSelectionChange(newSelected);
   };
 
   const removeToken = (token, selected) => {
     console.log("Remove Handled");
     const newSelected = [...selected];
     newSelected.splice(newSelected.indexOf(token), 1);
-    setSelected(newSelected);
+    handleSelectionChange(newSelected);
     if (inputNodeRef.current.value.length > 0) {
       updateFilter(inputNodeRef.current.value, newSelected);
     }
@@ -242,7 +194,6 @@ const CheckboxMultiControl = ({ name, inputRef: inputRefExternal, options, onCha
   const handleCheckboxKeyDown = (event) => {
     console.log("KeyDown on Checkbox!");
     if (event.key === "Enter") {
-      event.stopPropagation();
       event.currentTarget.click(); // might need to replace with event.dispatchEvent for IE due to no activeElement API
     }
   };
@@ -258,7 +209,7 @@ const CheckboxMultiControl = ({ name, inputRef: inputRefExternal, options, onCha
     } else {
       newSelected.splice(newSelected.indexOf(selection), 1);
     }
-    setSelected(newSelected);
+    handleSelectionChange(newSelected);
     typeaheadRef.current.focus();
   };
 
@@ -273,30 +224,24 @@ const CheckboxMultiControl = ({ name, inputRef: inputRefExternal, options, onCha
     setActiveSelectionIndex(newIndex);
   };
 
-  // Example from github issues: https://github.com/ericgio/react-bootstrap-typeahead/issues/461
+  const handleInputWrapperKeyDown = event => {
+    console.log('inputWrapperKeyDownHandler called');
+    console.log(event.target.type);
+     // stop Enter keydown event from triggering FormBody keydown handler if not initiated from text input
+    if (event.key === 'Enter' && event.target.type !== 'text') event.stopPropagation();
+  }
+
   // This handler replaces Typeahead's internal onKeyDown handler (which gets passed to the input element) once on initial render
   // so there should be no references to state in here as they will be stale.
-  const handleKeyDown = (event) => {
-    // console.log(typeahead.current.state.text);
-    // console.log(typeahead.current.items);
-    // console.log(typeahead.current.state.activeIndex);
+  const handleKeyDown = useCallback(event => {
     const inputNode = event.currentTarget;
     switch (event.keyCode) {
       case RETURN:
         console.log("Enter pressed!");
         if (inputNode.value.length > 0) event.stopPropagation(); // stop Enter key from triggering FormBody keydown handler
         break;
-      //   // Synthetic events are reused for performance reasons, then they are released/nullified. To keep the original synthetic event
-      //   // around, use event.persist(). See https://fb.me/react-event-pooling for more information.
-      //   event.persist()
-      //   // Delay the Enter key from selecting until after the input has finished handling the debounced typing events logic moved to handleInputChange
-      //   setTimeout(() => {
-      //     console.log("Enter triggered!")
-      //     _handleKeyDownRef.current(event)
-      //   }, DEBOUNCETIME + 3000);
-      //   return;
       case ESC:
-
+        break;
       case BACKSPACE:
         if (inputNode.value.length === 0 && typeaheadRef.current.props.selected.length) {
           // Prevent browser from going back.
@@ -313,7 +258,7 @@ const CheckboxMultiControl = ({ name, inputRef: inputRefExternal, options, onCha
       case DOWN:
         // Prevent input cursor from going to the beginning when pressing up.
         event.preventDefault();
-        // Prevent UP and DOWN from navigating options (Typeahead default)
+        // Prevent UP and DOWN from navigating options (Typeahead internal behaviour)
         return;
       case TAB:
         if (typeaheadRef.current.isMenuShown) {
@@ -324,12 +269,13 @@ const CheckboxMultiControl = ({ name, inputRef: inputRefExternal, options, onCha
       default:
         break;
     }
-    _handleKeyDownRef.current(event); // definition of _handleKeyDownRef at the bottom of this file
-  };
+    _handleKeyDownRef.current(event);
+  }, []);
 
   const handleClear = () => {
-    setSelected([]);
+    handleSelectionChange([]);
     typeaheadRef.current.clear();
+    typeaheadRef.current.focus();
     debouncedHandleInputChange("");
   };
 
@@ -338,15 +284,16 @@ const CheckboxMultiControl = ({ name, inputRef: inputRefExternal, options, onCha
   };
 
   const handleBlur = () => {
-    typeaheadRef.current.hideMenu(); // toggles hidden menu
+    typeaheadRef.current.hideMenu(); // disables hidden menu
     inputWrapperRef.current.classList.remove("focus");
   };
 
   const handleMenuToggle = () => setActiveSelectionIndex(-1);
 
   // Override typeahead internal methods only once on initial render
+  // Typeahead internal methods: https://github.com/ericgio/react-bootstrap-typeahead/blob/1cf74a4e3f65d4d80e992d1f926bfaf9f5a349bc/src/core/Typeahead.js
   useEffect(() => {
-    // Keep ._handleKeyDown definition in ref so that handleKeyDown can call it (see its definition at the end of file)
+    // Keep ._handleKeyDown definition in ref so that handleKeyDown can call it
     _handleKeyDownRef.current = typeaheadRef.current._handleKeyDown;
     // Only need to override internal methods once on initial render as the typeahead component (object) imported from the library
     // does not change for each render - keeps the same methods throughout its lifecycle
@@ -354,21 +301,24 @@ const CheckboxMultiControl = ({ name, inputRef: inputRefExternal, options, onCha
     typeaheadRef.current._handleClear = handleClear;
     inputNodeRef.current = typeaheadRef.current.getInput();
     console.log("CheckboxControl finished rendering!");
-  }, []);
+  }, [handleKeyDown]);
+
+  useEffect(() => {
+    // If there are no filtered options, disable hidden menu to allow TAB to return to default behaviour
+    if (filteredGroups.length === 0) typeaheadRef.current.hideMenu();
+  }, [filteredGroups]);
 
   let optionsIndexCounter = -1;
   return (
-    <InputWrapper name={name} column>
+    <InputWrapper name={name} column onKeyDown={handleInputWrapperKeyDown}>
       <StyledTypeahead
         id="typeahead"
         multiple
-        // maxHeight="1px"
-        // dropup
+        maxHeight="300px"
         clearButton
         options={optionsArray}
-        // onKeyDown={e => console.log('onKeyDown Prop!')}
         onInputChange={debouncedHandleInputChange} // only handles direct input changes from editing keys - excludes input clear from pressing 'Enter'
-        minLength={1} // to activate menu/hint
+        minLength={1} // to activate hidden menu and hint
         selected={selected}
         onChange={handleInputSelection}
         onBlur={handleBlur}
@@ -376,7 +326,6 @@ const CheckboxMultiControl = ({ name, inputRef: inputRefExternal, options, onCha
         onMenuToggle={handleMenuToggle}
         ref={typeaheadRef}
         renderInput={({ inputRef, referenceElementRef, inputClassName, ...inputProps }, state) => {
-          // https://github.com/ericgio/react-bootstrap-typeahead/blob/746f26e5ee33bfdd186d64b03248b361647d834e/src/components/TypeaheadInputMulti.react.js
           return (
             <div className="rbt-input-wrapper" ref={inputWrapperRef}>
               {state.selected.map((option, idx) => (
@@ -384,16 +333,16 @@ const CheckboxMultiControl = ({ name, inputRef: inputRefExternal, options, onCha
                   {option}
                 </Token>
               ))}
-              <Hint // https://github.com/ericgio/react-bootstrap-typeahead/blob/0c69fcaf308e4053403af8164ebbc242e4d64f3c/src/components/Hint.react.js
+              <Hint
                 shouldSelect={(shouldSelect, e) => e.keyCode !== TAB && (e.keyCode === RETURN || shouldSelect)}
               >
-                <Input // https://github.com/ericgio/react-bootstrap-typeahead/blob/746f26e5ee33bfdd186d64b03248b361647d834e/src/components/Input.react.js
+                <Input
                   {...inputProps}
                   name={name} //? this text input shares the same name as the checkbox inputs, does this work?
                   ref={(element) => {
                     inputRef(element);
+                    // referenceElementRef(element); // to position the dropdown menu, may be a container element, hence the need for separate refs.
                     inputRefExternal(element);
-                    // referenceElementRef(element); to position the menu, may be a container element, hence the need for separate refs.
                   }}
                 />
               </Hint>
@@ -401,11 +350,11 @@ const CheckboxMultiControl = ({ name, inputRef: inputRefExternal, options, onCha
           );
         }}
       />
-      {/* <Divider active={active} /> */}
       <CheckboxSectionContainer>
-        <MemoizedCheckboxSectionWrapper>
+        <CheckboxSectionWrapper>
           {filteredGroupHeadings.map((heading, index) => {
-            // need to refactor this component to prevent unnecessary re-rendering on every state change
+            if (index === 0) console.log('MemoizedCheckboxSectionWrapper children rendered');
+            //? need to refactor this component to prevent unnecessary re-rendering on every state change?
             const filteredGroup = filteredGroups[index];
             if (filteredGroup.length === 0) { // when all options have been filtered out
               return null;
@@ -435,56 +384,10 @@ const CheckboxMultiControl = ({ name, inputRef: inputRefExternal, options, onCha
               );
             }
           })}
-        </MemoizedCheckboxSectionWrapper>
+        </CheckboxSectionWrapper>
       </CheckboxSectionContainer>
     </InputWrapper>
   );
 };
 
 export default CheckboxMultiControl;
-
-/*
-// Internal _handleKeyDown method of Typeahead component that is overwritten by handleKeyDown
-// and called at the end of the function:
- _handleKeyDown = (e: SyntheticKeyboardEvent<HTMLInputElement>) => {
-    const { activeItem } = this.state;
-
-    // Skip most actions when the menu is hidden.
-    if (!this.isMenuShown) {
-      if (e.keyCode === UP || e.keyCode === DOWN) {
-        this.setState({ showMenu: true });
-      }
-
-      this.props.onKeyDown(e);
-      return;
-    }
-
-    switch (e.keyCode) {
-      case UP:
-      case DOWN:
-        // Prevent input cursor from going to the beginning when pressing up.
-        e.preventDefault();
-        this._handleActiveIndexChange(getUpdatedActiveIndex(
-          this.state.activeIndex,
-          e.keyCode,
-          this.items
-        ));
-        break;
-      case RETURN:
-        // Prevent form submission while menu is open.
-        e.preventDefault();
-        activeItem && this._handleMenuItemSelect(activeItem, e);
-        break;
-      case ESC:
-      case TAB:
-        // ESC simply hides the menu. TAB will blur the input and move focus to
-        // the next item; hide the menu so it doesn't gain focus.
-        this.hideMenu();
-        break;
-      default:
-        break;
-    }
-
-    this.props.onKeyDown(e);
-  }
-*/

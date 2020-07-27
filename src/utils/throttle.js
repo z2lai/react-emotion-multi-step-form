@@ -4,7 +4,6 @@ function throttle(func, period) {
     let context;
 
     function throttledFunc() {
-        console.log(isThrottled)
         if (isThrottled) {
             args = arguments;
             context = this;

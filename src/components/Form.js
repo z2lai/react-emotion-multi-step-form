@@ -10,31 +10,16 @@ import TextInput from "./TextInput";
 import { RadioControl, RadioOption } from "./RadioControl";
 import CheckboxMultiControl from "./CheckboxMultiControl";
 import withFormContextAndTheme from "./withFormContextAndTheme";
-import withLog from "./withLog";
 
-// const MemoizedTitle = React.memo(Title);
-const MemoizedCheckboxMultiControl = React.memo(CheckboxMultiControl);
+// If Form is re-rendered a lot, improve performance by memoizing child components that are large like so:
+// const MemoizedCheckboxMultiControl = React.memo(CheckboxMultiControl);
 
 const Form = props => {
   console.log('Form rendered!');
   const { registerInput, inputValues } = useInputs();
   const { activeIndex, changeActiveIndex, error } = useActiveIndex();
-  // const error = useError()[0];
-  // const inputsRef = useRef();
-  // const factors = ["Beginner Friendly", "Deep Dive", "Comphrensive"]; // should be queried from database
-
-  // const [isScraped, setIsScraped] = useState(false);
-  // const [article, setArticle] = useState({
-  //   url: '',
-  //   type: '',
-  //   tags: [],
-  //   title: ''
-  // });
-  // const [url, setUrl] = useState(''); // url has to be separated from article object as we don't want all components that use article for props to re-render whenever we update article state with a new url through the input onChange event handler
-  // const [type, setType] = useState('');
-  // const [tags, setTags] = useState([]);
-  const [tagOptions, setTagOptions] = useState([
-    ['suggestions', 'parent categories', 'syntax', 'fundamentals'], // need to move this out of state as it never changes
+  const [tagOptions, setTagOptions] = useState([ // fetch data in useEffect hook to update this state after initial render
+    ['suggestions', 'parent categories', 'syntax', 'fundamentals'],
     [
       [
         'object',
@@ -74,116 +59,13 @@ const Form = props => {
     ]
   ]);
 
-  // const [error, setError] = useState({
-  //   state: false,
-  //   message: ''
-  // })
-
-  // const formRef = useRef();
-  // const formBodyRef = useRef();
-  // const urlInputRef = useRef();
-  // const tagInputRef = useRef();
-  // const buttonRef = useRef();
-
-  // setFormState = stateIndex => this.setState({ formState: this.formStates[stateIndex] });
-
-  // updateState = (stateProperty, stateValue) => this.setState({ [stateProperty]: stateValue });
-
-  // handleSubmit = event => {
-  //   const tagOptions = this.state.tagOptions;
-  //   const topics = Object.keys(tagOptions).filter(topic => tagOptions[topic]);
-  //   console.log(topics);
-  //   const body = {
-  //     _id: this.state.url,
-  //     title: this.state.article.title,
-  //     topics
-  //   };
-  //   fetch("/articles/add", {
-  //     method: "post",
-  //     body: JSON.stringify(body),
-  //     headers: { "Content-Type": "application/json" }
-  //   })
-  //     // .then(response => response.json())
-  //     .then(result => console.log(result));
-  // };
-
   const handleUrlChange = url => console.log(`handleUrlChange called with: ${url}`);
   const handleTypeChange = type => console.log(`handleType called with: ${type}`);
-  const handleTagsChange = tags => console.log(`handleType called with: ${tags}`);
-
+  const handleTagsChange = tags => console.log(`handleTags called with: ${tags}`);
   const handleSubmit = payload => {
     console.log('Form submitted with the form fields:');
     console.log(payload);
   };
-
-  // const memoizedhandleTypeChange = useCallback(
-  //   type => {
-  //     console.log(`handleType called with: ${type}`);
-  //   },
-  //   []
-  // );
-
-
-  // // Combine this function with the function above?
-  // const memoizedhandleTagChange = useCallback(
-  //   tags => {
-  //     console.log(`handleType called with: ${tags}`);
-  //   },
-  //   []
-  // );
-
-
-  // const setErrorMessage = message => {
-  //   if (message) {
-  //     setError({ state: true, message });
-  //   } else {
-  //     setError({ state: false, message: '' });
-  //   }
-  // }
-
-  // const changeActivePage = newActivePage => {
-  //   const isNextPage = newActivePage > activePage;
-  //   /* 
-  //     1. Focus Input or FormBody
-  //     2. setErrorMessage 
-  //   */
-  //   if (isNextPage) {
-  //     const input = inputsRef.current[activePage - 1];
-  //     const error = input.validate(); // returns error message
-  //     console.log(error);
-  //     if (error) {
-  //       input.node.focus();
-  //       return setErrorMessage(error);
-  //     }
-  //   }
-
-  // switch (activePage) {
-  //   case 1:
-  //     if (isNextPage && url === '') {
-  //       urlInputRef.current.focus();
-  //       return setErrorMessage('Please fill in the URL!');
-  //     }
-  //     setArticle({ ...article, url });
-  //     break;
-  //   case 2:
-  //     if (isNextPage && type === '') {
-  //       formBodyRef.current.focus();
-  //       return setErrorMessage('Please select a Type!');
-  //     }
-  //     setArticle({ ...article, type });
-  //     break;
-  //   case 3:
-  //     if (isNextPage && tags.length === 0) {
-  //       tagInputRef.current.focus();
-  //       return setErrorMessage('Please select a Tag!');
-  //     }
-  //     setArticle({ ...article, tags });
-  //     break;
-  // }
-  // setErrorMessage('');
-  //   setActivePage(newActivePage);
-  //   formBodyRef.current.focus();
-  // }
 
   return (
     <StyledForm>
@@ -202,7 +84,7 @@ const Form = props => {
           changeActivePage={changeActiveIndex}
         />
         <Title
-          value={(inputValues['tags'] && inputValues['tags'].length) && inputValues['tags'].join(', ') || 'Select Article Tags'}
+          value={((inputValues['tags'] && inputValues['tags'].length) && inputValues['tags'].join(', ')) || 'Select Article Tags'}
           page={2}
           active={activeIndex === 2}
           changeActivePage={changeActiveIndex}
@@ -210,7 +92,7 @@ const Form = props => {
       </TitleContainer>
       <ErrorMessage>{error.message}</ErrorMessage>
       <FormBody onSubmit={handleSubmit}>
-        <TextInput // Add option for user to use regular uncontrolled text input element instead of TextInput
+        <TextInput
           name="url"
           placeholder='url'
           inputRef={registerInput(
@@ -235,7 +117,7 @@ const Form = props => {
           <RadioOption value="tutorial" />
           <RadioOption value="reference" />
         </RadioControl>
-        <MemoizedCheckboxMultiControl
+        <CheckboxMultiControl
           name="tags"
           inputRef={registerInput(
             'icon-price-tags',
