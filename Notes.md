@@ -25,3 +25,6 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 2. Render icons and active icon based on inputs and activeIndex
 3. Implement activeIndex management with input validation
 4. Once input is validated, return input value with a handler
+
+## Publish to NPM as React Component Library
+Use react-modern-library-boilerplate repo to publish library: https://github.com/transitive-bullshit/react-modern-library-boilerplate
