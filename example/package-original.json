@@ -1,5 +1,6 @@
 {
   "name": "react-emotion-multi-step-form-example",
+  "homepage": "",
   "version": "0.1.0",
   "private": true,
   "license": "MIT",
@@ -11,18 +12,19 @@
     "@testing-library/user-event": "^7.2.1",
     "bootstrap": "^4.5.0",
     "emotion-theming": "^10.0.27",
-    "prop-types": "^15.6.2",
     "react": "^16.12.0",
-    "react-bootstrap-typeahead": "^5.0.0-rc.1",
     "react-dom": "^16.12.0",
-    "react-scripts": "^3.4.1"
+    "react-scripts": "3.3.0",
+    "react-bootstrap-typeahead": "^5.0.0-rc.1",
+    "react-emotion-multi-step-form": "link:.."
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "proxy": "http://localhost:8000",
   "eslintConfig": {
     "extends": [
       "react-app",
