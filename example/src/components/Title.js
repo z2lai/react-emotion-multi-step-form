@@ -9,12 +9,12 @@ const StyledTitle = styled.span`
   text-transform: capitalize;
   transition: all 600ms;
   ${props => props.active ? `
-    color: ${props.theme.colors.dark.indigo};  
+    color: hsl(279, 75%, 35%);
   ` : props.activated ? `
-    color: ${props.theme.colors.extraDark.indigo};
+    color: hsl(279, 9%, 25%);
     cursor: pointer;
   ` : `
-    color: ${props.theme.colors.white};  
+    color: hsl(0, 100%, 99%);  
     opacity: 0.5;
   `}
 `;

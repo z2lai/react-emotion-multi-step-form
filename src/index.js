@@ -1,26 +1,29 @@
 /**
- * @class ExampleComponent
+ * Component Exports
  */
 
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import useInputs from './core/useInputs';
+import useInputState from './core/useInputState';
+import useActiveIndex from './core/useActiveIndex';
 
-import styles from './styles.css'
+import withFormContextAndTheme from './components/withFormContextAndTheme';
+import FormBody from './components/FormBody';
+import InputWrapper from './components/InputWrapper';
+import TextInput from './components/TextInput';
+import { RadioControl, RadioOption } from './components/RadioControl';
+import CheckboxMultiControl from './components/CheckboxMultiControl';
+import Checkbox from './components/Checkbox';
 
-export default class ExampleComponent extends Component {
-  static propTypes = {
-    text: PropTypes.string
-  }
-
-  render() {
-    const {
-      text
-    } = this.props
-
-    return (
-      <div className={styles.test}>
-        Example 2 : {text}
-      </div>
-    )
-  }
-}
+export { 
+  useInputs,
+  useInputState,
+  useActiveIndex,
+  withFormContextAndTheme,
+  FormBody,
+  InputWrapper,
+  TextInput,
+  RadioControl,
+  RadioOption,
+  CheckboxMultiControl,
+  Checkbox
+ }

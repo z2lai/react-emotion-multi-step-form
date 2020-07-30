@@ -1,15 +1,27 @@
 import React, { useState } from "react";
 
-import useInputs from '../hooks/useInputs';
-import useActiveIndex from "../hooks/useActiveIndex";
+// import useInputs from '../hooks/useInputs';
+// import useActiveIndex from "../hooks/useActiveIndex";
+
+import {
+  useInputs,
+  useInputState,
+  useActiveIndex,
+  withFormContextAndTheme,
+  FormBody,
+  TextInput,
+  RadioControl,
+  RadioOption,
+  CheckboxMultiControl
+} from "react-emotion-multi-step-form";
 
 import { StyledForm, Heading, TitleContainer, ErrorMessage } from "./StyledComponents";
 import Title from "./Title";
-import FormBody from "./FormBody";
-import TextInput from "./TextInput";
-import { RadioControl, RadioOption } from "./RadioControl";
-import CheckboxMultiControl from "./CheckboxMultiControl";
-import withFormContextAndTheme from "./withFormContextAndTheme";
+// import FormBody from "./FormBody";
+// import TextInput from "./TextInput";
+// import { RadioControl, RadioOption } from "./RadioControl";
+// import CheckboxMultiControl from "./CheckboxMultiControl";
+// import withFormContextAndTheme from "./withFormContextAndTheme";
 
 // If Form is re-rendered a lot, improve performance by memoizing child components that are large like so:
 // const MemoizedCheckboxMultiControl = React.memo(CheckboxMultiControl);

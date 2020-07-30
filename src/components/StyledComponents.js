@@ -15,7 +15,7 @@ export const StyledForm = styled.div`
   border: 3px double hsl(0, 0%, 13%); 
   text-align: center;
   perspective: 800px;
-  background: hsl(139, 50%, 75%);
+  ${props => `background: ${props.theme.colors.light.turqoise};`}
   &:after {
     content: " 🦄";
   }

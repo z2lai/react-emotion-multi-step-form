@@ -2,7 +2,6 @@ import React from "react";
 
 import "../App.css";
 import Form from "./Form";
-import ExampleComponent from 'react-emotion-multi-step-form'
 
 class App extends React.Component {
   state = {};
@@ -13,8 +12,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        {/* <Form /> */}
-        <ExampleComponent />
+        <Form />
       </div>
     );
   }
