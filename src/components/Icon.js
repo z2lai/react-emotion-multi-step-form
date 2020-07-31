@@ -1,8 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled";
 
-// import "../styles.css"
-
 const StyledIcons = styled.div`
   height: 40px;
   width: 100%;

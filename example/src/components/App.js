@@ -1,6 +1,5 @@
 import React from "react";
 
-import '../index.css';
 import "../fonts/icomoon/style.css";
 import Form from "./Form";
 
