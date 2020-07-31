@@ -1,8 +1,4 @@
 import React, { useState } from "react";
-
-// import useInputs from '../hooks/useInputs';
-// import useActiveIndex from "../hooks/useActiveIndex";
-
 import {
   useInputs,
   useInputState,
@@ -17,6 +13,9 @@ import {
 
 import { StyledForm, Heading, TitleContainer, ErrorMessage } from "./StyledComponents";
 import Title from "./Title";
+
+// import useInputs from '../hooks/useInputs';
+// import useActiveIndex from "../hooks/useActiveIndex";
 // import FormBody from "./FormBody";
 // import TextInput from "./TextInput";
 // import { RadioControl, RadioOption } from "./RadioControl";

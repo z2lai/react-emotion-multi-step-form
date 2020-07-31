@@ -6,12 +6,10 @@ import useInputState from "../hooks/useInputState";
 import InputWrapper from "./InputWrapper";
 
 const StyledLabel = styled.label`
+  display: inline-block;
   margin: 0;
   padding: 2px 20px 0 20px;
   border-radius: 25px;
-  line-height: 2rem;
-  font-size: inherit;
-  font-weight: inherit;
   text-align: center;
   text-transform: capitalize;
   cursor: pointer;
@@ -43,6 +41,7 @@ const HiddenRadio = styled.input`
 `;
 
 const RadioWrapper = styled.div`
+  line-height: 2rem;
   input:focus + label {
     box-shadow: ${props => `0 0 0 2px ${props.theme.colors.light[props.color]}`};
   }

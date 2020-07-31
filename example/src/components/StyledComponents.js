@@ -67,7 +67,6 @@ export const InputContainer = styled.div`
 
 export const StyledInput = styled.input`
   width: 100%;
-  line-height: 26px;
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
   padding: 0.375rem 0.75rem;
@@ -139,7 +138,7 @@ export const NextButtonIcon = styled.div`
   &::before {
     content: '';
     position: absolute;
-    left: -2px;
+    left: -3px;
     bottom: 1px;
     width: 6px;
     height: 6px;

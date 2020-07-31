@@ -6,6 +6,8 @@ import useActiveIndex from "../core/useActiveIndex";
 const StyledInputWrapper = styled.div`
   max-width: 500px;
   height: 100%;
+  line-height: 1.625rem;
+  font-size: 1.125rem;
   display: flex;
   ${props => props.column ? `
     flex-flow: column nowrap;
@@ -15,7 +17,6 @@ const StyledInputWrapper = styled.div`
     justify-content: space-evenly;
   `}
   align-items: center;
-  font-size: 1.125rem;
   outline: none;
   ${props => props.isActive ? `
     visibility: visible;
@@ -26,6 +27,11 @@ const StyledInputWrapper = styled.div`
     visibility: hidden;
     opacity: 0;
   `}
+    input, label, button, select, optgroup, textarea  {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+  }
 `;
 
 const InputWrapper = ({ name, inputRef, column, onKeyDown, children }) => {

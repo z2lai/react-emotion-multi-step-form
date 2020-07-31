@@ -2,28 +2,31 @@
  * Component Exports
  */
 
-import useInputs from './core/useInputs';
-import useInputState from './core/useInputState';
-import useActiveIndex from './core/useActiveIndex';
+// import "./styles.css"
+// import "bootstrap/dist/css/bootstrap.css";
 
-import withFormContextAndTheme from './components/withFormContextAndTheme';
-import FormBody from './components/FormBody';
-import InputWrapper from './components/InputWrapper';
-import TextInput from './components/TextInput';
-import { RadioControl, RadioOption } from './components/RadioControl';
-import CheckboxMultiControl from './components/CheckboxMultiControl';
-import Checkbox from './components/Checkbox';
+export useInputs from './core/useInputs';
+export useInputState from './core/useInputState';
+export useActiveIndex from './core/useActiveIndex';
 
-export { 
-  useInputs,
-  useInputState,
-  useActiveIndex,
-  withFormContextAndTheme,
-  FormBody,
-  InputWrapper,
-  TextInput,
-  RadioControl,
-  RadioOption,
-  CheckboxMultiControl,
-  Checkbox
- }
+export withFormContextAndTheme from './components/withFormContextAndTheme';
+export FormBody from './components/FormBody';
+export InputWrapper from './components/InputWrapper';
+export TextInput from './components/TextInput';
+export { RadioControl, RadioOption } from './components/RadioControl';
+export CheckboxMultiControl from './components/CheckboxMultiControl';
+export Checkbox from './components/Checkbox';
+
+// export { 
+//   useInputs,
+//   useInputState,
+//   useActiveIndex,
+//   withFormContextAndTheme,
+//   FormBody,
+//   InputWrapper,
+//   TextInput,
+//   RadioControl,
+//   RadioOption,
+//   CheckboxMultiControl,
+//   Checkbox
+//  }

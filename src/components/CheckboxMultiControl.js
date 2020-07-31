@@ -5,7 +5,6 @@ import styled from "@emotion/styled";
 
 import useInputState from "../core/useInputState";
 
-import "bootstrap/dist/css/bootstrap.css";
 import "react-bootstrap-typeahead/css/Typeahead.css";
 import { Typeahead, Hint, Input, Token } from "react-bootstrap-typeahead";
 import InputWrapper from "./InputWrapper";
@@ -16,21 +15,52 @@ import throttle from "../utils/throttle";
 
 const StyledTypeahead = styled(Typeahead)`
   width: 100%;
+  // Bootstrap class
+  .sr-only {
+    position: absolute;
+    margin: -1px;
+    width: 1px;
+    height: 1px;
+    border: 0;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+  button.close {
+    border: 0;
+    padding: 0 7px;
+    background-color: transparent;
+    cursor: pointer;
+    opacity: .5;
+    :hover, :focus {
+      opacity: .75;
+    }
+  }
   #typeahead {
     visibility: hidden;
   }
+  input.rbt-input-main {
+    width: 100%;
+    border: 0px;
+    padding: 0px;
+    outline: none;
+    box-shadow: none;
+    background-color: transparent;
+    cursor: inherit;
+    z-index: 1;
+  }
   ${(props) => `
     .rbt-input-wrapper {
-      display: flex;
       width: 100%;
       border: 1px solid #ced4da;
       border-radius: 0.25rem;
       padding: 0.375rem 0.75rem;
       overflow: hidden;
+      display: flex;
       align-items: flex-start;
       flex-flow: row wrap;
       font-weight: 400;
-      line-height: 26px;
       color: ${props.theme.colors.extraDark.indigo};
       background-color: #fff;
       background-clip: padding-box;
@@ -40,21 +70,15 @@ const StyledTypeahead = styled(Typeahead)`
       border-color: ${props.theme.colors.light.indigo};
       box-shadow: 0 0 0 0.2rem rgba(166, 0, 255, .25);
     }
-    input.rbt-input-main {
-      background-color: transparent;
-      border: 0px;
-      box-shadow: none;
-      cursor: inherit;
-      outline: none;
-      padding: 0px;
-      width: 100%;
-      z-index: 1;
-    }
     .rbt-token {
-      padding-top: 3px;
-      line-height: 1rem;
+      margin: 2px 3px 1px 0px;
+      padding-top: 2px;
+      padding-bottom: 3px;
       background-color: ${props.theme.colors.extraLight.indigo};
       color: ${props.theme.colors.dark.indigo};
+      button.close {
+        opacity: 1;
+      }
     }
     .rbt-token-active {
       background-color: ${props.theme.colors.dark.indigo};
