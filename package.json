@@ -2,6 +2,7 @@
   "name": "react-emotion-multi-step-form",
   "version": "0.1.0",
   "description": "Multi-step form library with React components styled with Emotion",
+  "homepage": "http://z2lai.github.io/",
   "author": "Zheng Lai",
   "license": "MIT",
   "repository": "z2lai/react-emotion-multi-step-form",
@@ -28,7 +29,7 @@
   "peerDependencies": {
     "prop-types": "^15.5.4",
     "react": "^16.8.0",
-    "react-dom": "^^16.8.0"
+    "react-dom": "^16.8.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
