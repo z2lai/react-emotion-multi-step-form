@@ -1,6 +1,7 @@
 {
   "name": "react-emotion-multi-step-form-example",
   "version": "0.1.0",
+  "homepage": "http://z2lai.github.io/react-emotion-multi-step-form",
   "private": true,
   "license": "MIT",
   "dependencies": {
@@ -13,7 +14,6 @@
     "prop-types": "^15.6.2",
     "react": "16.12.0",
     "react-dom": "16.12.0",
-    "react-bootstrap-typeahead": "^5.0.0-rc.1",
     "react-scripts": "^3.4.1",
     "react-emotion-multi-step-form": "^0.1.0"
   },
