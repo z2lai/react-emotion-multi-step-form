@@ -105,7 +105,6 @@ export const NextButton = styled.button`
   width: 34px;
   border: 1px black;
   background: none;
-  outline: none;
   transition: transform 300ms;
   cursor: pointer;
   ${props => `

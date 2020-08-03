@@ -1,16 +1,18 @@
 # react-emotion-multi-step-form
 
-> TODO: Component Description
+> A multi-step form component library built in React and styled with Emotion
 
-[![NPM](https://img.shields.io/npm/v/react-modern-library-boilerplate.svg)](https://www.npmjs.com/package/react-modern-library-boilerplate) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![NPM](https://img.shields.io/npm/v/react-emotion-multi-step-form.svg)](https://www.npmjs.com/package/react-emotion-multi-step-form)
 
-## Install
+## Intro
 
-```bash
-npm install --save react-emotion-multi-step-form
-```
+## Features
 
-## Usage
+### Current Features
+
+### Feature Roadmap
+
+## Basic Usage
 
 ```jsx
 import React, { Component } from 'react'
@@ -25,6 +27,25 @@ class Example extends Component {
   }
 }
 ```
+
+## Getting Started
+
+### Peer Dependencies
+
+### Installation
+
+```bash
+npm install --save react-emotion-multi-step-form
+```
+
+## API Reference
+https://github.com/ericgio/react-bootstrap-typeahead/blob/master/docs/API.md
+
+### Components
+
+### Hooks and Higher-order Components
+
+## Browser Support
 
 ## License
 

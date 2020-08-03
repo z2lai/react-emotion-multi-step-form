@@ -133,11 +133,13 @@ const FormBody = ({ onSubmit, children }) => {
     }));
   };
 
-  const clickButtonOnKeyDown = button => {
-    button.classList.add('active');
+  const clickOnKeyDown = (event, button) => {
+    if (event.repeat) return;
+    const node = button || event.currentTarget;
+    node.classList.add('active');
     const handleKeyUp = event => {
-      button.classList.remove('active');
-      simulateMouseEvent(button, 'click')
+      node.classList.remove('active');
+      simulateMouseEvent(node, 'click')
       ref.current.removeEventListener('keyup', handleKeyUp, false);
       console.log('onKeyUp handler removed');
     }
@@ -146,20 +148,22 @@ const FormBody = ({ onSubmit, children }) => {
   }
 
   const handleKeyDown = event => {
-    if (event.key === 'Enter' && !event.repeat) {
+    if (event.key === 'Enter') {
       if (!isSubmitPage) {
-        clickButtonOnKeyDown(buttonRef.current);
+        clickOnKeyDown(event, buttonRef.current);
       } else {
-        clickButtonOnKeyDown(ref.current);
+        clickOnKeyDown(event, ref.current);
       }
     }
   }
 
   const handleNextButtonKeyDown = event => {
     // Replace default behaviour with clickButtonOnKeyDown to streamline behaviour between Enter and Space keys
-    event.preventDefault();
-    event.stopPropagation(); // stop Enter or Space keys from triggering FormBody keydown handler
-    clickButtonOnKeyDown(event.currentTarget);
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      event.stopPropagation(); // stop Enter or Space keys from triggering FormBody keydown handler
+      clickOnKeyDown(event);
+    }
   }
 
   useEffect(() => {

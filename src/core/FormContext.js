@@ -51,7 +51,7 @@ export const FormProvider = props => {
     inputs.forEach(input => {
       const valueShallowCopy = (Array.isArray(input.value) && [...input.value]) ||
         ((typeof input.value === 'object') && { ...input.value }) ||
-        input.value;
+        input.value.trim();
       console.log('valueShallowCopy:');
       console.log(valueShallowCopy);
       newInputValues[input.name] = valueShallowCopy;

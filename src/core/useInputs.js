@@ -33,7 +33,7 @@ const useInputs = () => {
       case 'object':
         break;
       case 'primitive':
-        if (required && !value) return (typeof required === 'string') ? required : `${name} is required!`
+        if (required && !value.trim()) return (typeof required === 'string') ? required : `${name} is required!`
         // Other criteria checks
         // ...
         break;
