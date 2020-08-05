@@ -7,6 +7,7 @@ const StyledLabel = styled.label`
   position: relative;
   margin: 0;
   display: inline-flex;
+  align-items: center;
   line-height: 1.25rem;
   font-size: 1.125rem;
   text-transform: lowercase;
@@ -49,7 +50,7 @@ const StyledCheckbox = styled.div`
 flex: none;
 width: 16px;
 height: 16px;
-margin-top: 3px;
+margin-top: 2px;
 margin-right: 10px;
 border-radius: 3px;
 ${props => `

@@ -7,7 +7,7 @@ import {
   TextInput,
   RadioControl,
   RadioOption,
-  CheckboxMultiControl
+  ComboboxMulti
 } from "react-emotion-multi-step-form";
 
 import { StyledForm, Heading, TitleContainer, ErrorMessage } from "./StyledComponents";
@@ -119,7 +119,7 @@ const Form = props => {
           <RadioOption value="tutorial" />
           <RadioOption value="reference" />
         </RadioControl>
-        <CheckboxMultiControl
+        <ComboboxMulti
           name="tags"
           iconClassName={'icon-price-tags'}
           validationRules={{ required: 'Please select a Tag!' }}

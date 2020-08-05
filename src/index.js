@@ -11,5 +11,5 @@ export FormBody from './components/FormBody';
 export InputWrapper from './components/InputWrapper';
 export TextInput from './components/TextInput';
 export { RadioControl, RadioOption } from './components/RadioControl';
-export CheckboxMultiControl from './components/CheckboxMultiControl';
+export ComboboxMulti from './components/ComboboxMulti';
 export Checkbox from './components/Checkbox';

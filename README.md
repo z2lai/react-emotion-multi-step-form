@@ -11,14 +11,28 @@ An easy to setup form component library where input components are displayed in 
 
 ## Features
 [//Add GIF showing basic app in action]
-* Declarative Configuration of Icon, Page Height and Input Validation for each input
-* Ability to add custom input validation function
-* Smooth Page transitions - Icon and Height
-* Easy Navigation with Keyboard
 
 ### Current Features
+* Declarative configuration of icons, page heights and input validation for each input
+* Ability to add custom input validation function
+* Smooth Page transitions - icon and height animations
+* Supports keyboard-only navigation
+* Custom Hooks to re-use page change logic
+* Global Context containing form field values
+* Customizable Theme
+* Three Input Components:
+ 1. Text Input with different types (e.g. text, email, phone, etc.)
+ 2. Single-select Input - Radio Input with declarative configuration of radio options
+ 3. Multi-select Input - Multi-select Combobox with Autocomplete and Typeahead (Checkbox or Tag Cloud Format)
 
 ### Feature Roadmap
+* More Input Components:
+ 1. Range Input (Slider)
+ 2. Toggle/Switch Input
+ 3. Single-select Input - Single-select Combobox with Autocomplete
+* Ability to have multiple inputs on one page with declarative configuration
+* Test Coverage
+* Typescript support
 
 ## Basic Usage
 
@@ -56,6 +70,7 @@ https://github.com/ericgio/react-bootstrap-typeahead/blob/master/docs/API.md
 ## Browser Support
 
 ## Caveats
+* Only supports one input per page
 
 ## Credits
 https://github.com/ericgio/react-bootstrap-typeahead/
