@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 
+import useInputs from "../core/useInputs";
 import useInputState from "../core/useInputState";
 
 import InputWrapper from "./InputWrapper";
@@ -66,8 +67,10 @@ export const RadioOption = ({ name, value, isChecked, handleChange }) => (
   </RadioWrapper>
 );
 
-export const RadioControl = ({ name, inputRef, onChange, children }) => {
+export const RadioControl = ({ name, onChange, height, iconClassName, validationRules, children }) => {
+  const { refCallback } = useInputs(iconClassName, validationRules, height);
   const { value, setValue } = useInputState(name, '');
+
   const handleChange = event => {
     const value = event.target.value;
     if (onChange) onChange(value);
@@ -75,7 +78,7 @@ export const RadioControl = ({ name, inputRef, onChange, children }) => {
   }
 
   return (
-    <InputWrapper name={name} inputRef={inputRef}>
+    <InputWrapper name={name} inputRef={refCallback}>
       {React.Children.map(children, child => {
         if (child.type === RadioOption) {
           return React.cloneElement(child, {

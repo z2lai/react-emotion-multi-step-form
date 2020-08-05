@@ -1,11 +1,12 @@
-import { useContext } from "react";
+import { useContext, useCallback } from "react";
 import { FormContext } from "./FormContext";
 
-const useInputs = () => {
+const useInputs = (iconClassName, validationRules, height) => {
   console.log('useInputs called!');
-  const { inputs, addInput, inputValues } = useContext(FormContext);
+  const { addInput, inputs, inputValues } = useContext(FormContext);
 
-  const validateInput = (name, value, criteria) => {
+  const validateInput = input => {
+    const { name, value, validationRules } = input;
     console.log('validateInput called with name and value:');
     console.log(name);
     console.log(value);
@@ -17,7 +18,7 @@ const useInputs = () => {
       // max, // e.g. 100
       // pattern, // `regex pattern`
       // validate // { validator: customValidatorFunc, message: customMessageFunc }
-    } = criteria;
+    } = validationRules;
 
     const dataType = (Array.isArray(value) && 'array') ||
       ((typeof value === 'object') && 'object') ||
@@ -43,13 +44,13 @@ const useInputs = () => {
     return '';
   }
 
-  const registerInput = (iconClassName, validationCriteria = { required: true }, height) => {
+  const registerInput = (iconClassName, validationRules = { required: true }, height) => {
     const input = {
       iconClassName,
       height,
-      validationCriteria,
+      validationRules,
       validate: function () {
-        return validateInput(this.name, this.value, this.validationCriteria);
+        return validateInput(this);
       },
     }
     return node => {
@@ -62,8 +63,10 @@ const useInputs = () => {
     };
   }
 
+  const refCallback = useCallback(registerInput(iconClassName, validationRules, height));
+
   return {
-    registerInput,
+    refCallback,
     inputs,
     inputValues,
   }

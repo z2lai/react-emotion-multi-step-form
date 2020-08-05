@@ -3,6 +3,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
 
+import useInputs from "../core/useInputs";
 import useInputState from "../core/useInputState";
 
 import "react-bootstrap-typeahead/css/Typeahead.css";
@@ -122,12 +123,13 @@ const CheckboxWrapper = styled.div`
   padding: 0 2px;
 `;
 
-const CheckboxMultiControl = ({ name, inputRef: inputRefExternal, options, onChange }) => {
+const CheckboxMultiControl = ({ name, options, onChange, height, iconClassName, validationRules }) => {
   console.log("CheckboxControl Re-rendered!");
+  const { refCallback } = useInputs(iconClassName, validationRules, height);
+  const { value: selected, setValue: setSelected } = useInputState(name, []);
   const [filter, setFilter] = useState("");
   const [filteredOptions, setFilteredOptions] = useState(options);
   const [activeSelectionIndex, setActiveSelectionIndex] = useState(-1);
-  const { value: selected, setValue: setSelected } = useInputState(name, []);
 
   const typeaheadRef = useRef();
   const inputWrapperRef = useRef();
@@ -366,7 +368,7 @@ const CheckboxMultiControl = ({ name, inputRef: inputRefExternal, options, onCha
                   ref={(element) => {
                     inputRef(element);
                     // referenceElementRef(element); // to position the dropdown menu, may be a container element, hence the need for separate refs.
-                    inputRefExternal(element);
+                    refCallback(element);
                   }}
                 />
               </Hint>

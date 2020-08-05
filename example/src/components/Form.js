@@ -26,7 +26,7 @@ import Title from "./Title";
 
 const Form = props => {
   console.log('Form rendered!');
-  const { registerInput, inputValues } = useInputs();
+  const { inputValues } = useInputs();
   const { activeIndex, changeActiveIndex, error } = useActiveIndex();
   const [tagOptions, setTagOptions] = useState([ // fetch data in useEffect hook to update this state after initial render
     ['suggestions', 'parent categories', 'syntax', 'fundamentals'],
@@ -105,22 +105,14 @@ const Form = props => {
         <TextInput
           name="url"
           placeholder='url'
-          inputRef={registerInput(
-            'icon-link',
-            {
-              required: 'Please fill in the URL!',
-            },
-          )}
+          iconClassName={'icon-link'}
+          validationRules={{ required: 'Please fill in the URL!' }}
           onChange={handleUrlChange}
         />
         <RadioControl
           name="type"
-          inputRef={registerInput(
-            'icon-tree',
-            {
-              required: 'Please select a Type!',
-            },
-          )}
+          iconClassName={'icon-tree'}
+          validationRules={{ required: 'Please select a Type!' }}
           onChange={handleTypeChange}
         >
           <RadioOption value="guide" />
@@ -129,13 +121,9 @@ const Form = props => {
         </RadioControl>
         <CheckboxMultiControl
           name="tags"
-          inputRef={registerInput(
-            'icon-price-tags',
-            {
-              required: 'Please select a Tag!',
-            },
-            220,
-          )}
+          iconClassName={'icon-price-tags'}
+          validationRules={{ required: 'Please select a Tag!' }}
+          height={220}
           options={tagOptions}
           onChange={handleTagsChange}
         />

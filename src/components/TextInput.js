@@ -1,12 +1,14 @@
 import React from "react";
 
+import useInputs from "../core/useInputs";
 import useInputState from "../core/useInputState";
 
 import InputWrapper from "./InputWrapper";
 import { StyledInput } from "./StyledComponents";
 
-const TextInput = ({ name, inputRef, placeholder, onChange }) => {
+const TextInput = ({ name, placeholder, onChange, height, iconClassName, validationRules}) => {
   console.log('TextInput rendered!');
+  const { refCallback } = useInputs(iconClassName, validationRules, height);
   const { value, setValue } = useInputState(name, '');
 
   const handleChange = event => {
@@ -15,12 +17,13 @@ const TextInput = ({ name, inputRef, placeholder, onChange }) => {
     setValue(value);
   }
 
+
   return (
     <InputWrapper name={name}>
       <StyledInput
         type="text"
         name={name}
-        ref={inputRef}
+        ref={refCallback}
         placeholder={placeholder}
         value={value}
         onChange={handleChange}
