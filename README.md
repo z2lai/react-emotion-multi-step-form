@@ -37,17 +37,39 @@ An easy to setup form component library where input components are displayed in 
 ## Basic Usage
 
 ```jsx
-import React, { Component } from 'react'
+import React from 'react';
+import { useActiveIndex, withFormContextAndTheme, FormBody, TextInput, RadioControl } from "react-emotion-multi-step-form";
 
-import MyComponent from 'react-modern-library-component'
+function App() {
+  const { error } = useActiveIndex();
+  const handleSubmit = data => {
+    console.log(data);
+  };
+  
+  return (
+    <div>
+      <div style={{ height: "20px", margin: "0 auto 5px auto", textAlign: "center", color: "red" }}>{error.message}</div>
+      <FormBody onSubmit={handleSubmit}>
+        <TextInput
+          name="fullname"
+          placeholder='fullname'
+          iconClassName={'icon-link'}
+          validationRules={{ required: true }}
+        />
+        <RadioControl
+          name="gender"
+          iconClassName={'icon-tree'}
+          validationRules={{ required: 'Please select a gender' }}
+        >
+          <RadioOption value="Male" />
+          <RadioOption value="Female" />
+        </RadioControl>
+      </FormBody>
+    </div>
+  );
+};
 
-class Example extends Component {
-  render () {
-    return (
-      <MyComponent />
-    )
-  }
-}
+export default withFormContextAndTheme(App);
 ```
 
 ## Getting Started
