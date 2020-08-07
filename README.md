@@ -38,7 +38,15 @@ An easy to setup form component library where input components are displayed in 
 
 ```jsx
 import React from 'react';
-import { useActiveIndex, withFormContextAndTheme, FormBody, TextInput, RadioControl } from "react-emotion-multi-step-form";
+import "./styles.css";
+import { 
+  useActiveIndex, 
+  withFormContextAndTheme, 
+  FormBody, 
+  TextInput, 
+  RadioControl, 
+  RadioOption 
+} from "react-emotion-multi-step-form";
 
 function App() {
   const { error } = useActiveIndex();
@@ -47,8 +55,10 @@ function App() {
   };
   
   return (
-    <div style={{ perspective: "800px" }}>
-      <div style={{ height: "20px", margin: "0 auto 5px auto", textAlign: "center", color: "red" }}>{error.message}</div>
+    <div className="App">
+      <div style={{ height: "20px", margin: "0 auto 5px auto", color: "red" }}>
+        {error.message}
+      </div>
       <FormBody onSubmit={handleSubmit}>
         <TextInput
           name="fullname"
