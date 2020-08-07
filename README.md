@@ -103,6 +103,7 @@ https://github.com/ericgio/react-bootstrap-typeahead/blob/master/docs/API.md
 ## Browser Support
 
 ## Caveats
+* Relies on SVGR in create-react-app v2 (react-scripts@2.0.0) and higher to import svg icons as components
 * Only supports one input per page
 
 ## Credits

@@ -5,7 +5,7 @@ import styled from "@emotion/styled";
 import useActiveIndex from "../core/useActiveIndex";
 import useInputs from "../core/useInputs";
 
-import { IconContainer, IconWrapper, InputContainer, SubmitLabel, NextButton, NextButtonIcon } from "./StyledComponents";
+import { IconContainer, IconsWrapper, InputContainer, SubmitLabel, NextButton, NextButtonIcon } from "./StyledComponents";
 import Icon from "./Icon";
 
 const headShake = keyframes`
@@ -194,13 +194,12 @@ const FormBody = ({ onSubmit, children }) => {
       onAnimationIteration={handleAnimationIteration}
     >
       <IconContainer>
-        <IconWrapper index={activeIndex}>
+        <IconsWrapper index={Math.min(activeIndex, inputs.length - 1)}>
           {(inputs.length > 0) ?
-            inputs.map((input, index) => 
-              <Icon key={`${input.iconClassName}${index}`} className={input.iconClassName} isSubmitPage={isSubmitPage} />) :
-            null
+            inputs.map((input, index) => <Icon key={`${index}${input.name}`} icon={input.icon} isSubmitPage={isSubmitPage} />)
+            : null
           }
-        </IconWrapper>
+        </IconsWrapper>
       </IconContainer>
       <InputContainer inputContainerHeight={inputContainerHeight}>
         {children}

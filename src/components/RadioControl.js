@@ -67,8 +67,8 @@ export const RadioOption = ({ name, value, isChecked, handleChange }) => (
   </RadioWrapper>
 );
 
-export const RadioControl = ({ name, onChange, height, iconClassName, validationRules, children }) => {
-  const { refCallback } = useInputs(iconClassName, validationRules, height);
+export const RadioControl = ({ name, onChange, height, icon, validationRules, children }) => {
+  const { refCallback } = useInputs(icon, validationRules, height);
   const { value, setValue } = useInputState(name, '');
 
   const handleChange = event => {

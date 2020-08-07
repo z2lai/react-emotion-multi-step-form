@@ -10,16 +10,12 @@ import {
   ComboboxMulti
 } from "react-emotion-multi-step-form";
 
+import { ReactComponent as LinkIcon } from "../fonts/icomoon/svg/link.svg";
+import { ReactComponent as TreeIcon } from "../fonts/icomoon/svg/tree.svg";
+import { ReactComponent as PriceTagsIcon } from "../fonts/icomoon/svg/price-tags.svg";
+
 import { StyledForm, Heading, TitleContainer, ErrorMessage } from "./StyledComponents";
 import Title from "./Title";
-
-// import useInputs from '../hooks/useInputs';
-// import useActiveIndex from "../hooks/useActiveIndex";
-// import withFormContextAndTheme from "./withFormContextAndTheme";
-// import FormBody from "./FormBody";
-// import TextInput from "./TextInput";
-// import { RadioControl, RadioOption } from "./RadioControl";
-// import CheckboxMultiControl from "./CheckboxMultiControl";
 
 // If Form is re-rendered a lot, improve performance by memoizing child components that are large like so:
 // const MemoizedCheckboxMultiControl = React.memo(CheckboxMultiControl);
@@ -105,13 +101,13 @@ const Form = props => {
   //       <TextInput
   //         name="url"
   //         placeholder='url'
-  //         iconClassName={'icon-link'}
+  //         icon={LinkIcon}
   //         validationRules={{ required: 'Please fill in the URL!' }}
   //         onChange={handleUrlChange}
   //       />
   //       <RadioControl
   //         name="type"
-  //         iconClassName={'icon-tree'}
+  //         icon={TreeIcon}
   //         validationRules={{ required: 'Please select a Type!' }}
   //         onChange={handleTypeChange}
   //       >
@@ -121,7 +117,7 @@ const Form = props => {
   //       </RadioControl>
   //       <ComboboxMulti
   //         name="tags"
-  //         iconClassName={'icon-price-tags'}
+  //         icon={PriceTagsIcon}
   //         validationRules={{ required: 'Please select a Tag!' }}
   //         height={220}
   //         options={tagOptions}
@@ -137,12 +133,12 @@ const Form = props => {
         <TextInput
           name="fullname"
           placeholder='fullname'
-          iconClassName={'icon-link'}
+          icon={LinkIcon}
           validationRules={{ required: true }}
         />
         <RadioControl
           name="gender"
-          iconClassName={'icon-tree'}
+          icon={TreeIcon}
           validationRules={{ required: 'Please select a gender' }}
         >
           <RadioOption value="Male" />

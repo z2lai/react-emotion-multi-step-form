@@ -1,26 +1,30 @@
 import React from "react";
 import styled from "@emotion/styled";
 
-const StyledIcons = styled.div`
+const IconWrapper = styled.div`
   height: 40px;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: opacity 600ms, transform 400ms;
+  transition: opacity 300ms, transform 300ms;
   ${props => `
     ${props.isSubmitPage ? `
       opacity: 0;
-      transform: rotate(360deg);
+      transform: rotate(720deg);
     ` : `
     `}
   `}
 `;
 
-const Icon = ({ className, isSubmitPage }) => (
-  <StyledIcons isSubmitPage={isSubmitPage}>
-    <div className={className}></div>
-  </StyledIcons>
-)
+const Icon = ({ icon, isSubmitPage }) => {
+  const IconComponent = icon;
+
+  return (
+    <IconWrapper isSubmitPage={isSubmitPage}>
+      <IconComponent />
+    </IconWrapper>
+  )
+}
 
 export default Icon;

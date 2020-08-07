@@ -47,7 +47,7 @@ export const IconContainer = styled.div`
   overflow: hidden;
 `
 
-export const IconWrapper = styled.div`
+export const IconsWrapper = styled.div`
   position: relative;
   display: flex;
   flex-flow: column nowrap;
@@ -87,7 +87,7 @@ export const SubmitLabel = styled.div`
     position: absolute;
     top: 7px;
     left: -34px;
-    transition: opacity 450ms ease-in-out, transform 450ms ease-in-out;
+    transition: opacity 300ms ease-in-out, transform 400ms ease-in-out;
     ${props => props.isSubmitPage ? `
       opacity: 1;
       visibility: visible;
