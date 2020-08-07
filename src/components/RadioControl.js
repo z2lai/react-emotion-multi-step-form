@@ -17,7 +17,7 @@ const StyledLabel = styled.label`
   transition: border 0.1s;
   ${props => `
     border: 1px solid white;
-    color: ${props.theme.colors.dark[props.color]};
+    color: ${props.theme.colors.extraDark[props.color]};
     ${props.isChecked ? `
       color: ${props.theme.colors.white};
       background: ${props.theme.colors.dark[props.color]};
@@ -49,7 +49,7 @@ const RadioWrapper = styled.div`
 `
 
 export const RadioOption = ({ name, value, isChecked, handleChange }) => (
-  <RadioWrapper color={value}>
+  <RadioWrapper color="indigo">
     <HiddenRadio
       type="radio"
       name={name}
@@ -60,7 +60,7 @@ export const RadioOption = ({ name, value, isChecked, handleChange }) => (
     <StyledLabel
       htmlFor={value}
       isChecked={isChecked}
-      color={value}
+      color="indigo"
     >
       {value}
     </StyledLabel>

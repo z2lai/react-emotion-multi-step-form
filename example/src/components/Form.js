@@ -131,7 +131,7 @@ const Form = props => {
   //   </StyledForm>
   // );
   return (
-    <div>
+    <div style={{ perspective: "800px" }}>
       <div style={{ height: "20px", margin: "0 auto 5px auto", textAlign: "center", color: "red" }}>{error.message}</div>
       <FormBody onSubmit={handleSubmit}>
         <TextInput
@@ -147,6 +147,7 @@ const Form = props => {
         >
           <RadioOption value="Male" />
           <RadioOption value="Female" />
+          <RadioOption value="Other" />
         </RadioControl>
       </FormBody>
     </div>

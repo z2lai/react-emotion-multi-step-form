@@ -25,6 +25,7 @@ const TextInput = ({ name, placeholder, onChange, height, iconClassName, validat
         name={name}
         ref={refCallback}
         placeholder={placeholder}
+        autocomplete="new-password"
         value={value}
         onChange={handleChange}
       />

@@ -71,7 +71,7 @@ const StyledFormBody = styled.div`
     cursor: pointer;
     transition: height 150ms ease-out, max-width 400ms ease-out, transform 100ms, box-shadow: 100ms;
     &:focus {
-      outline: 1px auto ${props.theme.colors.light.indigo};
+      outline: 2px solid ${props.theme.colors.light.indigo};
     }
     &:active, &.active {
       box-shadow: 0 4px 5px hsl(120,60%,40%);

@@ -19,13 +19,13 @@ An easy to setup form component library where input components are displayed in 
 * Supports keyboard-only navigation
 * Custom Hooks to re-use page change logic
 * Global Context containing form field values
-* Customizable Theme
 * Three Input Components:
  1. Text Input with different types (e.g. text, email, phone, etc.)
  2. Single-select Input - Radio Input with declarative configuration of radio options
  3. Multi-select Input - Multi-select Combobox with Autocomplete and Typeahead (Checkbox or Tag Cloud Format)
 
 ### Feature Roadmap
+* Customizable Theme
 * More Input Components:
  1. Range Input (Slider)
  2. Toggle/Switch Input
@@ -47,7 +47,7 @@ function App() {
   };
   
   return (
-    <div>
+    <div style={{ perspective: "800px" }}>
       <div style={{ height: "20px", margin: "0 auto 5px auto", textAlign: "center", color: "red" }}>{error.message}</div>
       <FormBody onSubmit={handleSubmit}>
         <TextInput
@@ -63,6 +63,7 @@ function App() {
         >
           <RadioOption value="Male" />
           <RadioOption value="Female" />
+          <RadioOption value="Other" />
         </RadioControl>
       </FormBody>
     </div>
