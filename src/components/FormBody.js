@@ -53,7 +53,7 @@ const StyledFormBody = styled.div`
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: flex-start;
-  border-radius: 3px;
+  border-radius: 5px;
   background-color: hsl(0, 0%, 100%);
   text-align: left;
   transition: height 150ms ease-out, max-width 150ms ease-out;
@@ -66,19 +66,20 @@ const StyledFormBody = styled.div`
   ` : props.isSubmitPage ? css`
     max-width: 120px;
     height: 40px;
-    padding: 0px 10px;
+    padding: 2px 10px;
     z-index: 1;
     cursor: pointer;
     transition: height 150ms ease-out, max-width 400ms ease-out, transform 100ms, box-shadow: 100ms;
     &:focus {
-      outline: 2px solid ${props.theme.colors.light.indigo};
+      border: 2px solid ${props.theme.colors.light.indigo};
+      padding: 0 8px;
     }
     &:active, &.active {
       box-shadow: 0 4px 5px hsl(120,60%,40%);
       transform: translateY(2px);
     }
     @media (prefers-reduced-motion: no-preference) {
-      &:hover > button > div {
+      &:focus > button > div, &:hover > button > div {
         animation: ${bounceRight} 1s ease-in-out infinite;
       }
     }
@@ -208,7 +209,7 @@ const FormBody = ({ onSubmit, children }) => {
       <NextButton
         ref={buttonRef}
         type="button"
-        isSubmitPage={isSubmitPage}
+        disabled={isSubmitPage}
         onClick={handleNextButtonClick}
         onKeyDown={handleNextButtonKeyDown}
       >

@@ -85,9 +85,9 @@ export const SubmitLabel = styled.div`
   &:before {
     content: "Submit";
     position: absolute;
-    top: 7px;
-    left: -34px;
-    transition: opacity 300ms ease-in-out, transform 400ms ease-in-out;
+    top: 6px;
+    left: -35px;
+    transition: opacity 400ms ease-in-out, transform 400ms ease-in-out;
     ${props => props.isSubmitPage ? `
       opacity: 1;
       visibility: visible;
@@ -103,27 +103,26 @@ export const NextButton = styled.button`
   position: relative;
   height: 40px;
   width: 34px;
-  border: 1px black;
+  border: 0;
+  padding: 0;
   background: none;
   transition: transform 300ms;
   cursor: pointer;
-  ${props => `
-    ${props.isSubmitPage ? `
-      transform: rotate(-90deg);
-      pointer-events: none;
-    ` : `
-      &:hover {
-        background: hsl(0, 0%, 90%);
-        border-radius: 3px;
-        transition: background 300ms ease, transform 300ms;
-      }
-      &:active, &.active {
-        top: 2px;
-        background-color: hsl(0, 0%, 100%);
-        transition-property: none;
-      }
-    `}
-  `}
+  &:hover {
+    background: hsl(0, 0%, 90%);
+    border-radius: 3px;
+    transition: background 300ms ease, transform 300ms;
+  }
+  &:active, &.active {
+    top: 2px;
+    background-color: hsl(0, 0%, 100%);
+    transition-property: none;
+  }
+  &:disabled {
+    transform: rotate(-90deg);
+    top: -2px;
+    pointer-events: none;
+  }
 `
 
 export const NextButtonIcon = styled.div`

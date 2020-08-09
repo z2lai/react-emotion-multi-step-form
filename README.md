@@ -47,6 +47,8 @@ import {
   RadioControl, 
   RadioOption 
 } from "react-emotion-multi-step-form";
+import { ReactComponent as LinkIcon } from "./path/to/svg_icons/link.svg";
+import { ReactComponent as TreeIcon } from "./path/to/svg_icons/tree.svg";
 
 function App() {
   const { error } = useActiveIndex();
@@ -63,12 +65,12 @@ function App() {
         <TextInput
           name="fullname"
           placeholder='fullname'
-          iconClassName={'icon-link'}
+          icon={LinkIcon}
           validationRules={{ required: true }}
         />
         <RadioControl
           name="gender"
-          iconClassName={'icon-tree'}
+          icon={TreeIcon}
           validationRules={{ required: 'Please select a gender' }}
         >
           <RadioOption value="Male" />
