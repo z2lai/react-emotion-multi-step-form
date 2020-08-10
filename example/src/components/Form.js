@@ -16,13 +16,14 @@ import { ReactComponent as PriceTagsIcon } from "../fonts/icomoon/svg/price-tags
 
 import { StyledForm, Heading, TitleContainer, ErrorMessage } from "./StyledComponents";
 import Title from "./Title";
+import Labels from "./Labels";
 
 // If Form is re-rendered a lot, improve performance by memoizing child components that are large like so:
 // const MemoizedCheckboxMultiControl = React.memo(CheckboxMultiControl);
 
 const Form = props => {
   console.log('Form rendered!');
-  const { inputValues } = useInputs();
+  const { inputs, inputValues } = useInputs();
   const { activeIndex, changeActiveIndex, error } = useActiveIndex();
   const [tagOptions, setTagOptions] = useState([ // fetch data in useEffect hook to update this state after initial render
     ['suggestions', 'parent categories', 'syntax', 'fundamentals'],
@@ -128,16 +129,18 @@ const Form = props => {
   // );
   return (
     <div style={{ perspective: "800px" }}>
-      <div style={{ height: "20px", margin: "0 auto 5px auto", textAlign: "center", color: "red" }}>{error.message}</div>
+      <Labels inputs={inputs} activeIndex={activeIndex} changeActiveIndex={changeActiveIndex} />
       <FormBody onSubmit={handleSubmit}>
         <TextInput
           name="fullname"
-          placeholder='fullname'
+          placeholder="fullname"
+          label={"Fullname"}
           icon={LinkIcon}
           validationRules={{ required: true }}
         />
         <RadioControl
           name="gender"
+          label="Gender"
           icon={TreeIcon}
           validationRules={{ required: 'Please select a gender' }}
         >
@@ -145,7 +148,15 @@ const Form = props => {
           <RadioOption value="Female" />
           <RadioOption value="Other" />
         </RadioControl>
+        <TextInput
+          name="age"
+          placeholder="age"
+          label={"Age"}
+          icon={PriceTagsIcon}
+          validationRules={{ required: true }}
+        />
       </FormBody>
+      <div style={{ height: "20px", margin: "0 auto 5px auto", textAlign: "center", color: "red" }}>{error.message}</div>
     </div>
   );
 }

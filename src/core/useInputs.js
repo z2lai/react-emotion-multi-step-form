@@ -44,8 +44,9 @@ const useInputs = (icon, validationRules, height) => {
     return '';
   }
 
-  const registerInput = (icon, validationRules = { required: true }, height) => {
+  const registerInput = (label, icon, validationRules = { required: true }, height) => {
     const input = {
+      label,
       icon,
       height,
       validationRules,

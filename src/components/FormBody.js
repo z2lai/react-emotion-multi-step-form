@@ -44,7 +44,7 @@ const bounceRight = keyframes`
 // How to use animation name as a partial (with other properties defined with prop values): https://styled-components.com/docs/api#keyframes
 // How to use animation name inside conditional based on props: https://github.com/styled-components/styled-components/issues/397#issuecomment-275588876
 const StyledFormBody = styled.div`
-  margin: 0 auto 20px auto;
+  margin: 0px auto 10px auto;
   max-width: 500px;
   height: 60px;
   padding: 10px;
@@ -55,11 +55,18 @@ const StyledFormBody = styled.div`
   align-items: flex-start;
   border-radius: 5px;
   background-color: hsl(0, 0%, 100%);
+  box-shadow: 0 8px 10px hsl(120, 60%, 40%);
   text-align: left;
   transition: height 150ms ease-out, max-width 150ms ease-out;
   &:focus {
     outline: none;
   }
+  ${props => props.isError ? css`
+    box-shadow: 0 8px 10px hsl(16, 100%, 40%);
+    animation: ${headShake} .5s  ease-in-out infinite;
+  ` : `
+    animation: none;
+  `}
   ${props => (props.inputContainerHeight) ? `
     height: ${props.inputContainerHeight + 20}px;
     transition: height 400ms ease-out, max-width 150ms ease-out;
@@ -75,7 +82,7 @@ const StyledFormBody = styled.div`
       padding: 0 8px;
     }
     &:active, &.active {
-      box-shadow: 0 4px 5px hsl(120,60%,40%);
+      box-shadow: 0 4px 5px hsl(120, 60%, 40%);
       transform: translateY(2px);
     }
     @media (prefers-reduced-motion: no-preference) {
@@ -85,20 +92,13 @@ const StyledFormBody = styled.div`
     }
   ` : `
   `}
-  ${props => props.isError ? css`
-    box-shadow: 0 8px 10px hsl(16, 100%, 40%);
-    animation: ${headShake} .5s  ease-in-out infinite;
-  ` : `
-    box-shadow: 0 8px 10px hsl(120, 60%, 40%);
-    animation: none;
-  `}
   h1 {
     margin: 0;
     padding: 1.5rem 0;
     font-size: 1.125rem;
     text-align: center;
   }
-`;
+`
 
 const FormBody = ({ onSubmit, children }) => {
   console.log('FormBody rendered!');

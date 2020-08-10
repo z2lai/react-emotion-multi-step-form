@@ -82,7 +82,7 @@ export const StyledInput = styled.input`
 export const SubmitLabel = styled.div`
   font-size: 1.125rem;
   font-weight: 500;
-  &:before {
+  &::before {
     content: "Submit";
     position: absolute;
     top: 6px;

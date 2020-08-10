@@ -6,9 +6,9 @@ import useInputState from "../core/useInputState";
 import InputWrapper from "./InputWrapper";
 import { StyledInput } from "./StyledComponents";
 
-const TextInput = ({ name, placeholder, onChange, height, icon, validationRules}) => {
+const TextInput = ({ name, placeholder, onChange, height, label, icon, validationRules}) => {
   console.log('TextInput rendered!');
-  const { refCallback } = useInputs(icon, validationRules, height);
+  const { refCallback } = useInputs(label, icon, validationRules, height);
   const { value, setValue } = useInputState(name, '');
 
   const handleChange = event => {
@@ -21,6 +21,7 @@ const TextInput = ({ name, placeholder, onChange, height, icon, validationRules}
     <InputWrapper name={name}>
       <StyledInput
         type="text"
+        id={name}
         name={name}
         ref={refCallback}
         placeholder={placeholder}
