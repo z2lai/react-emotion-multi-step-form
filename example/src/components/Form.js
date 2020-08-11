@@ -16,7 +16,7 @@ import { ReactComponent as PriceTagsIcon } from "../fonts/icomoon/svg/price-tags
 
 import { StyledForm, Heading, TitleContainer, ErrorMessage } from "./StyledComponents";
 import Title from "./Title";
-import Labels from "./Labels";
+import Tabs from "./Tabs";
 
 // If Form is re-rendered a lot, improve performance by memoizing child components that are large like so:
 // const MemoizedCheckboxMultiControl = React.memo(CheckboxMultiControl);
@@ -129,7 +129,7 @@ const Form = props => {
   // );
   return (
     <div style={{ perspective: "800px" }}>
-      <Labels inputs={inputs} activeIndex={activeIndex} changeActiveIndex={changeActiveIndex} />
+      <Tabs inputs={inputs} activeIndex={activeIndex} changeActiveIndex={changeActiveIndex} />
       <FormBody onSubmit={handleSubmit}>
         <TextInput
           name="fullname"

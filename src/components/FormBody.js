@@ -53,16 +53,16 @@ const StyledFormBody = styled.div`
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: flex-start;
-  border-radius: 5px;
+  border-radius: 5px 0 5px 5px;
   background-color: hsl(0, 0%, 100%);
-  box-shadow: 0 8px 10px hsl(120, 60%, 40%);
+  box-shadow: 0 8px 10px hsla(120, 60%, 40%, .8);
   text-align: left;
   transition: height 150ms ease-out, max-width 150ms ease-out;
   &:focus {
     outline: none;
   }
   ${props => props.isError ? css`
-    box-shadow: 0 8px 10px hsl(16, 100%, 40%);
+    box-shadow: 0 8px 10px hsla(16, 100%, 40%, .8);
     animation: ${headShake} .5s  ease-in-out infinite;
   ` : `
     animation: none;
