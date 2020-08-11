@@ -2,8 +2,9 @@ import React from "react";
 import styled from "@emotion/styled";
 
 const IconWrapper = styled.div`
+  flex: none;
   height: 40px;
-  width: 100%;
+  width: 34px;
   display: flex;
   align-items: center;
   justify-content: center;

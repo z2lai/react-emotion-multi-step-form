@@ -3,16 +3,21 @@ import { useState, useEffect } from "react";
 import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
 
+// import { ReactComponent as LeftArrowIcon } from "../fonts/arrow-left2.svg";
+import { BackButtonIcon } from "./StyledComponents";
+
+
 const TabsContainer = styled.div`
   display: flex;
   ${props => props.isSubmitPage ? `
+    margin: 0 auto;
     max-width: 52px;
     transition: max-width 300ms ease-out;
   ` : `
+    margin: 0 auto -1px auto;
     max-width: 500px;
     transition: max-width 150ms ease-out;
   `}
-  margin: 0 auto -1px auto;
   line-height: 30px;
   overflow: hidden;
 `
@@ -76,6 +81,7 @@ const StyledTab = styled.li`
 `
 
 const StyledIconTab = styled.button`
+  position: relative;
   flex: none;
   width: 52px;
   border: 0;
@@ -87,6 +93,12 @@ const StyledIconTab = styled.button`
   cursor: pointer;
   &:focus {
     outline: none;
+  }
+  div {
+    opacity: .5;
+  }
+  &:hover div, &:focus div {
+    opacity: .75;
   }
 `
 
@@ -132,7 +144,7 @@ const BackTab = ({ zIndex, active, changeActiveIndex }) => {
       active={active}
       onClick={handleClick}
     >
-      {"<-"}
+      <BackButtonIcon />
     </StyledIconTab>
   )
 }

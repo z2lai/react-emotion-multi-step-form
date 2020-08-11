@@ -42,7 +42,6 @@ export const ErrorMessage = styled.div`
 `
 
 export const IconContainer = styled.div`
-  height: 40px;
   width: 34px;
   overflow: hidden;
 `
@@ -50,10 +49,9 @@ export const IconContainer = styled.div`
 export const IconsWrapper = styled.div`
   position: relative;
   display: flex;
-  flex-flow: column nowrap;
-  line-height: 40px;
-  transition: top 300ms ease-out;
-  top: ${props => 0 + props.index * -40}px;
+  flex-flow: row nowrap;
+  transition: left 300ms ease-out;
+  left: ${props => 0 + props.index * -34}px;
 `
 
 export const InputContainer = styled.div`
@@ -85,7 +83,7 @@ export const SubmitLabel = styled.div`
   &::before {
     content: "Submit";
     position: absolute;
-    top: 6px;
+    top: -3px;
     left: -35px;
     transition: opacity 400ms ease-in-out, transform 400ms ease-in-out;
     ${props => props.isSubmitPage ? `
@@ -101,31 +99,30 @@ export const SubmitLabel = styled.div`
 
 export const NextButton = styled.button`
   position: relative;
+  top: 0;
   height: 40px;
   width: 34px;
   border: 0;
+  border-radius: 3px;
   padding: 0;
   background: none;
-  transition: transform 300ms;
   cursor: pointer;
+  transition: top 150ms ease-in-out;
   &:hover {
     background: hsl(0, 0%, 90%);
-    border-radius: 3px;
-    transition: background 300ms ease, transform 300ms;
+    transition: top 150ms ease-in-out background 300ms ease;
   }
   &:active, &.active {
-    top: 2px;
+    left: 2px;
     background-color: hsl(0, 0%, 100%);
-    transition-property: none;
   }
   &:disabled {
-    transform: rotate(-90deg);
-    top: -2px;
+    top: -10px;
     pointer-events: none;
   }
 `
 
-export const NextButtonIcon = styled.div`
+export const DownButtonIcon = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
@@ -142,6 +139,54 @@ export const NextButtonIcon = styled.div`
     height: 6px;
     transform: rotate(45deg);
     border-right: 2px solid;
+    border-bottom: 2px solid;
+    border-color: hsl(0, 0%, 20%);
+  }
+`
+
+export const NextButtonIcon = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 17px;
+  height: 2px;
+  border-radius: 1px;
+  background: hsl(0, 0%, 20%);
+  &::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    bottom: -4px;
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    transform: rotate(-45deg);
+    border-right: 2px solid;
+    border-bottom: 2px solid;
+    border-color: hsl(0, 0%, 20%);
+  }
+`
+
+export const BackButtonIcon = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 17px;
+  height: 2px;
+  border-radius: 1px;
+  background: hsl(0, 0%, 20%);
+  &::before {
+    content: '';
+    position: absolute;
+    left: 1px;
+    bottom: -4px;
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    transform: rotate(45deg);
+    border-left: 2px solid;
     border-bottom: 2px solid;
     border-color: hsl(0, 0%, 20%);
   }

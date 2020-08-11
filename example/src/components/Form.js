@@ -127,7 +127,7 @@ const Form = props => {
   //   </StyledForm>
   // );
   return (
-    <div style={{ perspective: "800px" }}>
+    <div>
       <FormBody onSubmit={handleSubmit}>
         <TextInput
           name="fullname"

@@ -33,10 +33,10 @@ const headShake = keyframes`
 const bounceRight = keyframes`
   0%,
   100% {
-    transform: translate(-1px, -8px);
+    transform: translate(-8px, -1px);
   }
   50% {
-    transform: translate(-1px, 0px);
+    transform: translate(0px, -1px);
   }
 `
 
@@ -81,13 +81,13 @@ const StyledFormBody = styled.div`
     max-width: 120px;
     height: 40px;
     border-radius: 5px;
-    padding: 2px 10px;
+    padding: 10px 10px;
     z-index: 1;
     cursor: pointer;
     transition: height 150ms ease-out, max-width 300ms ease-out, transform 100ms, box-shadow 100ms;
     &:focus {
       border: 2px solid ${props.theme.colors.light.indigo};
-      padding: 0 8px;
+      padding: 8px 8px;
     }
     &:active, &.active {
       box-shadow: 0 4px 5px hsl(120, 60%, 40%);
