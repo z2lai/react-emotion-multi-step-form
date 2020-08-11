@@ -5,18 +5,23 @@ import styled from "@emotion/styled";
 
 const TabsContainer = styled.div`
   display: flex;
-  max-width: ${props => props.isSubmitPage ? '52px' : '500px'};
+  ${props => props.isSubmitPage ? `
+    max-width: 52px;
+    transition: max-width 300ms ease-out;
+  ` : `
+    max-width: 500px;
+    transition: max-width 150ms ease-out;
+  `}
   margin: 0 auto -1px auto;
   line-height: 30px;
   overflow: hidden;
-  transition: max-width 400ms ease-out;
 `
 
-const TabsWrapper = styled.ul`
+const TabsWrapper = styled.div`
   flex: 1 1 0;
   display: inline-flex;
-  margin: 0 10px;
-  padding: 0;
+  margin: 0;
+  padding: ${props => props.isSubmitPage ? '0' : '0 10px'};
   overflow: hidden;
 `
 
@@ -80,6 +85,9 @@ const StyledIconTab = styled.button`
   border-top-right-radius: 20px 30px;
   background: hsl(0, 0%, 100%);
   cursor: pointer;
+  &:focus {
+    outline: none;
+  }
 `
 
 const LabelTab = ({ htmlFor, label, zIndex, active, changeActiveIndex }) => {
@@ -131,7 +139,7 @@ const BackTab = ({ zIndex, active, changeActiveIndex }) => {
 
 const Tabs = ({ inputs, activeIndex, changeActiveIndex, isSubmitPage }) => (
   <TabsContainer isSubmitPage={isSubmitPage}>
-    <TabsWrapper>
+    <TabsWrapper isSubmitPage={isSubmitPage}>
       {(inputs.length > 0) ?
         inputs.map((input, index) => (
           <LabelTab
@@ -148,7 +156,6 @@ const Tabs = ({ inputs, activeIndex, changeActiveIndex, isSubmitPage }) => (
     </TabsWrapper>
     <BackTab
       key="back-button"
-      label="X"
       zIndex={10}
       active={activeIndex > 0}
       changeActiveIndex={() => changeActiveIndex(activeIndex - 1)}

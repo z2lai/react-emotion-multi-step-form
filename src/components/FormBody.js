@@ -40,6 +40,14 @@ const bounceRight = keyframes`
   }
 `
 
+const FormBodyContainer = styled.div`
+  ${props => props.isError ? css`
+    animation: ${headShake} .5s  ease-in-out infinite;
+  ` : `
+    animation: none;
+  `}
+`
+
 // When interpolating keyframes into plain strings you have to wrap it in css call, like this: css`animation: ${keyframes({ /* ... */ })}`
 // https://github.com/emotion-js/emotion/issues/1066#issuecomment-546703172
 // How to use animation name as a partial (with other properties defined with prop values): https://styled-components.com/docs/api#keyframes
@@ -56,7 +64,6 @@ const StyledFormBody = styled.div`
   align-items: flex-start;
   border-radius: 5px 0 5px 5px;
   background-color: hsl(0, 0%, 100%);
-  box-shadow: 0 8px 10px hsla(120, 60%, 40%, .8);
   text-align: left;
   transition: height 150ms ease-out, max-width 150ms ease-out;
   &:focus {
@@ -64,9 +71,8 @@ const StyledFormBody = styled.div`
   }
   ${props => props.isError ? css`
     box-shadow: 0 8px 10px hsla(16, 100%, 40%, .8);
-    animation: ${headShake} .5s  ease-in-out infinite;
   ` : `
-    animation: none;
+    box-shadow: 0 8px 10px hsla(120, 60%, 40%, .8);
   `}
   ${props => (props.inputContainerHeight) ? `
     height: ${props.inputContainerHeight + 20}px;
@@ -74,10 +80,11 @@ const StyledFormBody = styled.div`
   ` : props.isSubmitPage ? css`
     max-width: 120px;
     height: 40px;
+    border-radius: 5px;
     padding: 2px 10px;
     z-index: 1;
     cursor: pointer;
-    transition: height 150ms ease-out, max-width 400ms ease-out, transform 100ms, box-shadow: 100ms;
+    transition: height 150ms ease-out, max-width 300ms ease-out, transform 100ms, box-shadow 100ms;
     &:focus {
       border: 2px solid ${props.theme.colors.light.indigo};
       padding: 0 8px;
@@ -106,14 +113,15 @@ const FormBody = ({ onSubmit, children }) => {
   const { activeIndex, changeActiveIndex, activeInput, error, isSubmitPage } = useActiveIndex();
   const { inputs, inputValues } = useInputs();
 
-  const ref = useRef();
+  const formBodyContainerRef = useRef();
+  const formBodyRef = useRef();
   const buttonRef = useRef();
 
   const inputContainerHeight = activeInput ? activeInput.height : '';
 
   const handleAnimationIteration = event => {
     // Manually change DOM node instead of setting state to avoid re-render
-    ref.current.style.animationPlayState = "paused"
+    formBodyContainerRef.current.style.animationPlayState = "paused"
   }
 
   const handleClick = event => {
@@ -142,10 +150,10 @@ const FormBody = ({ onSubmit, children }) => {
     const handleKeyUp = event => {
       node.classList.remove('active');
       simulateMouseEvent(node, 'click')
-      ref.current.removeEventListener('keyup', handleKeyUp, false);
+      formBodyRef.current.removeEventListener('keyup', handleKeyUp, false);
       console.log('onKeyUp handler removed');
     }
-    ref.current.addEventListener('keyup', handleKeyUp, false);
+    formBodyRef.current.addEventListener('keyup', handleKeyUp, false);
     console.log('onKeyUp handler added');
   }
 
@@ -154,7 +162,7 @@ const FormBody = ({ onSubmit, children }) => {
       if (!isSubmitPage) {
         clickOnKeyDown(event, buttonRef.current);
       } else {
-        clickOnKeyDown(event, ref.current);
+        clickOnKeyDown(event, formBodyRef.current);
       }
     }
   }
@@ -169,7 +177,7 @@ const FormBody = ({ onSubmit, children }) => {
   }
 
   useEffect(() => {
-    if (error.state) ref.current.style.animationPlayState = "running";
+    if (error.state) formBodyContainerRef.current.style.animationPlayState = "running";
   }, [error]);
 
   useEffect(() => {
@@ -179,15 +187,15 @@ const FormBody = ({ onSubmit, children }) => {
       console.log(activeInput);
       setTimeout(() => activeInput.node.focus(), 500);
     } else {
-      setTimeout(() => ref.current.focus(), 400);
+      setTimeout(() => formBodyRef.current.focus(), 400);
     }
   }, [inputs.length, isSubmitPage, activeInput])
 
   return (
-    <React.Fragment>
-      <Tabs inputs={inputs} activeIndex={activeIndex} changeActiveIndex={changeActiveIndex} isSubmitPage={isSubmitPage}/>
+    <FormBodyContainer ref={formBodyContainerRef} isError={error.state} onAnimationIteration={handleAnimationIteration}>
+      <Tabs inputs={inputs} activeIndex={activeIndex} changeActiveIndex={changeActiveIndex} isSubmitPage={isSubmitPage} />
       <StyledFormBody
-        ref={ref}
+        ref={formBodyRef}
         role={isSubmitPage ? "button" : null}
         tabIndex={isSubmitPage ? "0" : "-1"}
         inputContainerHeight={inputContainerHeight}
@@ -195,7 +203,6 @@ const FormBody = ({ onSubmit, children }) => {
         isSubmitPage={isSubmitPage}
         onKeyDown={handleKeyDown}
         onClick={handleClick}
-        onAnimationIteration={handleAnimationIteration}
       >
         <IconContainer>
           <IconsWrapper index={Math.min(activeIndex, inputs.length - 1)}>
@@ -219,7 +226,7 @@ const FormBody = ({ onSubmit, children }) => {
           <NextButtonIcon />
         </NextButton>
       </StyledFormBody>
-    </React.Fragment>
+    </FormBodyContainer>
   )
 };
 
