@@ -5,6 +5,7 @@ import styled from "@emotion/styled";
 import useActiveIndex from "../core/useActiveIndex";
 import useInputs from "../core/useInputs";
 
+import Tabs from "./Tabs";
 import { IconContainer, IconsWrapper, InputContainer, SubmitLabel, NextButton, NextButtonIcon } from "./StyledComponents";
 import Icon from "./Icon";
 
@@ -107,7 +108,7 @@ const FormBody = ({ onSubmit, children }) => {
 
   const ref = useRef();
   const buttonRef = useRef();
-  
+
   const inputContainerHeight = activeInput ? activeInput.height : '';
 
   const handleAnimationIteration = event => {
@@ -183,39 +184,42 @@ const FormBody = ({ onSubmit, children }) => {
   }, [inputs.length, isSubmitPage, activeInput])
 
   return (
-    <StyledFormBody
-      ref={ref}
-      role={isSubmitPage ? "button" : null}
-      tabIndex={isSubmitPage ? "0" : "-1"}
-      inputContainerHeight={inputContainerHeight}
-      isError={error.state}
-      isSubmitPage={isSubmitPage}
-      onKeyDown={handleKeyDown}
-      onClick={handleClick}
-      onAnimationIteration={handleAnimationIteration}
-    >
-      <IconContainer>
-        <IconsWrapper index={Math.min(activeIndex, inputs.length - 1)}>
-          {(inputs.length > 0) ?
-            inputs.map((input, index) => <Icon key={`${index}${input.name}`} icon={input.icon} isSubmitPage={isSubmitPage} />)
-            : null
-          }
-        </IconsWrapper>
-      </IconContainer>
-      <InputContainer inputContainerHeight={inputContainerHeight}>
-        {children}
-        <SubmitLabel isSubmitPage={isSubmitPage} />
-      </InputContainer>
-      <NextButton
-        ref={buttonRef}
-        type="button"
-        disabled={isSubmitPage}
-        onClick={handleNextButtonClick}
-        onKeyDown={handleNextButtonKeyDown}
+    <React.Fragment>
+      <Tabs inputs={inputs} activeIndex={activeIndex} changeActiveIndex={changeActiveIndex} isSubmitPage={isSubmitPage}/>
+      <StyledFormBody
+        ref={ref}
+        role={isSubmitPage ? "button" : null}
+        tabIndex={isSubmitPage ? "0" : "-1"}
+        inputContainerHeight={inputContainerHeight}
+        isError={error.state}
+        isSubmitPage={isSubmitPage}
+        onKeyDown={handleKeyDown}
+        onClick={handleClick}
+        onAnimationIteration={handleAnimationIteration}
       >
-        <NextButtonIcon />
-      </NextButton>
-    </StyledFormBody>
+        <IconContainer>
+          <IconsWrapper index={Math.min(activeIndex, inputs.length - 1)}>
+            {(inputs.length > 0) ?
+              inputs.map((input, index) => <Icon key={`${index}${input.name}`} icon={input.icon} isSubmitPage={isSubmitPage} />)
+              : null
+            }
+          </IconsWrapper>
+        </IconContainer>
+        <InputContainer inputContainerHeight={inputContainerHeight}>
+          {children}
+          <SubmitLabel isSubmitPage={isSubmitPage} />
+        </InputContainer>
+        <NextButton
+          ref={buttonRef}
+          type="button"
+          disabled={isSubmitPage}
+          onClick={handleNextButtonClick}
+          onKeyDown={handleNextButtonKeyDown}
+        >
+          <NextButtonIcon />
+        </NextButton>
+      </StyledFormBody>
+    </React.Fragment>
   )
 };
 

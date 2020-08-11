@@ -5,17 +5,19 @@ import styled from "@emotion/styled";
 
 const TabsContainer = styled.div`
   display: flex;
-  max-width: 500px;
+  max-width: ${props => props.isSubmitPage ? '52px' : '500px'};
   margin: 0 auto -1px auto;
   line-height: 30px;
   overflow: hidden;
+  transition: max-width 400ms ease-out;
 `
 
 const TabsWrapper = styled.ul`
-  flex: 1 1 auto;
+  flex: 1 1 0;
   display: inline-flex;
   margin: 0 10px;
   padding: 0;
+  overflow: hidden;
 `
 
 const StyledTab = styled.li`
@@ -127,7 +129,7 @@ const BackTab = ({ zIndex, active, changeActiveIndex }) => {
   )
 }
 
-const Tabs = ({ inputs, activeIndex, changeActiveIndex }) => (
+const Tabs = ({ inputs, activeIndex, changeActiveIndex, isSubmitPage }) => (
   <TabsContainer isSubmitPage={isSubmitPage}>
     <TabsWrapper>
       {(inputs.length > 0) ?

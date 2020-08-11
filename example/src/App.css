@@ -1,7 +1,6 @@
 .App {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 100px;
   width: 100%;
   text-align: center;
   perspective: 800px;
