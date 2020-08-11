@@ -82,6 +82,7 @@ const StyledTab = styled.li`
 
 const StyledIconTab = styled.button`
   position: relative;
+  top: 0;
   flex: none;
   width: 52px;
   border: 0;
@@ -91,6 +92,13 @@ const StyledIconTab = styled.button`
   border-top-right-radius: 20px 30px;
   background: hsl(0, 0%, 100%);
   cursor: pointer;
+  transition: top 300ms;
+  ${props => !props.active ? `
+    top: 30px;
+    visibility: hidden;
+    transition: top 300ms, visibility 300ms ease 300ms;
+  `:`
+  `}
   &:focus {
     outline: none;
   }
