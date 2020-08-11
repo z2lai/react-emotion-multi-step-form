@@ -70,6 +70,7 @@ export const StyledInput = styled.input`
   padding: 0.375rem 0.75rem;
   outline: none;
   color: ${props => props.theme.colors.extraDark.indigo};
+  text-align: left;
   transition: border-color 0.15s ease-in-out;
   &:focus {
     border-color: ${props => props.theme.colors.light.indigo};

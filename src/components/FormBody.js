@@ -46,6 +46,9 @@ const FormBodyContainer = styled.div`
   ` : `
     animation: none;
   `}
+  &.active {
+    transform: translateY(2px);
+  }
 `
 
 // When interpolating keyframes into plain strings you have to wrap it in css call, like this: css`animation: ${keyframes({ /* ... */ })}`
@@ -64,7 +67,6 @@ const StyledFormBody = styled.div`
   align-items: flex-start;
   border-radius: 5px 0 5px 5px;
   background-color: hsl(0, 0%, 100%);
-  text-align: left;
   transition: height 150ms ease-out, max-width 150ms ease-out;
   &:focus {
     outline: none;
@@ -91,7 +93,9 @@ const StyledFormBody = styled.div`
     }
     &:active, &.active {
       box-shadow: 0 4px 5px hsl(120, 60%, 40%);
-      transform: translateY(2px);
+    }
+    div {
+      pointer-events: none;
     }
     @media (prefers-reduced-motion: no-preference) {
       &:focus > button > div, &:hover > button > div {
@@ -124,15 +128,21 @@ const FormBody = ({ onSubmit, children }) => {
     formBodyContainerRef.current.style.animationPlayState = "paused"
   }
 
-  const handleClick = event => {
+  const handleSubmitClick = event => {
     if (isSubmitPage && event.button === 0) {
       onSubmit(inputValues);
     }
   }
 
-  const handleNextButtonClick = event => {
-    changeActiveIndex(activeIndex + 1);
-  };
+  const handleMouseDownAndUp = event => {
+    if (isSubmitPage) {
+      if (event.type === 'mousedown') {
+        formBodyContainerRef.current.classList.add('active');
+      } else {
+        formBodyContainerRef.current.classList.remove('active');
+      }
+    }
+  }
 
   const simulateMouseEvent = (element, eventName) => {
     element.dispatchEvent(new MouseEvent(eventName, {
@@ -147,6 +157,7 @@ const FormBody = ({ onSubmit, children }) => {
     if (event.repeat) return;
     const node = button || event.currentTarget;
     node.classList.add('active');
+
     const handleKeyUp = event => {
       node.classList.remove('active');
       simulateMouseEvent(node, 'click')
@@ -162,10 +173,15 @@ const FormBody = ({ onSubmit, children }) => {
       if (!isSubmitPage) {
         clickOnKeyDown(event, buttonRef.current);
       } else {
+        clickOnKeyDown(event, formBodyContainerRef.current);
         clickOnKeyDown(event, formBodyRef.current);
       }
     }
   }
+
+  const handleNextButtonClick = event => {
+    changeActiveIndex(activeIndex + 1);
+  };
 
   const handleNextButtonKeyDown = event => {
     // Replace default behaviour with clickButtonOnKeyDown to streamline behaviour between Enter and Space keys
@@ -193,7 +209,12 @@ const FormBody = ({ onSubmit, children }) => {
 
   return (
     <FormBodyContainer ref={formBodyContainerRef} isError={error.state} onAnimationIteration={handleAnimationIteration}>
-      <Tabs inputs={inputs} activeIndex={activeIndex} changeActiveIndex={changeActiveIndex} isSubmitPage={isSubmitPage} />
+      <Tabs
+        inputs={inputs}
+        activeIndex={activeIndex}
+        changeActiveIndex={changeActiveIndex}
+        isSubmitPage={isSubmitPage}
+      />
       <StyledFormBody
         ref={formBodyRef}
         role={isSubmitPage ? "button" : null}
@@ -202,7 +223,9 @@ const FormBody = ({ onSubmit, children }) => {
         isError={error.state}
         isSubmitPage={isSubmitPage}
         onKeyDown={handleKeyDown}
-        onClick={handleClick}
+        onMouseDown={handleMouseDownAndUp}
+        onMouseUp={handleMouseDownAndUp}
+        onClick={handleSubmitClick}
       >
         <IconContainer>
           <IconsWrapper index={Math.min(activeIndex, inputs.length - 1)}>
