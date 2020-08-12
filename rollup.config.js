@@ -24,7 +24,9 @@ export default {
   external: [
     'react',
     'react-dom',
-    'prop-types'
+    '@emotion/core',
+    '@emotion/styled',
+    'emotion-theming'
   ],
   plugins: [
     external(),

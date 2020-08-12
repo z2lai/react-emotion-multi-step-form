@@ -99,6 +99,7 @@ const CheckboxSectionContainer = styled.div`
 const CheckboxSectionWrapper = styled.div`
   height: auto;
   width: 100%;
+  text-align: left;
   ${(props) => `
     color: ${props.theme.colors.extraDark.indigo};
   `}

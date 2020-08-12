@@ -26,6 +26,7 @@ const TabsWrapper = styled.div`
   margin: 0;
   padding: ${props => props.isSubmitPage ? '0' : '0 10px'};
   overflow: hidden;
+  text-align: center;
 `
 
 const StyledTab = styled.li`
@@ -86,8 +87,8 @@ const StyledIconTab = styled.button`
   border: 0;
   margin: 0;
   padding: 0;
-  border-top-left-radius: 20px 30px;
-  border-top-right-radius: 20px 30px;
+  border-top-left-radius: 30px 30px;
+  border-top-right-radius: 30px 30px;
   background: hsl(0, 0%, 100%);
   cursor: pointer;
   transition: top 300ms;
