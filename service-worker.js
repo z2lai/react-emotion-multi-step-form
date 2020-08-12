@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/react-emotion-multi-step-form/precache-manifest.39cc3911f9f5e0f42e7191f372786886.js"
+  "/react-emotion-multi-step-form/precache-manifest.0a26ad077699e6b6f04515930f5f9c81.js"
 );
 
 self.addEventListener('message', (event) => {
