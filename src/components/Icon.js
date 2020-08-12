@@ -5,6 +5,7 @@ const IconWrapper = styled.div`
   flex: none;
   height: 40px;
   width: 34px;
+  margin-right: 6px;
   display: flex;
   align-items: center;
   justify-content: center;

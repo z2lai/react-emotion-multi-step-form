@@ -11,7 +11,7 @@ export const StyledForm = styled.div`
   margin: 100px auto;
   box-sizing: content-box;
   width: 900px;
-  height: 500px;
+  height: 600px;
   border: 3px double hsl(0, 0%, 13%); 
   text-align: center;
   perspective: 800px;

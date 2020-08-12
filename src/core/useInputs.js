@@ -1,7 +1,7 @@
 import { useContext, useCallback } from "react";
 import { FormContext } from "./FormContext";
 
-const useInputs = (icon, validationRules, height) => {
+const useInputs = (label, icon, validationRules, height) => {
   console.log('useInputs called!');
   const { addInput, inputs, inputValues } = useContext(FormContext);
 
@@ -64,7 +64,7 @@ const useInputs = (icon, validationRules, height) => {
     };
   }
 
-  const refCallback = useCallback(registerInput(icon, validationRules, height));
+  const refCallback = useCallback(registerInput(label, icon, validationRules, height));
 
   return {
     refCallback,

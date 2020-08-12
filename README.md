@@ -58,18 +58,17 @@ function App() {
   
   return (
     <div className="App">
-      <div style={{ height: "20px", margin: "0 auto 5px auto", color: "red" }}>
-        {error.message}
-      </div>
       <FormBody onSubmit={handleSubmit}>
         <TextInput
           name="fullname"
-          placeholder='fullname'
+          placeholder="fullname"
+          label={"Fullname"}
           icon={LinkIcon}
           validationRules={{ required: true }}
         />
         <RadioControl
           name="gender"
+          label="Gender"
           icon={TreeIcon}
           validationRules={{ required: 'Please select a gender' }}
         >
@@ -78,6 +77,9 @@ function App() {
           <RadioOption value="Other" />
         </RadioControl>
       </FormBody>
+      <div style={{ height: "20px", margin: "0 auto 5px auto", color: "red" }}>
+        {error.message}
+      </div>
     </div>
   );
 };

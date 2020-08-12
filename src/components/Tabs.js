@@ -3,9 +3,7 @@ import { useState, useEffect } from "react";
 import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
 
-// import { ReactComponent as LeftArrowIcon } from "../fonts/arrow-left2.svg";
 import { BackButtonIcon } from "./StyledComponents";
-
 
 const TabsContainer = styled.div`
   display: flex;

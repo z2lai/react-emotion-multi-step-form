@@ -67,6 +67,7 @@ const StyledFormBody = styled.div`
   align-items: flex-start;
   border-radius: 5px 0 5px 5px;
   background-color: hsl(0, 0%, 100%);
+  text-align: left;
   transition: height 150ms ease-out, max-width 150ms ease-out;
   &:focus {
     outline: none;

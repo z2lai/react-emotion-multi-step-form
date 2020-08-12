@@ -51,7 +51,7 @@ export const IconsWrapper = styled.div`
   display: flex;
   flex-flow: row nowrap;
   transition: left 300ms ease-out;
-  left: ${props => 0 + props.index * -34}px;
+  left: ${props => 0 + props.index * -40}px;
 `
 
 export const InputContainer = styled.div`

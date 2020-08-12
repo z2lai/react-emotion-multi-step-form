@@ -73,89 +73,61 @@ const Form = props => {
     console.log(payload);
   };
 
-  // return (
-  //   <StyledForm>
-  //     <Heading>Submit An Article To the Communal Curator</Heading>
-  //     <TitleContainer>
-  //       <Title
-  //         value={inputValues['url'] || 'Input Article URL'}
-  //         page={0}
-  //         active={activeIndex === 0}
-  //         changeActivePage={changeActiveIndex}
-  //       />
-  //       <Title
-  //         value={inputValues['type'] || 'Select Resource Type'}
-  //         page={1}
-  //         active={activeIndex === 1}
-  //         changeActivePage={changeActiveIndex}
-  //       />
-  //       <Title
-  //         value={((inputValues['tags'] && inputValues['tags'].length) && inputValues['tags'].join(', ')) || 'Select Article Tags'}
-  //         page={2}
-  //         active={activeIndex === 2}
-  //         changeActivePage={changeActiveIndex}
-  //       />
-  //     </TitleContainer>
-  //     <ErrorMessage>{error.message}</ErrorMessage>
-  //     <FormBody onSubmit={handleSubmit}>
-  //       <TextInput
-  //         name="url"
-  //         placeholder='url'
-  //         icon={LinkIcon}
-  //         validationRules={{ required: 'Please fill in the URL!' }}
-  //         onChange={handleUrlChange}
-  //       />
-  //       <RadioControl
-  //         name="type"
-  //         icon={TreeIcon}
-  //         validationRules={{ required: 'Please select a Type!' }}
-  //         onChange={handleTypeChange}
-  //       >
-  //         <RadioOption value="guide" />
-  //         <RadioOption value="tutorial" />
-  //         <RadioOption value="reference" />
-  //       </RadioControl>
-  //       <ComboboxMulti
-  //         name="tags"
-  //         icon={PriceTagsIcon}
-  //         validationRules={{ required: 'Please select a Tag!' }}
-  //         height={220}
-  //         options={tagOptions}
-  //         onChange={handleTagsChange}
-  //       />
-  //     </FormBody>
-  //   </StyledForm>
-  // );
   return (
-    <div>
+    <StyledForm>
+      <Heading>Submit An Article To the Communal Curator</Heading>
+      <TitleContainer>
+        <Title
+          value={inputValues['url'] || 'Input Article URL'}
+          page={0}
+          active={activeIndex === 0}
+          changeActivePage={changeActiveIndex}
+        />
+        <Title
+          value={inputValues['type'] || 'Select Resource Type'}
+          page={1}
+          active={activeIndex === 1}
+          changeActivePage={changeActiveIndex}
+        />
+        <Title
+          value={((inputValues['tags'] && inputValues['tags'].length) && inputValues['tags'].join(', ')) || 'Select Article Tags'}
+          page={2}
+          active={activeIndex === 2}
+          changeActivePage={changeActiveIndex}
+        />
+      </TitleContainer>
+      <ErrorMessage>{error.message}</ErrorMessage>
       <FormBody onSubmit={handleSubmit}>
         <TextInput
-          name="fullname"
-          placeholder="fullname"
-          label={"Fullname"}
+          name="url"
+          placeholder="url"
+          label="Url"
           icon={LinkIcon}
-          validationRules={{ required: true }}
+          validationRules={{ required: 'Please fill in the URL!' }}
+          onChange={handleUrlChange}
         />
         <RadioControl
-          name="gender"
-          label="Gender"
+          name="type"
+          label="Type"
           icon={TreeIcon}
-          validationRules={{ required: 'Please select a gender' }}
+          validationRules={{ required: 'Please select a Type!' }}
+          onChange={handleTypeChange}
         >
-          <RadioOption value="Male" />
-          <RadioOption value="Female" />
-          <RadioOption value="Other" />
+          <RadioOption value="guide" />
+          <RadioOption value="tutorial" />
+          <RadioOption value="reference" />
         </RadioControl>
-        <TextInput
-          name="age"
-          placeholder="age"
-          label={"Age"}
+        <ComboboxMulti
+          name="tags"
+          label="Tags"
           icon={PriceTagsIcon}
-          validationRules={{ required: true }}
+          validationRules={{ required: 'Please select a Tag!' }}
+          height={220}
+          options={tagOptions}
+          onChange={handleTagsChange}
         />
       </FormBody>
-      <div style={{ height: "20px", margin: "0 auto 5px auto", textAlign: "center", color: "red" }}>{error.message}</div>
-    </div>
+    </StyledForm>
   );
 }
 
