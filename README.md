@@ -90,14 +90,15 @@ function App() {
           <RadioOption value="Other" />
         </RadioControl>
       </FormBody>
-      <div style={{ height: "20px", margin: "0 auto 5px auto", color: "red" }}>
+      <div style={{ height: "20px", margin: "0 auto 5px auto", textAlign: "center", color: "red" }}>
         {error.message}
       </div>
     </div>
   );
 };
 
-export default withFormContextAndTheme(App); // Wrap component with React Context.Provider and Emotion ThemeProvider
+ // Wrap component with React Context.Provider and Emotion ThemeProvider
+export default withFormContextAndTheme(App);
 ```
 Demo the quickstart sandbox [here](https://codesandbox.io/s/react-emotion-multi-step-form-basic-example-eqdv7).
 ## Getting Started

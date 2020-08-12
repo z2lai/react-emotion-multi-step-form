@@ -22,7 +22,7 @@ import Title from "./Title";
 
 const Form = props => {
   console.log('Form rendered!');
-  const { inputs, inputValues } = useInputs();
+  const { inputValues } = useInputs();
   const { activeIndex, changeActiveIndex, error } = useActiveIndex();
   const [tagOptions, setTagOptions] = useState([ // fetch data in useEffect hook to update this state after initial render
     ['suggestions', 'parent categories', 'syntax', 'fundamentals'],

@@ -139,7 +139,7 @@ const FormBody = ({ onSubmit, children }) => {
 
   const handleMouseDownAndUp = event => {
     if (isSubmitPage) {
-      if (event.type === 'mousedown') {
+      if (event.type === 'mousedown' || event.type === 'touchstart') {
         formBodyContainerRef.current.classList.add('active');
       } else {
         formBodyContainerRef.current.classList.remove('active');
@@ -225,10 +225,12 @@ const FormBody = ({ onSubmit, children }) => {
         inputContainerHeight={inputContainerHeight}
         isError={error.state}
         isSubmitPage={isSubmitPage}
+        onClick={handleSubmitClick}
         onKeyDown={handleKeyDown}
         onMouseDown={handleMouseDownAndUp}
         onMouseUp={handleMouseDownAndUp}
-        onClick={handleSubmitClick}
+        onTouchStart={handleMouseDownAndUp}
+        onTouchEnd={handleMouseDownAndUp}
       >
         <IconContainer>
           <IconsWrapper index={Math.min(activeIndex, inputs.length - 1)}>
