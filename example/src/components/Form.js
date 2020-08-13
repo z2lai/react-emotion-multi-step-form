@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   useInputs,
   useActiveIndex,
@@ -9,6 +9,7 @@ import {
   RadioOption,
   ComboboxMulti
 } from "react-emotion-multi-step-form";
+import Reward from 'react-rewards';
 
 import { ReactComponent as LinkIcon } from "../fonts/icomoon/svg/link.svg";
 import { ReactComponent as TreeIcon } from "../fonts/icomoon/svg/tree.svg";
@@ -23,7 +24,7 @@ import Title from "./Title";
 const Form = props => {
   console.log('Form rendered!');
   const { inputValues } = useInputs();
-  const { activeIndex, changeActiveIndex, error } = useActiveIndex();
+  const { activeIndex, changeActiveIndex, error, isSubmitPage } = useActiveIndex();
   const [tagOptions, setTagOptions] = useState([ // fetch data in useEffect hook to update this state after initial render
     ['suggestions', 'parent categories', 'syntax', 'fundamentals'],
     [
@@ -64,6 +65,7 @@ const Form = props => {
       ],
     ]
   ]);
+  const rewardRef = useRef();
 
   const handleUrlChange = url => console.log(`handleUrlChange called with: ${url}`);
   const handleTypeChange = type => console.log(`handleType called with: ${type}`);
@@ -71,6 +73,8 @@ const Form = props => {
   const handleSubmit = payload => {
     console.log('Form submitted with the form fields:');
     console.log(payload);
+    console.log(rewardRef);
+    rewardRef.current.rewardMe();
   };
 
   return (
@@ -97,6 +101,7 @@ const Form = props => {
         />
       </TitleContainer>
       <ErrorMessage>{error.message}</ErrorMessage>
+      {isSubmitPage ? (<Reward ref={rewardRef} type="confetti"></Reward>) : null}
       <FormBody onSubmit={handleSubmit}>
         <TextInput
           name="url"

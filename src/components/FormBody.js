@@ -75,9 +75,9 @@ const StyledFormBody = styled.div`
     outline: none;
   }
   ${props => props.isError ? css`
-    box-shadow: 0 8px 10px hsla(16, 100%, 40%, .8);
+    box-shadow: 0 8px 6px hsla(16, 100%, 40%, .8);
   ` : `
-    box-shadow: 0 8px 10px hsla(120, 60%, 40%, .8);
+    box-shadow: 0 8px 6px hsla(120, 60%, 40%, .8);
   `}
   ${props => (props.inputContainerHeight) ? `
     height: ${props.inputContainerHeight + 20}px;
@@ -95,7 +95,7 @@ const StyledFormBody = styled.div`
       padding: 8px 8px;
     }
     &:active, &.active {
-      box-shadow: 0 4px 5px hsl(120, 60%, 40%);
+      box-shadow: 0 2px 2px hsl(120, 60%, 40%);
     }
     div {
       pointer-events: none;

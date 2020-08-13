@@ -14,7 +14,6 @@ export const StyledForm = styled.div`
   height: 600px;
   border: 3px double hsl(0, 0%, 13%); 
   text-align: center;
-  perspective: 800px;
   background: hsl(139, 50%, 75%);
   &:after {
     content: " 🦄";
