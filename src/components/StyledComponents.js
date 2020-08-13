@@ -42,7 +42,7 @@ export const ErrorMessage = styled.div`
 `
 
 export const IconContainer = styled.div`
-  width: 34px;
+  width: 40px;
   overflow: hidden;
 `
 
@@ -56,8 +56,8 @@ export const IconsWrapper = styled.div`
 
 export const InputContainer = styled.div`
   position: relative;
-  margin: 0 8px;
   height: ${props => props.inputContainerHeight ? props.inputContainerHeight : '40'}px;
+  max-width: 400px;
   flex: 1;
   display: flex;
   flex-flow: column nowrap;
@@ -85,7 +85,7 @@ export const SubmitLabel = styled.div`
     content: "Submit";
     position: absolute;
     top: -3px;
-    left: -35px;
+    left: -30px;
     transition: opacity 400ms ease-in-out, transform 400ms ease-in-out;
     ${props => props.isSubmitPage ? `
       opacity: 1;
@@ -102,7 +102,7 @@ export const NextButton = styled.button`
   position: relative;
   top: 0;
   height: 40px;
-  width: 34px;
+  width: 40px;
   border: 0;
   border-radius: 3px;
   padding: 0;

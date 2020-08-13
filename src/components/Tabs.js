@@ -6,13 +6,12 @@ import styled from "@emotion/styled";
 import { BackButtonIcon } from "./StyledComponents";
 
 const TabsContainer = styled.div`
+  margin: 0 auto;
   display: flex;
   ${props => props.isSubmitPage ? `
-    margin: 0 auto;
-    max-width: 52px;
+    max-width: 40px;
     transition: max-width 300ms ease-out;
   ` : `
-    margin: 0 auto -1px auto;
     max-width: 500px;
     transition: max-width 150ms ease-out;
   `}
@@ -21,11 +20,11 @@ const TabsContainer = styled.div`
 `
 
 const TabsWrapper = styled.div`
-  flex: 1 1 0;
+  flex: 0 1 450px;
   display: inline-flex;
-  margin: 0;
-  padding: ${props => props.isSubmitPage ? '0' : '0 10px'};
   overflow: hidden;
+  padding: ${props => props.isSubmitPage ? '0' : '0 10px'};
+  margin: 0;
   text-align: center;
 `
 
@@ -82,8 +81,8 @@ const StyledTab = styled.li`
 const StyledIconTab = styled.button`
   position: relative;
   top: 0;
-  flex: none;
-  width: 52px;
+  flex: 1 1 auto;
+  min-width: 40px;
   border: 0;
   margin: 0;
   padding: 0;

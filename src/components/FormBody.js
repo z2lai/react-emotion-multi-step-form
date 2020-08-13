@@ -36,7 +36,7 @@ const bounceRight = keyframes`
     transform: translate(-8px, -1px);
   }
   50% {
-    transform: translate(0px, -1px);
+    transform: translate(-2px, -1px);
   }
 `
 
@@ -62,13 +62,13 @@ const StyledFormBody = styled.div`
   margin: 0px auto 10px auto;
   max-width: 500px;
   height: 60px;
-  padding: 10px;
+  padding: 10px 0;
   overflow: hidden;
   display: flex;
   flex-flow: row nowrap;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: flex-start;
-  border-radius: 5px 0 5px 5px;
+  border-radius: 0 0 5px 5px;
   background-color: hsl(0, 0%, 100%);
   transition: height 150ms ease-out, max-width 150ms ease-out;
   &:focus {
@@ -83,16 +83,16 @@ const StyledFormBody = styled.div`
     height: ${props.inputContainerHeight + 20}px;
     transition: height 400ms ease-out, max-width 150ms ease-out;
   ` : props.isSubmitPage ? css`
-    max-width: 120px;
+    max-width: 110px;
     height: 40px;
     border-radius: 5px;
-    padding: 10px 10px;
+    padding: 10px 3px;
     z-index: 1;
     cursor: pointer;
     transition: height 150ms ease-out, max-width 300ms ease-out, transform 100ms, box-shadow 100ms;
     &:focus {
       border: 2px solid ${props.theme.colors.light.indigo};
-      padding: 8px 8px;
+      padding: 8px 1px;
     }
     &:active, &.active {
       box-shadow: 0 2px 2px hsl(120, 60%, 40%);
@@ -102,7 +102,7 @@ const StyledFormBody = styled.div`
     }
     @media (prefers-reduced-motion: no-preference) {
       &:focus > button > div, &:hover > button > div {
-        animation: ${bounceRight} 1s ease-in-out infinite;
+        animation: ${bounceRight} .8s ease-in-out infinite;
       }
     }
   ` : `

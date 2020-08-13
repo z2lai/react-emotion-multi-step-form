@@ -15,7 +15,7 @@ import { ReactComponent as LinkIcon } from "../fonts/icomoon/svg/link.svg";
 import { ReactComponent as TreeIcon } from "../fonts/icomoon/svg/tree.svg";
 import { ReactComponent as PriceTagsIcon } from "../fonts/icomoon/svg/price-tags.svg";
 
-import { StyledForm, Heading, TitleContainer, ErrorMessage } from "./StyledComponents";
+import { Heading, TitleContainer, ErrorMessage } from "./StyledComponents";
 import Title from "./Title";
 
 // If Form is re-rendered a lot, improve performance by memoizing child components that are large like so:
@@ -78,7 +78,7 @@ const Form = props => {
   };
 
   return (
-    <StyledForm>
+    <div>
       <Heading>Submit An Article To the Communal Curator</Heading>
       <TitleContainer>
         <Title
@@ -115,24 +115,27 @@ const Form = props => {
           name="type"
           label="Type"
           icon={TreeIcon}
+          height={80}
           validationRules={{ required: 'Please select a Type!' }}
           onChange={handleTypeChange}
         >
           <RadioOption value="guide" />
           <RadioOption value="tutorial" />
           <RadioOption value="reference" />
+          <RadioOption value="tool" />
+          <RadioOption value="video" />
         </RadioControl>
         <ComboboxMulti
           name="tags"
           label="Tags"
           icon={PriceTagsIcon}
-          validationRules={{ required: 'Please select a Tag!' }}
           height={220}
+          validationRules={{ required: 'Please select a Tag!' }}
           options={tagOptions}
           onChange={handleTagsChange}
         />
       </FormBody>
-    </StyledForm>
+    </div>
   );
 }
 

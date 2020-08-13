@@ -9,7 +9,7 @@ import InputWrapper from "./InputWrapper";
 const StyledLabel = styled.label`
   display: inline-block;
   margin: 0;
-  padding: 0 20px;
+  padding: 0 10px;
   border-radius: 25px;
   text-align: center;
   text-transform: capitalize;

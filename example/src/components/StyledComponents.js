@@ -8,20 +8,12 @@ const dynamicStyles = props =>
 */
 
 export const StyledForm = styled.div`
-  margin: 100px auto;
-  box-sizing: content-box;
-  width: 900px;
-  height: 600px;
-  border: 3px double hsl(0, 0%, 13%); 
-  text-align: center;
-  background: hsl(139, 50%, 75%);
-  &:after {
+  &::after {
     content: " 🦄";
   }
 `
 
 export const Heading = styled.h1`
-  margin: 50px 0 15px 0;
   font-size: 1.875rem;
 `
 

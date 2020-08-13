@@ -4,7 +4,6 @@ import styled from "@emotion/styled";
 import useActiveIndex from "../core/useActiveIndex";
 
 const StyledInputWrapper = styled.div`
-  max-width: 500px;
   height: 100%;
   line-height: 1.625rem;
   font-size: 1.125rem;
@@ -13,7 +12,7 @@ const StyledInputWrapper = styled.div`
     flex-flow: column nowrap;
     justify-content: flex-start;
   ` : `
-    flex-flow: row nowrap;
+    flex-flow: row wrap;
     justify-content: space-evenly;
   `}
   align-items: center;
