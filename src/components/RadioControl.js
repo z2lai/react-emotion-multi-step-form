@@ -8,7 +8,7 @@ import InputWrapper from "./InputWrapper";
 
 const StyledLabel = styled.label`
   display: inline-block;
-  margin: 0;
+  margin: 0 2px;
   padding: 0 10px;
   border-radius: 25px;
   text-align: center;

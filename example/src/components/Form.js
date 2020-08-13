@@ -122,8 +122,9 @@ const Form = props => {
           <RadioOption value="guide" />
           <RadioOption value="tutorial" />
           <RadioOption value="reference" />
-          <RadioOption value="tool" />
           <RadioOption value="video" />
+          <RadioOption value="library" />
+          <RadioOption value="tool" />
         </RadioControl>
         <ComboboxMulti
           name="tags"
