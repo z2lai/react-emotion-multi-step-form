@@ -113,7 +113,7 @@ const LabelTab = ({ htmlFor, label, zIndex, active, changeActiveIndex }) => {
 
   const handleClick = event => {
     if (activated && !active) {
-      console.log('click!');
+      // console.log('click!');
       changeActiveIndex();
     }
   }
@@ -139,7 +139,7 @@ const LabelTab = ({ htmlFor, label, zIndex, active, changeActiveIndex }) => {
 const BackTab = ({ zIndex, active, changeActiveIndex }) => {
   const handleClick = event => {
     if (active) {
-      console.log('click!');
+      // console.log('click!');
       changeActiveIndex();
     }
   }

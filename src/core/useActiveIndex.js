@@ -3,11 +3,11 @@ import { useContext } from "react";
 import { FormContext } from './FormContext';
 
 const useActiveIndex = () => {
-  console.log('useActiveIndex called!');
+  // console.log('useActiveIndex called!');
   const { activeIndex, updateActiveIndex, activeInput, updateInputValues, isSubmitPage, error, setError } = useContext(FormContext);
 
   const changeActiveIndex = index => {
-    console.log(`changeActiveIndex called with index: ${index}`);
+    // console.log(`changeActiveIndex called with index: ${index}`);
     const isNextIndex = index > activeIndex;
     if (isNextIndex) {
       const errorMessage = activeInput.validate();
@@ -22,7 +22,7 @@ const useActiveIndex = () => {
   }
 
   const setErrorMessage = message => {
-    console.log(`setErrorMessage called with ${message}`);
+    // console.log(`setErrorMessage called with ${message}`);
     if (message) {
       setError({ state: true, message });
     } else {

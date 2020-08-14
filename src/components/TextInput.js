@@ -7,7 +7,7 @@ import InputWrapper from "./InputWrapper";
 import { StyledInput } from "./StyledComponents";
 
 const TextInput = ({ name, placeholder, onChange, height, label, icon, validationRules}) => {
-  console.log('TextInput rendered!');
+  // console.log('TextInput rendered!');
   const { refCallback } = useInputs(label, icon, validationRules, height);
   const { value, setValue } = useInputState(name, '');
 

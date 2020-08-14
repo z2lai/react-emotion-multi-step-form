@@ -34,7 +34,7 @@ const StyledInputWrapper = styled.div`
 `;
 
 const InputWrapper = ({ name, inputRef, column, onKeyDown, children }) => {
-  console.log(`InputWrapper Rendered! for ${name}`);
+  // console.log(`InputWrapper Rendered! for ${name}`);
   const { activeInput } = useActiveIndex();
 
   let isActive = false;
@@ -42,7 +42,7 @@ const InputWrapper = ({ name, inputRef, column, onKeyDown, children }) => {
     const activeInputNode = activeInput.node;
     const activeInputName = activeInputNode.name || activeInputNode.dataset.name;
     isActive = name === activeInputName;
-    console.log(`${name} active: ${isActive}`);
+    // console.log(`${name} active: ${isActive}`);
   } else {
     isActive = false;
   };

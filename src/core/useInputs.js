@@ -2,14 +2,14 @@ import { useContext, useCallback } from "react";
 import { FormContext } from "./FormContext";
 
 const useInputs = (label, icon, validationRules, height) => {
-  console.log('useInputs called!');
+  // console.log('useInputs called!');
   const { addInput, inputs, inputValues } = useContext(FormContext);
 
   const validateInput = input => {
     const { name, value, validationRules } = input;
-    console.log('validateInput called with name and value:');
-    console.log(name);
-    console.log(value);
+    // console.log('validateInput called with name and value:');
+    // console.log(name);
+    // console.log(value);
     const {
       required, // boolean or error message string
       // minLength, // e.g. 3 or { value: 3, message: 'error message' }
@@ -24,7 +24,7 @@ const useInputs = (label, icon, validationRules, height) => {
       ((typeof value === 'object') && 'object') ||
       'primitive';
 
-    console.log(`input value data type: ${dataType}`);
+    // console.log(`input value data type: ${dataType}`);
     switch (dataType) {
       case 'array':
         if (required && value.length === 0) return (typeof required === 'string') ? required : `${name} required!`

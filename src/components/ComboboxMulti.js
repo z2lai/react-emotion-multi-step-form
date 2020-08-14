@@ -125,8 +125,8 @@ const CheckboxWrapper = styled.div`
 `;
 
 const ComboboxMulti = ({ name, options, onChange, height, label, icon, validationRules }) => {
-  console.log("CheckboxControl Re-rendered!");
-  console.log(`Height = ${height}`)
+  // console.log("CheckboxControl Re-rendered!");
+  // console.log(`Height = ${height}`)
   const { refCallback } = useInputs(label, icon, validationRules, height);
   const { value: selected, setValue: setSelected } = useInputState(name, []);
   const [filter, setFilter] = useState("");
@@ -151,9 +151,9 @@ const ComboboxMulti = ({ name, options, onChange, height, label, icon, validatio
   const THROTTLEPERIOD = 10;
 
   const handleInputChange = (inputValue) => {
-    console.log("Input Changed");
-    console.log(`onInputChange Value: ${inputValue}`);
-    console.log(`inputNodeRef Value: ${inputNodeRef.current.value}`);
+    // console.log("Input Changed");
+    // console.log(`onInputChange Value: ${inputValue}`);
+    // console.log(`inputNodeRef Value: ${inputNodeRef.current.value}`);
     setActiveSelectionIndex(-1);
     // Since there's a debounce delay when handleInputChange is called from onInputChange, inputValue might be stale if handleInputChange was called
     // immediately after from a non-debounced handler (e.g. handleInputSelection handles when selection is made on 'Enter' key and sets input value to '').
@@ -166,7 +166,7 @@ const ComboboxMulti = ({ name, options, onChange, height, label, icon, validatio
 
   const updateFilter = (inputValue, excluded = selected) => {
     const filter = inputValue.trim();
-    console.log('updateFilter called - setFilter')
+    // console.log('updateFilter called - setFilter')
     setFilter(filter);
     if (filter === "") {
       setFilteredOptions(options);
@@ -192,7 +192,7 @@ const ComboboxMulti = ({ name, options, onChange, height, label, icon, validatio
   }
 
   const handleInputSelection = (newSelected) => {
-    console.log("Selected Changed");
+    // console.log("Selected Changed");
     if (newSelected.length > selected.length) {
       debouncedHandleInputChange("");
     }
@@ -200,7 +200,7 @@ const ComboboxMulti = ({ name, options, onChange, height, label, icon, validatio
   };
 
   const removeToken = (token, selected) => {
-    console.log("Remove Handled");
+    // console.log("Remove Handled");
     const newSelected = [...selected];
     newSelected.splice(newSelected.indexOf(token), 1);
     handleSelectionChange(newSelected);
@@ -220,7 +220,7 @@ const ComboboxMulti = ({ name, options, onChange, height, label, icon, validatio
   };
 
   const handleCheckboxKeyDown = (event) => {
-    console.log("KeyDown on Checkbox!");
+    // console.log("KeyDown on Checkbox!");
     if (event.key === "Enter") {
       event.currentTarget.click(); // might need to replace with event.dispatchEvent for IE due to no activeElement API
     }
@@ -253,8 +253,8 @@ const ComboboxMulti = ({ name, options, onChange, height, label, icon, validatio
   };
 
   const handleInputWrapperKeyDown = event => {
-    console.log('inputWrapperKeyDownHandler called');
-    console.log(event.target.type);
+    // console.log('inputWrapperKeyDownHandler called');
+    // console.log(event.target.type);
      // stop Enter keydown event from triggering FormBody keydown handler if not initiated from text input
     if (event.key === 'Enter' && event.target.type !== 'text') event.stopPropagation();
   }
@@ -265,7 +265,7 @@ const ComboboxMulti = ({ name, options, onChange, height, label, icon, validatio
     const inputNode = event.currentTarget;
     switch (event.keyCode) {
       case RETURN:
-        console.log("Enter pressed!");
+        // console.log("Enter pressed!");
         if (inputNode.value.length > 0) event.stopPropagation(); // stop Enter key from triggering FormBody keydown handler
         break;
       case ESC:
@@ -328,7 +328,7 @@ const ComboboxMulti = ({ name, options, onChange, height, label, icon, validatio
     typeaheadRef.current._handleKeyDown = handleKeyDown;
     typeaheadRef.current._handleClear = handleClear;
     inputNodeRef.current = typeaheadRef.current.getInput();
-    console.log("CheckboxControl finished rendering!");
+    // console.log("CheckboxControl finished rendering!");
   }, [handleKeyDown]);
 
   useEffect(() => {
@@ -366,7 +366,7 @@ const ComboboxMulti = ({ name, options, onChange, height, label, icon, validatio
               >
                 <Input
                   {...inputProps}
-                  name={name} //? this text input shares the same name as the checkbox inputs, does this work?
+                  name={name} //? this text input shares the same name as the checkbox inputs, does this break anything?
                   ref={(element) => {
                     inputRef(element);
                     // referenceElementRef(element); // to position the dropdown menu, may be a container element, hence the need for separate refs.
@@ -381,7 +381,7 @@ const ComboboxMulti = ({ name, options, onChange, height, label, icon, validatio
       <CheckboxSectionContainer>
         <CheckboxSectionWrapper>
           {filteredGroupHeadings.map((heading, index) => {
-            if (index === 0) console.log('MemoizedCheckboxSectionWrapper children rendered');
+            // if (index === 0) console.log('MemoizedCheckboxSectionWrapper children rendered');
             //? need to refactor this component to prevent unnecessary re-rendering on every state change?
             const filteredGroup = filteredGroups[index];
             if (filteredGroup.length === 0) { // when all options have been filtered out
