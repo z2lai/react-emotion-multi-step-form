@@ -109,9 +109,11 @@ export const NextButton = styled.button`
   background: none;
   cursor: pointer;
   transition: top 150ms ease-in-out;
-  &:hover {
-    background: hsl(0, 0%, 95%);
-    transition: top 150ms ease-in-out, background 300ms ease;
+  @media (hover: hover) {
+    &:hover {
+      background: hsl(0, 0%, 95%);
+      transition: top 150ms ease-in-out, background 300ms ease;
+    }
   }
   &:active, &.active {
     left: 2px;
