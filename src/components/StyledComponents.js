@@ -50,8 +50,8 @@ export const IconsWrapper = styled.div`
   position: relative;
   display: flex;
   flex-flow: row nowrap;
-  transition: left 300ms ease-out;
-  left: ${props => 0 + props.index * -40}px;
+  transition: transform 300ms ease-out;
+  transform: ${props => `translateX(${props.index * -40}px)`};
 `
 
 export const InputContainer = styled.div`
@@ -100,7 +100,6 @@ export const SubmitLabel = styled.div`
 
 export const NextButton = styled.button`
   position: relative;
-  top: 0;
   height: 40px;
   width: 40px;
   border: 0;
@@ -108,20 +107,22 @@ export const NextButton = styled.button`
   padding: 0;
   background: none;
   cursor: pointer;
-  transition: top 150ms ease-in-out;
+  transition: transform 200ms ease-in-out;
   @media (hover: hover) {
     &:hover {
       background: hsl(0, 0%, 95%);
-      transition: top 150ms ease-in-out, background 300ms ease;
+      transition: transform 200ms ease-in-out, background 200ms ease;
     }
   }
   &:active, &.active {
-    left: 2px;
+    transform: translateX(2px);
     background-color: hsl(0, 0%, 100%);
+    transition: none;
   }
   &:disabled {
-    top: -10px;
+    transform: translateY(-10px);
     pointer-events: none;
+    transition: transform 200ms ease-in-out;
   }
 `
 

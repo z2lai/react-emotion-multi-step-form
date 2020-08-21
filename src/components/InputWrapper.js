@@ -22,6 +22,7 @@ const StyledInputWrapper = styled.div`
     opacity: 1;
     transition: opacity 600ms ease-out;
   ` : ` 
+    display: none;
     position: absolute;
     visibility: hidden;
     opacity: 0;
