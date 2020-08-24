@@ -64,13 +64,22 @@ const PageContainer = styled.div`
   margin: 0px auto;
   max-width: 500px;
   height: 60px;
-  border-radius: 0 0 5px 5px;
+  ${props => `
+    border-bottom-left-radius: ${5 / props.widthScale}px ${5 / props.heightScale}px;
+    border-bottom-right-radius: ${5 / props.widthScale}px ${5 / props.heightScale}px;
+    ${props.isSubmitPage ? `
+      border-top-left-radius: ${5 / props.widthScale}px ${5 / props.heightScale}px;
+      border-top-right-radius: ${5 / props.widthScale}px ${5 / props.heightScale}px;
+      transition: border 1ms ease-in-out 300ms, box-shadow 1ms ease-in-out 300ms;
+    ` : `
+    `}
+  `}
   overflow: hidden;
   background-color: hsl(0, 0%, 100%);
   ${props => props.isError ? css`
-    box-shadow: 0 ${8 / props.heightScale}px ${6 / props.heightScale}px hsla(16, 100%, 40%, .8);
+    box-shadow: 0 ${5 / props.heightScale}px ${6 / props.heightScale}px hsla(16, 100%, 40%, .8);
   ` : `
-    box-shadow: 0 ${8 / props.heightScale}px ${6 / props.heightScale}px hsla(120, 60%, 40%, .8);
+    box-shadow: 0 ${5 / props.heightScale}px ${6 / props.heightScale}px hsla(120, 60%, 40%, .8);
   `}
   ${props => css`
     transform-origin: center top;
@@ -258,9 +267,9 @@ const FormBody = ({ onSubmit, children }) => {
     if (!isSubmitPage) {
       console.log('activeInput to be focused:')
       console.log(activeInput);
-      // setTimeout(() => activeInput.node.focus(), 500);
+      setTimeout(() => activeInput.node.focus(), 450);
     } else {
-      // setTimeout(() => pageWrapperRef.current.focus(), 400);
+      setTimeout(() => pageWrapperRef.current.focus(), 450);
     }
   }, [inputs.length, isSubmitPage, activeInput])
 
@@ -275,6 +284,7 @@ const FormBody = ({ onSubmit, children }) => {
       <PageContainer
         inputContainerHeight={inputContainerHeight}
         isError={error.state} 
+        widthScale={newPageXScale}
         heightScale={newPageYScale}
         scaleAnimation={scaleAnimation}
         isSubmitPage={isSubmitPage}
