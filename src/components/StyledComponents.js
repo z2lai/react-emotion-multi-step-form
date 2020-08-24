@@ -107,11 +107,11 @@ export const NextButton = styled.button`
   padding: 0;
   background: none;
   cursor: pointer;
-  transition: transform 200ms ease-in-out;
+  transition: transform 100ms ease-in-out;
   @media (hover: hover) {
     &:hover {
       background: hsl(0, 0%, 95%);
-      transition: transform 200ms ease-in-out, background 200ms ease;
+      transition: transform 100ms ease-in-out, background 200ms ease;
     }
   }
   &:active, &.active {
@@ -123,7 +123,7 @@ export const NextButton = styled.button`
     right: -350px;
     pointer-events: none;
     transform: translate(-350px, -10px);
-    transition: transform 350ms ease-in-out;
+    transition: transform 300ms ease-in-out;
   }
 `
 
