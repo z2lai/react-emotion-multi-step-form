@@ -51,6 +51,9 @@ const FormBodyWrapper = styled.div`
   &.active {
     transform: translateY(2px);
   }
+  &.active > div:last-child {
+    box-shadow: 0 2px 2px hsl(120, 60%, 40%);
+  }
   * {
     box-sizing: border-box;
   }
@@ -76,6 +79,7 @@ const PageContainer = styled.div`
   `}
   overflow: hidden;
   background-color: hsl(0, 0%, 100%);
+  transition: box-shadow 50ms;
   ${props => props.isError ? css`
     box-shadow: 0 ${5 / props.heightScale}px ${6 / props.heightScale}px hsla(16, 100%, 40%, .8);
   ` : `
@@ -113,13 +117,9 @@ const PageWrapper = styled.div`
     padding: 10px 3px;
     z-index: 1;
     cursor: pointer;
-    transition: box-shadow 100ms;
     &:focus {
       border: 2px solid ${props.theme.colors.light.indigo};
       padding: 8px 1px;
-    }
-    &:active, &.active {
-      box-shadow: 0 2px 2px hsl(120, 60%, 40%);
     }
     div {
       pointer-events: none;
