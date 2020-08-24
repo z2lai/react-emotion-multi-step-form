@@ -103,14 +103,6 @@ const Form = props => {
       <ErrorMessage>{error.message}</ErrorMessage>
       {isSubmitPage ? (<Reward ref={rewardRef} type="confetti"></Reward>) : null}
       <FormBody onSubmit={handleSubmit}>
-        <TextInput
-          name="url"
-          placeholder="url"
-          label="Url"
-          icon={LinkIcon}
-          validationRules={{ required: 'Please fill in the URL!' }}
-          onChange={handleUrlChange}
-        />
         <RadioControl
           name="type"
           label="Type"
@@ -126,6 +118,14 @@ const Form = props => {
           <RadioOption value="library" />
           <RadioOption value="tool" />
         </RadioControl>
+        <TextInput
+          name="url"
+          placeholder="url"
+          label="Url"
+          icon={LinkIcon}
+          validationRules={{ required: 'Please fill in the URL!' }}
+          onChange={handleUrlChange}
+        />
         <ComboboxMulti
           name="tags"
           label="Tags"

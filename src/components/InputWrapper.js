@@ -20,9 +20,8 @@ const StyledInputWrapper = styled.div`
   ${props => props.isActive ? `
     visibility: visible;
     opacity: 1;
-    transition: opacity 600ms ease-out;
+    transition: opacity 400ms ease-out;
   ` : ` 
-    display: none;
     position: absolute;
     visibility: hidden;
     opacity: 0;

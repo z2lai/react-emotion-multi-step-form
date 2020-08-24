@@ -9,34 +9,34 @@ const ease = (v, pow = 4) => {
   return 1 - Math.pow(1 - v, pow);
 }
 
-export const createScaleKeyframeAnimation = scale => {
-  // Figure out the size of the element when collapsed.
-  let { x, y } = scale;
-  let animation = '';
-  let inverseAnimation = '';
+export const createScaleKeyframeAnimation = (oldScale, newScale) => {
+  let { x: oldX, y: oldY } = oldScale;
+  let { x: newX, y: newY } = newScale;
+  let scaleAnimation = '';
+  let inverseScaleAnimation = '';
 
   for (let step = 0; step <= 100; step++) {
-    // Remap the step value to an eased one.
+    // Remap the step value to an eased one
     let easedStep = ease(step / 100);
 
-    // Calculate the scale of the element.
-    const xScale = 1 - (1 - x) * easedStep;
-    const yScale = 1 - (1 - y) * easedStep;
+    // Calculate the scale of the element
+    const xScale = oldX - (oldX - newX) * easedStep;
+    const yScale = oldY - (oldY - newY) * easedStep;
 
-    animation += `${step}% {
+    scaleAnimation += `${step}% {
       transform: scale(${xScale}, ${yScale});
     }`;
 
-    // And now the inverse for the contents.
+    // And now the inverse for its contents
     const invXScale = 1 / xScale;
     const invYScale = 1 / yScale;
-    inverseAnimation += `${step}% {
+    inverseScaleAnimation += `${step}% {
       transform: scale(${invXScale}, ${invYScale});
     }`;
 
   }
 
-  return animation;
+  return [scaleAnimation, inverseScaleAnimation];
 
   // @keyframes menuContentsAnimation {
   //   ${inverseAnimation}

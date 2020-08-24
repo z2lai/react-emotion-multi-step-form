@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { css, keyframes } from '@emotion/core';
 import styled from "@emotion/styled";
 
@@ -8,6 +8,8 @@ import useInputs from "../core/useInputs";
 import Tabs from "./Tabs";
 import { IconContainer, IconsWrapper, InputContainer, SubmitLabel, NextButton, NextButtonIcon } from "./StyledComponents";
 import Icon from "./Icon";
+
+import { calculateCollapsedScale, createScaleKeyframeAnimation } from "../utils/createKeyFrameAnimation";
 
 const headShake = keyframes`
   0% {
@@ -40,7 +42,7 @@ const bounceRight = keyframes`
   }
 `
 
-const FormBodyContainer = styled.div`
+const FormBodyWrapper = styled.div`
   ${props => props.isError ? css`
     animation: ${headShake} .5s  ease-in-out infinite;
   ` : `
@@ -58,38 +60,51 @@ const FormBodyContainer = styled.div`
 // https://github.com/emotion-js/emotion/issues/1066#issuecomment-546703172
 // How to use animation name as a partial (with other properties defined with prop values): https://styled-components.com/docs/api#keyframes
 // How to use animation name inside conditional based on props: https://github.com/styled-components/styled-components/issues/397#issuecomment-275588876
-const StyledFormBody = styled.div`
-  margin: 0px auto 10px auto;
+const PageContainer = styled.div`
+  margin: 0px auto;
   max-width: 500px;
   height: 60px;
-  padding: 10px 0;
+  border-radius: 0 0 5px 5px;
   overflow: hidden;
+  background-color: hsl(0, 0%, 100%);
+  ${props => props.isError ? css`
+    box-shadow: 0 ${8 / props.heightScale}px ${6 / props.heightScale}px hsla(16, 100%, 40%, .8);
+  ` : `
+    box-shadow: 0 ${8 / props.heightScale}px ${6 / props.heightScale}px hsla(120, 60%, 40%, .8);
+  `}
+  ${props => css`
+    transform-origin: center top;
+    animation-name: ${keyframes(props.scaleAnimation)};
+    animation-duration: 400ms;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+  `}
+`
+
+const PageWrapper = styled.div`
+  padding: 10px 0;
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-evenly;
   align-items: flex-start;
-  border-radius: 0 0 5px 5px;
-  background-color: hsl(0, 0%, 100%);
-  transition: height 150ms ease-out, max-width 150ms ease-out;
+  ${props => css`
+    transform-origin: left top;
+    animation-name: ${keyframes(props.inverseScaleAnimation)};
+    animation-duration: 400ms;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+  `}
   &:focus {
     outline: none;
   }
-  ${props => props.isError ? css`
-    box-shadow: 0 8px 6px hsla(16, 100%, 40%, .8);
-  ` : `
-    box-shadow: 0 8px 6px hsla(120, 60%, 40%, .8);
-  `}
-  ${props => (props.inputContainerHeight) ? `
-    height: ${props.inputContainerHeight + 20}px;
-    transition: height 400ms ease-out, max-width 150ms ease-out;
-  ` : props.isSubmitPage ? css`
-    max-width: 110px;
+  ${props => props.isSubmitPage ? css`
+    width: 110px;
     height: 40px;
     border-radius: 5px;
     padding: 10px 3px;
     z-index: 1;
     cursor: pointer;
-    transition: height 150ms ease-out, max-width 300ms ease-out, transform 100ms, box-shadow 100ms;
+    transition: box-shadow 100ms;
     &:focus {
       border: 2px solid ${props.theme.colors.light.indigo};
       padding: 8px 1px;
@@ -107,28 +122,67 @@ const StyledFormBody = styled.div`
     }
   ` : `
   `}
-  h1 {
-    margin: 0;
-    padding: 1.5rem 0;
-    font-size: 1.125rem;
-    text-align: center;
-  }
 `
 
 const FormBody = ({ onSubmit, children }) => {
   console.log('FormBody rendered!');
   const { activeIndex, changeActiveIndex, activeInput, error, isSubmitPage } = useActiveIndex();
   const { inputs, inputValues } = useInputs();
+  // const [ pageHeightScale, setPageHeightScale ] = useState(1);
 
-  const formBodyContainerRef = useRef();
-  const formBodyRef = useRef();
+  const formBodyWrapperRef = useRef();
+  const pageWrapperRef = useRef();
   const buttonRef = useRef();
+  const oldPageXScaleRef = useRef(1);
+  const oldPageYScaleRef = useRef(1);
+  const boundingClientRectRef = useRef();
 
-  const inputContainerHeight = activeInput ? activeInput.height : '';
+  const inputContainerHeight = (activeInput && activeInput.height) ? activeInput.height : null;
+
+  const BASE_PAGE_HEIGHT = 60;
+  const newPageHeight = (activeInput && activeInput.height) ? activeInput.height + 20 
+    : isSubmitPage ? 40 
+    : BASE_PAGE_HEIGHT;
+  const newPageYScale = newPageHeight / BASE_PAGE_HEIGHT;
+  console.log(newPageYScale);
+  const newPageXScale = isSubmitPage ? 110 / boundingClientRectRef.current.width : 1; 
+  console.log(newPageXScale);
+  // const pageHeightScale = newPageRelativeHeight / oldPageRelativeHeight.current;
+  // console.log(pageHeightScale);
+  const [scaleAnimation, inverseScaleAnimation] = createScaleKeyframeAnimation(
+    { x: oldPageXScaleRef.current, y: oldPageYScaleRef.current },
+    { x: newPageXScale, y: newPageYScale }
+  );
+  const transformOrigin = isSubmitPage ? `${boundingClientRectRef.current.width / 2}px top` : 'top center';
+  console.log(transformOrigin);
+
+  useEffect(() => {
+    if (!boundingClientRectRef) return;
+    console.log('Calculate original width effect run');
+    if (activeInput) {
+      const boundingClientRect = pageWrapperRef.current.getBoundingClientRect();
+      boundingClientRectRef.current = boundingClientRect;
+      console.log(boundingClientRectRef.current);
+      // oldPageRelativeHeight.current = newPageRelativeHeight;
+      // console.log(oldPageRelativeHeight.current);
+    }
+  }, [activeInput]);
+
+  useEffect(() => {
+    console.log('Set oldPageRelativeHeight and Width effect run');
+    if (activeInput || isSubmitPage) {
+      oldPageYScaleRef.current = newPageYScale;
+      console.log(oldPageYScaleRef.current);
+      oldPageXScaleRef.current = newPageXScale;
+    }
+  }, [activeInput]);
+
+  // Put collapsedScale in useRef and calculate collapseScale with an fffect if activeIndex = inputs.length - 1
+  
 
   const handleAnimationIteration = event => {
     // Manually change DOM node instead of setting state to avoid re-render
-    formBodyContainerRef.current.style.animationPlayState = "paused"
+    formBodyWrapperRef.current.style.animationPlayState = "paused"
   }
 
   const handleSubmitClick = event => {
@@ -140,9 +194,9 @@ const FormBody = ({ onSubmit, children }) => {
   const handleMouseDownAndUp = event => {
     if (isSubmitPage) {
       if (event.type === 'mousedown' || event.type === 'touchstart') {
-        formBodyContainerRef.current.classList.add('active');
+        formBodyWrapperRef.current.classList.add('active');
       } else {
-        formBodyContainerRef.current.classList.remove('active');
+        formBodyWrapperRef.current.classList.remove('active');
       }
     }
   }
@@ -164,10 +218,10 @@ const FormBody = ({ onSubmit, children }) => {
     const handleKeyUp = event => {
       node.classList.remove('active');
       simulateMouseEvent(node, 'click')
-      formBodyRef.current.removeEventListener('keyup', handleKeyUp, false);
+      pageWrapperRef.current.removeEventListener('keyup', handleKeyUp, false);
       console.log('onKeyUp handler removed');
     }
-    formBodyRef.current.addEventListener('keyup', handleKeyUp, false);
+    pageWrapperRef.current.addEventListener('keyup', handleKeyUp, false);
     console.log('onKeyUp handler added');
   }
 
@@ -176,8 +230,8 @@ const FormBody = ({ onSubmit, children }) => {
       if (!isSubmitPage) {
         clickOnKeyDown(event, buttonRef.current);
       } else {
-        clickOnKeyDown(event, formBodyContainerRef.current);
-        clickOnKeyDown(event, formBodyRef.current);
+        clickOnKeyDown(event, formBodyWrapperRef.current);
+        clickOnKeyDown(event, pageWrapperRef.current);
       }
     }
   }
@@ -196,7 +250,7 @@ const FormBody = ({ onSubmit, children }) => {
   }
 
   useEffect(() => {
-    if (error.state) formBodyContainerRef.current.style.animationPlayState = "running";
+    if (error.state) formBodyWrapperRef.current.style.animationPlayState = "running";
   }, [error]);
 
   useEffect(() => {
@@ -204,57 +258,65 @@ const FormBody = ({ onSubmit, children }) => {
     if (!isSubmitPage) {
       console.log('activeInput to be focused:')
       console.log(activeInput);
-      setTimeout(() => activeInput.node.focus(), 500);
+      // setTimeout(() => activeInput.node.focus(), 500);
     } else {
-      setTimeout(() => formBodyRef.current.focus(), 400);
+      // setTimeout(() => pageWrapperRef.current.focus(), 400);
     }
   }, [inputs.length, isSubmitPage, activeInput])
 
   return (
-    <FormBodyContainer ref={formBodyContainerRef} isError={error.state} onAnimationIteration={handleAnimationIteration}>
+    <FormBodyWrapper ref={formBodyWrapperRef} isError={error.state} onAnimationIteration={handleAnimationIteration}>
       <Tabs
         inputs={inputs}
         activeIndex={activeIndex}
         changeActiveIndex={changeActiveIndex}
         isSubmitPage={isSubmitPage}
       />
-      <StyledFormBody
-        ref={formBodyRef}
-        role={isSubmitPage ? "button" : null}
-        tabIndex={isSubmitPage ? "0" : "-1"}
+      <PageContainer
         inputContainerHeight={inputContainerHeight}
-        isError={error.state}
+        isError={error.state} 
+        heightScale={newPageYScale}
+        scaleAnimation={scaleAnimation}
         isSubmitPage={isSubmitPage}
-        onClick={handleSubmitClick}
-        onKeyDown={handleKeyDown}
-        onMouseDown={handleMouseDownAndUp}
-        onMouseUp={handleMouseDownAndUp}
-        onTouchStart={handleMouseDownAndUp}
-        onTouchEnd={handleMouseDownAndUp}
       >
-        <IconContainer>
-          <IconsWrapper index={Math.min(activeIndex, inputs.length - 1)}>
-            {(inputs.length > 0) ?
-              inputs.map((input, index) => <Icon key={`${index}${input.name}`} icon={input.icon} isSubmitPage={isSubmitPage} />)
-              : null
-            }
-          </IconsWrapper>
-        </IconContainer>
-        <InputContainer inputContainerHeight={inputContainerHeight}>
-          {children}
-          <SubmitLabel isSubmitPage={isSubmitPage} />
-        </InputContainer>
-        <NextButton
-          ref={buttonRef}
-          type="button"
-          disabled={isSubmitPage}
-          onClick={handleNextButtonClick}
-          onKeyDown={handleNextButtonKeyDown}
+        <PageWrapper 
+          ref={pageWrapperRef}
+          role={isSubmitPage ? "button" : null}
+          tabIndex={isSubmitPage ? "0" : "-1"}
+          inverseScaleAnimation={inverseScaleAnimation}
+          transformOrigin={transformOrigin}
+          isSubmitPage={isSubmitPage}
+          onClick={handleSubmitClick}
+          onKeyDown={handleKeyDown}
+          onMouseDown={handleMouseDownAndUp}
+          onMouseUp={handleMouseDownAndUp}
+          onTouchStart={handleMouseDownAndUp}
+          onTouchEnd={handleMouseDownAndUp}
         >
-          <NextButtonIcon />
-        </NextButton>
-      </StyledFormBody>
-    </FormBodyContainer>
+          <IconContainer>
+            <IconsWrapper index={Math.min(activeIndex, inputs.length - 1)}>
+              {(inputs.length > 0) ?
+                inputs.map((input, index) => <Icon key={`${index}${input.name}`} icon={input.icon} isSubmitPage={isSubmitPage} />)
+                : null
+              }
+            </IconsWrapper>
+          </IconContainer>
+          <InputContainer inputContainerHeight={inputContainerHeight}>
+            {children}
+            <SubmitLabel isSubmitPage={isSubmitPage} />
+          </InputContainer>
+          <NextButton
+            ref={buttonRef}
+            type="button"
+            disabled={isSubmitPage}
+            onClick={handleNextButtonClick}
+            onKeyDown={handleNextButtonKeyDown}
+          >
+            <NextButtonIcon />
+          </NextButton>
+        </PageWrapper>
+      </PageContainer>
+    </FormBodyWrapper>
   )
 };
 

@@ -86,7 +86,7 @@ export const SubmitLabel = styled.div`
     position: absolute;
     top: -3px;
     left: -30px;
-    transition: opacity 400ms ease-in-out, transform 400ms ease-in-out;
+    transition: opacity 400ms ease-in-out, transform 400ms ease-out;
     ${props => props.isSubmitPage ? `
       opacity: 1;
       visibility: visible;
@@ -120,9 +120,10 @@ export const NextButton = styled.button`
     transition: none;
   }
   &:disabled {
-    transform: translateY(-10px);
+    right: -350px;
     pointer-events: none;
-    transition: transform 200ms ease-in-out;
+    transform: translate(-350px, -10px);
+    transition: transform 350ms ease-in-out;
   }
 `
 

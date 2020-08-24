@@ -8,16 +8,18 @@ import { BackButtonIcon } from "./StyledComponents";
 const TabsContainer = styled.div`
   margin: 0 auto;
   display: flex;
-  ${props => props.isSubmitPage ? `
-    max-width: 40px;
-    transition: max-width 300ms ease-out;
-  ` : `
-    max-width: 500px;
-    transition: max-width 150ms ease-out;
-  `}
+  max-width: 500px;
+
   line-height: 30px;
   overflow: hidden;
 `
+  // ${props => props.isSubmitPage ? `
+  //   max-width: 40px;
+  //   transition: max-width 300ms ease-out;
+  // ` : `
+  //   max-width: 500px;
+  //   transition: max-width 150ms ease-out;
+  // `}
 
 const TabsWrapper = styled.div`
   flex: 0 1 450px;
@@ -90,11 +92,11 @@ const StyledIconTab = styled.button`
   border-top-right-radius: 30px 30px;
   background: hsl(0, 0%, 100%);
   cursor: pointer;
-  transition: top 300ms;
+  transition: transform 300ms;
   ${props => !props.active ? `
-    top: 30px;
+    transform: translateY(30px);
     visibility: hidden;
-    transition: top 300ms, visibility 300ms ease 300ms;
+    transition: transform 300ms, visibility 1ms ease 300ms;
   `:`
   `}
   &:focus {
