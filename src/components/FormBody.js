@@ -9,7 +9,7 @@ import Tabs from "./Tabs";
 import { IconContainer, IconsWrapper, InputContainer, SubmitLabel, NextButton, NextButtonIcon } from "./StyledComponents";
 import Icon from "./Icon";
 
-import { calculateCollapsedScale, createScaleKeyframeAnimation } from "../utils/createKeyFrameAnimation";
+import { createScaleKeyframeAnimation } from "../utils/createKeyFrameAnimation";
 
 const headShake = keyframes`
   0% {
@@ -73,13 +73,11 @@ const PageContainer = styled.div`
     ${props.isSubmitPage ? `
       border-top-left-radius: ${5 / props.widthScale}px ${5 / props.heightScale}px;
       border-top-right-radius: ${5 / props.widthScale}px ${5 / props.heightScale}px;
-      transition: border 1ms ease-in-out 300ms, box-shadow 1ms ease-in-out 300ms;
     ` : `
     `}
   `}
   overflow: hidden;
   background-color: hsl(0, 0%, 100%);
-  transition: box-shadow 50ms;
   ${props => props.isError ? css`
     box-shadow: 0 ${5 / props.heightScale}px ${6 / props.heightScale}px hsla(16, 100%, 40%, .8);
   ` : `
@@ -166,7 +164,7 @@ const FormBody = ({ onSubmit, children }) => {
   console.log(transformOrigin);
 
   useEffect(() => {
-    if (!boundingClientRectRef) return;
+    if (boundingClientRectRef.current) return;
     console.log('Calculate original width effect run');
     if (activeInput) {
       const boundingClientRect = pageWrapperRef.current.getBoundingClientRect();
@@ -279,6 +277,7 @@ const FormBody = ({ onSubmit, children }) => {
         inputs={inputs}
         activeIndex={activeIndex}
         changeActiveIndex={changeActiveIndex}
+        activeInput={activeInput}
         isSubmitPage={isSubmitPage}
       />
       <PageContainer

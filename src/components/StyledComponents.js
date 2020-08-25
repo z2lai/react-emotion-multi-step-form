@@ -123,7 +123,7 @@ export const NextButton = styled.button`
     right: -350px;
     pointer-events: none;
     transform: translate(-350px, -10px);
-    transition: transform 300ms ease-in-out;
+    transition: transform 350ms ease-in-out;
   }
 `
 
