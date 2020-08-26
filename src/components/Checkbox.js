@@ -10,7 +10,6 @@ const StyledLabel = styled.label`
   align-items: flex-start;
   line-height: 1.25rem;
   font-size: 1.125rem;
-  text-transform: lowercase;
   cursor: pointer;
   ${props => `
     font-weight: ${props.focusState ? '600' : '400'};

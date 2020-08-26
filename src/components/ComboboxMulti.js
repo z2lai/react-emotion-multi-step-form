@@ -51,12 +51,12 @@ const StyledTypeahead = styled(Typeahead)`
     cursor: inherit;
     z-index: 1;
   }
-  ${(props) => `
+  ${props => `
     .rbt-input-wrapper {
       width: 100%;
       border: 1px solid #ced4da;
       border-radius: 0.25rem;
-      padding: 0.375rem 0.75rem;
+      padding: 6px 34px 6px 12px;
       overflow: hidden;
       display: flex;
       align-items: flex-start;
@@ -125,13 +125,14 @@ const CheckboxWrapper = styled.div`
 `;
 
 const ComboboxMulti = ({ name, options, onChange, height, label, icon, validationRules }) => {
-  // console.log("CheckboxControl Re-rendered!");
+  console.log("CheckboxControl Re-rendered!");
   // console.log(`Height = ${height}`)
   const { refCallback } = useInputs(label, icon, validationRules, height);
   const { value: selected, setValue: setSelected } = useInputState(name, []);
   const [filter, setFilter] = useState("");
   const [filteredOptions, setFilteredOptions] = useState(options);
   const [activeSelectionIndex, setActiveSelectionIndex] = useState(-1);
+  console.log(filteredOptions);
 
   const typeaheadRef = useRef();
   const inputWrapperRef = useRef();
@@ -155,6 +156,7 @@ const ComboboxMulti = ({ name, options, onChange, height, label, icon, validatio
     // console.log(`onInputChange Value: ${inputValue}`);
     // console.log(`inputNodeRef Value: ${inputNodeRef.current.value}`);
     setActiveSelectionIndex(-1);
+    console.log('setActiveSelectionIndex!')
     // Since there's a debounce delay when handleInputChange is called from onInputChange, inputValue might be stale if handleInputChange was called
     // immediately after from a non-debounced handler (e.g. handleInputSelection handles when selection is made on 'Enter' key and sets input value to '').
     // - So it's better to updateFilter with the actual input node value to get the most updated value (uncontrolled input approach with refs)
@@ -164,10 +166,11 @@ const ComboboxMulti = ({ name, options, onChange, height, label, icon, validatio
   };
   const debouncedHandleInputChange = debounce(handleInputChange, DEBOUNCETIME);
 
-  const updateFilter = (inputValue, excluded = selected) => {
-    const filter = inputValue.trim();
-    // console.log('updateFilter called - setFilter')
+  const updateFilter = (value, excluded = selected) => {
+    const filter = value.toLowerCase();
     setFilter(filter);
+    console.log('setFilter!')
+    console.log(filter);
     if (filter === "") {
       setFilteredOptions(options);
       return;
@@ -175,15 +178,18 @@ const ComboboxMulti = ({ name, options, onChange, height, label, icon, validatio
     const _groupHeadings = [];
     const _groups = [];
     groups.forEach((group, index) => {
-      const filteredGroup = group.filter(
-        (option) => option.toLowerCase().includes(filter) && !excluded.includes(option)
-      );
+      const filteredGroup = group.filter(option => {
+        // (option) => option.toLowerCase().includes(filter) && !excluded.includes(option) // includes() not supported on Chrome for Android
+        const optionText = option.toLowerCase()
+        return (excluded.indexOf(optionText) === -1) && (optionText.indexOf(filter) !== -1) 
+      });
       if (filteredGroup.length > 0) {
         _groupHeadings.push(groupHeadings[index]);
         _groups.push(filteredGroup);
       }
     });
     setFilteredOptions([_groupHeadings, _groups]);
+    console.log('setFilteredOptions!')
   };
 
   const handleSelectionChange = selected => {
@@ -255,7 +261,7 @@ const ComboboxMulti = ({ name, options, onChange, height, label, icon, validatio
   const handleInputWrapperKeyDown = event => {
     // console.log('inputWrapperKeyDownHandler called');
     // console.log(event.target.type);
-     // stop Enter keydown event from triggering FormBody keydown handler if not initiated from text input
+    // stop Enter keydown event from triggering FormBody keydown handler if not initiated from text input
     if (event.key === 'Enter' && event.target.type !== 'text') event.stopPropagation();
   }
 
@@ -398,7 +404,7 @@ const ComboboxMulti = ({ name, options, onChange, height, label, icon, validatio
                           <Checkbox
                             name={name}
                             value={option}
-                            checked={selected.includes(option)}
+                            checked={selected.indexOf(option) !== -1}
                             onKeyDown={handleCheckboxKeyDown}
                             onChange={handleCheckboxChange}
                             highlightedText={filter}
