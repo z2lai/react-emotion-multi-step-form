@@ -29,7 +29,7 @@ const TabsContainer = styled.div`
 //   transition: max-width 150ms ease-out;
 // `}
 
-const TabsWrapper = styled.div`
+const LabelTabsWrapper = styled.div`
   flex: 0 1 450px;
   display: inline-flex;
   padding: 0 10px;
@@ -45,7 +45,7 @@ const TabsWrapper = styled.div`
   `}
 `
 
-const StyledTab = styled.li`
+const StyledLabelTab = styled.li`
   position: relative;
   flex: 1 1 0;
   border-top-right-radius: 17px 25px;
@@ -95,14 +95,25 @@ const StyledTab = styled.li`
   `}
 `
 
-const StyledIconTab = styled.button`
-  position: relative;
-  top: 0;
+const IconTabWrapper = styled.div`
   flex: ${props => props.isSubmitPage ? 'none' : '1 1 auto'};
   min-width: ${props => props.isSubmitPage ? '50px' : '40px'};
   height: 30px;
-  border: 0;
+  ${props => css`
+    transform-origin: right top;
+    animation-name: ${keyframes(props.inverseScaleAnimation)};
+    animation-duration: 400ms;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+  `}
+`
+
+const StyledIconTab = styled.button`
+  position: relative;
+  height: 100%;
+  width: 100%;
   margin: 0;
+  border: 0;
   padding: 0;
   border-top-left-radius: 30px 30px;
   border-top-right-radius: 30px 30px;
@@ -113,7 +124,8 @@ const StyledIconTab = styled.button`
     transform: translateY(30px);
     visibility: hidden;
     transition: transform 300ms, visibility 0ms ease 300ms;
-  `: `
+  ` : `
+    visibility: visible;
   `}
   &:focus {
     outline: none;
@@ -125,13 +137,6 @@ const StyledIconTab = styled.button`
   &:hover div, &:focus div {
     opacity: .75;
   }
-  ${props => css`
-    transform-origin: right top;
-    animation-name: ${keyframes(props.inverseScaleAnimation)};
-    animation-duration: 400ms;
-    animation-timing-function: linear;
-    animation-fill-mode: forwards;
-  `}
 `
 
 const LabelTab = ({ htmlFor, label, zIndex, active, changeActiveIndex }) => {
@@ -151,18 +156,18 @@ const LabelTab = ({ htmlFor, label, zIndex, active, changeActiveIndex }) => {
   }, [active, activated])
 
   return (
-    <StyledTab
+    <StyledLabelTab
       zIndex={zIndex}
       active={active}
       activated={activated}
       onClick={handleClick}
     >
       <label htmlFor={htmlFor}>{label}</label>
-    </StyledTab>
+    </StyledLabelTab>
   )
 }
 
-const BackTab = ({ zIndex, active, changeActiveIndex, isSubmitPage, inverseScaleAnimation }) => {
+const BackTab = ({ active, changeActiveIndex }) => {
   const handleClick = event => {
     if (active) {
       // console.log('click!');
@@ -172,11 +177,8 @@ const BackTab = ({ zIndex, active, changeActiveIndex, isSubmitPage, inverseScale
 
   return (
     <StyledIconTab
-      zIndex={zIndex}
       active={active}
       onClick={handleClick}
-      isSubmitPage={isSubmitPage}
-      inverseScaleAnimation={inverseScaleAnimation}
     >
       <BackButtonIcon />
     </StyledIconTab>
@@ -217,7 +219,7 @@ const Tabs = ({ inputs, activeIndex, changeActiveIndex, activeInput, isSubmitPag
 
   return (
     <TabsContainer ref={tabContainerRef} isSubmitPage={isSubmitPage} scaleAnimation={scaleAnimation}>
-      <TabsWrapper isSubmitPage={isSubmitPage}>
+      <LabelTabsWrapper isSubmitPage={isSubmitPage}>
         {(inputs.length > 0) ?
           inputs.map((input, index) => (
             <LabelTab
@@ -231,15 +233,13 @@ const Tabs = ({ inputs, activeIndex, changeActiveIndex, activeInput, isSubmitPag
           ))
           : null
         }
-      </TabsWrapper>
-      <BackTab
-        key="back-button"
-        zIndex={10}
-        active={activeIndex > 0}
-        changeActiveIndex={() => changeActiveIndex(activeIndex - 1)}
-        isSubmitPage={isSubmitPage}
-        inverseScaleAnimation={inverseScaleAnimation}
-      />
+      </LabelTabsWrapper>
+      <IconTabWrapper isSubmitPage={isSubmitPage} inverseScaleAnimation={inverseScaleAnimation}>
+        <BackTab
+          active={activeIndex > 0}
+          changeActiveIndex={() => changeActiveIndex(activeIndex - 1)}
+        />
+      </IconTabWrapper>
     </TabsContainer>
   )
 }
