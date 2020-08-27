@@ -1,9 +1,12 @@
 .App {
   box-sizing: border-box;
-  margin: 0 auto;
-  max-width: 900px;
+  margin: 0;
   height: 100vh;
-  border: 3px double hsl(0, 0%, 13%); 
+  padding: 20px 5px;
   text-align: center;
   background: hsl(139, 50%, 75%);
+}
+
+div {
+  -webkit-tap-highlight-color: transparent;
 }

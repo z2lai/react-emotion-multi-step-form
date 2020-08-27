@@ -5,13 +5,13 @@ import styled from "@emotion/styled";
 
 import { BackButtonIcon } from "./StyledComponents";
 
-import { createScaleKeyframeAnimation } from "../utils/createKeyFrameAnimation";
+import useScaleAnimation from "../core/useScaleAnimation";
 
 const TabsContainer = styled.div`
   margin: 0 auto;
   display: flex;
   justify-content: flex-end;
-  max-width: ${props => props.isSubmitPage ? '500px' : '500px'};
+  max-width: ${props => props.basePageWidth}px;
   line-height: 30px;
   ${props => css`
     transform-origin: center top;
@@ -30,6 +30,7 @@ const TabsContainer = styled.div`
 // `}
 
 const LabelTabsWrapper = styled.div`
+  margin-bottom: -1px;
   flex: 0 1 450px;
   display: inline-flex;
   padding: 0 10px;
@@ -185,40 +186,17 @@ const BackTab = ({ active, changeActiveIndex }) => {
   )
 }
 
-const Tabs = ({ inputs, activeIndex, changeActiveIndex, activeInput, isSubmitPage }) => {
+const Tabs = ({ basePageWidth, inputs, activeIndex, changeActiveIndex, activeInput, isSubmitPage }) => {
   console.log('Tabs rendered');
   const tabContainerRef = useRef();
-  const boundingClientRectRef = useRef();
-  const oldPageXScaleRef = useRef(1);
 
-  const newPageXScale = isSubmitPage ? 50 / boundingClientRectRef.current.width : 1;
-  console.log(newPageXScale);
-  const [scaleAnimation, inverseScaleAnimation] = createScaleKeyframeAnimation(
-    { x: oldPageXScaleRef.current, y: 1 },
-    { x: newPageXScale, y: 1 }
-  );
-
-  useEffect(() => {
-    if (boundingClientRectRef.current) return;
-    console.log('Calculate original width effect run');
-    if (activeInput) {
-      const boundingClientRect = tabContainerRef.current.getBoundingClientRect();
-      boundingClientRectRef.current = boundingClientRect;
-      console.log(boundingClientRectRef.current);
-      // oldPageRelativeHeight.current = newPageRelativeHeight;
-      // console.log(oldPageRelativeHeight.current);
-    }
-  }, [activeInput]);
-
-  useEffect(() => {
-    console.log('Set oldPageRelativeHeight and Width effect run');
-    if (activeInput || isSubmitPage) {
-      oldPageXScaleRef.current = newPageXScale;
-    }
-  }, [activeInput]);
+  const SUBMIT_TABS_WIDTH = 50;
+  const pageRelativeWidth = isSubmitPage ? SUBMIT_TABS_WIDTH / basePageWidth : 1;
+  console.log(pageRelativeWidth);
+  const { scaleAnimation, inverseScaleAnimation } = useScaleAnimation(pageRelativeWidth, 1);
 
   return (
-    <TabsContainer ref={tabContainerRef} isSubmitPage={isSubmitPage} scaleAnimation={scaleAnimation}>
+    <TabsContainer ref={tabContainerRef} basePageWidth={basePageWidth} isSubmitPage={isSubmitPage} scaleAnimation={scaleAnimation}>
       <LabelTabsWrapper isSubmitPage={isSubmitPage}>
         {(inputs.length > 0) ?
           inputs.map((input, index) => (

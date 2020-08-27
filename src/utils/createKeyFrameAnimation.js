@@ -1,17 +1,10 @@
-export const calculateCollapsedScale = (collapsedBoundingClientRect, expandedBoundingClientRect) => {
-  return {
-    x: collapsedBoundingClientRect.width / expandedBoundingClientRect.width,
-    y: collapsedBoundingClientRect.height / expandedBoundingClientRect.height
-  };
-}
-
 const ease = (v, pow = 4) => {
   return 1 - Math.pow(1 - v, pow);
 }
 
-export const createScaleKeyframeAnimation = (oldScale, newScale) => {
-  let { x: oldX, y: oldY } = oldScale;
-  let { x: newX, y: newY } = newScale;
+export const createScaleKeyframeAnimation = (oldSize, newSize) => {
+  let { x: oldX, y: oldY } = oldSize;
+  let { x: newX, y: newY } = newSize;
   let scaleAnimation = '';
   let inverseScaleAnimation = '';
 
@@ -36,9 +29,5 @@ export const createScaleKeyframeAnimation = (oldScale, newScale) => {
 
   }
 
-  return [scaleAnimation, inverseScaleAnimation];
-
-  // @keyframes menuContentsAnimation {
-  //   ${inverseAnimation}
-  // };
+  return { scaleAnimation, inverseScaleAnimation };
 }

@@ -119,6 +119,10 @@ export const NextButton = styled.button`
     background-color: hsl(0, 0%, 100%);
     transition: none;
   }
+  &:focus {
+    outline: none;
+    border: 2px solid ${props => props.theme.colors.light.indigo};
+  }
   &:disabled {
     right: -350px;
     pointer-events: none;

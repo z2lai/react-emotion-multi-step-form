@@ -1,15 +1,14 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import { css, keyframes } from '@emotion/core';
 import styled from "@emotion/styled";
 
 import useActiveIndex from "../core/useActiveIndex";
 import useInputs from "../core/useInputs";
+import useScaleAnimation from "../core/useScaleAnimation";
 
 import Tabs from "./Tabs";
 import { IconContainer, IconsWrapper, InputContainer, SubmitLabel, NextButton, NextButtonIcon } from "./StyledComponents";
 import Icon from "./Icon";
-
-import { createScaleKeyframeAnimation } from "../utils/createKeyFrameAnimation";
 
 const headShake = keyframes`
   0% {
@@ -135,57 +134,25 @@ const FormBody = ({ onSubmit, children }) => {
   console.log('FormBody rendered!');
   const { activeIndex, changeActiveIndex, activeInput, error, isSubmitPage } = useActiveIndex();
   const { inputs, inputValues } = useInputs();
-  // const [ pageHeightScale, setPageHeightScale ] = useState(1);
 
   const formBodyWrapperRef = useRef();
   const pageWrapperRef = useRef();
   const buttonRef = useRef();
-  const oldPageXScaleRef = useRef(1);
-  const oldPageYScaleRef = useRef(1);
-  const boundingClientRectRef = useRef();
-
-  const inputContainerHeight = (activeInput && activeInput.height) ? activeInput.height : null;
+  const basePageWidthRef = useRef();
+  console.log(basePageWidthRef);
 
   const BASE_PAGE_HEIGHT = 60;
-  const newPageHeight = (activeInput && activeInput.height) ? activeInput.height + 20 
-    : isSubmitPage ? 40 
-    : BASE_PAGE_HEIGHT;
-  const newPageYScale = newPageHeight / BASE_PAGE_HEIGHT;
-  console.log(newPageYScale);
-  const newPageXScale = isSubmitPage ? 110 / boundingClientRectRef.current.width : 1; 
-  console.log(newPageXScale);
-  // const pageHeightScale = newPageRelativeHeight / oldPageRelativeHeight.current;
-  // console.log(pageHeightScale);
-  const [scaleAnimation, inverseScaleAnimation] = createScaleKeyframeAnimation(
-    { x: oldPageXScaleRef.current, y: oldPageYScaleRef.current },
-    { x: newPageXScale, y: newPageYScale }
-  );
-  const transformOrigin = isSubmitPage ? `${boundingClientRectRef.current.width / 2}px top` : 'top center';
-  console.log(transformOrigin);
+  const SUBMIT_PAGE_WIDTH = 110;
+  const SUBMIT_PAGE_HEIGHT = 40;
 
-  useEffect(() => {
-    if (boundingClientRectRef.current) return;
-    console.log('Calculate original width effect run');
-    if (activeInput) {
-      const boundingClientRect = pageWrapperRef.current.getBoundingClientRect();
-      boundingClientRectRef.current = boundingClientRect;
-      console.log(boundingClientRectRef.current);
-      // oldPageRelativeHeight.current = newPageRelativeHeight;
-      // console.log(oldPageRelativeHeight.current);
-    }
-  }, [activeInput]);
+  const pageRelativeWidth = isSubmitPage ? SUBMIT_PAGE_WIDTH / basePageWidthRef.current : 1;
+  const inputContainerHeight = (activeInput && activeInput.height) ? activeInput.height : null;
+  const pageHeight = inputContainerHeight ? inputContainerHeight + 20
+    : isSubmitPage ? SUBMIT_PAGE_HEIGHT
+      : BASE_PAGE_HEIGHT;
+  const pageRelativeHeight = pageHeight / BASE_PAGE_HEIGHT;
 
-  useEffect(() => {
-    console.log('Set oldPageRelativeHeight and Width effect run');
-    if (activeInput || isSubmitPage) {
-      oldPageYScaleRef.current = newPageYScale;
-      console.log(oldPageYScaleRef.current);
-      oldPageXScaleRef.current = newPageXScale;
-    }
-  }, [activeInput]);
-
-  // Put collapsedScale in useRef and calculate collapseScale with an fffect if activeIndex = inputs.length - 1
-  
+  const { scaleAnimation, inverseScaleAnimation } = useScaleAnimation(pageRelativeWidth, pageRelativeHeight);
 
   const handleAnimationIteration = event => {
     // Manually change DOM node instead of setting state to avoid re-render
@@ -257,6 +224,13 @@ const FormBody = ({ onSubmit, children }) => {
   }
 
   useEffect(() => {
+    console.log('Calculate original width effect run');
+    const boundingClientRect = pageWrapperRef.current.getBoundingClientRect();
+    basePageWidthRef.current = boundingClientRect.width;
+    console.log(basePageWidthRef.current);
+  }, []);
+
+  useEffect(() => {
     if (error.state) formBodyWrapperRef.current.style.animationPlayState = "running";
   }, [error]);
 
@@ -274,6 +248,7 @@ const FormBody = ({ onSubmit, children }) => {
   return (
     <FormBodyWrapper ref={formBodyWrapperRef} isError={error.state} onAnimationIteration={handleAnimationIteration}>
       <Tabs
+        basePageWidth={basePageWidthRef.current}
         inputs={inputs}
         activeIndex={activeIndex}
         changeActiveIndex={changeActiveIndex}
@@ -282,18 +257,17 @@ const FormBody = ({ onSubmit, children }) => {
       />
       <PageContainer
         inputContainerHeight={inputContainerHeight}
-        isError={error.state} 
-        widthScale={newPageXScale}
-        heightScale={newPageYScale}
+        isError={error.state}
+        widthScale={pageRelativeWidth}
+        heightScale={pageRelativeHeight}
         scaleAnimation={scaleAnimation}
         isSubmitPage={isSubmitPage}
       >
-        <PageWrapper 
+        <PageWrapper
           ref={pageWrapperRef}
           role={isSubmitPage ? "button" : null}
           tabIndex={isSubmitPage ? "0" : "-1"}
           inverseScaleAnimation={inverseScaleAnimation}
-          transformOrigin={transformOrigin}
           isSubmitPage={isSubmitPage}
           onClick={handleSubmitClick}
           onKeyDown={handleKeyDown}
