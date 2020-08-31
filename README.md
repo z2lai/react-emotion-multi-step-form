@@ -7,7 +7,7 @@
 [//Links to Live Demos, Sandbox, Issues]
 
 ## Introduction
-An easy to setup form component library where input components are displayed in a multi-step form format (one input per page) with smooth page transitions. It's built with React hooks and React Context API so that the multi-step form logic and values can be reused for customization of the UI/UX.
+An easy to setup form component library where input components are displayed in a multi-step form format (one input per page) with smooth page transitions. It's built with React hooks and React Context API so that the multi-step form logic and values can be reused for UI/UX customization.
 
 [//Add GIF showing full demo app in action]
 Demo the live examples [here](http://z2lai.github.io/react-emotion-multi-step-form), which also include code samples.
@@ -81,7 +81,7 @@ function App() {
   );
 };
 
- // Wrap component with React Context.Provider and Emotion ThemeProvider
+// Wrap component with React Context.Provider and Emotion ThemeProvider
 export default withFormContextAndTheme(App);
 ```
 Demo the quickstart sandbox [here](https://codesandbox.io/s/react-emotion-multi-step-form-basic-example-eqdv7).
@@ -129,7 +129,7 @@ The components and custom hooks described below are publicly exposed in the top-
 #### `<FormBody>`
 The primary component provided by the module which includes the the form body containing the icons, inputs, "next page" button and optional Tabs component for navigation.
 
-##### Props
+**Props**
 Name | Type | Default | Description
 -----|------|---------|------------
 tabs | boolean | `true` | Displays the Tabs component at the top of the form body. If false, alternative way of navigating to previous pages should be provided (see custom Title component).
