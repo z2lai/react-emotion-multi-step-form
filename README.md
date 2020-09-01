@@ -92,7 +92,7 @@ Demo the quickstart sandbox [here](https://codesandbox.io/s/react-emotion-multi-
 The following packages are required to be installed as dependencies for using this library:
 * react: ^16.8.0
 * react-dom": ^16.8.0
-* React scripts?
+* react-scripts: ^3.4.0
 * @emotion/core: ^10.0.27
 * @emotion/styled: ^10.0.27
 * emotion-theming: ^10.0.27
@@ -106,33 +106,48 @@ npm install --save react-emotion-multi-step-form
 https://github.com/ericgio/react-bootstrap-typeahead/blob/master/docs/API.md
 The components and custom hooks described below are publicly exposed in the top-level module.
 
-#### [Components](#components-1)
-- [`<Typeahead>`](#typeahead)
-- [`<AsyncTypeahead>`](#asynctypeahead)
-- [`<Highlighter>`](#highlighter)
-- [`<Hint>`](#hint)
-- [`<Input>`](#input)
-- [`<Menu>`](#menu)
-- [`<MenuItem>`](#menuitem)
-- [`<TypeaheadInputSingle>` & `<TypeaheadInputMulti>`](#typeaheadinputsingle--typeaheadinputmulti)
-- [`<TypeaheadMenu>`](#typeaheadmenu)
-- [`<Token>`](#token)
+#### [Components](#components)
+- [`<FormBody>`]
+- [`<>`]
 
 #### [Higher-Order Components & Hooks](#higher-order-components--hooks-1)
-- [`useAsync` & `withAsync`](#useasync--withasync)
-- [`useItem` & `withItem`](#useitem--withitem)
-- [`useToken` & `withToken`](#usetoken--withtoken)
-- [`useHint`](#useHint)
+- 
 
 ### Components
 
 #### `<FormBody>`
-The primary component provided by the module which includes the the form body containing the icons, inputs, "next page" button and optional Tabs component for navigation.
+The primary component provided by the module which includes the the form body, icon container, input container, forward navigation button and optional Tabs component for additional navigation.
 
 **Props**
 Name | Type | Default | Description
 -----|------|---------|------------
 tabs | boolean | `true` | Displays the Tabs component at the top of the form body. If false, alternative way of navigating to previous pages should be provided (see custom Title component).
+onSubmit | function | | Invoked when the Submit button on the final page is clicked on 
+
+**Children**
+FormBody currently only accepts input components from this module as children.
+
+Example:
+```jsx
+  <FormBody onSubmit={handleSubmit}>
+    <TextInput name="firstname" />
+  </FormBody>
+```
+
+#### Input Components
+This module provides the following custom input components to be used as form inputs within `FormBody`.
+* `<TextInput>`
+* `<RadioControl>` and `<RadioOption>`
+* `<ComboboxMulti>`
+These input components have the following common props that allow them to be stored in `FormContext` and displayed properly.
+
+**Common Props**
+Name | Type | Default | Description
+-----|------|---------|------------
+name `required` | string | | HTML name attribute for the input element.
+label | string | | Label to be displayed in the Tab component for the input. All labels can also be retrieved from the useInputs hook.
+placeholder | string | | Placeholder text for the input.
+
 
 ### Higher-Order Components & Hooks
 
