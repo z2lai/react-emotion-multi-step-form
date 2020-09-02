@@ -113,9 +113,7 @@ The components and custom hooks described below are publicly exposed in the top-
 #### [Higher-Order Components & Hooks](#higher-order-components--hooks-1)
 - 
 
-### Components
-
-#### `<FormBody>`
+### `<FormBody>`
 The primary component provided by the module which includes the the form body, icon container, input container, forward navigation button and optional Tabs component for additional navigation.
 
 **Props**
@@ -134,7 +132,7 @@ Example:
   </FormBody>
 ```
 
-#### Input Components
+### Input Components
 This module provides the following custom input components to be used as form inputs within `FormBody`.
 * `<TextInput>`
 * `<RadioControl>` and `<RadioOption>`
@@ -146,6 +144,12 @@ Name | Type | Default | Description
 -----|------|---------|------------
 name `required` | string | | HTML name attribute for the input element.
 label | string | | Label to be displayed in the Tab component for the input. All labels can also be retrieved from the useInputs hook.
+icon `required` | elementType | | An SVG icon file imported as a [React component](https://create-react-app.dev/docs/adding-images-fonts-and-files/#adding-svgs). Refer to [Basic Usage] for an example or see the section below on [importing SVG icons as React components].
+height | number | | Specifies the height, in pixels, of the form body when this input is showing. Includes top and bottom padding of 10px and excludes the Tabs component. The default height of the form body is 60px.
+
+#### `<TextInput>`
+
+**Props**
 placeholder | string | | Placeholder text for the input.
 
 

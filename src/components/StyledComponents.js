@@ -56,7 +56,7 @@ export const IconsWrapper = styled.div`
 
 export const InputContainer = styled.div`
   position: relative;
-  height: ${props => props.inputContainerHeight ? props.inputContainerHeight : '40'}px;
+  height: ${props => props.pageContainerheight ? props.pageContainerheight - 20 : '40'}px;
   max-width: 400px;
   flex: 1;
   display: flex;

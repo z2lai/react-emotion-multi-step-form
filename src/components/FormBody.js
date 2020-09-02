@@ -146,8 +146,8 @@ const FormBody = ({ onSubmit, children }) => {
   const SUBMIT_PAGE_HEIGHT = 40;
 
   const pageRelativeWidth = isSubmitPage ? SUBMIT_PAGE_WIDTH / basePageWidthRef.current : 1;
-  const inputContainerHeight = (activeInput && activeInput.height) ? activeInput.height : null;
-  const pageHeight = inputContainerHeight ? inputContainerHeight + 20
+  const height = (activeInput && activeInput.height) ? activeInput.height : null;
+  const pageHeight = height ? height
     : isSubmitPage ? SUBMIT_PAGE_HEIGHT
       : BASE_PAGE_HEIGHT;
   const pageRelativeHeight = pageHeight / BASE_PAGE_HEIGHT;
@@ -256,7 +256,6 @@ const FormBody = ({ onSubmit, children }) => {
         isSubmitPage={isSubmitPage}
       />
       <PageContainer
-        inputContainerHeight={inputContainerHeight}
         isError={error.state}
         widthScale={pageRelativeWidth}
         heightScale={pageRelativeHeight}
@@ -284,7 +283,7 @@ const FormBody = ({ onSubmit, children }) => {
               }
             </IconsWrapper>
           </IconContainer>
-          <InputContainer inputContainerHeight={inputContainerHeight}>
+          <InputContainer pageContainerheight={height}>
             {children}
             <SubmitLabel isSubmitPage={isSubmitPage} />
           </InputContainer>

@@ -107,7 +107,7 @@ const Form = props => {
           name="type"
           label="Type"
           icon={TreeIcon}
-          height={80}
+          height={100}
           validationRules={{ required: 'Please select a Type!' }}
           onChange={handleTypeChange}
         >
@@ -130,7 +130,7 @@ const Form = props => {
           name="tags"
           label="Tags"
           icon={PriceTagsIcon}
-          height={220}
+          height={240}
           validationRules={{ required: 'Please select a Tag!' }}
           options={tagOptions}
           onChange={handleTagsChange}
