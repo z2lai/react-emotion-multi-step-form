@@ -142,15 +142,58 @@ These input components have the following common props that allow them to be sto
 **Common Props**
 Name | Type | Default | Description
 -----|------|---------|------------
-name `required` | string | | HTML name attribute for the input element.
+name `required` | string | | HTML name attribute for the input element - must be **unique** within form.
 label | string | | Label to be displayed in the Tab component for the input. All labels can also be retrieved from the useInputs hook.
 icon `required` | elementType | | An SVG icon file imported as a [React component](https://create-react-app.dev/docs/adding-images-fonts-and-files/#adding-svgs). Refer to [Basic Usage] for an example or see the section below on [importing SVG icons as React components].
 height | number | | Specifies the height, in pixels, of the form body when this input is showing. Includes top and bottom padding of 10px and excludes the Tabs component. The default height of the form body is 60px.
+onChange | function | | Invoked when controlled input value changes - receives the string value of the input. **Note**: Input value state is managed internally and can be retrieved with the useInputs hook.
+validationRules | { required: boolean | string; } | An object containing rules that the input is validated against (in a specific order) on navigation to the next input (e.g. clicking the "next" button). Navigation will be cancelled on the first rule validation failure. The default/custom error message can be retrieved from useActiveIndex hook to be displayed on the form. See below for all possible validation rules.
+
+#### Importing SVG icons as React components
+Refer to Create React App [Official Docs](https://create-react-app.dev/docs/adding-images-fonts-and-files/#adding-svgs)
+
+#### Validation Rules
+Validation rules are passed as an object prop into each input component. The object contains the following key-value pairs where the key is the rule name and the value describes the validation criteria and/or the custom error message.
+Rule Name | Value Type | Default | Description
+----------|------------|---------|------------
+required | boolean \| string | `true` | Specifies whether or not the input is required - default is true. Instead of `true`, a string can be provided to specify a custom error message. The default error message is "The `name` field is required!"
 
 #### `<TextInput>`
+The component to be used for text inputs. It has all of the [common props] and the following props.
 
 **Props**
+Name | Type | Default | Description
+-----|------|---------|------------
 placeholder | string | | Placeholder text for the input.
+
+#### `<RadioControl>` and `<RadioOption>`
+The component to be used for radio groups. `<RadioControl>` has all of the [common props] and accepts multiple `<RadioOption>` input components as children. `<RadioOption>` has the following props.
+
+**`<RadioOption>` Props**
+Name | Type | Default | Description
+-----|------|---------|------------
+value | string | | Specifies both the value and the label of the radio option
+
+**Example**
+```jsx
+  <RadioControl
+    name="type"
+    label="Type"
+    icon={TreeIcon}
+    height={100}
+    validationRules={{ required: 'Please select a Type!' }}
+    onChange={handleTypeChange}
+  >
+    <RadioOption value="guide" />
+    <RadioOption value="tutorial" />
+    <RadioOption value="reference" />
+    <RadioOption value="video" />
+    <RadioOption value="library" />
+    <RadioOption value="tool" />
+  </RadioControl>
+```
+
+#### `<ComboboxMulti>`
 
 
 ### Higher-Order Components & Hooks

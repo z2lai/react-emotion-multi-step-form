@@ -27,14 +27,14 @@ const useInputs = (label, icon, validationRules, height) => {
     // console.log(`input value data type: ${dataType}`);
     switch (dataType) {
       case 'array':
-        if (required && value.length === 0) return (typeof required === 'string') ? required : `${name} required!`
+        if (required && value.length === 0) return (typeof required === 'string') ? required : `The ${name} field is required!`
         // Other criteria checks
         // ...
         break;
       case 'object':
         break;
       case 'primitive':
-        if (required && !value.trim()) return (typeof required === 'string') ? required : `${name} is required!`
+        if (required && !value.trim()) return (typeof required === 'string') ? required : `The ${name} field is required!`
         // Other criteria checks
         // ...
         break;
