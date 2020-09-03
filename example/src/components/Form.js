@@ -100,7 +100,6 @@ const Form = props => {
           changeActivePage={changeActiveIndex}
         />
       </TitleContainer>
-      <ErrorMessage>{error.message}</ErrorMessage>
       {isSubmitPage ? (<Reward ref={rewardRef} type="confetti"></Reward>) : null}
       <FormBody onSubmit={handleSubmit}>
         <RadioControl
@@ -136,6 +135,7 @@ const Form = props => {
           onChange={handleTagsChange}
         />
       </FormBody>
+      <ErrorMessage>{error.message}</ErrorMessage>
     </div>
   );
 }

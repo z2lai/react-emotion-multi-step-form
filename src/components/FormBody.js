@@ -42,6 +42,7 @@ const bounceRight = keyframes`
 `
 
 const FormBodyWrapper = styled.div`
+  margin-bottom: ${props => props.heightIncrease ? 5 + props.heightIncrease : 5}px;
   ${props => props.isError ? css`
     animation: ${headShake} .5s  ease-in-out infinite;
   ` : `
@@ -246,7 +247,12 @@ const FormBody = ({ onSubmit, children }) => {
   }, [inputs.length, isSubmitPage, activeInput])
 
   return (
-    <FormBodyWrapper ref={formBodyWrapperRef} isError={error.state} onAnimationIteration={handleAnimationIteration}>
+    <FormBodyWrapper 
+      ref={formBodyWrapperRef}
+      heightIncrease={height ? height - BASE_PAGE_HEIGHT : null}
+      isError={error.state}
+      onAnimationIteration={handleAnimationIteration}
+    >
       <Tabs
         basePageWidth={basePageWidthRef.current}
         inputs={inputs}
