@@ -4,6 +4,7 @@ import {
   useActiveIndex,
   withFormContextAndTheme,
   FormBody,
+  Labels,
   TextInput,
   RadioControl,
   RadioOption,
@@ -16,7 +17,7 @@ import { ReactComponent as TreeIcon } from "../fonts/icomoon/svg/tree.svg";
 import { ReactComponent as PriceTagsIcon } from "../fonts/icomoon/svg/price-tags.svg";
 
 import { Heading, TitleContainer, ErrorMessage } from "./StyledComponents";
-import Title from "./Title";
+// import Title from "./Title";
 
 // If Form is re-rendered a lot, improve performance by memoizing child components that are large like so:
 // const MemoizedCheckboxMultiControl = React.memo(CheckboxMultiControl);
@@ -80,7 +81,7 @@ const Form = props => {
   return (
     <div>
       <Heading>Submit An Article To the Communal Curator</Heading>
-      <TitleContainer>
+      {/* <TitleContainer>
         <Title
           value={inputValues['url'] || 'Input Article URL'}
           page={0}
@@ -99,7 +100,8 @@ const Form = props => {
           active={activeIndex === 2}
           changeActivePage={changeActiveIndex}
         />
-      </TitleContainer>
+      </TitleContainer> */}
+      <Labels />
       {isSubmitPage ? (<Reward ref={rewardRef} type="confetti"></Reward>) : null}
       <FormBody onSubmit={handleSubmit}>
         <RadioControl
