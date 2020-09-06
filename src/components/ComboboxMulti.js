@@ -3,7 +3,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
 
-import useInputs from "../core/useInputs";
+import useAddInput from "../core/useAddInput";
 import useInputState from "../core/useInputState";
 
 import "react-bootstrap-typeahead/css/Typeahead.css";
@@ -127,7 +127,7 @@ const CheckboxWrapper = styled.div`
 const ComboboxMulti = ({ name, options, onChange, height, label, icon, validationRules }) => {
   console.log("CheckboxControl Re-rendered!");
   // console.log(`Height = ${height}`)
-  const { refCallback } = useInputs(label, icon, validationRules, height);
+  const { refCallback } = useAddInput(label, icon, validationRules, height);
   const { value: selected, setValue: setSelected } = useInputState(name, []);
   const [filter, setFilter] = useState("");
   const [filteredOptions, setFilteredOptions] = useState(options);

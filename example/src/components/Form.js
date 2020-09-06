@@ -1,7 +1,6 @@
 import React, { useState, useRef } from "react";
 import {
   useInputs,
-  useActiveIndex,
   withFormContextAndTheme,
   FormBody,
   Labels,
@@ -24,8 +23,7 @@ import { Heading, TitleContainer, ErrorMessage } from "./StyledComponents";
 
 const Form = props => {
   console.log('Form rendered!');
-  const { inputValues } = useInputs();
-  const { activeIndex, changeActiveIndex, error, isSubmitPage } = useActiveIndex();
+  const { error, isSubmitPage } = useInputs();
   const [tagOptions, setTagOptions] = useState([ // fetch data in useEffect hook to update this state after initial render
     ['suggestions', 'parent categories', 'syntax', 'fundamentals'],
     [

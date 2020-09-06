@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 
-import useActiveIndex from "../core/useActiveIndex";
+import useInputs from "../core/useInputs";
 
 const StyledInputWrapper = styled.div`
   height: 100%;
@@ -35,7 +35,7 @@ const StyledInputWrapper = styled.div`
 
 const InputWrapper = ({ name, inputRef, column, onKeyDown, children }) => {
   // console.log(`InputWrapper Rendered! for ${name}`);
-  const { activeInput } = useActiveIndex();
+  const { activeInput } = useInputs();
 
   let isActive = false;
   if (activeInput) {

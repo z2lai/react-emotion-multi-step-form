@@ -3,7 +3,7 @@
  */
 
 export useInputs from './core/useInputs';
-export useActiveIndex from './core/useActiveIndex';
+export useAddInput from './core/useAddInput';
 
 export withFormContextAndTheme from './components/withFormContextAndTheme';
 export FormBody from './components/FormBody';

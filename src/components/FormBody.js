@@ -2,7 +2,6 @@ import React, { useRef, useEffect } from "react";
 import { css, keyframes } from '@emotion/core';
 import styled from "@emotion/styled";
 
-import useActiveIndex from "../core/useActiveIndex";
 import useInputs from "../core/useInputs";
 import useScaleAnimation from "../core/useScaleAnimation";
 
@@ -133,8 +132,7 @@ const PageWrapper = styled.div`
 
 const FormBody = ({ onSubmit, children }) => {
   console.log('FormBody rendered!');
-  const { activeIndex, changeActiveIndex, activeInput, error, isSubmitPage } = useActiveIndex();
-  const { inputs, inputValues } = useInputs();
+  const { inputs, activeIndex, changeActiveIndex, activeInput, error, inputValues, isSubmitPage } = useInputs();
 
   const formBodyWrapperRef = useRef();
   const pageWrapperRef = useRef();

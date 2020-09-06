@@ -2,7 +2,6 @@
 import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
 
-import useActiveIndex from "../core/useActiveIndex";
 import useInputs from "../core/useInputs";
 
 //? Change this to a link element for accessibility?
@@ -50,8 +49,7 @@ const Label = ({ htmlFor, label, inputValue, active, changeActiveIndex, activate
 }
 
 const Labels = () => {
-  const { activeIndex, changeActiveIndex } = useActiveIndex();
-  const { inputs, inputValues } = useInputs();
+  const { inputs, activeIndex, changeActiveIndex, inputValues } = useInputs();
 
   return (
     <LabelsContainer>

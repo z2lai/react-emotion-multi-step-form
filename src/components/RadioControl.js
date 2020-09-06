@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 
-import useInputs from "../core/useInputs";
+import useAddInput from "../core/useAddInput";
 import useInputState from "../core/useInputState";
 
 import InputWrapper from "./InputWrapper";
@@ -68,7 +68,7 @@ export const RadioOption = ({ name, value, isChecked, handleChange }) => (
 );
 
 export const RadioControl = ({ name, onChange, height, label, icon, validationRules, children }) => {
-  const { refCallback } = useInputs(label, icon, validationRules, height);
+  const { refCallback } = useAddInput(label, icon, validationRules, height);
   const { value, setValue } = useInputState(name, '');
 
   const handleChange = event => {
