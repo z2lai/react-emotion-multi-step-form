@@ -93,6 +93,7 @@ const StyledLabelTab = styled.li`
       border-color: hsl(0, 0%, 100%);
     }
   ` : `
+    color: hsla(0, 0%, 25%, 0.5);
   `}
 `
 
@@ -140,21 +141,21 @@ const StyledIconTab = styled.button`
   }
 `
 
-const LabelTab = ({ htmlFor, label, zIndex, active, changeActiveIndex }) => {
-  const [activated, setActivated] = useState(false);
+const LabelTab = ({ htmlFor, label, zIndex, active, changeActiveIndex, activated }) => {
+  // const [activated, setActivated] = useState(false);
 
   const handleClick = event => {
-    if (activated && !active) {
+    if (activated) {
       // console.log('click!');
       changeActiveIndex();
     }
   }
 
-  useEffect(() => {
-    if (active && !activated) {
-      setActivated(true);
-    }
-  }, [active, activated])
+  // useEffect(() => {
+  //   if (active && !activated) {
+  //     setActivated(true);
+  //   }
+  // }, [active, activated])
 
   return (
     <StyledLabelTab
@@ -207,6 +208,7 @@ const Tabs = ({ basePageWidth, inputs, activeIndex, changeActiveIndex, activeInp
               zIndex={inputs.length - index}
               active={index === activeIndex}
               changeActiveIndex={() => changeActiveIndex(index)}
+              activated={index < activeIndex}
             />
           ))
           : null
