@@ -50,14 +50,14 @@ export const FormProvider = props => {
     const newInputValues = { ...inputValues };
     inputs.forEach(input => {
       const valueShallowCopy = (Array.isArray(input.value) && [...input.value]) ||
-        ((typeof input.value === 'object') && { ...input.value }) ||
+        // ((typeof input.value === 'object') && { ...input.value }) ||
         input.value.trim();
       // console.log('valueShallowCopy:');
       // console.log(valueShallowCopy);
-      newInputValues[input.name] = valueShallowCopy;
+      newInputValues[input.name] = valueShallowCopy.length > 0 ? valueShallowCopy : null;
     });
-    // console.log('setInputValues called with:')
-    // console.log(newInputValues);
+    console.log('setInputValues called with:')
+    console.log(newInputValues);
     setInputValues(newInputValues);
   }
 

@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { useState, useEffect, useRef } from "react";
+import { useRef } from "react";
 import { jsx, css, keyframes } from "@emotion/core";
 import styled from "@emotion/styled";
 

@@ -249,7 +249,7 @@ export default withFormContextAndTheme(App);
 ```
 
 ### useActiveIndex hook
-This hook provides access to many state values from `FormContext` related to the input that is currently active (displayed).
+This hook provides access to many state values from `FormContext` related to the currently active (displayed) input.
 
 **State Values**
 Name | Type | Initial Value | Description
@@ -260,8 +260,10 @@ error | { state: boolean, message: string } | { state: false, message: '' } | Er
 isSubmitPage | boolean | false | Specifies if the form is on the last "page" with the Submit button and no inputs are active.
 
 **Example**
+These state values and state methods can be used, as follows, to create a custom component for navigating back and forth between the form inputs.
 ```jsx
-// Show example with custom Title component
+// Show example with custom Labels component
+
 ```
 
 ### useInputs hook
