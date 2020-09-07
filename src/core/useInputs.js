@@ -4,7 +4,7 @@ import { FormContext } from './FormContext';
 
 const useInputs = () => {
   // console.log('useActiveIndex called!');
-  const { inputs, activeIndex, updateActiveIndex, activeInput, error, setError, inputValues, updateInputValues, isSubmitPage } = useContext(FormContext);
+  const { inputs, activeIndex, setActiveIndex, activeInput, error, setError, inputValues, setInputValues, isSubmitPage } = useContext(FormContext);
 
   const changeActiveIndex = index => {
     // console.log(`changeActiveIndex called with index: ${index}`);
@@ -18,7 +18,7 @@ const useInputs = () => {
     }
     updateInputValues();
     setErrorMessage('');
-    updateActiveIndex(index);
+    setActiveIndex(index);
   }
 
   const setErrorMessage = message => {
@@ -28,6 +28,21 @@ const useInputs = () => {
     } else {
       setError({ state: false, message: '' });
     }
+  }
+
+  const updateInputValues = () => {
+    const newInputValues = { ...inputValues };
+    inputs.forEach(input => {
+      const valueShallowCopy = (Array.isArray(input.value) && [...input.value]) ||
+        // ((typeof input.value === 'object') && { ...input.value }) ||
+        input.value.trim();
+      // console.log('valueShallowCopy:');
+      // console.log(valueShallowCopy);
+      newInputValues[input.name] = valueShallowCopy.length > 0 ? valueShallowCopy : null;
+    });
+    console.log('setInputValues called with:')
+    console.log(newInputValues);
+    setInputValues(newInputValues);
   }
 
   return {

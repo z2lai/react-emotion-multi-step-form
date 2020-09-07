@@ -118,7 +118,7 @@ The components, higher-order components (HOC) and custom hooks described below a
 - [`useInputs` hook]
 
 ### `<FormBody>`
-The primary component provided by the module which includes the the form body, icon container, input container, forward navigation button and optional Tabs component for additional navigation. The icon container contains the icon of the currently active (displayed) input and the input container contains the currently active input. On click of the forward navigation button, the currently active input is validated and the next input is activated if the validation passes.
+The primary component provided by the module which includes the the form body, icon container, input container, forward navigation (Next) button and optional Tabs component for additional navigation. The icon container contains the icon of the currently active (displayed) input and the input container contains the currently active input. On click of the Next button, the currently active input is validated and the next input is activated if the validation passes.
 
 **Props**
 Name | Type | Default | Description
@@ -152,7 +152,7 @@ label | string | | Label to be displayed in the Tab component for the input. All
 icon `required` | elementType | | An SVG file imported as a [React component](https://create-react-app.dev/docs/adding-images-fonts-and-files/#adding-svgs). Refer to [Basic Usage] for an example or see the section below on [importing SVG icons as React components].
 height | number | | Specifies the height, in pixels, of the form body when this input is showing. Includes top and bottom padding of 10px and excludes the Tabs component. The default height of the form body is 60px.
 onChange | function | | Invoked when controlled input value changes - receives the string value of the input. **Note**: Input value state is managed internally and can be retrieved with the `useInputs` hook.
-validationRules | { required: boolean \| string; } | An object containing rules that the input is validated against (in a specific order) on navigation to the next input (e.g. clicking the "next" button). Navigation will be cancelled on the first rule validation failure. The default/custom error message can be retrieved from `useActiveIndex` hook to be displayed on the form. See below for all possible validation rules.
+validationRules | { required: boolean \| string; } | An object containing rules that the input is validated against (in a specific order) on navigation to the next input (e.g. clicking the Next button). Navigation will be cancelled on the first rule validation failure. The default/custom error message can be retrieved from `useActiveIndex` hook to be displayed on the form. See below for all possible validation rules.
 
 #### Importing SVG icons as React components
 Refer to Create React App [Official Docs](https://create-react-app.dev/docs/adding-images-fonts-and-files/#adding-svgs).
@@ -248,30 +248,46 @@ export default AppWithContextAndTheme;
 export default withFormContextAndTheme(App);
 ```
 
-### useActiveIndex hook
-This hook provides access to many state values from `FormContext` related to the currently active (displayed) input.
+### useInputs hook
+This hook provides access to the common props passed into each input and all the state values from `FormContext`.
 
-**State Values**
+**Returned Values**
 Name | Type | Initial Value | Description
 -----|------|---------------|------------
-activeIndex | number | 0 | An index from 0 to n where n is the number of inputs in the form. The index specifies which input is currently active (displaying on the form). When `activeIndex` = n, the Submit button is displayed and no inputs are active.
+inputs | Array<Object> | `[]` | An array containing all the inputs as objects. Each input object contains the following keys: label, icon, and  height, which are the common props passed into each input. **Note**: On initial form render, inputs is always empty as all input elements still need to be rendered once to be added to inputs (which causes an immediate re-render once this is done)
+activeIndex | number | `0` | An index from 0 to n where n is the number of inputs in the form. The index specifies which input is currently active (displaying on the form). When `activeIndex` = n, the Submit button is displayed and no inputs are active.
 changeActiveIndex | function | | Accepts a number that should specify what to change `activeIndex` to (which input to make active). Input validation is performed on the currently active input if the number passed is greater than activeIndex (going forward in the form).
-error | { state: boolean, message: string } | { state: false, message: '' } | Error object containing the error state of the form and the error message to display. It's up to the user to place `error.message` somewhere in the form.
+activeInput | object | | An object from `inputs` that represents the input that is currently active
+error | { state: boolean, message: string } | `{ state: false, message: '' }` | Error object containing the error state of the form and the error message to display. It's up to the user to place `error.message` somewhere in the form.
+inputValues | object | `{}` | An object containing all form values where each key is the input name and each value is the input value. This gets updated every time `changeActiveIndex` is called (e.g. clicking the Next button).
 isSubmitPage | boolean | false | Specifies if the form is on the last "page" with the Submit button and no inputs are active.
 
 **Example**
-These state values and state methods can be used, as follows, to create a custom component for navigating back and forth between the form inputs.
+These values and methods can be used, as follows, to create a custom component for navigating back and forth between the form inputs.
 ```jsx
-// Show example with custom Labels component
+// Code snippet taken from Labels component
+const Labels = () => {
+  const { inputs, activeIndex, changeActiveIndex, inputValues } = useInputs();
 
+  return (
+    <LabelsContainer>
+      {(inputs.length > 0) ? // render null on initial form render
+        inputs.map((input, index) => (
+          <Label
+            key={`${index}${input.name}`}
+            label={input.label}
+            inputValue={inputValues[input.name]}
+            active={index === activeIndex}
+            changeActiveIndex={() => changeActiveIndex(index)}
+            activated={index < activeIndex}
+          />
+        ))
+        : null
+      }
+    </LabelsContainer>
+  )
+}
 ```
-
-### useInputs hook
-This hook provides access to `inputValues` which contains all input values.
-```jsx
-// Show example with rendering value beside title.
-```
-
 
 ## Examples
 Demo the live examples [here](http://z2lai.github.io/react-emotion-multi-step-form), which also include code samples.

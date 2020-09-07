@@ -41,25 +41,25 @@ export const FormProvider = props => {
     else if (typeof identifier === 'number') return (identifier < inputs.length && inputs[identifier]) || null;
   }, [inputs]);
 
-  const updateActiveIndex = index => {
-    // console.log(`activeIndex to be updated to: ${index}`)
-    setActiveIndex(index);
-  }
+  // const updateActiveIndex = index => {
+  //   // console.log(`activeIndex to be updated to: ${index}`)
+  //   setActiveIndex(index);
+  // }
 
-  const updateInputValues = () => {
-    const newInputValues = { ...inputValues };
-    inputs.forEach(input => {
-      const valueShallowCopy = (Array.isArray(input.value) && [...input.value]) ||
-        // ((typeof input.value === 'object') && { ...input.value }) ||
-        input.value.trim();
-      // console.log('valueShallowCopy:');
-      // console.log(valueShallowCopy);
-      newInputValues[input.name] = valueShallowCopy.length > 0 ? valueShallowCopy : null;
-    });
-    console.log('setInputValues called with:')
-    console.log(newInputValues);
-    setInputValues(newInputValues);
-  }
+  // const updateInputValues = () => {
+  //   const newInputValues = { ...inputValues };
+  //   inputs.forEach(input => {
+  //     const valueShallowCopy = (Array.isArray(input.value) && [...input.value]) ||
+  //       // ((typeof input.value === 'object') && { ...input.value }) ||
+  //       input.value.trim();
+  //     // console.log('valueShallowCopy:');
+  //     // console.log(valueShallowCopy);
+  //     newInputValues[input.name] = valueShallowCopy.length > 0 ? valueShallowCopy : null;
+  //   });
+  //   console.log('setInputValues called with:')
+  //   console.log(newInputValues);
+  //   setInputValues(newInputValues);
+  // }
 
   const activeInput = getInput(activeIndex);
   const isSubmitPage = inputs.length > 0 && activeIndex === inputs.length;
@@ -76,9 +76,9 @@ export const FormProvider = props => {
     addInput,
     getInput,
     inputValues,
-    updateInputValues,
+    setInputValues,
     activeIndex,
-    updateActiveIndex,
+    setActiveIndex,
     activeInput,
     error,
     setError,

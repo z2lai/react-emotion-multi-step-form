@@ -57,7 +57,7 @@ const Labels = () => {
         inputs.map((input, index) => (
           <Label
             key={`${index}${input.name}`}
-            htmlFor={input.name}
+            // htmlFor={input.name}
             label={input.label}
             inputValue={inputValues[input.name]}
             active={index === activeIndex}
