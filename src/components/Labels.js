@@ -29,16 +29,22 @@ export const LabelsContainer = styled.div`
   align-items: center;
 `
 
-const Label = ({ htmlFor, label, inputValue, active, changeActiveIndex, activated }) => {
+const Label = ({
+  // htmlFor, 
+  label,
+  inputValue,
+  active,
+  changeActiveIndex,
+  activated
+}) => {
   const handleClick = event => {
-    if (activated) {
-      changeActiveIndex();
-    }
+    if (!activated) return;
+    changeActiveIndex();
   }
 
   return (
     <StyledLabel
-      htmlFor={htmlFor}
+      // htmlFor={htmlFor}
       active={active}
       activated={activated}
       onClick={handleClick}

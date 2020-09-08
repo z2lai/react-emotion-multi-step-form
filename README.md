@@ -21,20 +21,20 @@ Demo the live examples [here](http://z2lai.github.io/react-emotion-multi-step-fo
 * Custom Hooks to re-use page change logic
 * Context containing shared state for all form field values
 * Three Input Components:
- 1. Text Input with different types (e.g. text, email, phone, etc.)
- 2. Single-select Input - Radio Input with declarative configuration of radio options
- 3. Multi-select Input - Multi-select Combobox with Autocomplete and Typeahead (Checkbox or Tag Cloud Format)
+  1. Text Input with different types (e.g. text, email, phone, etc.)
+  2. Single-select Input - Radio Input with declarative configuration of radio options
+  3. Multi-select Input - Multi-select Combobox with Autocomplete and Typeahead (Checkbox or Tag Cloud Format)
 
 ## Basic Usage
 ```jsx
 import React from 'react';
 import { 
-  useActiveIndex, 
-  withFormContextAndTheme, 
   FormBody, 
   TextInput, 
   RadioControl, 
-  RadioOption 
+  RadioOption, 
+  withFormContextAndTheme, 
+  useActiveIndex, 
 } from "react-emotion-multi-step-form";
 
 // Import SVG icons as React components using SVGR (built-in with create-react-app)
@@ -86,6 +86,12 @@ export default withFormContextAndTheme(App);
 ```
 Demo the quickstart sandbox [here](https://codesandbox.io/s/react-emotion-multi-step-form-basic-example-eqdv7).
 
+## Examples
+Demo the live examples [here](http://z2lai.github.io/react-emotion-multi-step-form), which also include code samples.
+You can also demo the following sandbox examples:
+* [Quickstart Example](https://codesandbox.io/s/react-emotion-multi-step-form-basic-example-eqdv7)
+* [Multi-select Input Example]
+
 ## Getting Started
 
 ### Peer Dependencies
@@ -118,7 +124,7 @@ The components, higher-order components (HOC) and custom hooks described below a
 - [`useInputs` hook]
 
 ### `<FormBody>`
-The primary component provided by the module which includes the the form body, icon container, input container, forward navigation (Next) button and optional Tabs component for additional navigation. The icon container contains the icon of the currently active (displayed) input and the input container contains the currently active input. On click of the Next button, the currently active input is validated and the next input is activated if the validation passes.
+The primary component provided by the module which includes the the form body, icon container, input container, forward navigation (Next) button and optional Tabs component for additional navigation. The icon container contains the icon of the currently active (displayed) input and the input container contains the currently active input. On click of the Next button, the currently active input is validated and the next input is activated if validation passes.
 
 **Props**
 Name | Type | Default | Description
@@ -144,7 +150,7 @@ This module provides the following custom input components to be used as form in
 
 These input components all have the following props that allow them to be stored in `FormContext` and displayed properly.
 
-**Common Props**
+#### **Common Props**
 Name | Type | Default | Description
 -----|------|---------|------------
 name `required` | string | | HTML name attribute for the input element - must be **unique** within form.
@@ -152,16 +158,16 @@ label | string | | Label to be displayed in the Tab component for the input. All
 icon `required` | elementType | | An SVG file imported as a [React component](https://create-react-app.dev/docs/adding-images-fonts-and-files/#adding-svgs). Refer to [Basic Usage] for an example or see the section below on [importing SVG icons as React components].
 height | number | | Specifies the height, in pixels, of the form body when this input is showing. Includes top and bottom padding of 10px and excludes the Tabs component. The default height of the form body is 60px.
 onChange | function | | Invoked when controlled input value changes - receives the string value of the input. **Note**: Input value state is managed internally and can be retrieved with the `useInputs` hook.
-validationRules | { required: boolean \| string; } | An object containing rules that the input is validated against (in a specific order) on navigation to the next input (e.g. clicking the Next button). Navigation will be cancelled on the first rule validation failure. The default/custom error message can be retrieved from `useActiveIndex` hook to be displayed on the form. See below for all possible validation rules.
+validationRules | { required: boolean \| string; } | | An object containing rules that the input is validated against (in a specific order) on navigation to the next input (e.g. clicking the Next button). Navigation will be cancelled on the first rule validation failure. The default/custom error message can be retrieved from `useActiveIndex` hook to be displayed on the form. See below for all possible validation rules.
 
 #### Importing SVG icons as React components
 Refer to Create React App [Official Docs](https://create-react-app.dev/docs/adding-images-fonts-and-files/#adding-svgs).
 
 #### Validation Rules
 Validation rules are passed as an object prop into each input component. The object contains the following key-value pairs where the key is the rule name and the value describes the validation criteria and/or the custom error message.
-Rule Name | Value Type | Default | Description
+Key | Value Type | Default | Description
 ----------|------------|---------|------------
-required | boolean \| string | `true` | Specifies whether or not the input is required - default is true. Instead of `true`, a string can be provided to specify a custom error message. The default error message is "The [name] field is required!"
+required | boolean \| string | `true` | Specifies whether or not the input is required - default is true. Instead of `true`, a custom error message can be provided (as a string) to replace the default error message, "The [name] field is required!"
 
 #### `<TextInput>`
 The component to be used for text inputs. It has all of the [common props] and the following props.
@@ -204,10 +210,11 @@ The component to be used for multi-select checkboxes - includes many features su
 **Props**
 Name | Type | Default | Description
 -----|------|---------|------------
-options | [array, array] | | An array containing two arrays where the second array contains groups of checkbox options (represented by arrays) and the first array contains the headings for each of these groups. See examples below.
+options | [array, array] | | An array containing two arrays where the second array contains groups of checkbox options (represented by arrays of strings) and the first array contains the headings for each of these groups. See examples below.
 
 **Examples**
-If the checkboxes cannot be logically separated into multiple groups (i.e. there is only one group), then the array passed into the options prop should follow the same format as the following array:
+
+If the checkboxes cannot be logically separated into multiple groups (i.e. there is only one group), then the array passed into the options prop should follow the format as follows:
 ```jsx
 const options = [
   ['colours'],
@@ -215,7 +222,7 @@ const options = [
 ]
 ```
 
-If the checkboxes can be separated into multiple groups, then the array passed into the options prop should follow the same format as the following array:
+If the checkboxes can be separated into multiple groups, then the array passed into the options prop should follow the format as follows:
 ```jsx
 const options = [
   ['fruits', 'vegetables', 'meats'],
@@ -249,23 +256,24 @@ export default withFormContextAndTheme(App);
 ```
 
 ### useInputs hook
-This hook provides access to the common props passed into each input and all the state values from `FormContext`.
+This hook provides access to the [common props] passed into each input and the form state values from `FormContext`.
 
 **Returned Values**
 Name | Type | Initial Value | Description
 -----|------|---------------|------------
-inputs | Array<Object> | `[]` | An array containing all the inputs as objects. Each input object contains the following keys: label, icon, and  height, which are the common props passed into each input. **Note**: On initial form render, inputs is always empty as all input elements still need to be rendered once to be added to inputs (which causes an immediate re-render once this is done)
-activeIndex | number | `0` | An index from 0 to n where n is the number of inputs in the form. The index specifies which input is currently active (displaying on the form). When `activeIndex` = n, the Submit button is displayed and no inputs are active.
+inputs | Array\<Object\> | `[]` | An array containing all the inputs as objects. Each input object contains the following keys: label, icon, and  height, which were passed as props into each input.<br>**Note**: On initial form render, inputs is always empty as all input elements still need to be rendered once to be added to inputs (which triggers an immediate re-render).
+activeIndex | number | `0` | An index from 0 to n where n is the number of inputs in the form. The index specifies which input is currently active (`0` refers to the first input and n refers to the Submit button which comes after the last input).
 changeActiveIndex | function | | Accepts a number that should specify what to change `activeIndex` to (which input to make active). Input validation is performed on the currently active input if the number passed is greater than activeIndex (going forward in the form).
-activeInput | object | | An object from `inputs` that represents the input that is currently active
-error | { state: boolean, message: string } | `{ state: false, message: '' }` | Error object containing the error state of the form and the error message to display. It's up to the user to place `error.message` somewhere in the form.
+activeInput | object | | An object from `inputs` that represents the input that is currently active. activeInput is `null` when activeIndex = n.
+error | { state: boolean, message: string } | `{ state: false, message: '' }` | Error object containing the error state of the form and the error message to display. `error.message` should be added to the form as it's not displayed by default.
 inputValues | object | `{}` | An object containing all form values where each key is the input name and each value is the input value. This gets updated every time `changeActiveIndex` is called (e.g. clicking the Next button).
-isSubmitPage | boolean | false | Specifies if the form is on the last "page" with the Submit button and no inputs are active.
+isSubmitPage | boolean | false | Specifies if the form is on the last "page" with the Submit button where no input is active.
 
 **Example**
+
 These values and methods can be used, as follows, to create a custom component for navigating back and forth between the form inputs.
 ```jsx
-// Code snippet taken from Labels component
+// Labels component
 const Labels = () => {
   const { inputs, activeIndex, changeActiveIndex, inputValues } = useInputs();
 
@@ -287,13 +295,31 @@ const Labels = () => {
     </LabelsContainer>
   )
 }
-```
 
-## Examples
-Demo the live examples [here](http://z2lai.github.io/react-emotion-multi-step-form), which also include code samples.
-You can also demo the following sandbox examples:
-* [Quickstart Example](https://codesandbox.io/s/react-emotion-multi-step-form-basic-example-eqdv7)
-* [Multi-select Input Example]
+// Label component
+const Label = ({ 
+  label, 
+  inputValue, 
+  active, 
+  changeActiveIndex, 
+  activated 
+}) => {
+  const handleClick = event => {
+    if (!activated) return;
+    changeActiveIndex();
+  }
+
+  return (
+    <StyledLabel
+      active={active}
+      activated={activated}
+      onClick={handleClick}
+    >
+      {inputValue || label}
+    </StyledLabel>
+  )
+}
+```
 
 ## Feature Roadmap
 * More input validation options (e.g. maxLength, min, max, pattern, custom validation function)
