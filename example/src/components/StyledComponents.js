@@ -15,6 +15,7 @@ export const StyledForm = styled.div`
 
 export const Heading = styled.h1`
   font-size: 1.875rem;
+  margin-bottom: 5px;
 `
 
 export const TitleContainer = styled.div`

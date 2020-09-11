@@ -6,9 +6,9 @@ import useInputState from "../core/useInputState";
 import InputWrapper from "./InputWrapper";
 import { StyledInput } from "./StyledComponents";
 
-const TextInput = ({ name, placeholder, onChange, height, label, icon, validationRules}) => {
+const TextInput = ({ name, placeholder, onChange, height, label, caption, icon, validationRules}) => {
   // console.log('TextInput rendered!');
-  const { refCallback } = useAddInput(label, icon, validationRules, height);
+  const { refCallback } = useAddInput({ label, caption, icon, validationRules, height });
   const { value, setValue } = useInputState(name, '');
 
   const handleChange = event => {

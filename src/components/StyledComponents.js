@@ -82,7 +82,7 @@ export const SubmitLabel = styled.div`
   font-size: 1.125rem;
   font-weight: 500;
   &::before {
-    content: "Submit";
+    content: ${props => `'${props.text}'`};
     position: absolute;
     top: -3px;
     left: -30px;

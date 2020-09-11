@@ -3,6 +3,7 @@ import {
   useInputs,
   withFormContextAndTheme,
   FormBody,
+  Captions,
   TextInput,
   RadioControl,
   RadioOption,
@@ -32,8 +33,9 @@ const Form = props => {
   return (
     <div>
       <Heading>Newsletter Subscription</Heading>
+      <Captions callToActionCaption="Get the latest news straight to your inbox!" />
       {isSubmitPage ? (<Reward ref={rewardRef} type="confetti"></Reward>) : null}
-      <FormBody onSubmit={handleSubmit}>
+      <FormBody callToActionText="Subscribe" onSubmit={handleSubmit}>
         <TextInput
           name="firstname"
           placeholder="John"

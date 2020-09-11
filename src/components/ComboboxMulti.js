@@ -124,10 +124,10 @@ const CheckboxWrapper = styled.div`
   padding: 0 2px;
 `;
 
-const ComboboxMulti = ({ name, options, onChange, height, label, icon, validationRules }) => {
+const ComboboxMulti = ({ name, options, onChange, height, label, caption, icon, validationRules }) => {
   console.log("CheckboxControl Re-rendered!");
   // console.log(`Height = ${height}`)
-  const { refCallback } = useAddInput(label, icon, validationRules, height);
+  const { refCallback } = useAddInput({ label, caption, icon, validationRules, height });
   const { value: selected, setValue: setSelected } = useInputState(name, []);
   const [filter, setFilter] = useState("");
   const [filteredOptions, setFilteredOptions] = useState(options);

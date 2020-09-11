@@ -130,8 +130,9 @@ const PageWrapper = styled.div`
   `}
 `
 
-const FormBody = ({ onSubmit, children }) => {
+const FormBody = ({ callToActionText, onSubmit, children }) => {
   console.log('FormBody rendered!');
+  console.log(callToActionText);
   const { inputs, activeIndex, changeActiveIndex, activeInput, error, inputValues, isSubmitPage } = useInputs();
 
   const formBodyWrapperRef = useRef();
@@ -289,7 +290,7 @@ const FormBody = ({ onSubmit, children }) => {
           </IconContainer>
           <InputContainer pageContainerheight={height}>
             {children}
-            <SubmitLabel isSubmitPage={isSubmitPage} />
+            <SubmitLabel text={callToActionText ? callToActionText : 'Submit'} isSubmitPage={isSubmitPage} />
           </InputContainer>
           <NextButton
             ref={buttonRef}
