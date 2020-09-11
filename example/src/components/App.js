@@ -1,7 +1,7 @@
 import React from "react";
 
 import '../App.css';
-import Form from "./Form";
+import SubscriptionForm from "./SubscriptionForm";
 
 class App extends React.Component {
   state = {};
@@ -12,7 +12,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <Form />
+        <SubscriptionForm />
       </div>
     );
   }

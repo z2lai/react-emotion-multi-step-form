@@ -181,7 +181,7 @@ const ComboboxMulti = ({ name, options, onChange, height, label, icon, validatio
       const filteredGroup = group.filter(option => {
         // (option) => option.toLowerCase().includes(filter) && !excluded.includes(option) // includes() not supported on Chrome for Android
         const optionText = option.toLowerCase()
-        return (excluded.indexOf(optionText) === -1) && (optionText.indexOf(filter) !== -1) 
+        return (excluded.indexOf(option) === -1) && (optionText.indexOf(filter) !== -1) 
       });
       if (filteredGroup.length > 0) {
         _groupHeadings.push(groupHeadings[index]);
