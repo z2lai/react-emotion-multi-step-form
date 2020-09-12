@@ -40,6 +40,10 @@ const bounceRight = keyframes`
   }
 `
 
+// When interpolating keyframes into plain strings you have to wrap it in css call, like this: css`animation: ${keyframes({ /* ... */ })}`
+// https://github.com/emotion-js/emotion/issues/1066#issuecomment-546703172
+// How to use animation name as a partial (with other properties defined with prop values): https://styled-components.com/docs/api#keyframes
+// How to use animation name inside conditional based on props: https://github.com/styled-components/styled-components/issues/397#issuecomment-275588876
 const FormBodyWrapper = styled.div`
   margin-bottom: ${props => props.heightIncrease ? 5 + props.heightIncrease : 5}px;
   ${props => props.isError ? css`
@@ -58,10 +62,6 @@ const FormBodyWrapper = styled.div`
   }
 `
 
-// When interpolating keyframes into plain strings you have to wrap it in css call, like this: css`animation: ${keyframes({ /* ... */ })}`
-// https://github.com/emotion-js/emotion/issues/1066#issuecomment-546703172
-// How to use animation name as a partial (with other properties defined with prop values): https://styled-components.com/docs/api#keyframes
-// How to use animation name inside conditional based on props: https://github.com/styled-components/styled-components/issues/397#issuecomment-275588876
 const PageContainer = styled.div`
   margin: 0px auto;
   max-width: 500px;
@@ -108,7 +108,7 @@ const PageWrapper = styled.div`
     outline: none;
   }
   ${props => props.isSubmitPage ? css`
-    width: 110px;
+    width: ${props.submitPageWidth}px;
     height: 40px;
     border-radius: 5px;
     padding: 10px 3px;
@@ -130,9 +130,8 @@ const PageWrapper = styled.div`
   `}
 `
 
-const FormBody = ({ callToActionText, onSubmit, children }) => {
+const FormBody = ({ submitText, submitWidth, onSubmit, children }) => {
   console.log('FormBody rendered!');
-  console.log(callToActionText);
   const { inputs, activeIndex, changeActiveIndex, activeInput, error, inputValues, isSubmitPage } = useInputs();
 
   const formBodyWrapperRef = useRef();
@@ -142,15 +141,15 @@ const FormBody = ({ callToActionText, onSubmit, children }) => {
   console.log(basePageWidthRef);
 
   const BASE_PAGE_HEIGHT = 60;
-  const SUBMIT_PAGE_WIDTH = 110;
   const SUBMIT_PAGE_HEIGHT = 40;
-
-  const pageRelativeWidth = isSubmitPage ? SUBMIT_PAGE_WIDTH / basePageWidthRef.current : 1;
   const height = (activeInput && activeInput.height) ? activeInput.height : null;
   const pageHeight = height ? height
     : isSubmitPage ? SUBMIT_PAGE_HEIGHT
       : BASE_PAGE_HEIGHT;
   const pageRelativeHeight = pageHeight / BASE_PAGE_HEIGHT;
+
+  const submitPageWidth = submitWidth ? submitWidth : 110;
+  const pageRelativeWidth = isSubmitPage ? submitPageWidth / basePageWidthRef.current : 1;
 
   const { scaleAnimation, inverseScaleAnimation } = useScaleAnimation(pageRelativeWidth, pageRelativeHeight);
 
@@ -184,9 +183,9 @@ const FormBody = ({ callToActionText, onSubmit, children }) => {
     }));
   };
 
-  const clickOnKeyDown = (event, button) => {
+  const activateAndClick = (event, target) => {
     if (event.repeat) return;
-    const node = button || event.currentTarget;
+    const node = target || event.currentTarget;
     node.classList.add('active');
 
     const handleKeyUp = event => {
@@ -202,10 +201,10 @@ const FormBody = ({ callToActionText, onSubmit, children }) => {
   const handleKeyDown = event => {
     if (event.key === 'Enter') {
       if (!isSubmitPage) {
-        clickOnKeyDown(event, buttonRef.current);
+        activateAndClick(event, buttonRef.current);
       } else {
-        clickOnKeyDown(event, formBodyWrapperRef.current);
-        clickOnKeyDown(event, pageWrapperRef.current);
+        activateAndClick(event, formBodyWrapperRef.current); // just to add 'active' class
+        activateAndClick(event, pageWrapperRef.current);
       }
     }
   }
@@ -219,7 +218,7 @@ const FormBody = ({ callToActionText, onSubmit, children }) => {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
       event.stopPropagation(); // stop Enter or Space keys from triggering FormBody keydown handler
-      clickOnKeyDown(event);
+      activateAndClick(event);
     }
   }
 
@@ -273,6 +272,7 @@ const FormBody = ({ callToActionText, onSubmit, children }) => {
           tabIndex={isSubmitPage ? "0" : "-1"}
           inverseScaleAnimation={inverseScaleAnimation}
           isSubmitPage={isSubmitPage}
+          submitPageWidth={submitPageWidth}
           onClick={handleSubmitClick}
           onKeyDown={handleKeyDown}
           onMouseDown={handleMouseDownAndUp}
@@ -290,7 +290,7 @@ const FormBody = ({ callToActionText, onSubmit, children }) => {
           </IconContainer>
           <InputContainer pageContainerheight={height}>
             {children}
-            <SubmitLabel text={callToActionText ? callToActionText : 'Submit'} isSubmitPage={isSubmitPage} />
+            <SubmitLabel text={submitText ? submitText : 'Submit'} isSubmitPage={isSubmitPage} />
           </InputContainer>
           <NextButton
             ref={buttonRef}

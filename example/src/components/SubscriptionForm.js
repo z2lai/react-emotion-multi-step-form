@@ -35,7 +35,7 @@ const Form = props => {
       <Heading>Newsletter Subscription</Heading>
       <Captions callToActionCaption="Get the latest news straight to your inbox!" />
       {isSubmitPage ? (<Reward ref={rewardRef} type="confetti"></Reward>) : null}
-      <FormBody callToActionText="Subscribe" onSubmit={handleSubmit}>
+      <FormBody submitText="Subscribe" submitWidth={130} onSubmit={handleSubmit}>
         <TextInput
           name="firstname"
           placeholder="John"
@@ -45,16 +45,16 @@ const Form = props => {
           validationRules={{ required: 'Please fill in your firstname' }}
           onChange={handleUrlChange}
         />
-          <ComboboxMulti
-            name="interests"
-            label="Interests"
-            caption="What are your interests?"
-            icon={PriceTagsIcon}
-            height={240}
-            validationRules={{ required: 'Please select a Topic' }}
-            options={options}
-            onChange={handleTagsChange}
-          />
+        <ComboboxMulti
+          name="interests"
+          label="Interests"
+          caption="What are your interests?"
+          icon={PriceTagsIcon}
+          height={240}
+          validationRules={{ required: 'Please select a Topic' }}
+          options={options}
+          onChange={handleTagsChange}
+        />
         <RadioControl
           name="frequency"
           label="Frequency"
