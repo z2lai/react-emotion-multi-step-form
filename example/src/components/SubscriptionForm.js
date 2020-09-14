@@ -11,13 +11,14 @@ import {
 } from "react-emotion-multi-step-form";
 import Reward from 'react-rewards';
 
-import { Heading, ErrorMessage } from "./StyledComponents";
+import { StyledForm, Heading, ErrorMessage } from "./StyledComponents";
 import { ReactComponent as LinkIcon } from "../fonts/icomoon/svg/link.svg";
 import { ReactComponent as TreeIcon } from "../fonts/icomoon/svg/tree.svg";
 import { ReactComponent as PriceTagsIcon } from "../fonts/icomoon/svg/price-tags.svg";
 import options from "../data";
+import InfoCheckbox from "./InfoCheckbox";
 
-const Form = props => {
+const Form = () => {
   const { error, isSubmitPage } = useInputs();
   const rewardRef = useRef();
 
@@ -31,8 +32,11 @@ const Form = props => {
   };
 
   return (
-    <div>
-      <Heading>Newsletter Subscription</Heading>
+    <StyledForm>
+      <Heading>
+        Newsletter Subscription
+        <InfoCheckbox />
+      </Heading>
       <Captions callToActionCaption="Get the latest news straight to your inbox!" />
       {isSubmitPage ? (<Reward ref={rewardRef} type="confetti"></Reward>) : null}
       <FormBody submitText="Subscribe" submitWidth={130} onSubmit={handleSubmit}>
@@ -69,7 +73,7 @@ const Form = props => {
         </RadioControl>
       </FormBody>
       <ErrorMessage>{error.message}</ErrorMessage>
-    </div>
+    </StyledForm>
   );
 }
 

@@ -2,8 +2,7 @@
   box-sizing: border-box;
   margin: 0;
   height: 100vh;
-  padding: 20px 5px;
-  text-align: center;
+  padding: 5px;
   background: hsl(139, 50%, 75%);
 }
 

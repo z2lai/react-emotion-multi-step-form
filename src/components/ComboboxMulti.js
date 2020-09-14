@@ -112,7 +112,7 @@ const GroupContainer = styled.div`
 `;
 
 const GroupHeading = styled.div`
-  margin: 0 0 5px 0;
+  margin: 0 0 5px 5px;
   font-size: 1.25rem;
   font-weight: bold;
   text-transform: capitalize;
