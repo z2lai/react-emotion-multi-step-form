@@ -1,8 +1,8 @@
 .App {
   box-sizing: border-box;
   margin: 0;
+  padding-top: 200px;
   height: 100vh;
-  padding: 5px;
   background: hsl(139, 50%, 75%);
 }
 

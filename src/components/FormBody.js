@@ -46,6 +46,7 @@ const bounceRight = keyframes`
 // How to use animation name inside conditional based on props: https://github.com/styled-components/styled-components/issues/397#issuecomment-275588876
 const FormBodyWrapper = styled.div`
   margin-bottom: ${props => props.heightIncrease ? 5 + props.heightIncrease : 5}px;
+  filter: blur(0);
   ${props => props.isError ? css`
     animation: ${headShake} .5s  ease-in-out infinite;
   ` : `

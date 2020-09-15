@@ -18,7 +18,7 @@ import { ReactComponent as PriceTagsIcon } from "../fonts/icomoon/svg/price-tags
 import options from "../data";
 import InfoCheckbox from "./InfoCheckbox";
 
-const Form = () => {
+const Form = ({ isDrawerOut, setIsDrawerOut }) => {
   const { error, isSubmitPage } = useInputs();
   const rewardRef = useRef();
 
@@ -32,10 +32,10 @@ const Form = () => {
   };
 
   return (
-    <StyledForm>
+    <StyledForm isDrawerOut={isDrawerOut}>
       <Heading>
         Newsletter Subscription
-        <InfoCheckbox />
+        <InfoCheckbox checked={isDrawerOut} onChange={setIsDrawerOut} />
       </Heading>
       <Captions callToActionCaption="Get the latest news straight to your inbox!" />
       {isSubmitPage ? (<Reward ref={rewardRef} type="confetti"></Reward>) : null}

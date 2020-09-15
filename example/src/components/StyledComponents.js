@@ -8,9 +8,14 @@ const dynamicStyles = props =>
 */
 
 export const StyledForm = styled.div`
-  margin: 200px auto;
-  width: 500px;
   text-align: center;
+	will-change: transform;	
+  transition: transform 400ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
+  ${props => props.isDrawerOut ? `
+    transform: translate3d(-25%,0,0);
+    filter: blur(2px);
+  ` : `
+  `}
   &:after {
     content: " 🦄";
   }
