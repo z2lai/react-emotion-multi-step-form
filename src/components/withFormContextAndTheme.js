@@ -13,7 +13,7 @@ const theme = {
       turqoise: 'hsl(139, 75%, 50%)',
     },
     extraDark: {
-      indigo: 'hsl(279, 9%, 25%)'
+      indigo: 'hsl(279, 25%, 25%)'
     },
     dark: {
       green: 'hsl(120, 75%, 35%)',
