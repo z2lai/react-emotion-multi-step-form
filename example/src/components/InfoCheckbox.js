@@ -8,10 +8,14 @@ const InfoLabel = styled.label`
   margin-left: 10px;
   opacity: .5;
   cursor: pointer;
-  &:hover {
-    opacity: .75;
+  ${props => props.checked ? `
+    opacity: 1;
+  ` : `
+    &:hover {
+      opacity: .75;
+    }
+  `
   }
-
 `
 
 // Hide checkbox visually but remain accessible to screen readers.
@@ -26,15 +30,19 @@ const HiddenCheckbox = styled.input`
   clip-path: inset(50%);
 `
 
+const StyledInfoIcon = styled(InfoIcon)`
+  fill: ${props => props.theme.colors.dark.indigo};
+`
+
 const InfoCheckbox = ({ checked, onChange }) => (
-  <InfoLabel>
+  <InfoLabel checked={checked}>
     <HiddenCheckbox
       type="checkbox"
       id="infoCheckbox"
       checked={checked}
       onChange={onChange}
     />
-    <InfoIcon />
+    <StyledInfoIcon />
   </InfoLabel>
 )
 
