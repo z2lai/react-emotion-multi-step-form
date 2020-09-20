@@ -8,22 +8,20 @@ const dynamicStyles = props =>
 */
 
 export const StyledForm = styled.div`
+  box-sizing: border-box;
+  width: 100%;
+  height: 400px;
+  border: 1px solid white;
+  border-radius: 10px;
+  padding: 15px 5px;
   text-align: center;
-	will-change: transform;	
-  transition: transform 400ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
-  ${props => props.isDrawerOut ? `
-    transform: translate3d(-17%, 0, 0);
-  ` : `
-  `}
-  &:after {
-    content: " 🦄";
-  }
+  background: hsl(139, 50%, 75%);
 `
 
 export const Heading = styled.h1`
   position: relative;
   font-size: 1.875rem;
-  margin-bottom: 5px;
+  margin: 5px auto;
 `
 
 export const TitleContainer = styled.div`

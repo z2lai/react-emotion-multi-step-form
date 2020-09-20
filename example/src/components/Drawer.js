@@ -30,10 +30,6 @@ const StyledDrawer = styled.div`
   }
 `;
 
-const ContentWrapper = styled.div`
-
-`
-
 const Drawer = ({ isDrawerOut }) => {
 
   return (
@@ -51,12 +47,12 @@ const Drawer = ({ isDrawerOut }) => {
       </p>
       <h2>Library Features</h2>
       <p>
-        The main goal of this form library is to allow you to configure your own multi-step form using concise and declarative <a>code</a>. Other features include:
+        The main goal of this form library is to allow you to configure your own multi-step form using concise and declarative code. Other features include:
       </p>
       <ul>
         <li>Smooth animations for an interactive feel</li>
-        <li>Supports keyboard-only navigation</li>
-        <li>Mobile-friendly design</li>
+        <li>Easy keyboard-only navigation</li>
+        <li>Responsive design</li>
         <li>Custom Hooks to access form state and customize navigation and progress indicator</li>
       </ul>
     </StyledDrawer>

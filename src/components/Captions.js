@@ -18,7 +18,11 @@ const StyledCaptions = styled.span`
 `;
 
 export const CaptionsContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-bottom: 20px;
+  height: 3rem;
   font-size: 1.25rem;
 `
 

@@ -32,7 +32,6 @@ const Form = ({ isDrawerOut, setIsDrawerOut }) => {
     <StyledForm isDrawerOut={isDrawerOut}>
       <Heading>
         Newsletter Subscription
-        <InfoCheckbox checked={isDrawerOut} onChange={setIsDrawerOut} />
       </Heading>
       <Captions callToActionCaption="Get the latest news straight to your inbox!" />
       {isSubmitPage ? (<Reward ref={rewardRef} type="confetti"></Reward>) : null}

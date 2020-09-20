@@ -1,11 +1,87 @@
-.App {
-  box-sizing: border-box;
+.app {
   margin: 0;
-  padding-top: 200px;
-  height: 100vh;
-  background: hsl(139, 50%, 75%);
+  overflow: hidden;
+  text-align: center;
+}
+
+.content-wrapper {
+
+}
+
+h1 {
+  font-size: 3rem;
+  margin-bottom: 5px;
+}
+
+h2 {
+  position: relative;
+  margin: 2rem auto 1.5rem auto;
+  max-width: 500px;
+  overflow: hidden;
+  text-align: center;
+  font-weight: 600;
+}
+
+h2::before {
+  content: "";
+  background-color:hsl(279, 25%, 25%);
+  display: inline-block;
+  position: relative;
+  right: 0.5em;
+  margin-left: -50%;
+  height: 1px;
+  width: 50%;
+  vertical-align: middle;
+}
+
+h2::before {
+  content: "";
+  background-color:hsl(279, 25%, 25%);
+  display: inline-block;
+  position: relative;
+  right: 0.5em;
+  margin-left: -50%;
+  height: 1px;
+  width: 50%;
+  vertical-align: middle;
+}
+
+h2::after {
+  content: "";
+  background-color:hsl(279, 25%, 25%);
+  display: inline-block;
+  position: relative;
+  left: 0.5em;
+  margin-right: -50%;
+  height: 1px;
+  width: 50%;
+  vertical-align: middle;
+}
+
+h3 {
+
+}
+
+.caption {
+  color:hsl(279, 75%, 35%);
 }
 
 div {
   -webkit-tap-highlight-color: transparent;
+}
+
+.feature-section {
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.feature-item {
+  margin: 20px;
+  flex: 1 1 200px;
+}
+
+.feature-item svg {
+  stroke: hsl(279, 75%, 35%);
+  fill: none;
 }
