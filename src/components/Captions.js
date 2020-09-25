@@ -24,6 +24,9 @@ export const CaptionsContainer = styled.div`
   margin-bottom: 20px;
   height: 3rem;
   font-size: 1.25rem;
+  @media (min-width: 481px) {
+    height: 2rem;
+  }
 `
 
 const Caption = ({ caption, isActive }) => (

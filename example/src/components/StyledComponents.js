@@ -10,10 +10,10 @@ const dynamicStyles = props =>
 export const StyledForm = styled.div`
   box-sizing: border-box;
   width: 100%;
-  height: 400px;
+  height: 450px;
   border: 1px solid white;
   border-radius: 10px;
-  padding: 15px 5px;
+  padding: 20px 5px;
   text-align: center;
   background: hsl(139, 50%, 75%);
 `

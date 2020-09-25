@@ -79,9 +79,9 @@ const PageContainer = styled.div`
   overflow: hidden;
   background-color: hsl(0, 0%, 100%);
   ${props => props.isError ? css`
-    box-shadow: 0 ${3.5 / props.heightScale}px ${5 / props.heightScale}px hsla(16, 100%, 40%, .8);
+    box-shadow: 0 ${5 / props.heightScale}px ${5 / props.heightScale}px hsla(16, 100%, 40%, .8);
   ` : `
-    box-shadow: 0 ${3.5 / props.heightScale}px ${5 / props.heightScale}px hsla(120, 60%, 40%, .8);
+    box-shadow: 0 ${5 / props.heightScale}px ${5 / props.heightScale}px hsla(120, 60%, 40%, .8);
   `}
   ${props => css`
     transform-origin: center top;
