@@ -1,19 +1,75 @@
+:root {
+  --text-color: #6D169C;
+  --black: #404040;
+}
+
 .app {
   margin: 0;
   overflow: hidden;
   text-align: center;
 }
 
-.content-wrapper {
-
+.hero-banner {
+  position: relative;
+  padding: 50px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: row wrap;
+  background-color: #DFDBE5;
+  background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.13'%3E%3Cpath d='M50 50c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10s-10-4.477-10-10 4.477-10 10-10zM10 10c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10S0 25.523 0 20s4.477-10 10-10zm10 8c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8zm40 40c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
 
-h1 {
-  font-size: 3rem;
+.hero-banner__header {
+  
+}
+
+.hero-banner__video {
+  margin-top: 20px;
+}
+
+.hero-banner__title {
+  font-size: 2rem;
+  margin-top: 0;
   margin-bottom: 5px;
+  color: var(--text-color);
+  text-shadow: -2px 2px 3px rgba(0, 0, 0, 0.3);
 }
 
-h2 {
+.hero-banner__subtitle {
+  margin: 0;
+  padding: 0 20px;
+  color: var(--black);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.shape-divider {
+   position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+}
+
+.shape-divider svg {
+    position: relative;
+    display: block;
+    width: calc(300% + 1.3px);
+    height: 249px;
+}
+
+.shape-divider path {
+  fill: #FFFFFF;
+}
+
+.section {
+  padding: 0 20px;
+}
+
+.section__title {
   position: relative;
   margin: 2rem auto 1.5rem auto;
   max-width: 500px;
@@ -22,7 +78,7 @@ h2 {
   font-weight: 600;
 }
 
-h2::before {
+.section__title::before {
   content: "";
   background-color:hsl(279, 25%, 25%);
   display: inline-block;
@@ -34,19 +90,7 @@ h2::before {
   vertical-align: middle;
 }
 
-h2::before {
-  content: "";
-  background-color:hsl(279, 25%, 25%);
-  display: inline-block;
-  position: relative;
-  right: 0.5em;
-  margin-left: -50%;
-  height: 1px;
-  width: 50%;
-  vertical-align: middle;
-}
-
-h2::after {
+.section__title::after {
   content: "";
   background-color:hsl(279, 25%, 25%);
   display: inline-block;
@@ -62,15 +106,13 @@ h3 {
 
 }
 
-.caption {
-  color:hsl(279, 75%, 35%);
-}
 
 div {
   -webkit-tap-highlight-color: transparent;
 }
 
-.feature-section {
+.flex-row {
+  position: relative;
   width: 100%;
   display: flex;
   flex-flow: row wrap;
@@ -79,9 +121,39 @@ div {
 .feature-item {
   margin: 5px;
   flex: 1 1 200px;
+  color: var(--black);
 }
 
 .feature-item svg {
-  stroke: hsl(279, 75%, 35%);
+  stroke: var(--black);
   fill: none;
+}
+
+/* Medium Layout (Tablet/Laptops) */
+@media (min-width: 768px) {
+  .hero-banner {
+    flex-flow: row nowrap;
+  }
+  
+  .hero-banner__header {
+    flex: 1 1 50%;
+  }
+
+  .hero-banner__video {
+    flex: 1 1 50%;
+    margin: 0 20px;
+  }
+
+  .hero-banner__video video {
+    width: 100%;
+  }
+
+  .hero-banner__title {
+    font-size: 3rem;
+    margin: 0;
+  }
+
+  .hero-banner__subtitle {
+    font-size: 1.125rem;
+  }
 }

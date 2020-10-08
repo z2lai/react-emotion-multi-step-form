@@ -4,10 +4,11 @@ import styled from "@emotion/styled";
 import '../app.css';
 import SubscriptionForm from "./SubscriptionForm";
 import Drawer from "./Drawer";
-import { ReactComponent as Code } from "../fonts/icomoon/svg/code.svg";
-import { ReactComponent as Note } from "../fonts/icomoon/svg/note.svg";
-import { ReactComponent as Keyboard } from "../fonts/icomoon/svg/keyboard.svg";
-import { ReactComponent as Devices } from "../fonts/icomoon/svg/devices.svg";
+import { ShapeDivider } from "./StyledComponents";
+import { ReactComponent as CodeIcon } from "../fonts/icomoon/svg/code.svg";
+import { ReactComponent as NoteIcon } from "../fonts/icomoon/svg/note.svg";
+import { ReactComponent as KeyboardIcon } from "../fonts/icomoon/svg/keyboard.svg";
+import { ReactComponent as DevicesIcon } from "../fonts/icomoon/svg/devices.svg";
 
 const ContentWrapper = styled.div`
   max-width: 900px;
@@ -27,40 +28,50 @@ const App = props => {
 
   return (
     <div className="app">
-      <ContentWrapper isDrawerOut={isDrawerOut}>
-        <h1>React Emotion Multi-step Form</h1>
-        <div className="caption">
-          Interactive multi-step forms with concise declarative code 
+      <section className="hero-banner">
+        <header className="hero-banner__header">
+          <h1 className="hero-banner__title">React Emotion Multi-step Form</h1>
+          <p className="hero-banner__subtitle">
+            Interactive multi-step forms with concise declarative code
+        </p>
+        </header>
+        <div className="hero-banner__video">
+          <video muted controls>
+            <source src="https://lh3.googleusercontent.com/_edqdTI7djap92OY68uSqcwMkMWp6hYgV47cVAOyqPTb8Hv_MwdLqcRwM1iXEDHvrw9ROAtHTz5qGNBrhIbv3uH0M0sCaPeBt4x9X0tgwuQ9zzsAISfKSpZzHAEneN1c_-YRC0bbQw=m18" type="video/mp4" />
+              Sorry, your browser doesn't support embedded videos.
+          </video>
         </div>
-        <h2>Basic Example App</h2>
-        <SubscriptionForm
-          isDrawerOut={isDrawerOut}
-          setIsDrawerOut={() => setIsDrawerOut(!isDrawerOut)}
-        />
-        <h2>Features</h2>
-        <div className="feature-section">
+      </section>
+      <section className="section">
+        <h2 className="section__title">Features</h2>
+        <div className="flex-row">
           <div className="feature-item">
-            <Code />
+            <CodeIcon />
             <h3>Concise Declarative Code</h3>
             <p></p>
           </div>
           <div className="feature-item">
-            <Note />
+            <NoteIcon />
             <h3>Smooth Page Transitions</h3>
             <p></p>
           </div>
           <div className="feature-item">
-            <Keyboard />
+            <KeyboardIcon />
             <h3>Easy Keyboard Navigation</h3>
             <p></p>
           </div>
           <div className="feature-item">
-            <Devices />
+            <DevicesIcon />
             <h3>Responsive Design</h3>
             <p></p>
           </div>
         </div>
-      </ContentWrapper>
+      </section>
+      <h2>Basic Example App</h2>
+      <SubscriptionForm
+        isDrawerOut={isDrawerOut}
+        setIsDrawerOut={() => setIsDrawerOut(!isDrawerOut)}
+      />
     </div>
   );
 }
