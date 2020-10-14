@@ -28,41 +28,37 @@ const App = props => {
 
   return (
     <div className="app">
-      <section className="hero-banner">
-        <header className="hero-banner__header">
-          <h1 className="hero-banner__title">React Emotion Multi-step Form</h1>
-          <p className="hero-banner__subtitle">
-            Interactive multi-step forms with concise declarative code
+      <header className="hero-banner">
+        <h1 className="hero-banner__title">React Emotion Multi-step Form</h1>
+        <p className="hero-banner__subtitle">
+          Interactive multi-step forms with concise declarative code
         </p>
-        </header>
-        <div className="hero-banner__video">
-          <video muted controls>
-            <source src="https://lh3.googleusercontent.com/_edqdTI7djap92OY68uSqcwMkMWp6hYgV47cVAOyqPTb8Hv_MwdLqcRwM1iXEDHvrw9ROAtHTz5qGNBrhIbv3uH0M0sCaPeBt4x9X0tgwuQ9zzsAISfKSpZzHAEneN1c_-YRC0bbQw=m18" type="video/mp4" />
+        <video className="hero-banner__video" muted controls>
+          <source src="https://lh3.googleusercontent.com/_edqdTI7djap92OY68uSqcwMkMWp6hYgV47cVAOyqPTb8Hv_MwdLqcRwM1iXEDHvrw9ROAtHTz5qGNBrhIbv3uH0M0sCaPeBt4x9X0tgwuQ9zzsAISfKSpZzHAEneN1c_-YRC0bbQw=m18" type="video/mp4" />
               Sorry, your browser doesn't support embedded videos.
-          </video>
-        </div>
-      </section>
+        </video>
+      </header>
       <section className="section">
         <h2 className="section__title">Features</h2>
         <div className="flex-row">
-          <div className="feature-item">
-            <CodeIcon />
-            <h3>Concise Declarative Code</h3>
+          <div className="flex-row__flex-item feature-item">
+            <CodeIcon className="feature-item__svg" />
+            <h3 className="feature-item__title">Concise Declarative Code</h3>
             <p></p>
           </div>
-          <div className="feature-item">
-            <NoteIcon />
-            <h3>Smooth Page Transitions</h3>
+          <div className="flex-row__flex-item feature-item">
+            <NoteIcon className="feature-item__svg"/>
+            <h3 className="feature-item__title">Smooth Page Transitions</h3>
             <p></p>
           </div>
-          <div className="feature-item">
-            <KeyboardIcon />
-            <h3>Easy Keyboard Navigation</h3>
+          <div className="flex-row__flex-item feature-item">
+            <KeyboardIcon className="feature-item__svg"/>
+            <h3 className="feature-item__title">Easy Keyboard Navigation</h3>
             <p></p>
           </div>
-          <div className="feature-item">
-            <DevicesIcon />
-            <h3>Responsive Design</h3>
+          <div className="flex-row__flex-item feature-item">
+            <DevicesIcon className="feature-item__svg"/>
+            <h3 className="feature-item__title">Responsive Design</h3>
             <p></p>
           </div>
         </div>
