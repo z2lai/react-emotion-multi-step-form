@@ -20,7 +20,7 @@ export const ShapeDivider = () => (
 export const StyledForm = styled.div`
   box-sizing: border-box;
   margin: auto;
-  max-width: 900px;
+  max-width: 980px;
   height: 450px;
   border: 1px solid white;
   border-radius: 10px;

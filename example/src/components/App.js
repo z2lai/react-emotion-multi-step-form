@@ -43,31 +43,44 @@ const App = props => {
         <div className="flex-row">
           <div className="flex-row__flex-item feature-item">
             <CodeIcon className="feature-item__svg" />
-            <h3 className="feature-item__title">Concise Declarative Code</h3>
-            <p></p>
+            <h3 className="feature-item__title">Declarative Code</h3>
+            <p className="feature-item__text">
+              Describe what your form should like with clear and concise code
+            </p>
           </div>
           <div className="flex-row__flex-item feature-item">
-            <NoteIcon className="feature-item__svg"/>
-            <h3 className="feature-item__title">Smooth Page Transitions</h3>
-            <p></p>
+            <NoteIcon className="feature-item__svg" />
+            <h3 className="feature-item__title">Smooth Transitions</h3>
+            <p className="feature-item__text">
+              Optimized animations for a smooth interactive user experience
+            </p>
           </div>
           <div className="flex-row__flex-item feature-item">
-            <KeyboardIcon className="feature-item__svg"/>
-            <h3 className="feature-item__title">Easy Keyboard Navigation</h3>
-            <p></p>
+            <KeyboardIcon className="feature-item__svg" />
+            <h3 className="feature-item__title">Keyboard Navigation</h3>
+            <p className="feature-item__text">
+              Allow users to quickly navigate through the entire form using only their keyboard
+            </p>
           </div>
           <div className="flex-row__flex-item feature-item">
-            <DevicesIcon className="feature-item__svg"/>
+            <DevicesIcon className="feature-item__svg" />
             <h3 className="feature-item__title">Responsive Design</h3>
-            <p></p>
+            <p className="feature-item__text">
+              Build forms that look good on any device
+            </p>
           </div>
         </div>
       </section>
-      <h2>Basic Example App</h2>
-      <SubscriptionForm
-        isDrawerOut={isDrawerOut}
-        setIsDrawerOut={() => setIsDrawerOut(!isDrawerOut)}
-      />
+      <section className="section">
+        <h2 className="section__title">Basic Example App</h2>
+        <SubscriptionForm
+          isDrawerOut={isDrawerOut}
+          setIsDrawerOut={() => setIsDrawerOut(!isDrawerOut)}
+        />
+      </section>
+      <section className="section">
+        <h2 className="section__title">Basic Example Code</h2>
+      </section>
     </div>
   );
 }

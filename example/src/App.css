@@ -43,13 +43,14 @@ div {
 }
 
 .section {
-  padding: 0 20px;
+  padding: 2rem 1.25rem;
 }
 
 .section__title {
   position: relative;
-  margin: 2rem auto 1.5rem auto;
+  margin: 0 auto 1.5rem auto;
   max-width: 500px;
+  font-size: 1.875rem;
   overflow: hidden;
   text-align: center;
   font-weight: 600;
@@ -84,14 +85,12 @@ div {
   width: 100%;
   display: flex;
   flex-flow: row wrap;
+  justify-content: center;
 }
 
 .flex-row__flex-item {
-  margin: 5px;
-  flex: 1 1 200px;
-}
-
-.feature-item {
+  margin: 20px;
+  flex: 0 1 220px;
 }
 
 .feature-item__svg {
@@ -101,6 +100,10 @@ div {
 
 .feature-item__title {
   margin: 0.625rem 0 1.375rem 0;
+}
+
+.feature-item__text {
+
 }
 
 /* Medium Layout (Tablet/Laptops) */
@@ -114,9 +117,13 @@ div {
     font-size: 1.125rem;
   }  
 
-   .hero-banner__video {
-      width: 720px;
-   }
+  .hero-banner__video {
+    width: 720px;
+  }
+
+  .flex-row__flex-item {
+    margin: 5px 30px;
+  }
 }
 
 /* Large Layout (Desktop) */
