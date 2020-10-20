@@ -23,7 +23,7 @@ export const StyledForm = styled.div`
   max-width: 980px;
   height: 450px;
   border: 1px solid white;
-  border-radius: 10px;
+  border-radius: 5px;
   padding: 20px 5px;
   text-align: center;
   background: hsl(139, 50%, 75%);

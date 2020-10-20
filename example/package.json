@@ -16,7 +16,8 @@
     "react-dom": "16.12.0",
     "react-emotion-multi-step-form": "^0.7.3",
     "react-rewards": "^1.1.1",
-    "react-scripts": "^3.4.1"
+    "react-scripts": "^3.4.1",
+    "react-syntax-highlighter": "^15.2.1"
   },
   "scripts": {
     "start": "react-scripts start",

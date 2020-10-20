@@ -3,6 +3,10 @@
   --black: #404040;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 .app {
   margin: 0;
   overflow: hidden;
@@ -16,7 +20,6 @@ div {
 
 .hero-banner {
   position: relative;
-  padding: 50px 20px;
   background-color: #DFDBE5;
   background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.13'%3E%3Cpath d='M50 50c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10s-10-4.477-10-10 4.477-10 10-10zM10 10c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10S0 25.523 0 20s4.477-10 10-10zm10 8c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8zm40 40c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
@@ -25,13 +28,14 @@ div {
   font-size: 2rem;
   margin-top: 0;
   margin-bottom: 5px;
+  padding: 0 10px;
   color: var(--text-color);
   text-shadow: -2px 2px 3px rgba(0, 0, 0, 0.3);
 }
 
 .hero-banner__subtitle {
   margin: 0;
-  padding: 0 20px;
+  padding: 0 10px;
   font-size: 1rem;
   font-weight: 500;
 }
@@ -40,15 +44,23 @@ div {
   margin-top: 30px;
   width: 100%;
   height: auto;
+  border-radius: 5px;
+  box-shadow: -2px 2px 3px rgba(0, 0, 0, 0.3);
 }
 
 .section {
-  padding: 2rem 1.25rem;
+  padding: 2rem 0;
+}
+
+.section__container {
+  margin: auto;
+  max-width: 980px;
+  padding: 0 10px;
 }
 
 .section__title {
   position: relative;
-  margin: 0 auto 1.5rem auto;
+  margin: 0 auto 2rem auto;
   max-width: 500px;
   font-size: 1.875rem;
   overflow: hidden;
@@ -82,14 +94,13 @@ div {
 
 .flex-row {
   position: relative;
-  width: 100%;
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
 }
 
 .flex-row__flex-item {
-  margin: 20px;
+  margin: 15px 20px;
   flex: 0 1 220px;
 }
 
@@ -104,6 +115,21 @@ div {
 
 .feature-item__text {
 
+}
+
+.example-app {
+  box-sizing: border-box;
+  margin: auto;
+  max-width: 980px;
+  height: 450px;
+  border-radius: 5px;
+  padding: 20px 10px;
+  text-align: center;
+  background: hsl(139, 50%, 75%);
+}
+
+.example-code {
+  width: 100vw;
 }
 
 /* Medium Layout (Tablet/Laptops) */
@@ -122,7 +148,7 @@ div {
   }
 
   .flex-row__flex-item {
-    margin: 5px 30px;
+    margin: 5px 10px;
   }
 }
 

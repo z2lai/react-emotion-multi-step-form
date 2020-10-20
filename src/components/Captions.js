@@ -35,7 +35,7 @@ const Caption = ({ caption, isActive }) => (
   </StyledCaptions>
 )
 
-const Captions = ({ callToActionCaption }) => {
+const Captions = ({ callToActionText }) => {
   const { inputs, activeIndex, isSubmitPage } = useInputs();
 
   return (
@@ -49,7 +49,7 @@ const Captions = ({ callToActionCaption }) => {
               isActive={index === activeIndex}
             />
           ))}
-          <Caption key="CTA" caption={callToActionCaption} isActive={isSubmitPage} />
+          <Caption key="CTA" caption={callToActionText} isActive={isSubmitPage} />
         </Fragment>
         : null
       }

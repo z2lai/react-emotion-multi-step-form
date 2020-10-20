@@ -1,40 +1,18 @@
-import React, { useRef } from "react";
-import {
-  useInputs,
-  withFormContextAndTheme,
-  FormBody,
-  Captions,
-  TextInput,
-  RadioControl,
-  RadioOption,
-  ComboboxMulti
-} from "react-emotion-multi-step-form";
-import Reward from 'react-rewards';
-
-import { Heading, ErrorMessage } from "./StyledComponents";
-import { ReactComponent as LinkIcon } from "../fonts/icomoon/svg/link.svg";
-import { ReactComponent as TreeIcon } from "../fonts/icomoon/svg/tree.svg";
-import { ReactComponent as PriceTagsIcon } from "../fonts/icomoon/svg/price-tags.svg";
-import options from "../data";
-import InfoCheckbox from "./InfoCheckbox";
-
-const Form = ({ className }) => {
+export default 
+`const Form = () => {
   const { error, isSubmitPage } = useInputs();
-  const rewardRef = useRef();
 
   const handleSubmit = payload => {
     console.log('Form submitted with the form fields:');
     console.log(payload);
-    rewardRef.current.rewardMe();
   };
 
   return (
-    <div className={className}>
+    <StyledForm>
       <Heading>
         Newsletter Subscription
       </Heading>
       <Captions callToActionText="Get the latest news straight to your inbox!" />
-      {isSubmitPage ? (<Reward ref={rewardRef} type="confetti"></Reward>) : null}
       <FormBody submitText="Subscribe" submitWidth={130} onSubmit={handleSubmit}>
         <ComboboxMulti
           name="interests"
@@ -66,8 +44,6 @@ const Form = ({ className }) => {
         />
       </FormBody>
       <ErrorMessage>{error.message}</ErrorMessage>
-    </div>
+    </StyledForm>
   );
-}
-
-export default withFormContextAndTheme(Form);
+}`
