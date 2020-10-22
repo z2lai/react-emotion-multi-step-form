@@ -34,15 +34,15 @@ const App = props => {
       <header className="hero-banner section">
         <div className="section__container">
           <a href="https://github.com/z2lai/react-emotion-multi-step-form" className="hero-banner__icon-link">
-            <GithubIcon className="hero-banner__icon" />
+            <GithubIcon />
           </a>
           <h1 className="hero-banner__title">React Emotion Multi-step Form</h1>
           <p className="hero-banner__subtitle">
             Interactive multi-step forms with concise declarative code
           </p>
           <div className="flex-row">
-            <a href="#example-app" className="hero-banner__link">Example App</a>
-            <a href="https://github.com/z2lai/react-emotion-multi-step-form" className="hero-banner__link">Documentation</a>
+            <a href="#example-app" className="link link--large">Example App</a>
+            <a href="https://github.com/z2lai/react-emotion-multi-step-form" className="link link--large">Documentation</a>
           </div>
           <video className="hero-banner__video" muted controls>
             <source src="https://lh3.googleusercontent.com/_edqdTI7djap92OY68uSqcwMkMWp6hYgV47cVAOyqPTb8Hv_MwdLqcRwM1iXEDHvrw9ROAtHTz5qGNBrhIbv3uH0M0sCaPeBt4x9X0tgwuQ9zzsAISfKSpZzHAEneN1c_-YRC0bbQw=m18" type="video/mp4" />
@@ -99,6 +99,23 @@ const App = props => {
           {exampleCode}
         </CodeSnippet>
       </section>
+      <footer className="footer">
+        <ul className="footer__links">
+          <li>
+            Copyright © 2020 <a href="https://github.com/z2lai" className="link">Zheng Lai</a>
+          </li>
+          <li>
+            License: <a href="https://github.com/z2lai/react-emotion-multi-step-form/blob/master/LICENSE.md" className="link">
+              MIT
+            </a>
+          </li>
+          <li>
+            Version: <a href="https://www.npmjs.com/package/react-emotion-multi-step-form" className="link">
+              v0.7.3
+            </a>
+          </li>
+        </ul>
+      </footer>
     </div>
   );
 }
