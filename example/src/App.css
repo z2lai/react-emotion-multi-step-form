@@ -1,10 +1,15 @@
+* {
+  box-sizing: border-box;
+}
+
 :root {
   --text-color: #6D169C;
   --black: #404040;
 }
 
-* {
-  box-sizing: border-box;
+html {
+  scroll-behavior: smooth;
+  overflow-y: scroll;
 }
 
 .app {
@@ -26,22 +31,28 @@ div {
 
 .hero-banner__title {
   font-size: 2rem;
-  margin-top: 0;
-  margin-bottom: 5px;
-  padding: 0 10px;
+  margin: 0 0 5px 0;
+  padding: 2rem 10px 0 10px;
   color: var(--text-color);
   text-shadow: -2px 2px 3px rgba(0, 0, 0, 0.3);
 }
 
 .hero-banner__subtitle {
-  margin: 0;
+  margin: 5px 0 0 0;
   padding: 0 10px;
   font-size: 1rem;
   font-weight: 500;
 }
 
+.hero-banner__link {
+  margin: 10px 10px 0 10px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
 .hero-banner__video {
-  margin-top: 30px;
+  margin: 25px 0 50px 0;
   width: 100%;
   height: auto;
   border-radius: 5px;
@@ -49,7 +60,6 @@ div {
 }
 
 .section {
-  padding: 2rem 0;
 }
 
 .section__container {
@@ -61,6 +71,7 @@ div {
 .section__title {
   position: relative;
   margin: 0 auto 2rem auto;
+  padding-top: 2rem;
   max-width: 500px;
   font-size: 1.875rem;
   overflow: hidden;
@@ -136,7 +147,6 @@ div {
 @media (min-width: 768px) {
   .hero-banner__title {
     font-size: 3rem;
-    margin: 0;
   }
   
   .hero-banner__subtitle {

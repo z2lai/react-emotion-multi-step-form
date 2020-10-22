@@ -35,7 +35,11 @@ const App = props => {
           <h1 className="hero-banner__title">React Emotion Multi-step Form</h1>
           <p className="hero-banner__subtitle">
             Interactive multi-step forms with concise declarative code
-        </p>
+          </p>
+          <div className="flex-row">
+            <a href="#example-app" className="hero-banner__link">Example App</a>
+            <a href="https://github.com/z2lai/react-emotion-multi-step-form" className="hero-banner__link">Documentation</a>
+          </div>
           <video className="hero-banner__video" muted controls>
             <source src="https://lh3.googleusercontent.com/_edqdTI7djap92OY68uSqcwMkMWp6hYgV47cVAOyqPTb8Hv_MwdLqcRwM1iXEDHvrw9ROAtHTz5qGNBrhIbv3uH0M0sCaPeBt4x9X0tgwuQ9zzsAISfKSpZzHAEneN1c_-YRC0bbQw=m18" type="video/mp4" />
               Sorry, your browser doesn't support embedded videos.
@@ -79,17 +83,17 @@ const App = props => {
       </section>
       <section className="section">
         <div className="section__container">
-          <h2 className="section__title">Example App</h2>
+          <h2 id="example-app" className="section__title">Example App</h2>
         </div>
-          <SubscriptionForm className="example-app" />
+        <SubscriptionForm className="example-app" />
       </section>
       <section className="section">
         <div className="section__container">
           <h2 className="section__title">Example Code</h2>
         </div>
-          <CodeSnippet className="example-code" language="jsx">
-            {exampleCode}
-          </CodeSnippet>
+        <CodeSnippet className="example-code" language="jsx">
+          {exampleCode}
+        </CodeSnippet>
       </section>
     </div>
   );
