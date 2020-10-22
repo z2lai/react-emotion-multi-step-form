@@ -5,6 +5,7 @@ import '../app.css';
 import SubscriptionForm from "./SubscriptionForm";
 import Drawer from "./Drawer";
 import { ShapeDivider } from "./StyledComponents";
+import { ReactComponent as GithubIcon } from "../fonts/icomoon/svg/github.svg";
 import { ReactComponent as CodeIcon } from "../fonts/icomoon/svg/code.svg";
 import { ReactComponent as NoteIcon } from "../fonts/icomoon/svg/note.svg";
 import { ReactComponent as KeyboardIcon } from "../fonts/icomoon/svg/keyboard.svg";
@@ -32,6 +33,9 @@ const App = props => {
     <div className="app">
       <header className="hero-banner section">
         <div className="section__container">
+          <a href="https://github.com/z2lai/react-emotion-multi-step-form" className="hero-banner__icon-link">
+            <GithubIcon className="hero-banner__icon" />
+          </a>
           <h1 className="hero-banner__title">React Emotion Multi-step Form</h1>
           <p className="hero-banner__subtitle">
             Interactive multi-step forms with concise declarative code
