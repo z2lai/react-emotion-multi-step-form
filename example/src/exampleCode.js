@@ -2,9 +2,8 @@ export default
 `const Form = () => {
   const { error, isSubmitPage } = useInputs();
 
-  const handleSubmit = payload => {
-    console.log('Form submitted with the form fields:');
-    console.log(payload);
+  const handleSubmit = data => {
+    console.log(data);
   };
 
   return (

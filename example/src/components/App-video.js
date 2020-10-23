@@ -1,38 +1,35 @@
-import React, { useRef } from "react";
+import "../app-video.css";
+
+import React from "react";
 import {
-  useInputs,
-  withFormContextAndTheme,
   FormBody,
   Captions,
   TextInput,
   RadioControl,
   RadioOption,
-  ComboboxMulti
+  ComboboxMulti,
+  withFormContextAndTheme,
+  useInputs,
 } from "react-emotion-multi-step-form";
-import Reward from 'react-rewards';
 
-import { Heading, ErrorMessage } from "./StyledComponents";
 import { ReactComponent as LinkIcon } from "../fonts/icomoon/svg/link.svg";
 import { ReactComponent as TreeIcon } from "../fonts/icomoon/svg/tree.svg";
 import { ReactComponent as PriceTagsIcon } from "../fonts/icomoon/svg/price-tags.svg";
 import options from "../data";
 
-const Form = ({ className }) => {
-  const { error, isSubmitPage } = useInputs();
-  const rewardRef = useRef();
+const App = () => {
+  const { error } = useInputs();
 
   const handleSubmit = data => {
     console.log(data);
-    rewardRef.current.rewardMe();
   };
 
   return (
-    <div className={className}>
-      <Heading>
+    <div>
+      <h1>
         Newsletter Subscription
-      </Heading>
+      </h1>
       <Captions callToActionText="Get the latest news straight to your inbox!" />
-      {isSubmitPage ? (<Reward ref={rewardRef} type="confetti"></Reward>) : null}
       <FormBody submitText="Subscribe" submitWidth={130} onSubmit={handleSubmit}>
         <ComboboxMulti
           name="interests"
@@ -60,9 +57,9 @@ const Form = ({ className }) => {
           validationRules={{ required: 'Please fill in your email address' }}
         />
       </FormBody>
-      <ErrorMessage>{error.message}</ErrorMessage>
+      <div className="error-message">{error.message}</div>
     </div>
   );
 }
 
-export default withFormContextAndTheme(Form);
+export default withFormContextAndTheme(App);

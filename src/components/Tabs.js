@@ -56,6 +56,7 @@ const StyledLabelTab = styled.li`
   background: hsl(0, 0%, 87%);
   list-style: none;
   font-weight: 500;
+  text-transform: capitalize;
   label {
     pointer-events: none;
   }
@@ -141,21 +142,20 @@ const StyledIconTab = styled.button`
   }
 `
 
-const LabelTab = ({ htmlFor, label, zIndex, active, changeActiveIndex, activated }) => {
-  // const [activated, setActivated] = useState(false);
+const LabelTab = ({ 
+  htmlFor, 
+  label, 
+  zIndex, 
+  active, 
+  changeActiveIndex, 
+  activated 
+}) => {
 
   const handleClick = event => {
     if (activated) {
-      // console.log('click!');
       changeActiveIndex();
     }
   }
-
-  // useEffect(() => {
-  //   if (active && !activated) {
-  //     setActivated(true);
-  //   }
-  // }, [active, activated])
 
   return (
     <StyledLabelTab
@@ -172,7 +172,6 @@ const LabelTab = ({ htmlFor, label, zIndex, active, changeActiveIndex, activated
 const BackTab = ({ active, changeActiveIndex }) => {
   const handleClick = event => {
     if (active) {
-      // console.log('click!');
       changeActiveIndex();
     }
   }
@@ -187,7 +186,13 @@ const BackTab = ({ active, changeActiveIndex }) => {
   )
 }
 
-const Tabs = ({ basePageWidth, inputs, activeIndex, changeActiveIndex, activeInput, isSubmitPage }) => {
+const Tabs = ({ 
+  basePageWidth, 
+  inputs, 
+  activeIndex, 
+  changeActiveIndex, 
+  isSubmitPage 
+}) => {
   console.log('Tabs rendered');
   const tabContainerRef = useRef();
 
@@ -197,14 +202,19 @@ const Tabs = ({ basePageWidth, inputs, activeIndex, changeActiveIndex, activeInp
   const { scaleAnimation, inverseScaleAnimation } = useScaleAnimation(pageRelativeWidth, 1);
 
   return (
-    <TabsContainer ref={tabContainerRef} basePageWidth={basePageWidth} isSubmitPage={isSubmitPage} scaleAnimation={scaleAnimation}>
+    <TabsContainer 
+      ref={tabContainerRef} 
+      basePageWidth={basePageWidth} 
+      isSubmitPage={isSubmitPage} 
+      scaleAnimation={scaleAnimation}
+    >
       <LabelTabsWrapper isSubmitPage={isSubmitPage}>
         {(inputs.length > 0) ?
           inputs.map((input, index) => (
             <LabelTab
               key={`${index}${input.name}`}
               htmlFor={input.name}
-              label={input.label}
+              label={input.label || input.name}
               zIndex={inputs.length - index}
               active={index === activeIndex}
               changeActiveIndex={() => changeActiveIndex(index)}

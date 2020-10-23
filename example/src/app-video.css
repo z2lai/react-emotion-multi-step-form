@@ -1,0 +1,18 @@
+body {
+  padding-top: 20px;
+  background: hsl(139, 50%, 75%);
+  text-align: center;
+}
+
+h1 {
+  font-size: 1.875rem;
+  margin: 5px auto;
+}
+
+.error-message {
+  margin: 0 auto 5px auto;
+  height: 20px;
+  line-height: 20px;
+  font-size: 1.125rem;
+  color: hsl(16, 100%, 40%);
+}
