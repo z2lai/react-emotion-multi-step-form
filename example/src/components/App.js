@@ -38,10 +38,10 @@ const App = props => (
           <a href="#example-app" className="link link--large">Example App</a>
           <a href="https://github.com/z2lai/react-emotion-multi-step-form" className="link link--large">Documentation</a>
         </div>
-        <video className="hero-banner__video" muted controls>
-          <source src="https://lh3.googleusercontent.com/_edqdTI7djap92OY68uSqcwMkMWp6hYgV47cVAOyqPTb8Hv_MwdLqcRwM1iXEDHvrw9ROAtHTz5qGNBrhIbv3uH0M0sCaPeBt4x9X0tgwuQ9zzsAISfKSpZzHAEneN1c_-YRC0bbQw=m18" type="video/mp4" />
-              Sorry, your browser doesn't support embedded videos.
-        </video>
+        <div className="hero-banner__video">
+          <iframe src="https://player.vimeo.com/video/472156950?autoplay=1&loop=1&color=c9ff23&title=0&byline=0&portrait=0" frameborder="0" allow="fullscreen" allowfullscreen></iframe>
+          <script src="https://player.vimeo.com/api/player.js"></script>
+        </div>
       </div>
     </header>
     <section className="section">
