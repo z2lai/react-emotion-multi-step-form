@@ -56,9 +56,7 @@ const App = () => {
           validationRules={{ required: 'Please fill in your email address' }}
         />
       </FormBody>
-      <div className="error-message">
-        {error.message}
-      </div>
+      <div className="error-message">{error.message}</div>
     </div>
   );
 }

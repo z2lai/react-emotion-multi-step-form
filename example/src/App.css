@@ -62,7 +62,8 @@ div {
 .hero-banner__video {
   position: relative;
   margin: 25px 0 50px 0;
-  padding: 65.45% 0 0 0;
+  padding: 53.7% 0 0 0;
+  background: #9fdfb4;
 }
 
 .hero-banner__video iframe {

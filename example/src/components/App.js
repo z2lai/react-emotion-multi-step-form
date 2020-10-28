@@ -32,14 +32,14 @@ const App = props => (
         </a>
         <h1 className="hero-banner__title">React Emotion Multi-step Form</h1>
         <p className="hero-banner__subtitle">
-          Interactive multi-step forms with concise declarative code
+          Interactive multi-step form library with concise declarative code
           </p>
         <div className="flex-row">
           <a href="#example-app" className="link link--large">Example App</a>
           <a href="https://github.com/z2lai/react-emotion-multi-step-form" className="link link--large">Documentation</a>
         </div>
         <div className="hero-banner__video">
-          <iframe src="https://player.vimeo.com/video/472156950?autoplay=1&loop=1&color=c9ff23&title=0&byline=0&portrait=0" frameborder="0" allow="fullscreen" allowfullscreen></iframe>
+          <iframe src="https://player.vimeo.com/video/472571185?autoplay=1&loop=1&color=c9ff23&title=0&byline=0&portrait=0" frameborder="0" allow="fullscreen" allowfullscreen></iframe>
           <script src="https://player.vimeo.com/api/player.js"></script>
         </div>
       </div>

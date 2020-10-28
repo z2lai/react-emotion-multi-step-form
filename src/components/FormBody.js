@@ -9,6 +9,8 @@ import Tabs from "./Tabs";
 import { IconContainer, IconsWrapper, InputContainer, SubmitLabel, NextButton, NextButtonIcon } from "./StyledComponents";
 import Icon from "./Icon";
 
+import { isEmpty } from '../utils/helpers';
+
 const headShake = keyframes`
   0% {
     transform: translateX(0)
@@ -131,7 +133,7 @@ const PageWrapper = styled.div`
   `}
 `
 
-const FormBody = ({ submitText, submitWidth, onSubmit, children }) => {
+const FormBody = ({ submitText, submitWidth, initialFocus, onSubmit, children }) => {
   console.log('FormBody rendered!');
   const { inputs, activeIndex, changeActiveIndex, activeInput, error, inputValues, isSubmitPage } = useInputs();
 
@@ -236,6 +238,8 @@ const FormBody = ({ submitText, submitWidth, onSubmit, children }) => {
 
   useEffect(() => {
     if (inputs.length === 0) return;
+    // Don't focus on first render of form if initialFocus is false
+    if (!initialFocus && activeIndex === 0 && isEmpty(activeInput.value)) return;
     if (!isSubmitPage) {
       console.log('activeInput to be focused:')
       console.log(activeInput);

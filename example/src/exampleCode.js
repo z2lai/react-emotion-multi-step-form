@@ -1,30 +1,28 @@
 export default 
-`const Form = () => {
-  const { error, isSubmitPage } = useInputs();
+`const App = () => {
+  const { error } = useInputs();
 
   const handleSubmit = data => {
     console.log(data);
   };
 
   return (
-    <StyledForm>
-      <Heading>
+    <div>
+      <h1>
         Newsletter Subscription
-      </Heading>
+      </h1>
       <Captions callToActionText="Get the latest news straight to your inbox!" />
       <FormBody submitText="Subscribe" submitWidth={130} onSubmit={handleSubmit}>
         <ComboboxMulti
           name="interests"
-          label="Interests"
           caption="What are your interests?"
           icon={PriceTagsIcon}
-          height={240}
           validationRules={{ required: 'Please select a Topic' }}
+          height={240}
           options={options}
         />
         <RadioControl
           name="frequency"
-          label="Frequency"
           caption="How often do you want to receive our newsletter?"
           icon={TreeIcon}
           validationRules={{ required: 'Please select a frequency' }}
@@ -35,14 +33,12 @@ export default
         </RadioControl>
         <TextInput
           name="email"
-          placeholder="example@gmail.com"
-          label="Email"
           caption="What's your email address?"
           icon={LinkIcon}
           validationRules={{ required: 'Please fill in your email address' }}
         />
       </FormBody>
-      <ErrorMessage>{error.message}</ErrorMessage>
-    </StyledForm>
+      <div className="error-message">{error.message}</div>
+    </div>
   );
 }`
