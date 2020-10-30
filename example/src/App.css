@@ -5,6 +5,7 @@
 :root {
   --text-color: #6D169C;
   --black: #404040;
+  --section-width: 980px;
 }
 
 html {
@@ -82,18 +83,19 @@ div {
 
 .section__container {
   position: relative;
-  max-width: 1000px;
-  margin: 0 20px;
+  max-width: var(--section-width);
+  margin: auto;
+  padding: 0 20px;
 }
 
 .section__title {
   position: relative;
   margin: 0 auto 2rem auto;
   max-width: 500px;
-  font-size: 1.875rem;
+  font-size: 2.25rem;
   overflow: hidden;
   text-align: center;
-  font-weight: 600;
+  font-weight: normal;
 }
 
 .section__title::before {
@@ -118,6 +120,25 @@ div {
   height: 1px;
   width: 50%;
   vertical-align: middle;
+}
+
+.section__heading {
+  display: inline-block;
+  margin: 20px auto 25px auto;
+  padding-bottom: 5px;
+  font-size: 1.5rem;
+  font-weight: normal;
+  border-bottom: 2px solid var(--black);
+}
+
+.section__paragraph {
+  margin: 0 auto 20px auto;
+  max-width: 680px;
+  line-height: 1.5;
+}
+
+.section__pre {
+  white-space: pre-wrap; 
 }
 
 .flex-row {
@@ -148,16 +169,12 @@ div {
 .example-app {
   box-sizing: border-box;
   margin: auto;
-  max-width: 980px;
+  max-width: var(--section-width);
   height: 450px;
   border-radius: 5px;
   padding: 20px 10px;
   text-align: center;
   background: hsl(139, 50%, 75%);
-}
-
-.example-code {
-  width: 100vw;
 }
 
 .footer {
@@ -176,10 +193,6 @@ div {
 
 /* Medium Layout (Tablet/Laptops) */
 @media (min-width: 768px) {
-  .section__container {
-    margin: 0 40px;
-  }
-
   .hero-banner__title {
     font-size: 3rem;
   }
@@ -201,6 +214,6 @@ div {
 /* Large Layout (Desktop) */
 @media (min-width: 1060px) {
   .section__container {
-    margin: auto;
+    padding: 0;
   }
 }

@@ -36,7 +36,7 @@ const App = props => (
           </p>
         <div className="flex-row">
           <a href="#example-app" className="link link--large">Example App</a>
-          <a href="https://github.com/z2lai/react-emotion-multi-step-form" className="link link--large">Documentation</a>
+          <a href="#getting-started" className="link link--large">Getting Started</a>
         </div>
         <div className="hero-banner__video">
           <iframe src="https://player.vimeo.com/video/472571185?autoplay=1&loop=1&color=c9ff23&title=0&byline=0&portrait=0" frameborder="0" allow="fullscreen" allowfullscreen></iframe>
@@ -87,9 +87,15 @@ const App = props => (
     </section>
     <section className="section">
       <div className="section__container">
-        <h2 className="section__title">Example Code</h2>
+        <h2 className="section__title">Getting Started</h2>
+        <p className="section__paragraph">This library is for apps built with Create React App and styled with Emotion (see <a href="https://github.com/z2lai/react-emotion-multi-step-form#peer-dependencies">Peer Dependencies</a>). Install the library with the following command:</p>
+        <pre className="section__pre"><code>npm install --save react-emotion-multi-step-form</code></pre>
       </div>
-      <CodeSnippet className="example-code" language="jsx">
+      <div className="section__container">
+        <h3 className="section__heading">Core Components</h3>
+        <p className="section__paragraph">The core components in this form library are <a href="https://github.com/z2lai/react-emotion-multi-step-form#formbody">{`<FormBody />`}</a>, the different input components such as <a href="https://github.com/z2lai/react-emotion-multi-step-form#textinput">{`<TextInput />`}</a>, and the higher-order component (HOC), <a href="https://github.com/z2lai/react-emotion-multi-step-form#withformcontextandtheme-higher-order-component-hoc">withFormContextAndTheme</a></p>
+      </div>
+      <CodeSnippet language="jsx">
         {exampleCode}
       </CodeSnippet>
     </section>
@@ -110,7 +116,7 @@ const App = props => (
         </li>
       </ul>
     </footer>
-  </div>
+  </div >
 )
 
 export default App;

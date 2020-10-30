@@ -238,7 +238,7 @@ const FormBody = ({ submitText, submitWidth, initialFocus, onSubmit, children })
 
   useEffect(() => {
     if (inputs.length === 0) return;
-    // Don't focus on first render of form if initialFocus is false
+    // Don't focus on initial render of form if initialFocus is false
     if (!initialFocus && activeIndex === 0 && isEmpty(activeInput.value)) return;
     if (!isSubmitPage) {
       console.log('activeInput to be focused:')
