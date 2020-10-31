@@ -9,7 +9,10 @@ import { ReactComponent as NoteIcon } from "../fonts/icomoon/svg/note.svg";
 import { ReactComponent as KeyboardIcon } from "../fonts/icomoon/svg/keyboard.svg";
 import { ReactComponent as DevicesIcon } from "../fonts/icomoon/svg/devices.svg";
 import CodeSnippet from './CodeSnippet';
-import exampleCode from '../exampleCode';
+
+import appVideoCode from '../code-snippets/appVideoCode';
+import coreComponentsCode from '../code-snippets/coreComponentsCode';
+import inputComponentsCode from '../code-snippets/inputComponentsCode';
 
 const ContentWrapper = styled.div`
   max-width: 900px;
@@ -88,15 +91,36 @@ const App = props => (
     <section className="section">
       <div className="section__container">
         <h2 className="section__title">Getting Started</h2>
-        <p className="section__paragraph">This library is for apps built with Create React App and styled with Emotion (see <a href="https://github.com/z2lai/react-emotion-multi-step-form#peer-dependencies">Peer Dependencies</a>). Install the library with the following command:</p>
+        <p className="section__paragraph">This library is for apps built with Create React App and styled with Emotion (see <a href="https://github.com/z2lai/react-emotion-multi-step-form#peer-dependencies" className="link">Peer Dependencies</a>). Install the library with the following command:</p>
         <pre className="section__pre"><code>npm install --save react-emotion-multi-step-form</code></pre>
       </div>
       <div className="section__container">
         <h3 className="section__heading">Core Components</h3>
-        <p className="section__paragraph">The core components in this form library are <a href="https://github.com/z2lai/react-emotion-multi-step-form#formbody">{`<FormBody />`}</a>, the different input components such as <a href="https://github.com/z2lai/react-emotion-multi-step-form#textinput">{`<TextInput />`}</a>, and the higher-order component (HOC), <a href="https://github.com/z2lai/react-emotion-multi-step-form#withformcontextandtheme-higher-order-component-hoc">withFormContextAndTheme</a></p>
+        <p className="section__paragraph"><a href="https://github.com/z2lai/react-emotion-multi-step-form#formbody" className="link">FormBody</a> is the main component that accepts all the input components as children. FormBody will need to be wrapped with the higher-order component (HOC), <a href="https://github.com/z2lai/react-emotion-multi-step-form#withformcontextandtheme-higher-order-component-hoc" className="link">withFormContextAndTheme</a> in order for the form to store and access input values.</p>
       </div>
       <CodeSnippet language="jsx">
-        {exampleCode}
+        {coreComponentsCode}
+      </CodeSnippet>
+      <div className="section__container">
+        <h3 className="section__heading">Input Components</h3>
+        <p className="section__paragraph">The library provides input components to be used for each page of the multi-step form (currently one per page). The form will transition smoothly to the next input after validating the currently active input. Every input component will have the following props:
+          <ul>
+            <li>name (required)</li>
+            <li>caption</li>
+            <li>icon</li>
+            <li>validationRules</li>
+          </ul>
+        </p>
+      </div>
+      <CodeSnippet language="jsx">
+        {inputComponentsCode}
+      </CodeSnippet>
+      <div className="section__container">
+        <h3 className="section__heading">Custom Hooks</h3>
+        <p className="section__paragraph">Custom hooks can be used to retrieve state or prop values such as the current error state and error message or the value of the active input. For example, the following Captions component can be built from the <a href="https://github.com/z2lai/react-emotion-multi-step-form#useinputs-hook" className="link">useInputs</a> custom hook to display the caption of the active input: </p>
+      </div>
+      <CodeSnippet language="jsx">
+        {appVideoCode}
       </CodeSnippet>
     </section>
     <footer className="footer">

@@ -5,7 +5,7 @@ import { dracula } from 'react-syntax-highlighter/dist/esm/styles/prism';
 const preTagStyle = {
   margin: 'auto',
   maxWidth: '980px',
-  padding: '20px 15px',
+  padding: '20px 30px',
   overflow: 'hidden',
 }
 

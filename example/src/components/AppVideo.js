@@ -1,4 +1,4 @@
-import "../app-video.css";
+import "../appVideo.css";
 
 import React from "react";
 import {

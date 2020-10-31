@@ -135,10 +135,12 @@ div {
   margin: 0 auto 20px auto;
   max-width: 680px;
   line-height: 1.5;
+  font-size: 1.125rem;
 }
 
 .section__pre {
   white-space: pre-wrap; 
+  font-size: 1.125rem;
 }
 
 .flex-row {
@@ -163,7 +165,7 @@ div {
 }
 
 .feature-item__text {
-
+  font-size: 1.125rem;
 }
 
 .example-app {
