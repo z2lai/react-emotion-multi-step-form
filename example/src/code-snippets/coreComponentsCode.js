@@ -1,6 +1,6 @@
 export default `
 import React from "react";
-import { FormBody, TextInput, withFormContextAndTheme } from "react-emotion-multi-step-form";
+import { FormBody, withFormContextAndTheme } from "react-emotion-multi-step-form";
 
 const App = () => {
   const handleSubmit = data => {
@@ -9,7 +9,9 @@ const App = () => {
 
   return (
     <FormBody onSubmit={handleSubmit}>
-      <TextInput name="email" />
+      {
+        // input components go here
+      }
     </FormBody>
   );
 }

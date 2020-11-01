@@ -138,6 +138,12 @@ div {
   font-size: 1.125rem;
 }
 
+.section__paragraph ul {
+  margin-block-start: 10px;
+  padding-inline-start: 60px;
+  text-align: left;
+}
+
 .section__pre {
   white-space: pre-wrap; 
   font-size: 1.125rem;
