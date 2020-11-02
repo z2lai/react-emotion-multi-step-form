@@ -12,9 +12,9 @@ import {
 import Reward from 'react-rewards';
 
 import { Heading, ErrorMessage } from "./StyledComponents";
-import { ReactComponent as LinkIcon } from "../fonts/icomoon/svg/link.svg";
-import { ReactComponent as TreeIcon } from "../fonts/icomoon/svg/tree.svg";
-import { ReactComponent as PriceTagsIcon } from "../fonts/icomoon/svg/price-tags.svg";
+import { ReactComponent as LinkIcon } from "../assets/svg/link.svg";
+import { ReactComponent as TreeIcon } from "../assets/svg/tree.svg";
+import { ReactComponent as PriceTagsIcon } from "../assets/svg/price-tags.svg";
 import options from "../data";
 
 const Form = ({ className }) => {

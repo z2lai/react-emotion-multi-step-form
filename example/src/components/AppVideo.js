@@ -12,9 +12,9 @@ import {
   useInputs,
 } from "react-emotion-multi-step-form";
 
-import { ReactComponent as LinkIcon } from "../fonts/icomoon/svg/link.svg";
-import { ReactComponent as TreeIcon } from "../fonts/icomoon/svg/tree.svg";
-import { ReactComponent as PriceTagsIcon } from "../fonts/icomoon/svg/price-tags.svg";
+import { ReactComponent as LinkIcon } from "../assets/svg/link.svg";
+import { ReactComponent as TreeIcon } from "../assets/svg/tree.svg";
+import { ReactComponent as PriceTagsIcon } from "../assets/svg/price-tags.svg";
 import options from "../data";
 
 const App = () => {

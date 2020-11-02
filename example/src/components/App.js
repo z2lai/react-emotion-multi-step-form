@@ -3,11 +3,11 @@ import styled from "@emotion/styled";
 
 import '../app.css';
 import SubscriptionForm from "./SubscriptionForm";
-import { ReactComponent as GithubIcon } from "../fonts/icomoon/svg/github.svg";
-import { ReactComponent as CodeIcon } from "../fonts/icomoon/svg/code.svg";
-import { ReactComponent as NoteIcon } from "../fonts/icomoon/svg/note.svg";
-import { ReactComponent as KeyboardIcon } from "../fonts/icomoon/svg/keyboard.svg";
-import { ReactComponent as DevicesIcon } from "../fonts/icomoon/svg/devices.svg";
+import { ReactComponent as GithubIcon } from "../assets/svg/github.svg";
+import { ReactComponent as CodeIcon } from "../assets/svg/code.svg";
+import { ReactComponent as NoteIcon } from "../assets/svg/note.svg";
+import { ReactComponent as KeyboardIcon } from "../assets/svg/keyboard.svg";
+import { ReactComponent as DevicesIcon } from "../assets/svg/devices.svg";
 import CodeSnippet from './CodeSnippet';
 
 import appVideoCode from '../code-snippets/appVideoCode';
@@ -114,10 +114,10 @@ const App = props => (
       <div className="section__container">
         <h3 id="input-components" className="section__heading">Input Components</h3>
         <p className="section__paragraph">
-          The library provides custom input components which are passed to FormBody as its children and displayed one at a time on separate "pages" of the multi-step form. All input values are automatically made available for both form validation and submission. Each input value is stored in the input component's local state to reduce unnecessary renders. Upon clicking the "Next Page" button, the input value is validated and stored in the form's shared state before the next input is displayed.
+          The library provides custom input components which are passed to FormBody as children and displayed one at a time on separate "pages" of the multi-step form. All input values are automatically made available for both form validation and submission. Upon clicking the "Next Page" button, the active input value is validated and stored in the form's shared state before the next input is displayed.
         </p>
         <p className="section__paragraph">
-          The following input props describe the display and validation rules for each input:
+          The following props are the base props for all input components in this library:
           <ul>
             <li><strong>name</strong> - unique identifier for each input to be properly registered in Context</li>
             <li><strong>caption</strong> - additional text to provide a hint for the input (displayed by <a href="" className="link">caption</a> component)</li>
