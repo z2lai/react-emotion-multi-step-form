@@ -9,9 +9,7 @@ const App = () => {
 
   return (
     <FormBody onSubmit={handleSubmit}>
-      {
-        // input components go here
-      }
+        {/* input components go here */}
     </FormBody>
   );
 }

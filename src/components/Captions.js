@@ -5,7 +5,7 @@ import styled from "@emotion/styled";
 
 import useInputs from "../core/useInputs";
 
-const StyledCaptions = styled.span`
+const StyledCaption = styled.span`
   ${props => props.isActive ? `
     visibility: visible;
     opacity: 1;
@@ -30,9 +30,9 @@ export const CaptionsContainer = styled.div`
 `
 
 const Caption = ({ caption, isActive }) => (
-  <StyledCaptions isActive={isActive}>
+  <StyledCaption isActive={isActive}>
     {caption}
-  </StyledCaptions>
+  </StyledCaption>
 )
 
 const Captions = ({ callToActionText }) => {

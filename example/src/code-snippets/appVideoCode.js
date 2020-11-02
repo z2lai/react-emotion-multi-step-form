@@ -1,5 +1,6 @@
-export default 
-`const App = () => {
+export default `
+// import statements and confetti component are excluded
+const App = () => {
   const { error } = useInputs();
 
   const handleSubmit = data => {
@@ -41,4 +42,5 @@ export default
       <div className="error-message">{error.message}</div>
     </div>
   );
-}`
+}
+`

@@ -13,6 +13,7 @@ import CodeSnippet from './CodeSnippet';
 import appVideoCode from '../code-snippets/appVideoCode';
 import coreComponentsCode from '../code-snippets/coreComponentsCode';
 import inputComponentsCode from '../code-snippets/inputComponentsCode';
+import captionsComponentCode from '../code-snippets/captionsComponentCode';
 
 const ContentWrapper = styled.div`
   max-width: 900px;
@@ -131,7 +132,12 @@ const App = props => (
       </CodeSnippet>
       <div className="section__container">
         <h3 id="custom-hook" className="section__heading">Custom Hook</h3>
-        <p className="section__paragraph">Custom hooks can be used to retrieve state or prop values such as the current error state and error message or the value of the active input. For example, the following Captions component can be built from the <a href="https://github.com/z2lai/react-emotion-multi-step-form#useinputs-hook" className="link">useInputs</a> custom hook to display the caption of the active input: </p>
+        <p className="section__paragraph">
+          The custom hook, <a href="https://github.com/z2lai/react-emotion-multi-step-form#useinputs-hook" className="link">useInputs</a>, can be used to retrieve shared state values such as the current error state and error message or all previously validated input values. useInputs can also be used to retrieve certain input prop values. For example, the following Captions component is built from useInputs to display the caption of the active input:
+        </p>
+        <CodeSnippet language="jsx">
+          {captionsComponentCode}
+        </CodeSnippet>
       </div>
     </section>
     <footer className="footer">
