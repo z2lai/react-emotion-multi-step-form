@@ -27,64 +27,59 @@ Demo the live examples [here](http://z2lai.github.io/react-emotion-multi-step-fo
 
 ## Basic Usage
 ```jsx
-import React from 'react';
-import { 
-  FormBody, 
-  TextInput, 
-  RadioControl, 
-  RadioOption, 
-  withFormContextAndTheme, 
-  useActiveIndex, 
+import React from "react";
+import {
+  FormBody,
+  TextInput,
+  RadioControl,
+  RadioOption,
+  withFormContextAndTheme,
+  useInputs
 } from "react-emotion-multi-step-form";
 
 // Import SVG icons as React components using SVGR (built-in with create-react-app)
-import { ReactComponent as LinkIcon } from "./icons/link.svg";
-import { ReactComponent as TreeIcon } from "./icons/tree.svg";
-import { ReactComponent as PriceTagsIcon } from "./icons/price-tags.svg";
+import { ReactComponent as LinkIcon } from "./assets/link.svg";
+import { ReactComponent as TreeIcon } from "./assets/tree.svg";
+import { ReactComponent as PriceTagsIcon } from "./assets/price-tags.svg";
 
 function App() {
-  const { error } = useActiveIndex(); // grab currentpage input's error message
-  const handleSubmit = data => {
+  const { error } = useInputs(); // grab the active input's error message
+  const handleSubmit = (data) => {
     console.log(data);
   };
-  
+
   return (
-    <div className="App">
+    <div>
       <FormBody onSubmit={handleSubmit}>
         <TextInput
           name="firstname" // name of each input component must be unique
-          label="Firstname" // label will appear above the input as a tab
-          icon={LinkIcon}
-          validationRules={{ required: true }} 
+          icon={LinkIcon} // icon to be displayed beside input component
+          validationRules={{ required: true }}
         />
         <TextInput
           name="lastname"
-          label={"Lastname"} 
-          icon={TreeIcon} // icon will appear beside input component
+          icon={TreeIcon}
           validationRules={{ required: true }} // default error message
         />
         <RadioControl
-          name="gender"
-          label="Gender" 
+          name="age"
           icon={PriceTagsIcon}
-          validationRules={{ required: 'Please select a gender' }} // custom error message
+          validationRules={{ required: "Please select an age group" }} // custom error message
         >
-          <RadioOption value="Male" />
-          <RadioOption value="Female" />
-          <RadioOption value="Other" />
+          <RadioOption value="<15" />
+          <RadioOption value="15-64" />
+          <RadioOption value="≥65" />
         </RadioControl>
       </FormBody>
-      <div style={{ height: "20px", margin: "0 auto 5px auto", textAlign: "center", color: "red" }}>
-        {error.message}
-      </div>
+      <div style={{ textAlign: "center", color: "red" }}>{error.message}</div>
     </div>
   );
-};
+}
 
 // Wrap component with React Context.Provider and Emotion ThemeProvider
 export default withFormContextAndTheme(App);
 ```
-Demo the quickstart sandbox [here](https://codesandbox.io/s/react-emotion-multi-step-form-basic-example-eqdv7).
+Demo the quickstart sandbox [here](https://codesandbox.io/s/react-emotion-multi-step-form-basic-example-v081-mhibp?file=/src/App.js).
 
 ## Examples
 Demo the live examples [here](http://z2lai.github.io/react-emotion-multi-step-form), which also include code samples.
@@ -120,7 +115,7 @@ The components, higher-order components (HOC) and custom hooks described below a
 
 #### [HOCs & Hooks](#higher-order-components--hooks-1)
 - [`withFormContextAndTheme` HOC]
-- [`useActiveIndex` hook]
+- [`useInputs` hook]
 - [`useInputs` hook]
 
 ### `<FormBody>`
@@ -158,7 +153,7 @@ label | string | | Label to be displayed in the Tab component for the input. All
 icon `required` | elementType | | An SVG file imported as a [React component](https://create-react-app.dev/docs/adding-images-fonts-and-files/#adding-svgs). Refer to [Basic Usage] for an example or see the section below on [importing SVG icons as React components].
 height | number | | Specifies the height, in pixels, of the form body when this input is showing. Includes top and bottom padding of 10px and excludes the Tabs component. The default height of the form body is 60px.
 onChange | function | | Invoked when controlled input value changes - receives the string value of the input. **Note**: Input value state is managed internally and can be retrieved with the `useInputs` hook.
-validationRules | { required: boolean \| string; } | | An object containing rules that the input is validated against (in a specific order) on navigation to the next input (e.g. clicking the Next button). Navigation will be cancelled on the first rule validation failure. The default/custom error message can be retrieved from `useActiveIndex` hook to be displayed on the form. See below for all possible validation rules.
+validationRules | { required: boolean \| string; } | | An object containing rules that the input is validated against (in a specific order) on navigation to the next input (e.g. clicking the Next button). Navigation will be cancelled on the first rule validation failure. The default/custom error message can be retrieved from `useInputs` hook to be displayed on the form. See below for all possible validation rules.
 
 #### Importing SVG icons as React components
 Refer to Create React App [Official Docs](https://create-react-app.dev/docs/adding-images-fonts-and-files/#adding-svgs).
@@ -255,7 +250,7 @@ export default AppWithContextAndTheme;
 export default withFormContextAndTheme(App);
 ```
 
-### useInputs hook
+### useInputs Custom Hook
 This hook provides access to the [common props] passed into each input and the form state values from `FormContext`.
 
 **Returned Values**
