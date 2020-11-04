@@ -99,7 +99,7 @@ const App = props => (
     </section>
     <section className="section">
       <div className="section__container">
-        <h2 className="section__title">Getting Started</h2>
+        <h2 id="getting-started" className="section__title">Getting Started</h2>
         <p className="section__paragraph">This library is for apps built with Create React App (CRA) and styled with Emotion (see <a href="https://github.com/z2lai/react-emotion-multi-step-form#peer-dependencies" className="link">Peer Dependencies</a>). Install the library with the following command:</p>
         <pre className="section__pre"><code>npm install --save react-emotion-multi-step-form</code></pre>
       </div>
@@ -123,7 +123,7 @@ const App = props => (
             <li><strong>name</strong> - unique identifier for each input to be properly registered in Context</li>
             <li><strong>caption</strong> - additional text to provide a hint for the input (displayed by <a href="" className="link">caption</a> component)</li>
             <li><strong>icon</strong> - <a href="https://github.com/z2lai/react-emotion-multi-step-form#importing-svg-icons-as-react-components" className="link">SVG icon imported as a component</a> using SVGR (built-in with CRA) to be displayed beside each input</li>
-            <li><strong>validationRules</strong> - an object containing input <a href="https://github.com/z2lai/react-emotion-multi-step-form#validation-rules" className="link">validation rules</a> that align with the existing HTML standard for form validation (also accepts custom validation functions).</li>
+            <li><strong>validationRules</strong> - an object containing input <a href="https://github.com/z2lai/react-emotion-multi-step-form#validation-rules" className="link">validation rules</a> that align with the existing HTML5 form validation standard (also accepts custom validation functions).</li>
           </ul>
         </p>
       </div>
@@ -133,7 +133,7 @@ const App = props => (
       <div className="section__container">
         <h3 id="custom-hook" className="section__heading">Custom Hook</h3>
         <p className="section__paragraph">
-          The custom hook, <a href="https://github.com/z2lai/react-emotion-multi-step-form#useinputs-hook" className="link">useInputs</a>, can be used to retrieve shared state values such as the current error state and error message. useInputs can also be used to retrieve certain input prop values. For example, the following Captions component is built with useInputs to display the caption of the active input:
+          The custom hook, <a href="https://github.com/z2lai/react-emotion-multi-step-form#useinputs-hook" className="link">useInputs</a>, can be used to retrieve shared state values such as the current error state and error message. useInputs can also be used to retrieve certain input prop values. For example, the Captions component is built with useInputs to display the caption of the active input:
         </p>
         <CodeSnippet language="jsx">
           {captionsComponentCode}

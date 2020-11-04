@@ -7,25 +7,40 @@
 [//Links to Live Demos, Sandbox, Issues]
 
 ## Introduction
-An easy to setup form component library where input components are displayed in a multi-step form format (one input per page) with smooth page transitions. It's built with React hooks and React Context API so that the multi-step form logic and values can be reused for UI/UX customization.
+A declarative component library where input components are displayed in a multi-step form format with smooth page transitions. It's built with React hooks and React Context API so that form state and input prop values can be reused for UI customization.
 
 [//Add GIF showing full demo app in action]
-Demo the live examples [here](http://z2lai.github.io/react-emotion-multi-step-form), which also include code samples.
+Demo the example app [here](http://z2lai.github.io/react-emotion-multi-step-form#example-app) or learn how to get started [here](http://z2lai.github.io/react-emotion-multi-step-form#getting-started).
 
 ## Features
-* Concise declarative input configuration - icon, page height and input validation
-* Smooth page transition animations
-* Supports keyboard-only navigation
-* Mobile-friendly design
+* Declarative display configuration - captions, page height, input icon and input validation
+* Smooth/Optimized page transition animations
+* Intuitive keyboard-only navigation
+* Responsive design
 * Supports SVG icons imported as React components (using SVGR that's built-in with Create-React-App)
-* Custom Hooks to re-use page change logic
-* Context containing shared state for all form field values
+* Custom hook to access form state and input prop values for UI customization
 * Three Input Components:
-  1. Text Input with different types (e.g. text, email, phone, etc.)
+  1. Text Input with HTML5 form validation
   2. Single-select Input - Radio Input with declarative configuration of radio options
   3. Multi-select Input - Multi-select Combobox with Autocomplete and Typeahead (Checkbox or Tag Cloud Format)
 
-## Basic Usage
+## Getting Started
+
+### Peer Dependencies
+The following packages are required to be installed as dependencies for using this library:
+* react: ^16.8.0
+* react-dom": ^16.8.0
+* react-scripts: ^3.4.0
+* @emotion/core: ^10.0.27
+* @emotion/styled: ^10.0.27
+* emotion-theming: ^10.0.27
+
+### Installation
+```bash
+npm install --save react-emotion-multi-step-form
+```
+
+### Basic Usage
 ```jsx
 import React from "react";
 import {
@@ -81,27 +96,11 @@ export default withFormContextAndTheme(App);
 ```
 Demo the quickstart sandbox [here](https://codesandbox.io/s/react-emotion-multi-step-form-basic-example-v081-mhibp?file=/src/App.js).
 
-## Examples
+### All Examples
 Demo the live examples [here](http://z2lai.github.io/react-emotion-multi-step-form), which also include code samples.
 You can also demo the following sandbox examples:
 * [Quickstart Example](https://codesandbox.io/s/react-emotion-multi-step-form-basic-example-eqdv7)
 * [Multi-select Input Example]
-
-## Getting Started
-
-### Peer Dependencies
-The following packages are required to be installed as dependencies for using this library:
-* react: ^16.8.0
-* react-dom": ^16.8.0
-* react-scripts: ^3.4.0
-* @emotion/core: ^10.0.27
-* @emotion/styled: ^10.0.27
-* emotion-theming: ^10.0.27
-
-### Installation
-```bash
-npm install --save react-emotion-multi-step-form
-```
 
 ## API Reference
 https://github.com/ericgio/react-bootstrap-typeahead/blob/master/docs/API.md
