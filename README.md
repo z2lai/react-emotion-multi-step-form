@@ -94,41 +94,42 @@ function App() {
 // Wrap component with React Context.Provider and Emotion ThemeProvider
 export default withFormContextAndTheme(App);
 ```
-Demo the quickstart sandbox [here](https://codesandbox.io/s/react-emotion-multi-step-form-basic-example-v081-mhibp?file=/src/App.js).
+Play with the basic usage sandbox [here](https://codesandbox.io/s/react-emotion-multi-step-form-basic-example-v081-mhibp).
 
 ### All Examples
-Demo the live examples [here](http://z2lai.github.io/react-emotion-multi-step-form), which also include code samples.
-You can also demo the following sandbox examples:
-* [Quickstart Example](https://codesandbox.io/s/react-emotion-multi-step-form-basic-example-eqdv7)
-* [Multi-select Input Example]
+Play with the sandboxes for the following examples:
+* [Basic Usage Example](https://codesandbox.io/s/react-emotion-multi-step-form-basic-example-v081-mhibp)
+* ["Subscription Form" Example]()
 
 ## API Reference
-https://github.com/ericgio/react-bootstrap-typeahead/blob/master/docs/API.md
-The components, higher-order components (HOC) and custom hooks described below are publicly exposed in the top-level module.
+The components and custom hook described below are publicly exposed in the top-level module.
 
-#### [Components](#components)
+**Components**
 - [`<FormBody>`]
-- [`<TextInput>`]
-- [`<RadioControl>` and `<RadioOption>`]
-- [`<CheckboxMulti>`]
+- [<Captions>]
+- [Input Components]
+ i. [`<TextInput>`]
+ ii. [`<RadioControl>` and `<RadioOption>`]
+ iii. [`<CheckboxMulti>`]
 
-#### [HOCs & Hooks](#higher-order-components--hooks-1)
+**HOCs & Hooks**
 - [`withFormContextAndTheme` HOC]
-- [`useInputs` hook]
 - [`useInputs` hook]
 
 ### `<FormBody>`
-The primary component provided by the module which includes the the form body, icon container, input container, forward navigation (Next) button and optional Tabs component for additional navigation. The icon container contains the icon of the currently active (displayed) input and the input container contains the currently active input. On click of the Next button, the currently active input is validated and the next input is activated if validation passes.
+The main component provided by the module which includes the body of the form, icon container, input container, navigation buttons and optional Tabs component for additional navigation. The icon container contains the icon of the currently active (displayed) input and the input container contains the active input (only one input can be active at a time). On click of the Next button, the active input is validated and the next input is made active if validation passes.
 
 **Props**
 Name | Type | Default | Description
 -----|------|---------|------------
-tabs | boolean | `true` | Displays the Tabs component at the top of the form body. If false, alternative way of navigating to previous pages should be provided (see custom Title component).
+initialFocus | boolean | true | Specifies if the form (first input) should be focused on initial render
 onSubmit | function | | Invoked when the Submit button on the final page is clicked on. Receives an object where the keys are the input names and the values are the input values.
+submitText | string | 'Submit' | Text displayed on the final submit button
+submitWidth | number | 110 | Width in pixels of the final submit button
 
 **Children**
 
-FormBody currently only accepts input components from this module as children.
+FormBody currently only accepts input components from this module as children. These input components will be contained within the input container and be displayed one at a time depending on which input is active.
 ```jsx
   <FormBody onSubmit={handleSubmit}>
     <TextInput name="firstname" />

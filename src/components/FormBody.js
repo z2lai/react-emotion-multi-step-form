@@ -111,7 +111,7 @@ const PageWrapper = styled.div`
     outline: none;
   }
   ${props => props.isSubmitPage ? css`
-    width: ${props.submitPageWidth}px;
+    width: ${props.submitWidth}px;
     height: 40px;
     border-radius: 5px;
     padding: 10px 3px;
@@ -133,9 +133,18 @@ const PageWrapper = styled.div`
   `}
 `
 
-const FormBody = ({ submitText, submitWidth, initialFocus, onSubmit, children }) => {
+const FormBody = ({ 
+  tabs = true,
+  submitText = 'Submit',
+  submitWidth = 110,
+  initialFocus = true,
+  onSubmit,
+  children
+}) => {
   console.log('FormBody rendered!');
   const { inputs, activeIndex, changeActiveIndex, activeInput, error, inputValues, isSubmitPage } = useInputs();
+
+  console.log(inputs);
 
   const formBodyWrapperRef = useRef();
   const pageWrapperRef = useRef();
@@ -151,8 +160,7 @@ const FormBody = ({ submitText, submitWidth, initialFocus, onSubmit, children })
       : BASE_PAGE_HEIGHT;
   const pageRelativeHeight = pageHeight / BASE_PAGE_HEIGHT;
 
-  const submitPageWidth = submitWidth ? submitWidth : 110;
-  const pageRelativeWidth = isSubmitPage ? submitPageWidth / basePageWidthRef.current : 1;
+  const pageRelativeWidth = isSubmitPage ? submitWidth / basePageWidthRef.current : 1;
 
   const { scaleAnimation, inverseScaleAnimation } = useScaleAnimation(pageRelativeWidth, pageRelativeHeight);
 
@@ -237,6 +245,8 @@ const FormBody = ({ submitText, submitWidth, initialFocus, onSubmit, children })
   }, [error]);
 
   useEffect(() => {
+    console.log('focus effect!');
+    console.log(inputs.length);
     if (inputs.length === 0) return;
     // Don't focus on initial render of form if initialFocus is false
     if (!initialFocus && activeIndex === 0 && isEmpty(activeInput.value)) return;
@@ -250,20 +260,23 @@ const FormBody = ({ submitText, submitWidth, initialFocus, onSubmit, children })
   }, [inputs.length, isSubmitPage, activeInput])
 
   return (
-    <FormBodyWrapper 
+    <FormBodyWrapper
       ref={formBodyWrapperRef}
       heightIncrease={height ? height - BASE_PAGE_HEIGHT : null}
       isError={error.state}
       onAnimationIteration={handleAnimationIteration}
     >
-      <Tabs
-        basePageWidth={basePageWidthRef.current}
-        inputs={inputs}
-        activeIndex={activeIndex}
-        changeActiveIndex={changeActiveIndex}
-        activeInput={activeInput}
-        isSubmitPage={isSubmitPage}
-      />
+      {tabs
+        ? <Tabs
+            basePageWidth={basePageWidthRef.current}
+            inputs={inputs}
+            activeIndex={activeIndex}
+            changeActiveIndex={changeActiveIndex}
+            activeInput={activeInput}
+            isSubmitPage={isSubmitPage}
+          />
+        : null
+       }
       <PageContainer
         isError={error.state}
         widthScale={pageRelativeWidth}
@@ -277,7 +290,7 @@ const FormBody = ({ submitText, submitWidth, initialFocus, onSubmit, children })
           tabIndex={isSubmitPage ? "0" : "-1"}
           inverseScaleAnimation={inverseScaleAnimation}
           isSubmitPage={isSubmitPage}
-          submitPageWidth={submitPageWidth}
+          submitWidth={submitWidth}
           onClick={handleSubmitClick}
           onKeyDown={handleKeyDown}
           onMouseDown={handleMouseDownAndUp}
@@ -295,7 +308,7 @@ const FormBody = ({ submitText, submitWidth, initialFocus, onSubmit, children })
           </IconContainer>
           <InputContainer pageContainerheight={height}>
             {children}
-            <SubmitLabel text={submitText ? submitText : 'Submit'} isSubmitPage={isSubmitPage} />
+            <SubmitLabel text={submitText} isSubmitPage={isSubmitPage} />
           </InputContainer>
           <NextButton
             ref={buttonRef}

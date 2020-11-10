@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 
 import useAddInput from "../core/useAddInput";
 import useInputState from "../core/useInputState";
@@ -6,9 +7,28 @@ import useInputState from "../core/useInputState";
 import InputWrapper from "./InputWrapper";
 import { StyledInput } from "./StyledComponents";
 
-const TextInput = ({ name, placeholder, onChange, height, label, caption, icon, validationRules}) => {
-  // console.log('TextInput rendered!');
-  const { refCallback } = useAddInput({ label, caption, icon, validationRules, height });
+const propTypes ={
+  name: PropTypes.string,
+  placeholder: PropTypes.string,
+  onChange: PropTypes.func,
+  label: PropTypes.string,
+  caption: PropTypes.string,
+  icon: PropTypes.elementType,
+  height: PropTypes.number,
+  validationRules: PropTypes.object,
+}
+
+const TextInput = ({
+  name,
+  placeholder,
+  onChange,
+  label,
+  caption,
+  icon,
+  height,
+  validationRules,
+}) => {
+  const { refCallback } = useAddInput({ label, caption, icon, height, validationRules });
   const { value, setValue } = useInputState(name, '');
 
   const handleChange = event => {

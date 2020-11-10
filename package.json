@@ -23,6 +23,7 @@
     "deploy": "gh-pages -d example/build"
   },
   "dependencies": {
+    "prop-types": "^15.7.2",
     "react-bootstrap-typeahead": "^5.0.0-rc.1"
   },
   "peerDependencies": {

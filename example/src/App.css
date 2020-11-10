@@ -78,7 +78,7 @@ div {
 }
 
 .section {
-  padding: 1rem 0 1rem 0;
+  padding: 2rem 0 1rem 0;
 }
 
 .section__container {
@@ -90,7 +90,7 @@ div {
 
 .section__title {
   position: relative;
-  margin: 0 auto 2rem auto;
+  margin: 0 auto 2.5rem auto;
   max-width: 500px;
   font-size: 2.25rem;
   overflow: hidden;
@@ -124,7 +124,7 @@ div {
 
 .section__heading {
   display: inline-block;
-  margin: 20px auto 25px auto;
+  margin: 1rem auto;
   padding-bottom: 5px;
   font-size: 1.5rem;
   font-weight: normal;
@@ -132,7 +132,7 @@ div {
 }
 
 .section__paragraph {
-  margin: 0 auto 20px auto;
+  margin: 0 auto 1.5rem auto;
   max-width: 680px;
   line-height: 1.5;
   font-size: 1.125rem;
@@ -176,7 +176,7 @@ div {
 
 .example-app {
   box-sizing: border-box;
-  margin: auto;
+  margin: 0 auto 1rem auto;
   max-width: var(--section-width);
   height: 450px;
   border-radius: 5px;

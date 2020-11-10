@@ -3,7 +3,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { dracula } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 const preTagStyle = {
-  margin: 'auto',
+  margin: '0 auto 1rem auto',
   maxWidth: '980px',
   padding: '20px 30px',
   overflow: 'hidden',

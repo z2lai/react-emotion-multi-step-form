@@ -100,13 +100,16 @@ const App = props => (
     <section className="section">
       <div className="section__container">
         <h2 id="getting-started" className="section__title">Getting Started</h2>
-        <p className="section__paragraph">This library is for apps built with Create React App (CRA) and styled with Emotion (see <a href="https://github.com/z2lai/react-emotion-multi-step-form#peer-dependencies" className="link">Peer Dependencies</a>). Install the library with the following command:</p>
-        <pre className="section__pre"><code>npm install --save react-emotion-multi-step-form</code></pre>
+        <p className="section__paragraph">This library is for apps built with Create React App (CRA) and styled with Emotion (see <a href="https://github.com/z2lai/react-emotion-multi-step-form#peer-dependencies" className="link">Peer Dependencies</a>). Install the library with the following command:
+          <pre className="section__pre">
+            <code>npm install --save react-emotion-multi-step-form</code>
+          </pre>
+        </p>
       </div>
       <div className="section__container">
         <h3 className="section__heading">Core Components</h3>
         <p className="section__paragraph">
-          <a href="https://github.com/z2lai/react-emotion-multi-step-form#formbody" className="link">FormBody</a> is the main component that includes the body of the multi-step form, the label tabs and the navigation buttons. The app needs to be wrapped with the higher-order component (HOC), <a href="https://github.com/z2lai/react-emotion-multi-step-form#withformcontextandtheme-higher-order-component-hoc" className="link">withFormContextAndTheme</a>, in order for all components to access shared state in Context via a custom hook (see <a href="#custom-hook" className="link">Custom Hook</a> section).
+          <a href="https://github.com/z2lai/react-emotion-multi-step-form#formbody" className="link">FormBody</a> is the main component that includes the body of the multi-step form, the navigation buttons and the label tabs for additional navigation. The app needs to be wrapped with the higher-order component (HOC), <a href="https://github.com/z2lai/react-emotion-multi-step-form#withformcontextandtheme-higher-order-component-hoc" className="link">withFormContextAndTheme</a>, in order for all components to access shared state in Context via a custom hook (see <a href="#custom-hook" className="link">Custom Hook</a> section).
         </p>
       </div>
       <CodeSnippet language="jsx">
@@ -115,7 +118,7 @@ const App = props => (
       <div className="section__container">
         <h3 id="input-components" className="section__heading">Input Components</h3>
         <p className="section__paragraph">
-          The library provides custom input components which are passed to FormBody as children and displayed one at a time on separate "pages" of the multi-step form. All input values are automatically made available for both form validation and submission. Upon clicking the "Next Page" button, the active input's value is validated and stored in the form's shared state before the next input is displayed.
+          The library provides custom <a href="https://github.com/z2lai/react-emotion-multi-step-form#input-components" className="link">input components</a> which are passed to FormBody as children and displayed on separate "pages" of the multi-step form. All input values are automatically made available for both form validation and submission. Upon clicking the "Next Page" button, the active input's value is validated and stored in the form's shared state before the next input is displayed.
         </p>
         <p className="section__paragraph">
           The following props are the base props for all input components in this library:
