@@ -51,6 +51,7 @@ const App = () => {
         </RadioControl>
         <TextInput
           name="email"
+          placeholder="example@gmail.com"
           caption="What's your email address?"
           icon={LinkIcon}
           validationRules={{ required: 'Please fill in your email address' }}

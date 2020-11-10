@@ -24,7 +24,13 @@ const App = () => {
         Newsletter Subscription
       </h1>
       <FormBody submitText="Subscribe" submitWidth={130} onSubmit={handleSubmit}>
-        <TextInput name="firstname" />
+        <TextInput 
+          name="email" 
+          placeholder="example@gmail.com"
+          caption="What's your email address?"
+          icon={LinkIcon}
+          validationRules={{ required: 'Please fill in your email address' }}
+        />
       </FormBody>
       <div className="error-message"></div>
     </div>

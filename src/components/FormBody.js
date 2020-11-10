@@ -301,7 +301,7 @@ const FormBody = ({
           <IconContainer>
             <IconsWrapper index={Math.min(activeIndex, inputs.length - 1)}>
               {(inputs.length > 0) ?
-                inputs.map((input, index) => <Icon key={`${index}${input.name}`} icon={input.icon} isSubmitPage={isSubmitPage} />)
+                inputs.map((input, index) => <Icon key={`${index}${input.name}`} IconComponent={input.icon} isSubmitPage={isSubmitPage} />)
                 : null
               }
             </IconsWrapper>

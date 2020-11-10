@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
+import PropTypes from 'prop-types';
+import inputPropTypes from '../propTypes'
 
 import useAddInput from "../core/useAddInput";
 import useInputState from "../core/useInputState";
@@ -67,7 +69,18 @@ export const RadioOption = ({ name, value, isChecked, handleChange }) => (
   </RadioWrapper>
 );
 
-export const RadioControl = ({ name, onChange, height, label, caption, icon, validationRules, children }) => {
+RadioOption.PropTypes = { value: PropTypes.string };
+
+export const RadioControl = ({ 
+  name,
+  onChange,
+  height,
+  label,
+  caption,
+  icon,
+  validationRules,
+  children,
+}) => {
   const { refCallback } = useAddInput({ label, caption, icon, validationRules, height });
   const { value, setValue } = useInputState(name, '');
 
@@ -92,3 +105,5 @@ export const RadioControl = ({ name, onChange, height, label, caption, icon, val
     </InputWrapper>
   )
 }
+
+RadioControl.PropTypes = inputPropTypes;

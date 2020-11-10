@@ -143,16 +143,16 @@ This module provides the following custom input components to be used as form in
 * `<RadioControl>` and `<RadioOption>`
 * `<ComboboxMulti>`
 
-These input components all have the following props that allow them to be stored in `FormContext` and displayed properly.
+These input components all have the following props that allow them to be registered with the form and displayed appropriately.
 
 #### **Common Props**
 Name | Type | Default | Description
 -----|------|---------|------------
-name `required` | string | | HTML name attribute for the input element - must be **unique** within form.
-label | string | | Label to be displayed in the Tab component for the input. All labels can also be retrieved from the `useInputs` hook.
-icon `required` | elementType | | An SVG file imported as a [React component](https://create-react-app.dev/docs/adding-images-fonts-and-files/#adding-svgs). Refer to [Basic Usage] for an example or see the section below on [importing SVG icons as React components].
-height | number | | Specifies the height, in pixels, of the form body when this input is showing. Includes top and bottom padding of 10px and excludes the Tabs component. The default height of the form body is 60px.
+name `required` | string | | HTML name attribute for inputs - must be **unique** within form.
 onChange | function | | Invoked when controlled input value changes - receives the string value of the input. **Note**: Input value state is managed internally and can be retrieved with the `useInputs` hook.
+caption | string | | Caption to be displayed in the `<Captions>` custom component when this input is active.
+icon | elementType | | An SVG file imported as a [React component](https://create-react-app.dev/docs/adding-images-fonts-and-files/#adding-svgs). Refer to [Basic Usage] for an example or see the section below on [importing SVG icons as React components].
+height | number | 60 | Specifies the height, in pixels, of the form body when this input is showing. Includes top and bottom padding of 10px and excludes the Tabs component.
 validationRules | { required: boolean \| string; } | | An object containing rules that the input is validated against (in a specific order) on navigation to the next input (e.g. clicking the Next button). Navigation will be cancelled on the first rule validation failure. The default/custom error message can be retrieved from `useInputs` hook to be displayed on the form. See below for all possible validation rules.
 
 #### Importing SVG icons as React components
@@ -170,7 +170,7 @@ The component to be used for text inputs. It has all of the [common props] and t
 **Props**
 Name | Type | Default | Description
 -----|------|---------|------------
-placeholder | string | | Placeholder text for the input.
+placeholder | string | | Placeholder text for text inputs
 
 #### `<RadioControl>` and `<RadioOption>`
 The component to be used for single-select radio groups. `<RadioControl>` has all of the [common props] and accepts multiple `<RadioOption>` input components as children. The input value will be stored as a string. `<RadioOption>` has the following props.

@@ -1,22 +1,12 @@
 import React from "react";
 import PropTypes from 'prop-types';
+import inputPropTypes from '../propTypes'
 
 import useAddInput from "../core/useAddInput";
 import useInputState from "../core/useInputState";
 
 import InputWrapper from "./InputWrapper";
 import { StyledInput } from "./StyledComponents";
-
-const propTypes ={
-  name: PropTypes.string,
-  placeholder: PropTypes.string,
-  onChange: PropTypes.func,
-  label: PropTypes.string,
-  caption: PropTypes.string,
-  icon: PropTypes.elementType,
-  height: PropTypes.number,
-  validationRules: PropTypes.object,
-}
 
 const TextInput = ({
   name,
@@ -52,5 +42,10 @@ const TextInput = ({
     </InputWrapper>
   );
 };
+
+TextInput.propTypes = { 
+  ...inputPropTypes, 
+  placeholder: PropTypes.string,
+}
 
 export default TextInput;

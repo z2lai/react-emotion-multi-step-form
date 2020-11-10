@@ -20,14 +20,10 @@ const IconWrapper = styled.div`
   `}
 `;
 
-const Icon = ({ icon, isSubmitPage }) => {
-  const IconComponent = icon;
-
-  return (
-    <IconWrapper isSubmitPage={isSubmitPage}>
-      <IconComponent />
-    </IconWrapper>
-  )
-}
+const Icon = ({ IconComponent = null, isSubmitPage }) => (
+  <IconWrapper isSubmitPage={isSubmitPage}>
+    {(IconComponent) ? <IconComponent /> : null}
+  </IconWrapper>
+)
 
 export default Icon;
