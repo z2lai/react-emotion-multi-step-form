@@ -5,6 +5,9 @@ import {
   FormBody,
   withFormContextAndTheme,
   TextInput,
+  RadioControl,
+  RadioOption,
+  ComboboxMulti,
 } from "react-emotion-multi-step-form";
 
 import { ReactComponent as LinkIcon } from "../assets/svg/link.svg";
@@ -24,6 +27,14 @@ const App = () => {
         Newsletter Subscription
       </h1>
       <FormBody submitText="Subscribe" submitWidth={130} onSubmit={handleSubmit}>
+        <ComboboxMulti
+          name="interests"
+          caption="What are your interests?"
+          icon={PriceTagsIcon}
+          validationRules={{ required: 'Please select a Topic' }}
+          height={240}
+          options={options}
+        />
         <TextInput 
           name="email" 
           placeholder="example@gmail.com"
@@ -31,6 +42,16 @@ const App = () => {
           icon={LinkIcon}
           validationRules={{ required: 'Please fill in your email address' }}
         />
+        <RadioControl
+          name="frequency"
+          caption="How often do you want to receive our newsletter?"
+          icon={TreeIcon}
+          validationRules={{ required: 'Please select a frequency' }}
+        >
+          <RadioOption value="daily" />
+          <RadioOption value="weekly" />
+          <RadioOption value="monthly" />
+        </RadioControl>
       </FormBody>
       <div className="error-message"></div>
     </div>

@@ -2,6 +2,8 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
+import PropTypes from 'prop-types';
+import inputPropTypes from '../propTypes'
 
 import useAddInput from "../core/useAddInput";
 import useInputState from "../core/useInputState";
@@ -124,24 +126,30 @@ const CheckboxWrapper = styled.div`
   padding: 0 2px;
 `;
 
-const ComboboxMulti = ({ name, options, onChange, height, label, caption, icon, validationRules }) => {
+const ComboboxMulti = ({
+  name,
+  onChange,
+  height,
+  label,
+  caption,
+  icon,
+  validationRules,
+  options,
+}) => {
   console.log("CheckboxControl Re-rendered!");
-  // console.log(`Height = ${height}`)
   const { refCallback } = useAddInput({ label, caption, icon, validationRules, height });
   const { value: selected, setValue: setSelected } = useInputState(name, []);
   const [filter, setFilter] = useState("");
   const [filteredOptions, setFilteredOptions] = useState(options);
-  const [activeSelectionIndex, setActiveSelectionIndex] = useState(-1);
-  console.log(filteredOptions);
+  const [filteredGroupHeadings, filteredGroups] = filteredOptions;
+  const [focusedOptionIndex, setFocusedOptionIndex] = useState(-1);
+  const [groupHeadings, groups] = options;
+  const optionsArray = groups.flat();
 
   const typeaheadRef = useRef();
   const inputWrapperRef = useRef();
   const inputNodeRef = useRef();
-  const _handleKeyDownRef = useRef(); // this variable can be overwritten as handleKeyDown maintains reference to the original _handleKeyDown definition reference due to closure
 
-  const [groupHeadings, groups] = options;
-  const optionsArray = groups.flat();
-  const [filteredGroupHeadings, filteredGroups] = filteredOptions;
   const BACKSPACE = 8;
   const TAB = 9;
   const RETURN = 13;
@@ -155,7 +163,7 @@ const ComboboxMulti = ({ name, options, onChange, height, label, caption, icon, 
     // console.log("Input Changed");
     // console.log(`onInputChange Value: ${inputValue}`);
     // console.log(`inputNodeRef Value: ${inputNodeRef.current.value}`);
-    setActiveSelectionIndex(-1);
+    setFocusedOptionIndex(-1);
     console.log('setActiveSelectionIndex!')
     // Since there's a debounce delay when handleInputChange is called from onInputChange, inputValue might be stale if handleInputChange was called
     // immediately after from a non-debounced handler (e.g. handleInputSelection handles when selection is made on 'Enter' key and sets input value to '').
@@ -181,7 +189,7 @@ const ComboboxMulti = ({ name, options, onChange, height, label, caption, icon, 
       const filteredGroup = group.filter(option => {
         // (option) => option.toLowerCase().includes(filter) && !excluded.includes(option) // includes() not supported on Chrome for Android
         const optionText = option.toLowerCase()
-        return (excluded.indexOf(option) === -1) && (optionText.indexOf(filter) !== -1) 
+        return (excluded.indexOf(option) === -1) && (optionText.indexOf(filter) !== -1)
       });
       if (filteredGroup.length > 0) {
         _groupHeadings.push(groupHeadings[index]);
@@ -247,16 +255,16 @@ const ComboboxMulti = ({ name, options, onChange, height, label, caption, icon, 
     typeaheadRef.current.focus();
   };
 
-  const updateActiveIndex = (currentIndex, keyCode, items) => {
-    let newIndex = currentIndex;
-    newIndex += keyCode === UP ? -1 : 1;
-    if (newIndex === items.length) {
-      newIndex = -1;
-    } else if (newIndex === -2) {
-      newIndex = items.length - 1;
-    }
-    setActiveSelectionIndex(newIndex);
+  const handleFocus = () => {
+    inputWrapperRef.current.classList.add("focus");
   };
+
+  const handleBlur = () => {
+    typeaheadRef.current.hideMenu(); // disables hidden menu
+    inputWrapperRef.current.classList.remove("focus");
+  };
+
+  const handleMenuToggle = () => setFocusedOptionIndex(-1);
 
   const handleInputWrapperKeyDown = event => {
     // console.log('inputWrapperKeyDownHandler called');
@@ -266,7 +274,8 @@ const ComboboxMulti = ({ name, options, onChange, height, label, caption, icon, 
   }
 
   // This handler replaces Typeahead's internal onKeyDown handler (which gets passed to the input element) once on initial render
-  // so there should be no references to state in here as they will be stale.
+  // so there should be no references to state in here as they will be stale
+  let _handleKeyDown;
   const handleKeyDown = useCallback(event => {
     const inputNode = event.currentTarget;
     switch (event.keyCode) {
@@ -291,20 +300,39 @@ const ComboboxMulti = ({ name, options, onChange, height, label, caption, icon, 
       case UP:
       case DOWN:
         // Prevent input cursor from going to the beginning when pressing up.
-        event.preventDefault();
+        // event.preventDefault();
         // Prevent UP and DOWN from navigating options (Typeahead internal behaviour)
         return;
       case TAB:
         if (typeaheadRef.current.isMenuShown) {
+          // convert Tab and Shift+Tab into Up and Down respectively to navigate internal menu
           event.keyCode = event.shiftKey ? UP : DOWN;
-          updateActiveIndex(typeaheadRef.current.state.activeIndex, event.keyCode, typeaheadRef.current.items);
+          // Set focusedOptionIndex to match Typeahead's internal menu's activeIndex
+          let newIndex = typeaheadRef.current.state.activeIndex;
+          let items = typeaheadRef.current.items
+          newIndex += event.shiftKey ? -1 : 1;
+          if (newIndex === items.length) {
+            newIndex = -1;
+          } else if (newIndex === -2) {
+            newIndex = items.length - 1;
+          }
+          setFocusedOptionIndex(newIndex);
         }
         break;
       default:
         break;
     }
-    _handleKeyDownRef.current(event);
-  }, []);
+    // call internal handler to handle internal menu (hidden) navigation and selection
+    _handleKeyDown(event); // function definition reference kept in closure which is created when the effect is first called to assign handleKeyDown to typeaheadRef.current (persisted by React)
+  }, [setFocusedOptionIndex]);
+
+  // Override Typeahead internal key handler - should only be called once on intial render as handleKeyDown should never change across renders, otherwise the reference to the original internal method, stored in _handleKeyDown and closed over by handleKeyDown in the initial render, will be overwritten.
+  useEffect(() => {
+    // Save Typeahead internal method (https://github.com/ericgio/react-bootstrap-typeahead/blob/1cf74a4e3f65d4d80e992d1f926bfaf9f5a349bc/src/core/Typeahead.js) in _handleKeyDown
+    _handleKeyDown = typeaheadRef.current._handleKeyDown;
+    // Replace internal method with handleKeyDown which closes over _handleKeyDown
+    typeaheadRef.current._handleKeyDown = handleKeyDown;
+  }, [handleKeyDown]);
 
   const handleClear = () => {
     handleSelectionChange([]);
@@ -313,32 +341,16 @@ const ComboboxMulti = ({ name, options, onChange, height, label, caption, icon, 
     debouncedHandleInputChange("");
   };
 
-  const handleFocus = () => {
-    inputWrapperRef.current.classList.add("focus");
-  };
-
-  const handleBlur = () => {
-    typeaheadRef.current.hideMenu(); // disables hidden menu
-    inputWrapperRef.current.classList.remove("focus");
-  };
-
-  const handleMenuToggle = () => setActiveSelectionIndex(-1);
-
-  // Override typeahead internal methods only once on initial render
-  // Typeahead internal methods: https://github.com/ericgio/react-bootstrap-typeahead/blob/1cf74a4e3f65d4d80e992d1f926bfaf9f5a349bc/src/core/Typeahead.js
   useEffect(() => {
-    // Keep ._handleKeyDown definition in ref so that handleKeyDown can call it
-    _handleKeyDownRef.current = typeaheadRef.current._handleKeyDown;
-    // Only need to override internal methods once on initial render as the typeahead component (object) imported from the library
-    // does not change for each render - keeps the same methods throughout its lifecycle
-    typeaheadRef.current._handleKeyDown = handleKeyDown;
     typeaheadRef.current._handleClear = handleClear;
-    inputNodeRef.current = typeaheadRef.current.getInput();
-    // console.log("CheckboxControl finished rendering!");
-  }, [handleKeyDown]);
+  }, [handleClear]);
 
   useEffect(() => {
-    // If there are no filtered options, disable hidden menu to allow TAB to return to default behaviour
+    inputNodeRef.current = typeaheadRef.current.getInput();
+  }, []);
+
+  useEffect(() => {
+    // If 0 filtered options, disable hidden menu to allow TAB to return to default behaviour
     if (filteredGroups.length === 0) typeaheadRef.current.hideMenu();
   }, [filteredGroups]);
 
@@ -374,9 +386,9 @@ const ComboboxMulti = ({ name, options, onChange, height, label, caption, icon, 
                   {...inputProps}
                   name={name} //? this text input shares the same name as the checkbox inputs, does this break anything?
                   ref={(element) => {
-                    inputRef(element);
+                    inputRef(element); // Typeahead internal ref
                     // referenceElementRef(element); // to position the dropdown menu, may be a container element, hence the need for separate refs.
-                    refCallback(element);
+                    refCallback(element); // useAddInput custom hook ref
                   }}
                 />
               </Hint>
@@ -408,7 +420,7 @@ const ComboboxMulti = ({ name, options, onChange, height, label, caption, icon, 
                             onKeyDown={handleCheckboxKeyDown}
                             onChange={handleCheckboxChange}
                             highlightedText={filter}
-                            focusState={optionsIndexCounter === activeSelectionIndex}
+                            focusState={optionsIndexCounter === focusedOptionIndex}
                           />
                         </CheckboxWrapper>
                       );
@@ -423,5 +435,22 @@ const ComboboxMulti = ({ name, options, onChange, height, label, caption, icon, 
     </InputWrapper>
   );
 };
+
+ComboboxMulti.propTypes = {
+  ...inputPropTypes,
+  options: function (props, propName, componentName) {
+    const propValue = props[propName];
+    if (!Array.isArray(propValue)
+      || propValue.length != 2
+      || !propValue.every(e => Array.isArray(e))
+      || propValue[0].length != propValue[1].length
+    ) {
+      return new Error(
+        `Invalid prop \`${propName}\` supplied to \`${componentName}\`, 
+        expected an array of two arrays containing equal number of elements`
+      );
+    }
+  }
+}
 
 export default ComboboxMulti;

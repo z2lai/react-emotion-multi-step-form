@@ -173,51 +173,39 @@ Name | Type | Default | Description
 placeholder | string | | Placeholder text for text inputs
 
 #### `<RadioControl>` and `<RadioOption>`
-The component to be used for single-select radio groups. `<RadioControl>` has all of the [common props] and accepts multiple `<RadioOption>` input components as children. The input value will be stored as a string. `<RadioOption>` has the following props.
+The component to be used for radio inputs (single-select). `<RadioControl>` has all of the [common props] and accepts multiple `<RadioOption>` input components as children. The selected option will be stored as a string. 
+
+`<RadioOption>` has the following props.
 
 **Props (`<RadioOption>`)**
 Name | Type | Default | Description
 -----|------|---------|------------
-value | string | | Specifies both the value and the label of the radio option
+value `required` | string | | Specifies both the value and the label of the radio option
 
 **Example**
 ```jsx
   <RadioControl
-    name="type"
-    label="Type"
+    name="frequency"
+    caption="How often do you want to receive our newsletter?"
     icon={TreeIcon}
-    height={100}
-    validationRules={{ required: 'Please select a Type!' }}
-    onChange={handleTypeChange}
+    validationRules={{ required: 'Please select a frequency' }}
   >
-    <RadioOption value="guide" />
-    <RadioOption value="tutorial" />
-    <RadioOption value="reference" />
-    <RadioOption value="video" />
-    <RadioOption value="library" />
-    <RadioOption value="tool" />
+    <RadioOption value="daily" />
+    <RadioOption value="weekly" />
+    <RadioOption value="monthly" />
   </RadioControl>
 ```
 
 #### `<ComboboxMulti>`
-The component to be used for multi-select checkboxes - includes many features such as autocomplete/autofilter, typeahead, and tokens. The input value will be stored as an array of strings. It has all of the [common props] and the following props.
+The component to be used for checkbox inputs (multi-select) - includes many features such as autocomplete/autofilter, typeahead, and tokens. The selections will be stored as an array of strings. `<ComboboxMulti>` has all of the [common props] and the following props.
 
 **Props**
 Name | Type | Default | Description
 -----|------|---------|------------
-options | [array, array] | | An array containing two arrays where the second array contains groups of checkbox options (represented by arrays of strings) and the first array contains the headings for each of these groups. See examples below.
+options | [array, array] | | An array of two arrays containing equal number of elements. The second array contains groups of checkbox options (represented by arrays of strings) and the first array contains the headings for each of these groups. See examples below.
 
 **Examples**
-
-If the checkboxes cannot be logically separated into multiple groups (i.e. there is only one group), then the array passed into the options prop should follow the format as follows:
-```jsx
-const options = [
-  ['colours'],
-  ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet']
-]
-```
-
-If the checkboxes can be separated into multiple groups, then the array passed into the options prop should follow the format as follows:
+If the checkbox options can be logically separated into multiple groups, then the array passed into the options prop should follow the format as follows:
 ```jsx
 const options = [
   ['fruits', 'vegetables', 'meats'],
@@ -237,6 +225,16 @@ const options = [
       'pork',
       'beef',
     ],
+  ]
+]
+```
+
+Otherwise, the array passed into the options prop should follow the format as follows:
+```jsx
+const options = [
+  ['colours'],
+  [
+    ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet']
   ]
 ]
 ```

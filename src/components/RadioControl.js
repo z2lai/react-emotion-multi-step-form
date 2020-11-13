@@ -69,7 +69,7 @@ export const RadioOption = ({ name, value, isChecked, handleChange }) => (
   </RadioWrapper>
 );
 
-RadioOption.PropTypes = { value: PropTypes.string };
+RadioOption.propTypes = { value: PropTypes.string.isRequired };
 
 export const RadioControl = ({ 
   name,
@@ -106,4 +106,10 @@ export const RadioControl = ({
   )
 }
 
-RadioControl.PropTypes = inputPropTypes;
+RadioControl.propTypes = {
+  ...inputPropTypes,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node
+  ]).isRequired
+};
