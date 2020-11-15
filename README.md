@@ -117,15 +117,15 @@ The components and custom hook described below are publicly exposed in the top-l
 - [`useInputs` hook]
 
 ### `<FormBody>`
-The main component provided by the module which includes the body of the form, icon container, input container, navigation buttons and optional Tabs component for additional navigation. The icon container contains the icon of the currently active (displayed) input and the input container contains the active input (only one input can be active at a time). On click of the Next button, the active input is validated and the next input is made active if validation passes.
+The main component provided by the module which includes the body of the form, icon container, input container, navigation buttons, optional Tabs component for additional navigation and the Submit button. The icon container contains the icon of the currently active (displayed) input and the input container contains the active input (only one input can be active at a time). On click of the Next button, the active input is validated and the next input is made active if validation passes. The Submit button appears after the last input has been validated.
 
 **Props**
 Name | Type | Default | Description
 -----|------|---------|------------
 initialFocus | boolean | true | Specifies if the form (first input) should be focused on initial render
 onSubmit | function | | Invoked when the Submit button on the final page is clicked on. Receives an object where the keys are the input names and the values are the input values.
-submitText | string | 'Submit' | Text displayed on the final submit button
-submitWidth | number | 110 | Width in pixels of the final submit button
+submitText | string | 'Submit' | Text displayed on the Submit button
+submitWidth | number | 110 | Width in pixels of the Submit button
 
 **Children**
 
@@ -240,32 +240,32 @@ const options = [
 ```
 
 ### withFormContextAndTheme Higher-order Component (HOC)
-This HOC allows the passed in component to have access to the theme and `FormContext` where all internal state is stored. This must be called with the parent component for the form to work.
+This HOC allows the passed in component to have access to the theme and `FormContext` which stores the shared state. This must be called with the parent component as follows.
 ```jsx
 const AppWithContextAndTheme = withFormContextAndTheme(App);
 export default AppWithContextAndTheme;
-// OR
+// Or simply:
 export default withFormContextAndTheme(App);
 ```
 
 ### useInputs Custom Hook
-This hook provides access to the [common props] passed into each input and the form state values from `FormContext`.
+This hook provides access to the [common prop values] passed into each input component and the form state values from `FormContext`.
 
 **Returned Values**
 Name | Type | Initial Value | Description
 -----|------|---------------|------------
-inputs | Array\<Object\> | `[]` | An array containing all the inputs as objects. Each input object contains the following keys: label, icon, and  height, which were passed as props into each input.<br>**Note**: On initial form render, inputs is always empty as all input elements still need to be rendered once to be added to inputs (which triggers an immediate re-render).
+inputs | Array\<Object\> | `[]` | An array of objects where each object contains the prop values of each input. Each input object contains the following prop-value pairs which were passed as props into each input: `caption`, `icon` and `height`.<br>**Note**: On initial form render, `inputs` is always empty as all input components still need to be rendered once for their ref callbacks to "register" them in inputs (which triggers an immediate re-render).
 activeIndex | number | `0` | An index from 0 to n where n is the number of inputs in the form. The index specifies which input is currently active (`0` refers to the first input and n refers to the Submit button which comes after the last input).
-changeActiveIndex | function | | Accepts a number that should specify what to change `activeIndex` to (which input to make active). Input validation is performed on the currently active input if the number passed is greater than activeIndex (going forward in the form).
+changeActiveIndex | function | | Accepts a number that should specify what to change `activeIndex` to (which input to make active). Input validation is performed on the currently active input only if the number passed is greater than activeIndex (going forward in the form).
 activeInput | object | | An object from `inputs` that represents the input that is currently active. activeInput is `null` when activeIndex = n.
 error | { state: boolean, message: string } | `{ state: false, message: '' }` | Error object containing the error state of the form and the error message to display. `error.message` should be added to the form as it's not displayed by default.
+isSubmitPage | boolean | false | Specifies if the form is on the last "page" with the Submit button.
 inputValues | object | `{}` | An object containing all form values where each key is the input name and each value is the input value. This gets updated every time `changeActiveIndex` is called (e.g. clicking the Next button).
-isSubmitPage | boolean | false | Specifies if the form is on the last "page" with the Submit button where no input is active.
 
 **Example**
-
-These values and methods can be used, as follows, to create a custom component for navigating back and forth between the form inputs.
+These values and methods can be used, as follows, to create a custom component for navigating backwards to previous inputs in the form.
 ```jsx
+// All custom components not defined here are just styled components (Emotion) that only contain styling
 // Labels component
 const Labels = () => {
   const { inputs, activeIndex, changeActiveIndex, inputValues } = useInputs();
@@ -276,7 +276,6 @@ const Labels = () => {
         inputs.map((input, index) => (
           <Label
             key={`${index}${input.name}`}
-            label={input.label}
             inputValue={inputValues[input.name]}
             active={index === activeIndex}
             changeActiveIndex={() => changeActiveIndex(index)}
@@ -304,8 +303,8 @@ const Label = ({
 
   return (
     <StyledLabel
-      active={active}
-      activated={activated}
+      active={active} // for styling
+      activated={activated} // for styling
       onClick={handleClick}
     >
       {inputValue || label}

@@ -142,7 +142,7 @@ const FormBody = ({
   children
 }) => {
   console.log('FormBody rendered!');
-  const { inputs, activeIndex, changeActiveIndex, activeInput, error, inputValues, isSubmitPage } = useInputs();
+  const { inputs, activeIndex, changeActiveIndex, activeInput, error, isSubmitPage, inputValues } = useInputs();
 
   console.log(inputs);
 

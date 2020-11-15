@@ -4,7 +4,7 @@ import { FormContext } from './FormContext';
 
 const useInputs = () => {
   // console.log('useActiveIndex called!');
-  const { inputs, activeIndex, setActiveIndex, activeInput, error, setError, inputValues, setInputValues, isSubmitPage } = useContext(FormContext);
+  const { inputs, activeIndex, setActiveIndex, activeInput, error, setError, isSubmitPage, inputValues, setInputValues } = useContext(FormContext);
 
   const changeActiveIndex = index => {
     // console.log(`changeActiveIndex called with index: ${index}`);
@@ -52,8 +52,8 @@ const useInputs = () => {
     activeInput,
     error,
     setErrorMessage,
-    inputValues,
     isSubmitPage,
+    inputValues,
   }
 }
 

@@ -1,5 +1,6 @@
 export default `
-// all custom components shown are just styled components (Emotion) that contain styling
+/* All custom components not defined here are just styled components (Emotion) 
+that only contain styling */
 const Caption = ({ caption, isActive }) => (
   <StyledCaption isActive={isActive}>
     {caption}
