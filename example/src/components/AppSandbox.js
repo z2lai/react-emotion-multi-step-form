@@ -2,13 +2,14 @@ import "../appVideo.css";
 
 import React from "react";
 import {
+  useInputs,
+  Captions,
   FormBody,
-  withFormContextAndTheme,
-  TextInput,
+  ComboboxMulti,
   RadioControl,
   RadioOption,
-  ComboboxMulti,
-  useInputs,
+  TextInput,
+  withFormContextAndTheme,
 } from "react-emotion-multi-step-form";
 
 import { ReactComponent as LinkIcon } from "../assets/svg/link.svg";
@@ -28,6 +29,7 @@ const App = () => {
       <h1>
         Newsletter Subscription
       </h1>
+      <Captions callToActionText="Get the latest news straight to your inbox!" />
       <FormBody submitText="Subscribe" submitWidth={130} onSubmit={handleSubmit}>
         <ComboboxMulti
           name="interests"
@@ -49,7 +51,6 @@ const App = () => {
         </RadioControl>
         <TextInput 
           name="email" 
-          placeholder="example@gmail.com"
           caption="What's your email address?"
           icon={LinkIcon}
           validationRules={{ required: 'Please fill in your email address' }}

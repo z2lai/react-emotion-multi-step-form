@@ -78,7 +78,7 @@ div {
 }
 
 .section {
-  padding: 2rem 0 1rem 0;
+  padding: 1rem 0 1rem 0;
 }
 
 .section__container {
@@ -207,10 +207,14 @@ div {
   
   .hero-banner__subtitle {
     font-size: 1.125rem;
-  }  
+  }
+
+  .flex-row--space-around {
+    justify-content: space-around;
+  }
 
   .flex-row__flex-item {
-    margin: 5px 10px;
+    margin: 5px 0;
   }
 
   .footer__links li {

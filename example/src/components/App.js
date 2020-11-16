@@ -34,7 +34,7 @@ const App = props => (
         <a href="https://github.com/z2lai/react-emotion-multi-step-form" className="hero-banner__icon-link">
           <GithubIcon />
         </a>
-        <h1 className="hero-banner__title">React Emotion Multi-step Form</h1>
+        <h1 id="react-emotion-multi-step" className="hero-banner__title">React Emotion Multi-step Form</h1>
         <p className="hero-banner__subtitle">
           Interactive multi-step form library with concise declarative code
           </p>
@@ -51,7 +51,7 @@ const App = props => (
     <section className="section">
       <div className="section__container">
         <h2 className="section__title">Features</h2>
-        <div className="flex-row">
+        <div className="flex-row flex-row--space-around">
           <div className="flex-row__flex-item feature-item">
             <CodeIcon className="feature-item__svg" />
             <h3 className="feature-item__title">Declarative Code</h3>
@@ -88,6 +88,10 @@ const App = props => (
         <h2 id="example-app" className="section__title">Example App Demo</h2>
       </div>
       <SubscriptionForm className="example-app" />
+      <div className="flex-row">
+        <a href="https://codesandbox.io/s/react-emotion-multi-step-form-v09-subscription-form-h6mpc?file=/src/App.js" className="link link--large">CodeSandbox</a>
+        <a href="#getting-started" className="link link--large">Getting Started</a>
+      </div>
     </section>
     <section className="section">
       <div className="section__container">
@@ -109,7 +113,7 @@ const App = props => (
       <div className="section__container">
         <h3 className="section__heading">Core Components</h3>
         <p className="section__paragraph">
-          <a href="https://github.com/z2lai/react-emotion-multi-step-form#formbody" className="link">FormBody</a> is the main component that includes the body of the multi-step form, the navigation buttons and the label tabs for additional navigation. The app needs to be wrapped with the higher-order component (HOC), <a href="https://github.com/z2lai/react-emotion-multi-step-form#withformcontextandtheme-higher-order-component-hoc" className="link">withFormContextAndTheme</a>, in order for all components to access shared state in Context via a custom hook (see <a href="#custom-hook" className="link">Custom Hook</a> section).
+          <a href="https://github.com/z2lai/react-emotion-multi-step-form#formbody" className="link">FormBody</a> is the main component that includes the body of the multi-step form, the navigation buttons, the label tabs and the Submit button. The app needs to be wrapped with the higher-order component (HOC), <a href="https://github.com/z2lai/react-emotion-multi-step-form#withformcontextandtheme-higher-order-component-hoc" className="link">withFormContextAndTheme</a>, in order for all components to access shared state in Context via a custom hook (see <a href="#custom-hook" className="link">Custom Hook</a> section).
         </p>
       </div>
       <CodeSnippet language="jsx">
@@ -123,9 +127,11 @@ const App = props => (
         <p className="section__paragraph">
           The following props are the base props for all input components in this library:
           <ul>
-            <li><strong>name</strong> - unique identifier for each input to be properly registered in Context</li>
-            <li><strong>caption</strong> - additional text to provide a hint for the input (displayed by <a href="" className="link">caption</a> component)</li>
-            <li><strong>icon</strong> - <a href="https://github.com/z2lai/react-emotion-multi-step-form#importing-svg-icons-as-react-components" className="link">SVG icon imported as a component</a> using SVGR (built-in with CRA) to be displayed beside each input</li>
+            <li><strong>name</strong> - unique identifier for input to be properly registered in Context</li>
+            <li><strong>onChange</strong> - callback invoked when controlled input value changes</li>
+            <li><strong>caption</strong> - additional text to provide a hint for input (displayed by <a href="" className="link">Captions</a> component)</li>
+            <li><strong>icon</strong> - <a href="https://create-react-app.dev/docs/adding-images-fonts-and-files/#adding-svgs" className="link">SVG icon imported as a component</a> using SVGR (built-in with CRA) to be displayed beside input</li>
+            <li><strong>height</strong> - height, in pixels, of the form body when input is active</li>
             <li><strong>validationRules</strong> - an object containing input <a href="https://github.com/z2lai/react-emotion-multi-step-form#validation-rules" className="link">validation rules</a> that align with the existing HTML5 form validation standard (also accepts custom validation functions).</li>
           </ul>
         </p>
@@ -141,6 +147,9 @@ const App = props => (
         <CodeSnippet language="jsx">
           {captionsComponentCode}
         </CodeSnippet>
+      </div>
+      <div className="flex-row">
+        <a href="#react-emotion-multi-step" className="link link--large">Back to Top</a>
       </div>
     </section>
     <footer className="footer">

@@ -2,6 +2,7 @@
 import { Fragment } from "react";
 import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
+import PropTypes from 'prop-types';
 
 import useInputs from "../core/useInputs";
 
@@ -56,5 +57,7 @@ const Captions = ({ callToActionText }) => {
     </CaptionsContainer>
   )
 }
+
+Captions.propTypes = { callToActionText: PropTypes.string.isRequired };
 
 export default Captions;

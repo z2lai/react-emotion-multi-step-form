@@ -99,25 +99,25 @@ Play with the basic usage sandbox [here](https://codesandbox.io/s/react-emotion-
 ### All Examples
 Play with the sandboxes for the following examples:
 * [Basic Usage Example](https://codesandbox.io/s/react-emotion-multi-step-form-basic-example-v081-mhibp)
-* ["Subscription Form" Example]()
+* ["Subscription Form" Example](https://codesandbox.io/s/react-emotion-multi-step-form-v09-subscription-form-h6mpc)
 
 ## API Reference
 The components and custom hook described below are publicly exposed in the top-level module.
 
 **Components**
 - [`<FormBody>`]
-- [<Captions>]
 - [Input Components]
  i. [`<TextInput>`]
  ii. [`<RadioControl>` and `<RadioOption>`]
  iii. [`<CheckboxMulti>`]
+- [`<Captions>`]
 
 **HOCs & Hooks**
 - [`withFormContextAndTheme` HOC]
 - [`useInputs` hook]
 
 ### `<FormBody>`
-The main component provided by the module which includes the body of the form, icon container, input container, navigation buttons, optional Tabs component for additional navigation and the Submit button. The icon container contains the icon of the currently active (displayed) input and the input container contains the active input (only one input can be active at a time). On click of the Next button, the active input is validated and the next input is made active if validation passes. The Submit button appears after the last input has been validated.
+The main component provided by the module which includes the body of the form, icon container, input container, navigation buttons, Tabs component and the Submit button. The icon container contains the icon of the currently active (displayed) input and the input container contains the active input (only one input can be active at a time). On click of the Next button, the active input is validated and the next input is made active if validation passes. The Submit button appears after the last input has been validated.
 
 **Props**
 Name | Type | Default | Description
@@ -152,7 +152,7 @@ name `required` | string | | HTML name attribute for inputs - must be **unique**
 onChange | function | | Invoked when controlled input value changes - receives the string value of the input. **Note**: Input value state is managed internally and can be retrieved with the `useInputs` hook.
 caption | string | | Caption to be displayed in the `<Captions>` custom component when this input is active.
 icon | elementType | | An SVG file imported as a [React component](https://create-react-app.dev/docs/adding-images-fonts-and-files/#adding-svgs). Refer to [Basic Usage] for an example or see the section below on [importing SVG icons as React components].
-height | number | 60 | Specifies the height, in pixels, of the form body when this input is showing. Includes top and bottom padding of 10px and excludes the Tabs component.
+height | number | 60 | Specifies the height, in pixels, of the form body when this input is active. Includes top and bottom padding of 10px and excludes the Tabs component.
 validationRules | { required: boolean \| string; } | | An object containing rules that the input is validated against (in a specific order) on navigation to the next input (e.g. clicking the Next button). Navigation will be cancelled on the first rule validation failure. The default/custom error message can be retrieved from `useInputs` hook to be displayed on the form. See below for all possible validation rules.
 
 #### Importing SVG icons as React components
@@ -238,6 +238,14 @@ const options = [
   ]
 ]
 ```
+
+### `<Captions>`
+This component uses the [`useInputs`] custom hook to display the caption of the currently active input.
+
+**Props**
+Name | Type | Default | Description
+-----|------|---------|------------
+callToActionText `required` | string | | Call-to-action text to be displayed on the final page with the Submit button.
 
 ### withFormContextAndTheme Higher-order Component (HOC)
 This HOC allows the passed in component to have access to the theme and `FormContext` which stores the shared state. This must be called with the parent component as follows.

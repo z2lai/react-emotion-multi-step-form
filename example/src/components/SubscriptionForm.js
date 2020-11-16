@@ -33,7 +33,7 @@ const Form = ({ className }) => {
       </Heading>
       <Captions callToActionText="Get the latest news straight to your inbox!" />
       {isSubmitPage ? (<Reward ref={rewardRef} type="confetti"></Reward>) : null}
-      <FormBody submitText="Subscribe" submitWidth={130} onSubmit={handleSubmit}>
+      <FormBody initialFocus={false} submitText="Subscribe" submitWidth={130} onSubmit={handleSubmit}>
         <ComboboxMulti
           name="interests"
           caption="What are your interests?"
@@ -54,7 +54,6 @@ const Form = ({ className }) => {
         </RadioControl>
         <TextInput
           name="email"
-          placeholder="example@gmail.com"
           caption="What's your email address?"
           icon={LinkIcon}
           validationRules={{ required: 'Please fill in your email address' }}
