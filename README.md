@@ -1,15 +1,16 @@
-# React Emotion Multi-step Form
+<div align="center">
+  # React Emotion Multi-step Form
 
-> A multi-step form component library built with React and styled with Emotion
+  > A multi-step form component library built with React and styled with Emotion
 
-[![NPM](https://img.shields.io/npm/v/react-emotion-multi-step-form.svg)](https://www.npmjs.com/package/react-emotion-multi-step-form)
+  [![NPM](https://img.shields.io/npm/v/react-emotion-multi-step-form.svg)](https://www.npmjs.com/package/react-emotion-multi-step-form)
 
-[//Links to Live Demos, Sandbox, Issues]
+  ![Example App Demo](example-app-demo-final.gif)
+</div>
 
 ## Introduction
 A declarative component library where input components are displayed in a multi-step form format with smooth page transitions. It's built with React hooks and React Context API so that form state and input prop values can be reused for UI customization.
 
-[//Add GIF showing full demo app in action]
 Demo the example app [here](http://z2lai.github.io/react-emotion-multi-step-form#example-app) or learn how to get started [here](http://z2lai.github.io/react-emotion-multi-step-form#getting-started).
 
 ## Features
@@ -17,12 +18,12 @@ Demo the example app [here](http://z2lai.github.io/react-emotion-multi-step-form
 * Smooth/Optimized page transition animations
 * Accessible keyboard-only navigation
 * Responsive design
-* Supports SVG icons imported as React components (using SVGR that's built-in with Create-React-App)
 * Custom hook to access form state and input prop values for UI customization
+* Supports SVG icons imported as React components (using SVGR that's built-in with Create-React-App)
 * Three Input Components:
   1. Text Input with HTML5 form validation
   2. Single-select Input - Radio Input with declarative configuration of radio options
-  3. Multi-select Input - Multi-select Combobox with Autocomplete and Typeahead (Checkbox or Tag Cloud Format)
+  3. Multi-select Input - Multi-select Combobox with Autocomplete and Typeahead
 
 ## Getting Started
 
@@ -97,24 +98,24 @@ export default withFormContextAndTheme(App);
 [CodeSandbox](https://codesandbox.io/s/react-emotion-multi-step-form-basic-example-v081-mhibp).
 
 ### All Examples
-Play with the sandboxes for the following examples:
-* [Basic Usage Example](https://codesandbox.io/s/react-emotion-multi-step-form-basic-example-v081-mhibp)
+Try out the following CodeSandbox examples:
+* [Basic Usage Example](https://codesandbox.io/s/react-emotion-multi-step-form-v09-basic-example-mhibp)
 * ["Subscription Form" Example](https://codesandbox.io/s/react-emotion-multi-step-form-v09-subscription-form-h6mpc)
 
 ## API Reference
 The components and custom hook described below are publicly exposed in the top-level module.
 
 **Components**
-- [`<FormBody>`]
-- [Input Components]
- i. [`<TextInput>`]
- ii. [`<RadioControl>` and `<RadioOption>`]
- iii. [`<CheckboxMulti>`]
-- [`<Captions>`]
+- [`<FormBody>`](https://github.com/z2lai/react-emotion-multi-step-form#formbody)
+- [Input Components](https://github.com/z2lai/react-emotion-multi-step-form#input-components)
+  1. [`<TextInput>`](https://github.com/z2lai/react-emotion-multi-step-form#textinput)
+  2. [`<RadioControl>` and `<RadioOption>`](https://github.com/z2lai/react-emotion-multi-step-form#radiocontrol-and-radiooption)
+  3. [`<ComboBoxMulti>`](https://github.com/z2lai/react-emotion-multi-step-form#comboboxmulti)
+- [`<Captions>`](https://github.com/z2lai/react-emotion-multi-step-form#captions)
 
 **HOCs & Hooks**
-- [`withFormContextAndTheme` HOC]
-- [`useInputs` hook]
+- [`withFormContextAndTheme` HOC](https://github.com/z2lai/react-emotion-multi-step-form#withformcontextandtheme-hoc)
+- [`useInputs` hook](https://github.com/z2lai/react-emotion-multi-step-form#useinputs-hook)
 
 ### `<FormBody>`
 The main component provided by the module which includes the body of the form, icon container, input container, navigation buttons, Tabs component and the Submit button. The icon container contains the icon of the currently active (displayed) input and the input container contains the active input (only one input can be active at a time). On click of the Next button, the active input is validated and the next input is made active if validation passes. The Submit button appears after the last input has been validated.
@@ -139,13 +140,13 @@ FormBody currently only accepts input components from this module as children. T
 
 ### Input Components
 This module provides the following custom input components to be used as form inputs within `FormBody`.
-* `<TextInput>`
-* `<RadioControl>` and `<RadioOption>`
-* `<ComboboxMulti>`
+1. [`<TextInput>`](https://github.com/z2lai/react-emotion-multi-step-form#textinput)
+2. [`<RadioControl>` and `<RadioOption>`](https://github.com/z2lai/react-emotion-multi-step-form#radiocontrol-and-radiooption)
+3. [`<ComboBoxMulti>`](https://github.com/z2lai/react-emotion-multi-step-form#comboboxmulti)
 
-These input components all have the following props that allow them to be registered with the form and displayed appropriately.
+These input components all share the following props in common which allows them to be registered in `FormContext` and displayed appropriately.
 
-#### **Common Props**
+#### **Base Props**
 Name | Type | Default | Description
 -----|------|---------|------------
 name `required` | string | | HTML name attribute for inputs - must be **unique** within form.
@@ -165,7 +166,7 @@ Key | Value Type | Default | Description
 required | boolean \| string | `true` | Specifies whether or not the input is required - default is true. Instead of `true`, a custom error message can be provided (as a string) to replace the default error message, "The [name] field is required!"
 
 #### `<TextInput>`
-The component to be used for text inputs. It has all of the [common props] and the following props.
+The component to be used for text inputs. It accepts the [base props](https://github.com/z2lai/react-emotion-multi-step-form#base-props) and the following props:
 
 **Props**
 Name | Type | Default | Description
@@ -173,9 +174,9 @@ Name | Type | Default | Description
 placeholder | string | | Placeholder text for text inputs
 
 #### `<RadioControl>` and `<RadioOption>`
-The component to be used for radio inputs (single-select). `<RadioControl>` has all of the [common props] and accepts multiple `<RadioOption>` input components as children. The selected option will be stored as a string. 
+The component to be used for radio inputs (single-select). `<RadioControl>` accepts the [base props](https://github.com/z2lai/react-emotion-multi-step-form#base-props) and accepts multiple `<RadioOption>` input components as children.
 
-`<RadioOption>` has the following props.
+`<RadioOption>` accepts the following props:
 
 **Props (`<RadioOption>`)**
 Name | Type | Default | Description
@@ -198,7 +199,7 @@ label | string | | Label text of radio option - displays `value` if not defined.
 ```
 
 #### `<ComboboxMulti>`
-The component to be used for checkbox inputs (multi-select) - includes many features such as autocomplete/autofilter, typeahead, and tokens. The selections will be stored as an array of strings. `<ComboboxMulti>` has all of the [common props] and the following props.
+The component to be used for checkbox inputs (multi-select). It includes many features such as autocomplete/autofilter, typeahead, and tokens. The selected options will be stored as an array of strings. `<ComboboxMulti>` accepts the [base props](https://github.com/z2lai/react-emotion-multi-step-form#base-props) and the following props:
 
 **Props**
 Name | Type | Default | Description
@@ -206,7 +207,7 @@ Name | Type | Default | Description
 options | [array, array] | | An array of two arrays containing equal number of elements. The second array contains groups of checkbox options (represented by arrays of strings) and the first array contains the headings for each of these groups. See examples below.
 
 **Examples**
-If the checkbox options can be logically separated into multiple groups, then the array passed into the options prop should follow the format as follows:
+If the checkbox options can be logically separated into multiple groups, then the array passed into the options prop should be in the following format:
 ```jsx
 const options = [
   ['fruits', 'vegetables', 'meats'],
@@ -230,7 +231,7 @@ const options = [
 ]
 ```
 
-Otherwise, the array passed into the options prop should follow the format as follows:
+Otherwise, the array passed into the options prop should be in the following format:
 ```jsx
 const options = [
   ['colours'],
@@ -241,24 +242,27 @@ const options = [
 ```
 
 ### `<Captions>`
-This component uses the [`useInputs`] custom hook to display the caption of the currently active input.
+This component uses the [`useInputs` hook](https://github.com/z2lai/react-emotion-multi-step-form#useinputs-hook) to display the caption of the currently active input. It accepts the following props:
 
 **Props**
 Name | Type | Default | Description
 -----|------|---------|------------
 callToActionText `required` | string | | Call-to-action text to be displayed on the final page with the Submit button.
 
-### withFormContextAndTheme Higher-order Component (HOC)
-This HOC allows the passed in component to have access to the theme and `FormContext` which stores the shared state. This must be called with the parent component as follows.
+### withFormContextAndTheme HOC
+This higher-order component (HOC) provides the wrapped component with access to the theme and `FormContext` which stores the shared state. This HOC must be called with the parent component as follows:
 ```jsx
 const AppWithContextAndTheme = withFormContextAndTheme(App);
 export default AppWithContextAndTheme;
-// Or simply:
+```
+
+Or simply:
+```jsx
 export default withFormContextAndTheme(App);
 ```
 
-### useInputs Custom Hook
-This custom hook returns [input prop values] and form state values from `FormContext`.
+### useInputs Hook
+This custom hook returns the following form state values from `FormContext`:
 
 **Returned Values**
 Name | Type | Initial Value | Description
@@ -272,9 +276,10 @@ isSubmitPage | boolean | false | Specifies if the form is on the last "page" wit
 inputValues | object | `{}` | An object containing all form values where each key is the input name and each value is the input value. This gets updated every time `changeActiveIndex` is called (e.g. clicking the Next button).
 
 **Example**
-These values and methods can be used, as follows, to create a custom component for navigating backwards to previous inputs in the form.
+These values and functions can be used, as follows, to create a custom component for navigating backwards to previous inputs in the form:
 ```jsx
 // All custom components not defined here are just styled components (Emotion) that only contain styling
+
 // Labels component
 const Labels = () => {
   const { inputs, activeIndex, changeActiveIndex, inputValues } = useInputs();
@@ -323,30 +328,26 @@ const Label = ({
 ```
 
 ## Feature Roadmap
-* More input validation options (e.g. maxLength, min, max, pattern, custom validation function)
-* Customizable theme
-* More props to customize styling
-* More Input Components:
- 1. Range Input (Slider)
- 2. Toggle/Switch Input
- 3. Single-select Input - Single-select Combobox with Autocomplete
-* Ability to have multiple inputs on one page with declarative configuration
-* Prop-types
-* Typescript support
 * Test Coverage
 * Web Accessibility (WAI-ARIA compliance)
+* More input validation options (e.g. custom validation function)
+* Customizable theme/more props to customize styling
+* More input components:
+ 1. Range Input (Slider)
+ 2. Toggle/Switch Input
+ 3. Multi-select Input - Tag Cloud Format
+* Ability to have multiple inputs on one page with declarative configuration
+* Typescript support
 
 ## Browser Support
-
-## Caveats
-* Relies on SVGR (built-in with react-scripts@^2.0.0) to import SVG icons as components
-* Currently only supports one input per page
+Recent versions of the following browsers are supported:
+- Chrome
 
 ## Changelog
 
 ## Credits
-- React Bootstrap Typeahead component by [Eric Giovanola](https://github.com/ericgio/react-bootstrap-typeahead)
-- react-rewards (confetti) component by [Develobear](https://github.com/thedevelobear/react-rewards) (not included in library)
+- [React Bootstrap Typeahead](https://github.com/ericgio/react-bootstrap-typeahead) component by Eric Giovanola
+- [react-rewards](https://github.com/thedevelobear/react-rewards) (confetti) component by Develobear (not included in library)
 
 ## License
-MIT © [Zheng Lai](https://github.com/z2lai)
+[MIT](https://github.com/z2lai/react-emotion-multi-step-form/blob/master/LICENSE.md) © [Zheng Lai](https://github.com/z2lai)
