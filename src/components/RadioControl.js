@@ -50,7 +50,13 @@ const RadioWrapper = styled.div`
   }
 `
 
-export const RadioOption = ({ name, value, isChecked, handleChange }) => (
+export const RadioOption = ({
+  name,
+  value,
+  label,
+  isChecked,
+  handleChange,
+}) => (
   <RadioWrapper color="indigo">
     <HiddenRadio
       type="radio"
@@ -64,14 +70,20 @@ export const RadioOption = ({ name, value, isChecked, handleChange }) => (
       isChecked={isChecked}
       color="indigo"
     >
-      {value}
+      {label || value}
     </StyledLabel>
   </RadioWrapper>
 );
 
-RadioOption.propTypes = { value: PropTypes.string.isRequired };
+RadioOption.propTypes = {
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]).isRequired,
+  label: PropTypes.string,
+};
 
-export const RadioControl = ({ 
+export const RadioControl = ({
   name,
   onChange,
   height,

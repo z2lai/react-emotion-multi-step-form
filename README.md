@@ -15,7 +15,7 @@ Demo the example app [here](http://z2lai.github.io/react-emotion-multi-step-form
 ## Features
 * Declarative display configuration - captions, page height, input icon and input validation
 * Smooth/Optimized page transition animations
-* Intuitive keyboard-only navigation
+* Accessible keyboard-only navigation
 * Responsive design
 * Supports SVG icons imported as React components (using SVGR that's built-in with Create-React-App)
 * Custom hook to access form state and input prop values for UI customization
@@ -44,12 +44,12 @@ npm install --save react-emotion-multi-step-form
 ```jsx
 import React from "react";
 import {
+  useInputs,
   FormBody,
   TextInput,
   RadioControl,
   RadioOption,
   withFormContextAndTheme,
-  useInputs
 } from "react-emotion-multi-step-form";
 
 // Import SVG icons as React components using SVGR (built-in with create-react-app)
@@ -94,7 +94,7 @@ function App() {
 // Wrap component with React Context.Provider and Emotion ThemeProvider
 export default withFormContextAndTheme(App);
 ```
-Play with the basic usage sandbox [here](https://codesandbox.io/s/react-emotion-multi-step-form-basic-example-v081-mhibp).
+[CodeSandbox](https://codesandbox.io/s/react-emotion-multi-step-form-basic-example-v081-mhibp).
 
 ### All Examples
 Play with the sandboxes for the following examples:
@@ -180,7 +180,8 @@ The component to be used for radio inputs (single-select). `<RadioControl>` has 
 **Props (`<RadioOption>`)**
 Name | Type | Default | Description
 -----|------|---------|------------
-value `required` | string | | Specifies both the value and the label of the radio option
+value `required` | string \| number | | Value of the radio option
+label | string | | Label text of radio option - displays `value` if not defined.
 
 **Example**
 ```jsx
@@ -257,7 +258,7 @@ export default withFormContextAndTheme(App);
 ```
 
 ### useInputs Custom Hook
-This hook provides access to the [common prop values] passed into each input component and the form state values from `FormContext`.
+This custom hook returns [input prop values] and form state values from `FormContext`.
 
 **Returned Values**
 Name | Type | Initial Value | Description
@@ -345,6 +346,7 @@ const Label = ({
 
 ## Credits
 - React Bootstrap Typeahead component by [Eric Giovanola](https://github.com/ericgio/react-bootstrap-typeahead)
+- react-rewards (confetti) component by [Develobear](https://github.com/thedevelobear/react-rewards) (not included in library)
 
 ## License
 MIT © [Zheng Lai](https://github.com/z2lai)

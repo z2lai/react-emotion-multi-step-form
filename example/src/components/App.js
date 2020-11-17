@@ -43,8 +43,7 @@ const App = props => (
           <a href="#getting-started" className="link link--large">Getting Started</a>
         </div>
         <div className="hero-banner__video">
-          <iframe src="https://player.vimeo.com/video/472571185?autoplay=1&loop=1&color=c9ff23&title=0&byline=0&portrait=0" frameborder="0" allow="fullscreen" allowfullscreen></iframe>
-          <script src="https://player.vimeo.com/api/player.js"></script>
+          <iframe src="https://player.vimeo.com/video/480101210?autoplay=1&loop=1&title=0&byline=0&portrait=0" width="640" height="344" frameborder="0" allow="autoplay; fullscreen"></iframe>
         </div>
       </div>
     </header>
@@ -88,7 +87,7 @@ const App = props => (
         <h2 id="example-app" className="section__title">Example App Demo</h2>
       </div>
       <SubscriptionForm className="example-app" />
-      <div className="flex-row">
+      <div className="section__container flex-row">
         <a href="https://codesandbox.io/s/react-emotion-multi-step-form-v09-subscription-form-h6mpc?file=/src/App.js" className="link link--large">CodeSandbox</a>
         <a href="#getting-started" className="link link--large">Getting Started</a>
       </div>
@@ -104,15 +103,15 @@ const App = props => (
     <section className="section">
       <div className="section__container">
         <h2 id="getting-started" className="section__title">Getting Started</h2>
-        <p className="section__paragraph">This library is for apps built with Create React App (CRA) and styled with Emotion (see <a href="https://github.com/z2lai/react-emotion-multi-step-form#peer-dependencies" className="link">Peer Dependencies</a>). Install the library with the following command:
-          <pre className="section__pre">
-            <code>npm install --save react-emotion-multi-step-form</code>
-          </pre>
+        <p className="text-container">This library is for apps built with Create React App (CRA) and styled with Emotion (see <a href="https://github.com/z2lai/react-emotion-multi-step-form#peer-dependencies" className="link">Peer Dependencies</a>). Install the library with the following command:
         </p>
+        <pre className="text-container code">
+          <code>npm install --save react-emotion-multi-step-form</code>
+        </pre>
       </div>
       <div className="section__container">
         <h3 className="section__heading">Core Components</h3>
-        <p className="section__paragraph">
+        <p className="text-container">
           <a href="https://github.com/z2lai/react-emotion-multi-step-form#formbody" className="link">FormBody</a> is the main component that includes the body of the multi-step form, the navigation buttons, the label tabs and the Submit button. The app needs to be wrapped with the higher-order component (HOC), <a href="https://github.com/z2lai/react-emotion-multi-step-form#withformcontextandtheme-higher-order-component-hoc" className="link">withFormContextAndTheme</a>, in order for all components to access shared state in Context via a custom hook (see <a href="#custom-hook" className="link">Custom Hook</a> section).
         </p>
       </div>
@@ -121,39 +120,39 @@ const App = props => (
       </CodeSnippet>
       <div className="section__container">
         <h3 id="input-components" className="section__heading">Input Components</h3>
-        <p className="section__paragraph">
+        <p className="text-container">
           The library provides custom <a href="https://github.com/z2lai/react-emotion-multi-step-form#input-components" className="link">input components</a> which are passed to FormBody as children and displayed on separate "pages" of the multi-step form. All input values are automatically made available for both form validation and submission. Upon clicking the "Next Page" button, the active input's value is validated and stored in the form's shared state before the next input is displayed.
         </p>
-        <p className="section__paragraph">
+        <p className="text-container">
           The following props are the base props for all input components in this library:
-          <ul>
-            <li><strong>name</strong> - unique identifier for input to be properly registered in Context</li>
-            <li><strong>onChange</strong> - callback invoked when controlled input value changes</li>
-            <li><strong>caption</strong> - additional text to provide a hint for input (displayed by <a href="" className="link">Captions</a> component)</li>
-            <li><strong>icon</strong> - <a href="https://create-react-app.dev/docs/adding-images-fonts-and-files/#adding-svgs" className="link">SVG icon imported as a component</a> using SVGR (built-in with CRA) to be displayed beside input</li>
-            <li><strong>height</strong> - height, in pixels, of the form body when input is active</li>
-            <li><strong>validationRules</strong> - an object containing input <a href="https://github.com/z2lai/react-emotion-multi-step-form#validation-rules" className="link">validation rules</a> that align with the existing HTML5 form validation standard (also accepts custom validation functions).</li>
-          </ul>
         </p>
+        <ul className="text-container list">
+          <li><strong>name</strong> - unique identifier for input to be properly registered in Context</li>
+          <li><strong>onChange</strong> - callback invoked when controlled input value changes</li>
+          <li><strong>caption</strong> - additional text to provide a hint for input (displayed by <a href="#custom-hook" className="link">Captions</a> component)</li>
+          <li><strong>icon</strong> - <a href="https://create-react-app.dev/docs/adding-images-fonts-and-files/#adding-svgs" className="link">SVG icon imported as a component</a> using SVGR (built-in with CRA) to be displayed beside input</li>
+          <li><strong>height</strong> - height, in pixels, of the form body when input is active</li>
+          <li><strong>validationRules</strong> - an object containing input <a href="https://github.com/z2lai/react-emotion-multi-step-form#validation-rules" className="link">validation rules</a> that align with the existing HTML5 form validation standard (also accepts custom validation functions).</li>
+        </ul>
       </div>
       <CodeSnippet language="jsx">
         {inputComponentsCode}
       </CodeSnippet>
       <div className="section__container">
         <h3 id="custom-hook" className="section__heading">Custom Hook</h3>
-        <p className="section__paragraph">
-          The custom hook, <a href="https://github.com/z2lai/react-emotion-multi-step-form#useinputs-hook" className="link">useInputs</a>, can be used to retrieve shared state values such as the current error state and error message. useInputs can also be used to retrieve certain input prop values. For example, the Captions component is built with useInputs to display the caption of the active input:
+        <p className="text-container">
+          The custom hook, <a href="https://github.com/z2lai/react-emotion-multi-step-form#useinputs-custom-hook" className="link">useInputs</a>, can be used to retrieve shared state values such as the current error state and error message. useInputs can also be used to retrieve certain input prop values. For example, the Captions component is built with useInputs to display the caption of the active input:
         </p>
-        <CodeSnippet language="jsx">
-          {captionsComponentCode}
-        </CodeSnippet>
       </div>
-      <div className="flex-row">
-        <a href="#react-emotion-multi-step" className="link link--large">Back to Top</a>
-      </div>
+      <CodeSnippet language="jsx">
+        {captionsComponentCode}
+      </CodeSnippet>
     </section>
+    <div className="flex-row">
+      <a href="#react-emotion-multi-step" className="link link--large">Back to Top</a>
+    </div>
     <footer className="footer">
-      <ul className="footer__links">
+      <ul className="footer__list">
         <li>
           Copyright © 2020 <a href="https://github.com/z2lai" className="link">Zheng Lai</a>
         </li>

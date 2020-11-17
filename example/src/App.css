@@ -124,29 +124,28 @@ div {
 
 .section__heading {
   display: inline-block;
-  margin: 1rem auto;
+  margin: 2rem auto 1rem auto;
   padding-bottom: 5px;
   font-size: 1.5rem;
   font-weight: normal;
   border-bottom: 2px solid var(--black);
 }
 
-.section__paragraph {
+.text-container {
   margin: 0 auto 1.5rem auto;
   max-width: 680px;
   line-height: 1.5;
   font-size: 1.125rem;
 }
 
-.section__paragraph ul {
+.list {
   margin-block-start: 10px;
   padding-inline-start: 60px;
   text-align: left;
 }
 
-.section__pre {
+.code {
   white-space: pre-wrap; 
-  font-size: 1.125rem;
 }
 
 .flex-row {
@@ -186,17 +185,13 @@ div {
 }
 
 .footer {
-  margin: 20px 0 30px 0;
+  margin: 30px 0;
   text-align: center;
 }
 
-.footer__links {
+.footer__list {
   list-style: none;
   padding: 0;
-}
-
-.footer__links li {
-
 }
 
 /* Medium Layout (Tablet/Laptops) */
