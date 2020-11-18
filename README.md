@@ -1,11 +1,11 @@
 <div align="center">
-  <h1>React Emotion Multi-step Form</h1>
+  <h1><a href="https://z2lai.github.io/react-emotion-multi-step-form/">React Emotion Multi-step Form</a></h1>
 
   > A multi-step form component library built with React and styled with Emotion
 
   [![NPM](https://img.shields.io/npm/v/react-emotion-multi-step-form.svg)](https://www.npmjs.com/package/react-emotion-multi-step-form)
 
-  ![Example App Demo](example/src/example-app-demo-final.gif)
+  [![Example App Demo](example/src/example-app-demo-final.gif)](https://z2lai.github.io/react-emotion-multi-step-form/)
 </div>
 
 ## Introduction
