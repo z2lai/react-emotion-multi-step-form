@@ -1,11 +1,11 @@
 <div align="center">
-  # React Emotion Multi-step Form
+  <h1>React Emotion Multi-step Form</h1>
 
   > A multi-step form component library built with React and styled with Emotion
 
   [![NPM](https://img.shields.io/npm/v/react-emotion-multi-step-form.svg)](https://www.npmjs.com/package/react-emotion-multi-step-form)
 
-  ![Example App Demo](example-app-demo-final.gif)
+  ![Example App Demo](example/src/example-app-demo-final.gif)
 </div>
 
 ## Introduction
@@ -95,10 +95,10 @@ function App() {
 // Wrap component with React Context.Provider and Emotion ThemeProvider
 export default withFormContextAndTheme(App);
 ```
-[CodeSandbox](https://codesandbox.io/s/react-emotion-multi-step-form-basic-example-v081-mhibp).
+[CodeSandbox](https://codesandbox.io/s/react-emotion-multi-step-form-basic-example-v081-mhibp)
 
 ### All Examples
-Try out the following CodeSandbox examples:
+Demo the following CodeSandbox examples:
 * [Basic Usage Example](https://codesandbox.io/s/react-emotion-multi-step-form-v09-basic-example-mhibp)
 * ["Subscription Form" Example](https://codesandbox.io/s/react-emotion-multi-step-form-v09-subscription-form-h6mpc)
 
@@ -250,7 +250,7 @@ Name | Type | Default | Description
 callToActionText `required` | string | | Call-to-action text to be displayed on the final page with the Submit button.
 
 ### withFormContextAndTheme HOC
-This higher-order component (HOC) provides the wrapped component with access to the theme and `FormContext` which stores the shared state. This HOC must be called with the parent component as follows:
+This higher-order component (HOC) provides the wrapped component with access to the theme and `FormContext` which stores the form state. This HOC must be called with the parent component as follows:
 ```jsx
 const AppWithContextAndTheme = withFormContextAndTheme(App);
 export default AppWithContextAndTheme;
