@@ -8,8 +8,11 @@ import useInputState from "../core/useInputState";
 import InputWrapper from "./InputWrapper";
 import { StyledInput } from "./StyledComponents";
 
+import getValidationAttributes from "../logic/getValidationAttributes";
+
 const TextInput = ({
   name,
+  type,
   placeholder,
   onChange,
   label,
@@ -18,8 +21,10 @@ const TextInput = ({
   height,
   validationRules,
 }) => {
-  const { refCallback } = useAddInput({ label, caption, icon, height, validationRules });
+  const validationAttributes = getValidationAttributes(validationRules);
+  const { refCallback } = useAddInput({ label, caption, icon, height, validationRules, html5Validation: true });
   const { value, setValue } = useInputState(name, '');
+
 
   const handleChange = event => {
     const value = event.target.value;
@@ -30,14 +35,15 @@ const TextInput = ({
   return (
     <InputWrapper name={name}>
       <StyledInput
-        type="text"
         id={name}
         name={name}
-        ref={refCallback}
+        type={type}
         placeholder={placeholder}
         autocomplete="new-password"
         value={value}
         onChange={handleChange}
+        ref={refCallback}
+        {...validationAttributes}
       />
     </InputWrapper>
   );

@@ -101,7 +101,7 @@ const StyledLabelTab = styled.li`
 const IconTabWrapper = styled.div`
   flex: ${props => props.isSubmitPage ? 'none' : '1 1 auto'};
   min-width: ${props => props.isSubmitPage ? '50px' : '40px'};
-  height: 30px;
+  line-height: 0;
   ${props => css`
     transform-origin: right top;
     animation-name: ${keyframes(props.inverseScaleAnimation)};

@@ -93,7 +93,8 @@ export const RadioControl = ({
   validationRules,
   children,
 }) => {
-  const { refCallback } = useAddInput({ label, caption, icon, validationRules, height });
+  console.log('Radiocontrol rendered!')
+  const { refCallback } = useAddInput({ label, caption, icon, height, validationRules });
   const { value, setValue } = useInputState(name, '');
 
   const handleChange = event => {

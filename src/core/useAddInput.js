@@ -1,56 +1,22 @@
 import { useContext, useCallback } from "react";
 import { FormContext } from "./FormContext";
 
-const useAddInput = ({ label, caption, icon, height, validationRules }) => {
-  // console.log('useInputs called!');
+import { validateInputHtml5, validateInputCustom } from '../logic/validateInput';
+
+const useAddInput = ({ 
+  label, 
+  caption, 
+  icon, 
+  height, 
+  validationRules = {},
+  html5Validation = false,
+}) => {
   const { addInput } = useContext(FormContext);
 
-  const validateInput = input => {
-    const { name, value, validationRules } = input;
-    // console.log('validateInput called with name and value:');
-    // console.log(name);
-    // console.log(value);
-    const {
-      required, // boolean or error message string
-      // minLength, // e.g. 3 or { value: 3, message: 'error message' }
-      // maxLength, // e.g. 16 or { value: 16, message: 'error message' }
-      // min, // e.g. 1
-      // max, // e.g. 100
-      // pattern, // `regex pattern`
-      // validate // { validator: customValidatorFunc, message: customMessageFunc }
-    } = validationRules;
+  const validateInput = html5Validation ? validateInputHtml5 : validateInputCustom;
+  console.log(validateInput);
 
-    const dataType = (Array.isArray(value) && 'array') ||
-      ((typeof value === 'object') && 'object') ||
-      'primitive';
-
-    // console.log(`input value data type: ${dataType}`);
-    switch (dataType) {
-      case 'array':
-        if (required && value.length === 0) return (typeof required === 'string') ? required : `The ${name} field is required!`
-        // Other criteria checks
-        // ...
-        break;
-      case 'object':
-        break;
-      case 'primitive':
-        if (required && !value.trim()) return (typeof required === 'string') ? required : `The ${name} field is required!`
-        // Other criteria checks
-        // ...
-        break;
-      default:
-        break;
-    }
-    return '';
-  }
-
-  const registerInput = (
-    label, 
-    caption, 
-    icon, 
-    height, 
-    validationRules = { required: true }
-  ) => {
+  const registerInput = () => {
     const input = {
       label,
       caption,
@@ -71,7 +37,7 @@ const useAddInput = ({ label, caption, icon, height, validationRules }) => {
     };
   }
 
-  const refCallback = useCallback(registerInput(label, caption, icon, height, validationRules));
+  const refCallback = useCallback(registerInput());
 
   return {
     refCallback,
