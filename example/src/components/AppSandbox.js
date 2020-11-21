@@ -35,7 +35,10 @@ const App = () => {
           name="interests"
           caption="What are your interests?"
           icon={PriceTagsIcon}
-          validationRules={{ required: 'Please select a Topic' }}
+          validationRules={{ 
+            required: true,
+            validate: value => value.length >= 3 || 'Please select at least 3 topics.'
+          }}
           height={240}
           options={options}
         />
@@ -54,7 +57,11 @@ const App = () => {
           type="email"
           caption="What's your email address?"
           icon={LinkIcon}
-          validationRules={{ required: 'Please fill in your email address' }}
+          validationRules={{ 
+            required: true,
+            maxLength: 5,
+            validate: value => value === '123@5' || 'Value is not equal to 123@5!'
+          }}
         />
       </FormBody>
       <div className="error-message">{error.message}</div>
