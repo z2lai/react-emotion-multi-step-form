@@ -47,7 +47,7 @@ import React from "react";
 import {
   useInputs,
   FormBody,
-  TextInput,
+  Input,
   RadioControl,
   RadioOption,
   withFormContextAndTheme,
@@ -67,12 +67,12 @@ function App() {
   return (
     <div>
       <FormBody onSubmit={handleSubmit}>
-        <TextInput
+        <Input
           name="firstname" // name of each input component must be unique
           icon={LinkIcon} // icon to be displayed beside input component
           validationRules={{ required: true }}
         />
-        <TextInput
+        <Input
           name="lastname"
           icon={TreeIcon}
           validationRules={{ required: true }} // default error message
@@ -108,7 +108,7 @@ The components and custom hook described below are publicly exposed in the top-l
 **Components**
 - [`<FormBody>`](https://github.com/z2lai/react-emotion-multi-step-form#formbody)
 - [Input Components](https://github.com/z2lai/react-emotion-multi-step-form#input-components)
-  1. [`<TextInput>`](https://github.com/z2lai/react-emotion-multi-step-form#textinput)
+  1. [`<Input>`](https://github.com/z2lai/react-emotion-multi-step-form#Input)
   2. [`<RadioControl>` and `<RadioOption>`](https://github.com/z2lai/react-emotion-multi-step-form#radiocontrol-and-radiooption)
   3. [`<ComboBoxMulti>`](https://github.com/z2lai/react-emotion-multi-step-form#comboboxmulti)
 - [`<Captions>`](https://github.com/z2lai/react-emotion-multi-step-form#captions)
@@ -133,14 +133,14 @@ submitWidth | number | 110 | Width in pixels of the Submit button
 FormBody currently only accepts input components from this module as children. These input components will be contained within the input container and be displayed one at a time depending on which input is active.
 ```jsx
   <FormBody onSubmit={handleSubmit}>
-    <TextInput name="firstname" />
-    <TextInput name="lastname" />
+    <Input name="firstname" />
+    <Input name="lastname" />
   </FormBody>
 ```
 
 ### Input Components
 This module provides the following custom input components to be used as form inputs within `FormBody`.
-1. [`<TextInput>`](https://github.com/z2lai/react-emotion-multi-step-form#textinput)
+1. [`<Input>`](https://github.com/z2lai/react-emotion-multi-step-form#Input)
 2. [`<RadioControl>` and `<RadioOption>`](https://github.com/z2lai/react-emotion-multi-step-form#radiocontrol-and-radiooption)
 3. [`<ComboBoxMulti>`](https://github.com/z2lai/react-emotion-multi-step-form#comboboxmulti)
 
@@ -165,7 +165,7 @@ Key | Value Type | Default | Description
 ----------|------------|---------|------------
 required | boolean \| string | `true` | Specifies whether or not the input is required - default is true. Instead of `true`, a custom error message can be provided (as a string) to replace the default error message, "The [name] field is required!"
 
-#### `<TextInput>`
+#### `<Input>`
 The component to be used for text inputs. It accepts the [base props](https://github.com/z2lai/react-emotion-multi-step-form#base-props) and the following props:
 
 **Props**

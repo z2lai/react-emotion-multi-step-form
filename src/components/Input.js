@@ -10,7 +10,7 @@ import { StyledInput } from "./StyledComponents";
 
 import getValidationAttributes from "../logic/getValidationAttributes";
 
-const TextInput = ({
+const Input = ({
   name,
   type,
   placeholder,
@@ -51,9 +51,9 @@ const TextInput = ({
   );
 };
 
-TextInput.propTypes = { 
+Input.propTypes = { 
   ...inputPropTypes, 
   placeholder: PropTypes.string,
 }
 
-export default TextInput;
+export default Input;

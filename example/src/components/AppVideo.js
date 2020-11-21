@@ -5,7 +5,7 @@ import {
   FormBody,
   withFormContextAndTheme,
   Captions,
-  TextInput,
+  Input,
   RadioControl,
   RadioOption,
   ComboboxMulti,
@@ -49,7 +49,7 @@ const App = () => {
           <RadioOption value="weekly" />
           <RadioOption value="monthly" />
         </RadioControl>
-        <TextInput
+        <Input
           name="email"
           caption="What's your email address?"
           icon={LinkIcon}

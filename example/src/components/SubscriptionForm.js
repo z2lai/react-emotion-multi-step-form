@@ -4,7 +4,7 @@ import {
   withFormContextAndTheme,
   FormBody,
   Captions,
-  TextInput,
+  Input,
   RadioControl,
   RadioOption,
   ComboboxMulti
@@ -52,8 +52,9 @@ const Form = ({ className }) => {
           <RadioOption value="weekly" />
           <RadioOption value="monthly" />
         </RadioControl>
-        <TextInput
+        <Input
           name="email"
+          type="email"
           caption="What's your email address?"
           icon={LinkIcon}
           validationRules={{ required: 'Please fill in your email address' }}

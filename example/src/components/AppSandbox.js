@@ -8,7 +8,7 @@ import {
   ComboboxMulti,
   RadioControl,
   RadioOption,
-  TextInput,
+  Input,
   withFormContextAndTheme,
 } from "react-emotion-multi-step-form";
 
@@ -52,9 +52,9 @@ const App = () => {
           <RadioOption value="weekly" />
           <RadioOption value="monthly" />
         </RadioControl>
-        <TextInput 
+        <Input 
           name="email" 
-          type="email"
+          type="number"
           caption="What's your email address?"
           icon={LinkIcon}
           validationRules={{ 

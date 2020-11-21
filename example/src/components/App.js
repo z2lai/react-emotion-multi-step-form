@@ -132,7 +132,7 @@ const App = props => (
           <li><strong>caption</strong> - additional text to provide a hint for input (displayed by <a href="#custom-hook" className="link">Captions</a> component)</li>
           <li><strong>icon</strong> - <a href="https://create-react-app.dev/docs/adding-images-fonts-and-files/#adding-svgs" className="link">SVG icon imported as a component</a> using SVGR (built-in with CRA) to be displayed beside input</li>
           <li><strong>height</strong> - height, in pixels, of the form body when input is active</li>
-          <li><strong>validationRules</strong> - an object containing input <a href="https://github.com/z2lai/react-emotion-multi-step-form#validation-rules" className="link">validation rules</a> that align with the existing HTML5 form validation standard</li>
+          <li><strong>validationRules</strong> - an object containing input <a href="https://github.com/z2lai/react-emotion-multi-step-form#validation-rules" className="link">validation rules</a> that align with the existing HTML5 form validation standard (also accepts a custom validation function)</li>
         </ul>
       </div>
       <CodeSnippet language="jsx">
