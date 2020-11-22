@@ -53,6 +53,7 @@ const App = () => {
         </RadioControl> */}
         <Input 
           name="username" 
+          label="Display Name"
           caption="Choose a username."
           title="Usernames must be lowercase letters and 4-8 characters in length."
           icon={LinkIcon}

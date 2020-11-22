@@ -95,10 +95,10 @@ function App() {
 // Wrap component with React Context.Provider and Emotion ThemeProvider
 export default withFormContextAndTheme(App);
 ```
-[CodeSandbox](https://codesandbox.io/s/react-emotion-multi-step-form-basic-example-v081-mhibp)
+Learn how to get started [here](http://z2lai.github.io/react-emotion-multi-step-form#getting-started) or check out the [CodeSandbox](https://codesandbox.io/s/react-emotion-multi-step-form-basic-example-v081-mhibp).
 
 ### All Examples
-Demo the following CodeSandbox examples:
+Check out the following CodeSandbox examples:
 * [Basic Usage Example](https://codesandbox.io/s/react-emotion-multi-step-form-v09-basic-example-mhibp)
 * ["Subscription Form" Example](https://codesandbox.io/s/react-emotion-multi-step-form-v09-subscription-form-h6mpc)
 
@@ -144,23 +144,24 @@ This module provides the following custom input components to be used as form in
 2. [`<RadioControl>` and `<RadioOption>`](https://github.com/z2lai/react-emotion-multi-step-form#radiocontrol-and-radiooption)
 3. [`<ComboBoxMulti>`](https://github.com/z2lai/react-emotion-multi-step-form#comboboxmulti)
 
-These input components all share the following props in common which allows them to be registered in `FormContext` and displayed appropriately:
+These input components all share the following props in common which allow them to be registered in `FormContext` and displayed appropriately:
 
 #### **Base Props**
 Name | Type | Default | Description
 -----|------|---------|------------
 name `required` | string | | HTML name attribute for inputs - must be **unique** within form.
-onChange | function | | Invoked when controlled input value changes - receives the string value of the input. **Note**: Input value state is managed internally and can be retrieved with the `useInputs` hook.
+onChange | function | | Invoked when controlled input value changes - receives the input value. **Note**: Input value state is managed internally and can also be retrieved with the `useInputs` hook.
+label | string | | Label text to be displayed as a "tab" above the input - if not specified, `name` is displayed instead.
 caption | string | | Caption to be displayed in the `<Captions>` custom component when this input is active.
-icon | elementType | | An SVG file imported as a [React component](https://create-react-app.dev/docs/adding-images-fonts-and-files/#adding-svgs). Refer to [Basic Usage] for an example or see the section below on [importing SVG icons as React components].
-height | number | 60 | Specifies the height, in pixels, of the form body when this input is active. Includes top and bottom padding of 10px and excludes the Tabs component.
+icon | elementType | | An SVG file imported as a React component. Refer to [Basic Usage](https://github.com/z2lai/react-emotion-multi-step-form#basic-usage) for an example or see the section below on [importing SVG icons as React components](https://github.com/z2lai/react-emotion-multi-step-form#importing-svg-icons-as-react-components).
+height | number | 60 | Specifies the height, in pixels, of the form body when this input is active. Includes top and bottom padding of 10px and excludes the tabs.
 validationRules | object | | Specifies rules that the input is validated against on navigation to the next input (i.e. clicking the Next button). On the first rule validation failure, navigation is cancelled and the form goes into an error state until the input is validated again and passes. The default/custom error message can be retrieved from the `useInputs` hook. See below for all available validation rules.
 
-#### Importing SVG icons as React components
-Refer to Create React App [Official Docs](https://create-react-app.dev/docs/adding-images-fonts-and-files/#adding-svgs).
+#### Importing SVG Icons As React Components
+Refer to the section in the Create React App documentation on [adding SVGs](https://create-react-app.dev/docs/adding-images-fonts-and-files/#adding-svgs).
 
 #### Validation Rules
-Input validation rules are passed as an object prop into each input component. The object contains the following key-value pairs where the key is the rule name and the value describes the validation criteria value and/or the custom error message. The following table lists all of the available validation rules that `validationRules` can contain for all input components:
+Input validation rules are passed as an object prop into each input component. The object contains the following key-value pairs where the key is the rule name and the value describes the validation criteria and/or the custom error message. The following table lists all of the available validation rules that `validationRules` can contain for all input components:
 Key | Value Type | Default | Description
 ----------|------------|---------|------------
 required | boolean \| string | | Specifies whether or not the input is required. Instead of `true`, a custom error message can be provided (as a string) to replace the default HTML5 validation message.
@@ -187,22 +188,24 @@ The component to be used for standard HTML inputs. It accepts the [base props](h
 **Props**
 Name | Type | Default | Description
 -----|------|---------|------------
-type | string | 'text' | HTML type attribute - see full list of [HTML input types](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input)
-title | string | 'text' | HTML title attribute
-placeholder | string | | HTML placeholder attribute
+type | string | 'text' | HTML type attribute - see full list of [HTML input types](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input).
+title | string | | HTML title attribute.
+placeholder | string | | HTML placeholder attribute.
 
 **HTML5 Validation Rules**
 
-In addition to the validation rules mentioned [above](https://github.com/z2lai/react-emotion-multi-step-form#validation-rules), HTML5 validation rules can be specified for the `<Input>` component. The default error message for each HTML5 validation rule is the corresponding HTML5 validation message. Instead of a value, an object containing the value and a custom error message can be provided to replace the default HTML5 validation message. The following table lists all of the available HTML5 validation rules that `validationRules` can contain for the `<Input>` component:
+In addition to the validation rules listed [above](https://github.com/z2lai/react-emotion-multi-step-form#validation-rules), HTML5 validation rules can be specified for the `<Input>` component. The default error message for each HTML5 validation rule is the corresponding HTML5 validation message. Instead of a value, an object containing the value and a custom error message can be provided to replace the default HTML5 validation message. 
+
+The following table lists all of the available HTML5 validation rules that `validationRules` can contain for the `<Input>` component:
 Key | Value Type | Default | Description
 ----------|------------|---------|------------
 minLength | number \| { value: number, message: string } | | Specifies the minimum number of characters for the appropriate input type.
 maxLength | number \| { value: number, message: string } | | Specifies the maximum number of characters for the appropriate input type.
 min | number \| { value: number, message: string } | | Specifies the minimum value for the appropriate input type.
 max | number \| { value: number, message: string } | | Specifies the maximum value for the appropriate input type.
-pattern | RegExp \| { value: RegExp, message: string } | | Specifies a JavaScript regular expression for the appropriate input type.
+pattern | RegExp \| { value: RegExp, message: string } | | Specifies a JavaScript regular expression to be matched for the appropriate input type.
 
-**Note:** Different HTML5 validation rules are supported by different input types according to this [table](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5/Constraint_validation#Validation-related_attributes).
+**Note:** Different HTML5 validation rules are supported by different input types according to this [table](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5/Constraint_validation#Validation-related_attributes).<br>
 **Note:** HTML5 validation is automatically performed on inputs based on the [intrinsic constraints](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5/Constraint_validation#Semantic_input_types) set by the `type` attribute (e.g. `type="email"` or `type="URL"`).
 
 **Example**
@@ -229,8 +232,8 @@ The component to be used for radio inputs (single-select). `<RadioControl>` acce
 **Props (`<RadioOption>`)**
 Name | Type | Default | Description
 -----|------|---------|------------
-value `required` | string \| number | | Value of the radio option
-label | string | | Label text of radio option - displays `value` if not defined.
+value `required` | string \| number | | Value of the radio option.
+label | string | | Label text of radio option - if not specified, `value` is displayed instead.
 
 **Example**
 ```jsx
@@ -316,13 +319,13 @@ This custom hook returns the following form state values from `FormContext`:
 **Returned Values**
 Name | Type | Initial Value | Description
 -----|------|---------------|------------
-inputs | Array\<Object\> | `[]` | An array of objects where each object contains the prop values of each input. Each input object contains the following prop-value pairs which were passed as props into each input: `caption`, `icon` and `height`.<br>**Note**: On initial form render, `inputs` is always empty as all input components still need to be rendered once for their ref callbacks to "register" them in inputs (which triggers an immediate re-render).
-activeIndex | number | `0` | An index from 0 to n where n is the number of inputs in the form. The index specifies which input is currently active (`0` refers to the first input and n refers to the Submit button which comes after the last input).
-changeActiveIndex | function | | Accepts a number that should specify what to change `activeIndex` to (which input to make active). Input validation is performed on the currently active input only if the number passed is greater than activeIndex (going forward in the form).
-activeInput | object | | An object from `inputs` that represents the input that is currently active. activeInput is `null` when activeIndex = n.
-error | { state: boolean, message: string } | `{ state: false, message: '' }` | Error object containing the error state of the form and the error message to display. `error.message` should be added to the form as it's not displayed by default.
+inputs | Array\<Object\> | `[]` | An array of objects where each object contains the prop values of each input. Each input object contains prop-value pairs for the following props: `label`, `caption`, `icon` and `height`.<br>**Note**: On initial form render, `inputs` is always empty as all input components still need to be rendered once for their ref callbacks to "register" them in `inputs` (which triggers an immediate re-render).
+activeIndex | number | `0` | An index from 0 to n where n is the number of inputs in the form. The index specifies which input is currently active: `0` refers to the first input and n refers to the Submit button which comes after the last input.
+changeActiveIndex | function | | Accepts a number that should specify what to change `activeIndex` to (which input to make active). Input validation is performed on the currently active input only if the number is greater than activeIndex (going forward in the form).
+activeInput | object | | The input object from `inputs` for the currently active input. `activeInput` is `null` when `activeIndex` = n.
+error | { state: boolean, message: string } | `{ state: false, message: '' }` | Error object containing the error state of the form and the error message to display.<br>**Note**: `error.message` must be added to the form as it's not displayed by default.
 isSubmitPage | boolean | false | Specifies if the form is on the last "page" with the Submit button.
-inputValues | object | `{}` | An object containing all form values where each key is the input name and each value is the input value. This gets updated every time `changeActiveIndex` is called (e.g. clicking the Next button).
+inputValues | object | `{}` | An object containing all form values where each key is the input name and each value is the input value. `inputValues` gets updated every time `changeActiveIndex` is called (e.g. on click of the Next button).
 
 **Example**
 
@@ -336,17 +339,18 @@ const Labels = () => {
 
   return (
     <LabelsContainer>
-      {(inputs.length > 0) ? // render null on initial form render
+      {(inputs.length > 0) ?
         inputs.map((input, index) => (
           <Label
             key={`${index}${input.name}`}
+            label={input.label}
             inputValue={inputValues[input.name]}
             active={index === activeIndex}
             changeActiveIndex={() => changeActiveIndex(index)}
             activated={index < activeIndex}
           />
         ))
-        : null
+        : null // render null on initial form render
       }
     </LabelsContainer>
   )
@@ -378,19 +382,20 @@ const Label = ({
 ```
 
 ## Feature Roadmap
-* Web Accessibility (WCAG 2.1 Conformance)
-* Test Coverage
+* Web accessibility (WCAG 2.1 conformance)
+* Test coverage
 * Customizable theme/more props to customize styling
 * More input components:
- 1. Range Input (Slider)
- 2. Toggle/Switch Input
- 3. Multi-select Input - Tag Cloud Format
+ 1. Range input (Slider)
+ 2. Toggle/Switch input
+ 3. Multi-select input - tag cloud format
 * Ability to have multiple inputs on one page with declarative configuration
 * Typescript support
 
 ## Browser Support
 Recent versions of the following browsers are supported:
 - Chrome
+- Firefox
 
 ## Changelog
 

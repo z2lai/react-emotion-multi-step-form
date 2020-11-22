@@ -1,12 +1,6 @@
 export default `
 /* All custom components not defined here are just styled components (Emotion) that 
 only contain styling */
-const Caption = ({ caption, isActive }) => (
-  <StyledCaption isActive={isActive}>
-    {caption}
-  </StyledCaption>
-)
-
 const Captions = ({ callToActionText }) => {
   const { inputs, activeIndex, isSubmitPage } = useInputs();
 
@@ -28,4 +22,10 @@ const Captions = ({ callToActionText }) => {
     </CaptionsContainer>
   )
 }
+
+const Caption = ({ caption, isActive }) => (
+  <StyledCaption isActive={isActive}>
+    {caption}
+  </StyledCaption>
+)
 `
