@@ -31,7 +31,7 @@ const App = () => {
       </h1>
       <Captions callToActionText="Get the latest news straight to your inbox!" />
       <FormBody submitText="Subscribe" submitWidth={130} onSubmit={handleSubmit}>
-        <ComboboxMulti
+        {/* <ComboboxMulti
           name="interests"
           caption="What are your interests?"
           icon={PriceTagsIcon}
@@ -46,21 +46,23 @@ const App = () => {
           name="frequency"
           caption="How often do you want to receive our newsletter?"
           icon={TreeIcon}
-          validationRules={{ required: 'Please select a frequency' }}
+          validationRules={{ required: 'Please select a frequency.' }}
         >
           <RadioOption value="daily" />
           <RadioOption value="weekly" />
           <RadioOption value="monthly" />
-        </RadioControl>
+        </RadioControl> */}
         <Input 
-          name="email" 
-          type="number"
-          caption="What's your email address?"
+          name="username" 
+          caption="Choose a username."
+          title="Usernames must be lowercase letters and 4-8 characters in length."
           icon={LinkIcon}
           validationRules={{ 
-            required: true,
-            maxLength: 5,
-            validate: value => value === '123@5' || 'Value is not equal to 123@5!'
+            required: 'Please enter a username for your new account.',
+            pattern: {
+              value: "[a-z]{4,8}",
+              message: "Usernames must be lowercase letters and 4-8 characters in length."
+            }
           }}
         />
       </FormBody>

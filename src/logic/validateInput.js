@@ -39,7 +39,7 @@ export const validateInputHtml5 = input => {
 export const validateInputCustom = input => {
   const { name, value, validationRules } = input;
   const { required, validate } = validationRules;
-  
+
   if (required) {
     const dataType = (Array.isArray(value) && 'array') ||
       ((typeof value === 'object') && 'object') ||

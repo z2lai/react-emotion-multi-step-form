@@ -13,6 +13,7 @@ import getValidationAttributes from "../logic/getValidationAttributes";
 const Input = ({
   name,
   type,
+  title,
   placeholder,
   onChange,
   label,
@@ -40,6 +41,7 @@ const Input = ({
         id={name}
         name={name}
         type={type}
+        title={title}
         placeholder={placeholder}
         autocomplete="new-password"
         value={value}

@@ -21,7 +21,7 @@ Demo the example app [here](http://z2lai.github.io/react-emotion-multi-step-form
 * Custom hook to access form state and input prop values for UI customization
 * Supports SVG icons imported as React components (using SVGR that's built-in with Create-React-App)
 * Three Input Components:
-  1. Text Input with HTML5 form validation
+  1. HTML Input with HTML5 form validation
   2. Single-select Input - Radio Input with declarative configuration of radio options
   3. Multi-select Input - Multi-select Combobox with Autocomplete and Typeahead
 
@@ -144,7 +144,7 @@ This module provides the following custom input components to be used as form in
 2. [`<RadioControl>` and `<RadioOption>`](https://github.com/z2lai/react-emotion-multi-step-form#radiocontrol-and-radiooption)
 3. [`<ComboBoxMulti>`](https://github.com/z2lai/react-emotion-multi-step-form#comboboxmulti)
 
-These input components all share the following props in common which allows them to be registered in `FormContext` and displayed appropriately.
+These input components all share the following props in common which allows them to be registered in `FormContext` and displayed appropriately:
 
 #### **Base Props**
 Name | Type | Default | Description
@@ -154,24 +154,70 @@ onChange | function | | Invoked when controlled input value changes - receives t
 caption | string | | Caption to be displayed in the `<Captions>` custom component when this input is active.
 icon | elementType | | An SVG file imported as a [React component](https://create-react-app.dev/docs/adding-images-fonts-and-files/#adding-svgs). Refer to [Basic Usage] for an example or see the section below on [importing SVG icons as React components].
 height | number | 60 | Specifies the height, in pixels, of the form body when this input is active. Includes top and bottom padding of 10px and excludes the Tabs component.
-validationRules | { required: boolean \| string; } | | An object containing rules that the input is validated against (in a specific order) on navigation to the next input (e.g. clicking the Next button). Navigation will be cancelled on the first rule validation failure. The default/custom error message can be retrieved from `useInputs` hook to be displayed on the form. See below for all possible validation rules.
+validationRules | object | | Specifies rules that the input is validated against on navigation to the next input (i.e. clicking the Next button). On the first rule validation failure, navigation is cancelled and the form goes into an error state until the input is validated again and passes. The default/custom error message can be retrieved from the `useInputs`. See below for all available validation rules.
 
 #### Importing SVG icons as React components
 Refer to Create React App [Official Docs](https://create-react-app.dev/docs/adding-images-fonts-and-files/#adding-svgs).
 
 #### Validation Rules
-Validation rules are passed as an object prop into each input component. The object contains the following key-value pairs where the key is the rule name and the value describes the validation criteria and/or the custom error message.
+Input validation rules are passed as an object prop into each input component. The object contains the following key-value pairs where the key is the rule name and the value describes the validation criteria value and/or the custom error message. The following table lists all of the available validation rules that `validationRules` can contain for all input components:
 Key | Value Type | Default | Description
 ----------|------------|---------|------------
-required | boolean \| string | `true` | Specifies whether or not the input is required - default is true. Instead of `true`, a custom error message can be provided (as a string) to replace the default error message, "The [name] field is required!"
+required | boolean \| string | | Specifies whether or not the input is required. Instead of `true`, a custom error message can be provided (as a string) to replace the default HTML5 validation message.
+validate | function | | Custom validation function that accepts two arguments, input value and input name, and returns `true` if the input value is valid or returns a string containing an error message is the input value is invalid.
+**Note:** Additional HTML5 validation rules can be defined for the [`<Input>`](https://github.com/z2lai/react-emotion-multi-step-form#Input) component.
+
+**Example**
+```jsx
+  <ComboboxMulti
+    name="interests"
+    caption="What are your interests?"
+    icon={PriceTagsIcon}
+    validationRules={{
+      required: true,
+      validate: value => value.length >= 3 || 'Please select at least 3 topics.'
+    }}
+    options={options}
+  />
+```
 
 #### `<Input>`
-The component to be used for text inputs. It accepts the [base props](https://github.com/z2lai/react-emotion-multi-step-form#base-props) and the following props:
+The component to be used for standard HTML inputs. It accepts the [base props](https://github.com/z2lai/react-emotion-multi-step-form#base-props) and the following props:
 
 **Props**
 Name | Type | Default | Description
 -----|------|---------|------------
-placeholder | string | | Placeholder text for text inputs
+type | string | 'text' | HTML type attribute - see full list of [HTML input types](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input)
+title | string | 'text' | HTML title attribute
+placeholder | string | | HTML placeholder attribute
+
+**HTML5 Validation Rules**
+In addition to the validation rules mentioned [above](https://github.com/z2lai/react-emotion-multi-step-form#validation-rules), HTML5 validation rules can be specified for the `<Input>` component. The default error message for each HTML5 validation rule is the corresponding HTML5 validation message. Instead of a value, an object containing the value and a custom error message can be provided to replace the default HTML5 validation message. The following table lists all of the available HTML5 validation rules that `validationRules` can contain for the `<Input>` component:
+Key | Value Type | Default | Description
+----------|------------|---------|------------
+minLength | number \| { value: number, message: string } | | Specifies the minimum number of characters for the appropriate input type.
+maxLength | number \| { value: number, message: string } | | Specifies the maximum number of characters for the appropriate input type.
+min | number \| { value: number, message: string } | | Specifies the minimum value for the appropriate input type.
+max | number \| { value: number, message: string } | | Specifies the maximum value for the appropriate input type.
+pattern | RegExp \| { value: RegExp, message: string } | | Specifies a JavaScript regular expression for the appropriate input type.
+**Note:** Different HTML5 validation rules are supported by different input types as seen in this [table](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5/Constraint_validation#Validation-related_attributes).
+**Note:** HTML5 validation is automatically performed on inputs based on the [intrinsic constraints](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5/Constraint_validation#Semantic_input_types) set by the `type` attribute (e.g. `type="email"` or `type="URL"`).
+
+**Example**
+```jsx
+  <Input 
+    name="username" 
+    caption="Choose a username."
+    icon={LinkIcon}
+    validationRules={{ 
+      required: 'Please enter a username for your new account.',
+      pattern: {
+        value: "[a-z]{4,8}",
+        message: "Usernames must be lowercase letters and 4-8 characters in length."
+      }
+    }}
+  />
+```
 
 #### `<RadioControl>` and `<RadioOption>`
 The component to be used for radio inputs (single-select). `<RadioControl>` accepts the [base props](https://github.com/z2lai/react-emotion-multi-step-form#base-props) and accepts multiple `<RadioOption>` input components as children.
