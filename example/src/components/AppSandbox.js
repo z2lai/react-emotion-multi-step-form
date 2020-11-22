@@ -36,7 +36,6 @@ const App = () => {
           caption="What are your interests?"
           icon={PriceTagsIcon}
           validationRules={{ 
-            required: true,
             validate: value => value.length >= 3 || 'Please select at least 3 topics.'
           }}
           height={240}
