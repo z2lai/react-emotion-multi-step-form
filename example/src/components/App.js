@@ -1,5 +1,4 @@
 import React from "react";
-import styled from "@emotion/styled";
 
 import '../app.css';
 import SubscriptionForm from "./SubscriptionForm";
@@ -14,18 +13,6 @@ import appVideoCode from '../code-snippets/appVideoCode';
 import coreComponentsCode from '../code-snippets/coreComponentsCode';
 import inputComponentsCode from '../code-snippets/inputComponentsCode';
 import captionsComponentCode from '../code-snippets/captionsComponentCode';
-
-const ContentWrapper = styled.div`
-  max-width: 900px;
-  margin: auto;
-  padding: 0 5px;
-	will-change: transform;
-  transition: transform 400ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
-  ${props => props.isDrawerOut ? `
-    transform: translate3d(-17%, 0, 0);
-  ` : `
-  `}
-`
 
 const App = props => (
   <div className="app">
@@ -43,7 +30,7 @@ const App = props => (
           <a href="#getting-started" className="link link--large">Get Started</a>
         </div>
         <div className="hero-banner__video">
-          <iframe src="https://player.vimeo.com/video/480101210?autoplay=1&loop=1&title=0&byline=0&portrait=0" width="640" height="344" frameborder="0" allow="autoplay; fullscreen"></iframe>
+          <iframe src="https://player.vimeo.com/video/480101210?autoplay=1&loop=1&title=0&byline=0&portrait=0" title="Example App Demo Video" width="640" height="344" frameBorder="0" allow="autoplay; fullscreen"></iframe>
         </div>
       </div>
     </header>
@@ -89,7 +76,7 @@ const App = props => (
       <SubscriptionForm className="example-app" />
       <div className="section__container flex-row">
         <a href="https://codesandbox.io/s/react-emotion-multi-step-form-v09-subscription-form-h6mpc?file=/src/App.js" className="link link--large">CodeSandbox</a>
-        <a href="#getting-started" className="link link--large">Getting Started</a>
+        <a href="#getting-started" className="link link--large">Get Started</a>
       </div>
     </section>
     <section className="section">
@@ -99,6 +86,9 @@ const App = props => (
       <CodeSnippet language="jsx">
         {appVideoCode}
       </CodeSnippet>
+      <div className="section__container flex-row">
+        <a href="https://github.com/z2lai/react-emotion-multi-step-form#api-reference" className="link link--large">API Reference</a>
+      </div>
     </section>
     <section className="section">
       <div className="section__container">
@@ -129,10 +119,10 @@ const App = props => (
         <ul className="text-container list">
           <li><strong>name</strong> - unique identifier for input to be properly registered in Context</li>
           <li><strong>onChange</strong> - callback invoked when controlled input value changes</li>
-          <li><strong>caption</strong> - additional text to provide a hint for input (displayed by <a href="#custom-hook" className="link">Captions</a> component)</li>
-          <li><strong>icon</strong> - <a href="https://create-react-app.dev/docs/adding-images-fonts-and-files/#adding-svgs" className="link">SVG icon imported as a component</a> using SVGR (built-in with CRA) to be displayed beside input</li>
-          <li><strong>height</strong> - height, in pixels, of the form body when input is active</li>
-          <li><strong>validationRules</strong> - an object containing input <a href="https://github.com/z2lai/react-emotion-multi-step-form#validation-rules" className="link">validation rules</a> that align with the existing HTML5 form validation standard (also accepts a custom validation function)</li>
+          <li><strong>caption</strong> - additional text to prompt the user for input (displayed by <a href="#custom-hook" className="link">Captions</a> component)</li>
+          <li><strong>icon</strong> - <a href="https://create-react-app.dev/docs/adding-images-fonts-and-files/#adding-svgs" className="link">SVG icon imported as a component</a> to be displayed beside input</li>
+          <li><strong>height</strong> - height (in pixels) of the form body when input is active</li>
+          <li><strong>validationRules</strong> - an object containing input <a href="https://github.com/z2lai/react-emotion-multi-step-form#validation-rules" className="link">validation rules</a> that align with the HTML5 form validation standard (also accepts a custom validation function)</li>
         </ul>
       </div>
       <CodeSnippet language="jsx">
@@ -144,7 +134,7 @@ const App = props => (
           The custom hook, <a href="https://github.com/z2lai/react-emotion-multi-step-form#useinputs-custom-hook" className="link">useInputs</a>, can be used to retrieve form state values such as the current error state and error message. useInputs can also be used to retrieve certain input prop values.
         </p>
         <p className="text-container">
-          For example, the <a href="https://github.com/z2lai/react-emotion-multi-step-form#captions" className="link">Captions</a> component is built with useInputs to display the caption prop value of the active input:
+          For example, the <a href="https://github.com/z2lai/react-emotion-multi-step-form#captions" className="link">Captions</a> component is built with useInputs to display the caption of the active input:
         </p>
       </div>
       <CodeSnippet language="jsx">
@@ -166,7 +156,7 @@ const App = props => (
         </li>
         <li>
           Version: <a href="https://www.npmjs.com/package/react-emotion-multi-step-form" className="link">
-            v0.7.3
+            v0.10.0
             </a>
         </li>
       </ul>
