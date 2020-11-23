@@ -118,8 +118,9 @@ const App = props => (
         </p>
         <ul className="text-container list">
           <li><strong>name</strong> - unique identifier for input to be properly registered in Context</li>
+          <li><strong>label</strong> - text to be displayed in a "tab" to label input</li>
           <li><strong>onChange</strong> - callback invoked when controlled input value changes</li>
-          <li><strong>caption</strong> - additional text to prompt the user for input (displayed by <a href="#custom-hook" className="link">Captions</a> component)</li>
+          <li><strong>caption</strong> - text to prompt user for input (displayed by <a href="#custom-hook" className="link">Captions</a> component)</li>
           <li><strong>icon</strong> - <a href="https://create-react-app.dev/docs/adding-images-fonts-and-files/#adding-svgs" className="link">SVG icon imported as a component</a> to be displayed beside input</li>
           <li><strong>height</strong> - height (in pixels) of the form body when input is active</li>
           <li><strong>validationRules</strong> - an object containing input <a href="https://github.com/z2lai/react-emotion-multi-step-form#validation-rules" className="link">validation rules</a> that align with the HTML5 form validation standard (also accepts a custom validation function)</li>
