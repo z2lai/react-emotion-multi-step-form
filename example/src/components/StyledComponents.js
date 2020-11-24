@@ -17,18 +17,6 @@ export const ShapeDivider = () => (
   </div>
 )
 
-export const StyledForm = styled.div`
-  box-sizing: border-box;
-  margin: auto;
-  max-width: 980px;
-  height: 450px;
-  border: 1px solid white;
-  border-radius: 5px;
-  padding: 20px 5px;
-  text-align: center;
-  background: hsl(139, 50%, 75%);
-`
-
 export const Heading = styled.h1`
   position: relative;
   font-size: 1.875rem;

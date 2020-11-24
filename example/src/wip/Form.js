@@ -15,7 +15,7 @@ import { ReactComponent as LinkIcon } from "../fonts/icomoon/svg/link.svg";
 import { ReactComponent as TreeIcon } from "../fonts/icomoon/svg/tree.svg";
 import { ReactComponent as PriceTagsIcon } from "../fonts/icomoon/svg/price-tags.svg";
 
-import { Heading, TitleContainer, ErrorMessage } from "./StyledComponents";
+import { Heading, TitleContainer, ErrorMessage } from "../components/StyledComponents";
 // import Title from "./Title";
 
 // If Form is re-rendered a lot, improve performance by memoizing child components that are large like so:

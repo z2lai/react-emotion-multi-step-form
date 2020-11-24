@@ -2,7 +2,7 @@
 import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
 
-import { ReactComponent as InfoIcon } from "../fonts/icomoon/svg/info.svg";
+import { ReactComponent as InfoIcon } from "../assets/info.svg";
 
 const InfoLabel = styled.label`
   margin-left: 10px;

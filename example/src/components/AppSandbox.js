@@ -31,7 +31,7 @@ const App = () => {
       </h1>
       <Captions callToActionText="Get the latest news straight to your inbox!" />
       <FormBody submitText="Subscribe" submitWidth={130} onSubmit={handleSubmit}>
-        {/* <ComboboxMulti
+        <ComboboxMulti
           name="interests"
           caption="What are your interests?"
           icon={PriceTagsIcon}
@@ -50,7 +50,7 @@ const App = () => {
           <RadioOption value="daily" />
           <RadioOption value="weekly" />
           <RadioOption value="monthly" />
-        </RadioControl> */}
+        </RadioControl>
         <Input 
           name="username" 
           label="Display Name"
