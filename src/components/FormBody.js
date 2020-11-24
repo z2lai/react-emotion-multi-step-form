@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import { css, keyframes } from '@emotion/core';
 import styled from "@emotion/styled";
+import PropTypes from 'prop-types';
 
 import useInputs from "../core/useInputs";
 import useScaleAnimation from "../core/useScaleAnimation";
@@ -42,10 +43,15 @@ const bounceRight = keyframes`
   }
 `
 
-// When interpolating keyframes into plain strings you have to wrap it in css call, like this: css`animation: ${keyframes({ /* ... */ })}`
-// https://github.com/emotion-js/emotion/issues/1066#issuecomment-546703172
-// How to use animation name as a partial (with other properties defined with prop values): https://styled-components.com/docs/api#keyframes
-// How to use animation name inside conditional based on props: https://github.com/styled-components/styled-components/issues/397#issuecomment-275588876
+/**
+ * When interpolating keyframes into plain strings you have to wrap it in a 
+ * css call, like this: css`animation: ${keyframes({ })}`
+ * https://github.com/emotion-js/emotion/issues/1066#issuecomment-546703172
+ * How to use animation name as a partial (with other properties defined with prop values):
+ * https://styled-components.com/docs/api#keyframes
+ * How to use animation name inside conditional based on props:
+ * https://github.com/styled-components/styled-components/issues/397#issuecomment-275588876
+ */
 const FormBodyWrapper = styled.div`
   margin-bottom: ${props => props.heightIncrease ? 5 + props.heightIncrease : 5}px;
   filter: blur(0);
@@ -133,7 +139,7 @@ const PageWrapper = styled.div`
   `}
 `
 
-const FormBody = ({ 
+const FormBody = ({
   tabs = true,
   submitText = 'Submit',
   submitWidth = 110,
@@ -141,22 +147,21 @@ const FormBody = ({
   onSubmit,
   children
 }) => {
-  console.log('FormBody rendered!');
   const { inputs, activeIndex, changeActiveIndex, activeInput, error, isSubmitPage, inputValues } = useInputs();
-
-  console.log(inputs);
 
   const formBodyWrapperRef = useRef();
   const pageWrapperRef = useRef();
   const buttonRef = useRef();
   const basePageWidthRef = useRef();
-  console.log(basePageWidthRef);
 
   const BASE_PAGE_HEIGHT = 60;
   const SUBMIT_PAGE_HEIGHT = 40;
-  const height = (activeInput && activeInput.height) ? activeInput.height : null;
-  const pageHeight = height ? height
-    : isSubmitPage ? SUBMIT_PAGE_HEIGHT
+
+  const activeInputHeight = (activeInput && activeInput.height) ? activeInput.height : null;
+  const pageHeight = activeInputHeight
+    ? activeInputHeight
+    : isSubmitPage
+      ? SUBMIT_PAGE_HEIGHT
       : BASE_PAGE_HEIGHT;
   const pageRelativeHeight = pageHeight / BASE_PAGE_HEIGHT;
 
@@ -203,10 +208,8 @@ const FormBody = ({
       node.classList.remove('active');
       simulateMouseEvent(node, 'click')
       pageWrapperRef.current.removeEventListener('keyup', handleKeyUp, false);
-      console.log('onKeyUp handler removed');
     }
     pageWrapperRef.current.addEventListener('keyup', handleKeyUp, false);
-    console.log('onKeyUp handler added');
   }
 
   const handleKeyDown = event => {
@@ -225,58 +228,55 @@ const FormBody = ({
   };
 
   const handleNextButtonKeyDown = event => {
-    // Replace default behaviour with clickButtonOnKeyDown to streamline behaviour between Enter and Space keys
+    // replace default behaviour with clickButtonOnKeyDown to streamline behaviour between Enter and Space keys
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
-      event.stopPropagation(); // stop Enter or Space keys from triggering FormBody keydown handler
+
+      // stop Enter or Space keys from triggering FormBody keydown handler
+      event.stopPropagation();
       activateAndClick(event);
     }
   }
 
   useEffect(() => {
-    console.log('Calculate original width effect run');
     const boundingClientRect = pageWrapperRef.current.getBoundingClientRect();
     basePageWidthRef.current = boundingClientRect.width;
-    console.log(basePageWidthRef.current);
-  }, []);
+  }, [pageWrapperRef.current]);
 
   useEffect(() => {
     if (error.state) formBodyWrapperRef.current.style.animationPlayState = "running";
   }, [error]);
 
   useEffect(() => {
-    console.log('focus effect!');
-    console.log(inputs.length);
     if (inputs.length === 0) return;
-    // Don't focus on initial render of form if initialFocus is false
+
+    // don't focus on initial render of form if initialFocus is false
     if (!initialFocus && activeIndex === 0 && isEmpty(activeInput.value)) return;
     if (!isSubmitPage) {
-      console.log('activeInput to be focused:')
-      console.log(activeInput);
       setTimeout(() => activeInput.node.focus(), 450);
     } else {
       setTimeout(() => pageWrapperRef.current.focus(), 450);
     }
-  }, [inputs.length, isSubmitPage, activeInput])
+  }, [inputs.length, initialFocus, activeIndex, activeInput, isSubmitPage])
 
   return (
     <FormBodyWrapper
       ref={formBodyWrapperRef}
-      heightIncrease={height ? height - BASE_PAGE_HEIGHT : null}
+      heightIncrease={activeInputHeight ? activeInputHeight - BASE_PAGE_HEIGHT : null}
       isError={error.state}
       onAnimationIteration={handleAnimationIteration}
     >
       {tabs
         ? <Tabs
-            basePageWidth={basePageWidthRef.current}
-            inputs={inputs}
-            activeIndex={activeIndex}
-            changeActiveIndex={changeActiveIndex}
-            activeInput={activeInput}
-            isSubmitPage={isSubmitPage}
-          />
+          basePageWidth={basePageWidthRef.current}
+          inputs={inputs}
+          activeIndex={activeIndex}
+          changeActiveIndex={changeActiveIndex}
+          activeInput={activeInput}
+          isSubmitPage={isSubmitPage}
+        />
         : null
-       }
+      }
       <PageContainer
         isError={error.state}
         widthScale={pageRelativeWidth}
@@ -300,13 +300,15 @@ const FormBody = ({
         >
           <IconContainer>
             <IconsWrapper index={Math.min(activeIndex, inputs.length - 1)}>
-              {(inputs.length > 0) ?
-                inputs.map((input, index) => <Icon key={`${index}${input.name}`} IconComponent={input.icon} isSubmitPage={isSubmitPage} />)
+              {(inputs.length > 0) 
+                ? inputs.map((input, index) => (
+                  <Icon key={`${index}${input.name}`} IconComponent={input.icon} isSubmitPage={isSubmitPage} />
+                ))
                 : null
               }
             </IconsWrapper>
           </IconContainer>
-          <InputContainer pageContainerheight={height}>
+          <InputContainer pageContainerheight={activeInputHeight}>
             {children}
             <SubmitLabel text={submitText} isSubmitPage={isSubmitPage} />
           </InputContainer>
@@ -324,5 +326,12 @@ const FormBody = ({
     </FormBodyWrapper>
   )
 };
+
+FormBody.propTypes = {
+  initialFocus: PropTypes.bool,
+  onSubmit: PropTypes.func,
+  submitText: PropTypes.string,
+  submitWidth: PropTypes.number,
+}
 
 export default FormBody;

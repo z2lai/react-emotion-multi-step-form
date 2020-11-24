@@ -21,13 +21,6 @@ const TabsContainer = styled.div`
     animation-fill-mode: forwards;
   `}
 `
-// ${props => props.isSubmitPage ? `
-//   max-width: 40px;
-//   transition: max-width 300ms ease-out;
-// ` : `
-//   max-width: 500px;
-//   transition: max-width 150ms ease-out;
-// `}
 
 const LabelTabsWrapper = styled.div`
   margin-bottom: -1px;
@@ -142,13 +135,13 @@ const StyledIconTab = styled.button`
   }
 `
 
-const LabelTab = ({ 
-  htmlFor, 
-  label, 
-  zIndex, 
-  active, 
-  changeActiveIndex, 
-  activated 
+const LabelTab = ({
+  htmlFor,
+  label,
+  zIndex,
+  active,
+  changeActiveIndex,
+  activated
 }) => {
 
   const handleClick = event => {
@@ -186,31 +179,29 @@ const BackTab = ({ active, changeActiveIndex }) => {
   )
 }
 
-const Tabs = ({ 
-  basePageWidth, 
-  inputs, 
-  activeIndex, 
-  changeActiveIndex, 
-  isSubmitPage 
+const Tabs = ({
+  basePageWidth,
+  inputs,
+  activeIndex,
+  changeActiveIndex,
+  isSubmitPage
 }) => {
-  console.log('Tabs rendered');
   const tabContainerRef = useRef();
 
   const SUBMIT_TABS_WIDTH = 50;
   const pageRelativeWidth = isSubmitPage ? SUBMIT_TABS_WIDTH / basePageWidth : 1;
-  console.log(pageRelativeWidth);
   const { scaleAnimation, inverseScaleAnimation } = useScaleAnimation(pageRelativeWidth, 1);
 
   return (
-    <TabsContainer 
-      ref={tabContainerRef} 
-      basePageWidth={basePageWidth} 
-      isSubmitPage={isSubmitPage} 
+    <TabsContainer
+      ref={tabContainerRef}
+      basePageWidth={basePageWidth}
+      isSubmitPage={isSubmitPage}
       scaleAnimation={scaleAnimation}
     >
       <LabelTabsWrapper isSubmitPage={isSubmitPage}>
-        {(inputs.length > 0) ?
-          inputs.map((input, index) => (
+        {(inputs.length > 0)
+          ? inputs.map((input, index) => (
             <LabelTab
               key={`${index}${input.name}`}
               htmlFor={input.name}

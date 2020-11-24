@@ -25,9 +25,6 @@ const Input = ({
   const validationAttributes = getValidationAttributes(validationRules);
   const { refCallback } = useAddInput({ label, caption, icon, height, validationRules, html5Validation: true });
   const { value, setValue } = useInputState(name, '');
-  console.log('validationAttributes');
-  console.log(validationAttributes);
-
 
   const handleChange = event => {
     const value = event.target.value;

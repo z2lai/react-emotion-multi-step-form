@@ -16,8 +16,6 @@ export const validateInputHtml5 = input => {
     pattern, // `regex pattern`
     validate, // customValidator
   } = validationRules;
-  console.log('input to validate:');
-  console.log(input);
 
   if (!node.validity.valid) {
     // node.reportValidity(); // reports the validity status to the user in whatever way the user agent has available

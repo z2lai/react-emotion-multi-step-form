@@ -7,40 +7,6 @@ const dynamicStyles = props =>
   `
 */
 
-export const StyledForm = styled.div`
-  margin: 100px auto;
-  box-sizing: content-box;
-  width: 900px;
-  height: 500px;
-  border: 3px double hsl(0, 0%, 13%); 
-  text-align: center;
-  perspective: 800px;
-  ${props => `background: ${props.theme.colors.light.turqoise};`}
-  &:after {
-    content: " 🦄";
-  }
-`
-
-export const Heading = styled.h1`
-  margin: 50px 0 15px 0;
-  font-size: 1.875rem;
-`
-
-export const TitleContainer = styled.div`
-  font-size: 1.5rem;
-  line-height: 1;
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: center;
-`
-export const ErrorMessage = styled.div`
-  margin: 0 auto 5px auto;
-  height: 20px;
-  line-height: 20px;
-  font-size: 1.125rem;
-  color: hsl(16, 100%, 40%);
-`
-
 export const IconContainer = styled.div`
   width: 40px;
   overflow: hidden;

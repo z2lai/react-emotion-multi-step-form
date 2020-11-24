@@ -2,12 +2,7 @@ import React, { createContext, useState, useEffect, useRef, useCallback } from "
 
 export const FormContext = createContext({});
 
-export const FormProvider = props => {
-  // console.log('InputsProvider rendered!');
-  const {
-    children,
-    // inputs: initialInputs,
-  } = props;
+export const FormProvider = ({ children }) => {
   const [inputs, setInputs] = useState([]);
   const [inputValues, setInputValues] = useState({});
   const [activeIndex, setActiveIndex] = useState(0);
@@ -23,16 +18,7 @@ export const FormProvider = props => {
     if (!inputsRef.current.hasOwnProperty(name)) {
       input.name = name;
       inputsRef.current[name] = input;
-      // console.log('input registered! inputsref.current:')
-      // console.log(inputsRef.current)
     }
-  }
-
-  const updateInputs = () => {
-    const inputsArray = Object.values(inputsRef.current); //? Need to change inputs to a set to guaruntee order when converted to array?
-    // console.log('setInputs to be called with inputsArray:')
-    // console.log(inputsArray);
-    setInputs(inputsArray);
   }
 
   const getInput = useCallback(identifier => {
@@ -41,35 +27,18 @@ export const FormProvider = props => {
     else if (typeof identifier === 'number') return (identifier < inputs.length && inputs[identifier]) || null;
   }, [inputs]);
 
-  // const updateActiveIndex = index => {
-  //   // console.log(`activeIndex to be updated to: ${index}`)
-  //   setActiveIndex(index);
-  // }
-
-  // const updateInputValues = () => {
-  //   const newInputValues = { ...inputValues };
-  //   inputs.forEach(input => {
-  //     const valueShallowCopy = (Array.isArray(input.value) && [...input.value]) ||
-  //       // ((typeof input.value === 'object') && { ...input.value }) ||
-  //       input.value.trim();
-  //     // console.log('valueShallowCopy:');
-  //     // console.log(valueShallowCopy);
-  //     newInputValues[input.name] = valueShallowCopy.length > 0 ? valueShallowCopy : null;
-  //   });
-  //   console.log('setInputValues called with:')
-  //   console.log(newInputValues);
-  //   setInputValues(newInputValues);
-  // }
-
   const activeInput = getInput(activeIndex);
   const isSubmitPage = inputs.length > 0 && activeIndex === inputs.length;
 
-  // This effect runs in the commit phase. Ref callbacks are invoked to register inputs in the commit phase as well but before these effects run.
   useEffect(() => {
-    // console.log('inputsRef Effect fired!');
-    // console.log(inputsRef.current);
+    // This effect runs in the commit phase after all Ref callbacks are invoked 
+    // (in the commit phase as well) to add inputs to inputsRef.current
+    const updateInputs = () => {
+      const inputsArray = Object.values(inputsRef.current);
+      setInputs(inputsArray);
+    }
     updateInputs();
-  }, []);
+  }, [setInputs, inputsRef.current]);
 
   const formContext = {
     inputs,

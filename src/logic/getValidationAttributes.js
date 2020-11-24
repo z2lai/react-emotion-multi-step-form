@@ -3,8 +3,8 @@
  * @param {object} validationRules - an object of key value pairs where the
  *   key could be a HTML5 validation attribute (e.g. maxLength) and the value could be either:
  *   1. the criteria value (e.g. 5) OR
- *   2. an object containing two properties: value and message (e.g. { value: 5, 
- *   message: "Text contains too many characters!" })
+ *   2. an object containing two properties: value and message 
+ *   (e.g. { value: 5, message: "Text contains too many characters!" })
  * Returns an object of HTML5 validation rules (e.g. { required: true, maxLength: 5 })
  */
 const getValidationAttributes = validationRules => {

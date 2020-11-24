@@ -1,8 +1,5 @@
-/** @jsx jsx */
-import { useState, useEffect, useRef, useCallback } from "react";
-import { jsx } from "@emotion/core";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import styled from "@emotion/styled";
-import PropTypes from 'prop-types';
 import inputPropTypes from '../propTypes'
 
 import useAddInput from "../core/useAddInput";
@@ -129,20 +126,20 @@ const CheckboxWrapper = styled.div`
 const ComboboxMulti = ({
   name,
   onChange,
-  height,
   label,
   caption,
   icon,
+  height,
   validationRules,
   options,
 }) => {
-  console.log("CheckboxControl Re-rendered!");
-  const { refCallback } = useAddInput({ label, caption, icon, validationRules, height });
+  const { refCallback } = useAddInput({ label, caption, icon, height, validationRules });
   const { value: selected, setValue: setSelected } = useInputState(name, []);
   const [filter, setFilter] = useState("");
   const [filteredOptions, setFilteredOptions] = useState(options);
-  const [filteredGroupHeadings, filteredGroups] = filteredOptions;
   const [focusedOptionIndex, setFocusedOptionIndex] = useState(-1);
+
+  const [filteredGroupHeadings, filteredGroups] = filteredOptions;
   const [groupHeadings, groups] = options;
   const optionsArray = groups.flat();
 
@@ -160,25 +157,15 @@ const ComboboxMulti = ({
   const THROTTLEPERIOD = 10;
 
   const handleInputChange = (inputValue) => {
-    // console.log("Input Changed");
-    // console.log(`onInputChange Value: ${inputValue}`);
-    // console.log(`inputNodeRef Value: ${inputNodeRef.current.value}`);
     setFocusedOptionIndex(-1);
-    console.log('setActiveSelectionIndex!')
-    // Since there's a debounce delay when handleInputChange is called from onInputChange, inputValue might be stale if handleInputChange was called
-    // immediately after from a non-debounced handler (e.g. handleInputSelection handles when selection is made on 'Enter' key and sets input value to '').
-    // - So it's better to updateFilter with the actual input node value to get the most updated value (uncontrolled input approach with refs)
-    //updateFilter(inputNodeRef.current.value)
-    // - OR, we can just debounce handleInputChange itself so that it will be debounced regardless of where it is called
     updateFilter(inputValue);
   };
+
   const debouncedHandleInputChange = debounce(handleInputChange, DEBOUNCETIME);
 
   const updateFilter = (value, excluded = selected) => {
     const filter = value.toLowerCase();
     setFilter(filter);
-    console.log('setFilter!')
-    console.log(filter);
     if (filter === "") {
       setFilteredOptions(options);
       return;
@@ -197,7 +184,6 @@ const ComboboxMulti = ({
       }
     });
     setFilteredOptions([_groupHeadings, _groups]);
-    console.log('setFilteredOptions!')
   };
 
   const handleSelectionChange = selected => {
@@ -206,7 +192,6 @@ const ComboboxMulti = ({
   }
 
   const handleInputSelection = (newSelected) => {
-    // console.log("Selected Changed");
     if (newSelected.length > selected.length) {
       debouncedHandleInputChange("");
     }
@@ -214,7 +199,6 @@ const ComboboxMulti = ({
   };
 
   const removeToken = (token, selected) => {
-    // console.log("Remove Handled");
     const newSelected = [...selected];
     newSelected.splice(newSelected.indexOf(token), 1);
     handleSelectionChange(newSelected);
@@ -223,18 +207,26 @@ const ComboboxMulti = ({
     }
     typeaheadRef.current.focus();
   };
-  // In order to throttle removeToken, the returned throttled function (and its closure) has to be memoized so that it can be called
-  // by each handleTokenRemove event handler that gets defined on each render
+
+  /** 
+   * In order to throttle removeToken, the returned throttled function (and 
+   * its closure) has to be memoized so that it can be called by each 
+   * handleTokenRemove event handler that gets defined on each render
+   */
   const memoizedThrottledRemoveToken = useCallback(throttle(removeToken, THROTTLEPERIOD), []);
-  // In handleTokenRemove event handler, the throttled and memoized removeToken function is called with the following arguments:
-  //  1. "token" from the event listener
-  //  2. "selected" from state - this value gets refreshed as handleTokenRemove gets defined on each render
+
+  /** 
+   * In handleTokenRemove event handler, the throttled and memoized 
+   * removeToken function is called with the following arguments:
+   *   1. "token" from the event listener
+   *   2. "selected" from state - this value gets refreshed as 
+   *   handleTokenRemove gets defined on each render
+   */
   const handleTokenRemove = (token) => {
     memoizedThrottledRemoveToken(token, selected);
   };
 
   const handleCheckboxKeyDown = (event) => {
-    // console.log("KeyDown on Checkbox!");
     if (event.key === "Enter") {
       event.currentTarget.click(); // might need to replace with event.dispatchEvent for IE due to no activeElement API
     }
@@ -246,7 +238,7 @@ const ComboboxMulti = ({
     const newSelected = [...selected];
     if (checked) {
       newSelected.push(selection);
-      typeaheadRef.current.clear(); // typeaheadRef.current.clear() sets states thus is asynchronous in clearing the input
+      typeaheadRef.current.clear();
       debouncedHandleInputChange("");
     } else {
       newSelected.splice(newSelected.indexOf(selection), 1);
@@ -260,36 +252,39 @@ const ComboboxMulti = ({
   };
 
   const handleBlur = () => {
-    typeaheadRef.current.hideMenu(); // disables hidden menu
+    // disable hidden menu
+    typeaheadRef.current.hideMenu();
     inputWrapperRef.current.classList.remove("focus");
   };
 
   const handleMenuToggle = () => setFocusedOptionIndex(-1);
 
   const handleInputWrapperKeyDown = event => {
-    // console.log('inputWrapperKeyDownHandler called');
-    // console.log(event.target.type);
     // stop Enter keydown event from triggering FormBody keydown handler if not initiated from text input
     if (event.key === 'Enter' && event.target.type !== 'text') event.stopPropagation();
   }
 
-  // This handler replaces Typeahead's internal onKeyDown handler (which gets passed to the input element) once on initial render
-  // so there should be no references to state in here as they will be stale
+  /** 
+   * this handler replaces Typeahead's internal onKeyDown handler (which gets 
+   * passed to the input element) once on initial render so there should be 
+   * no references to state in here as they will be stale
+   */ 
   let _handleKeyDown;
   const handleKeyDown = useCallback(event => {
     const inputNode = event.currentTarget;
     switch (event.keyCode) {
       case RETURN:
-        // console.log("Enter pressed!");
-        if (inputNode.value.length > 0) event.stopPropagation(); // stop Enter key from triggering FormBody keydown handler
+        // stop Enter key from triggering FormBody keydown handler
+        if (inputNode.value.length > 0) event.stopPropagation(); 
         break;
       case ESC:
         break;
       case BACKSPACE:
         if (inputNode.value.length === 0 && typeaheadRef.current.props.selected.length) {
-          // Prevent browser from going back.
+          // prevent browser from going back.
           event.preventDefault();
-          // If the input is selected and there is no text, focus the last token when the user hits backspace.
+
+          // if the input is selected and there is no text, focus the last token when the user hits backspace.
           if (inputWrapperRef.current) {
             const { children } = inputWrapperRef.current;
             const lastToken = children[children.length - 2];
@@ -299,15 +294,14 @@ const ComboboxMulti = ({
         break;
       case UP:
       case DOWN:
-        // Prevent input cursor from going to the beginning when pressing up.
-        // event.preventDefault();
-        // Prevent UP and DOWN from navigating options (Typeahead internal behaviour)
+        // prevent UP and DOWN from navigating options (which is Typeahead's internal behaviour)
         return;
       case TAB:
         if (typeaheadRef.current.isMenuShown) {
           // convert Tab and Shift+Tab into Up and Down respectively to navigate internal menu
           event.keyCode = event.shiftKey ? UP : DOWN;
-          // Set focusedOptionIndex to match Typeahead's internal menu's activeIndex
+
+          // set focusedOptionIndex to match Typeahead's internal menu's activeIndex
           let newIndex = typeaheadRef.current.state.activeIndex;
           let items = typeaheadRef.current.items
           newIndex += event.shiftKey ? -1 : 1;
@@ -322,15 +316,27 @@ const ComboboxMulti = ({
       default:
         break;
     }
-    // call internal handler to handle internal menu (hidden) navigation and selection
-    _handleKeyDown(event); // function definition reference kept in closure which is created when the effect is first called to assign handleKeyDown to typeaheadRef.current (persisted by React)
+
+    /**
+     * call internal handler to handle internal menu (hidden) navigation and selection;
+     * function definition reference kept in closure which is created when the effect is 
+     * first called to assign handleKeyDown to typeaheadRef.current (persisted by React)
+     */
+    _handleKeyDown(event);
   }, [setFocusedOptionIndex]);
 
-  // Override Typeahead internal key handler - should only be called once on intial render as handleKeyDown should never change across renders, otherwise the reference to the original internal method, stored in _handleKeyDown and closed over by handleKeyDown in the initial render, will be overwritten.
+  /**
+   * override Typeahead internal key handler - should only be called once on 
+   * intial render as handleKeyDown should never change across renders, 
+   * otherwise the reference to the original internal method, stored in 
+   * _handleKeyDown and closed over by handleKeyDown in the initial render, 
+   * will be overwritten.
+   */
   useEffect(() => {
-    // Save Typeahead internal method (https://github.com/ericgio/react-bootstrap-typeahead/blob/1cf74a4e3f65d4d80e992d1f926bfaf9f5a349bc/src/core/Typeahead.js) in _handleKeyDown
+    // save Typeahead internal method (https://github.com/ericgio/react-bootstrap-typeahead/blob/1cf74a4e3f65d4d80e992d1f926bfaf9f5a349bc/src/core/Typeahead.js) in _handleKeyDown
     _handleKeyDown = typeaheadRef.current._handleKeyDown;
-    // Replace internal method with handleKeyDown which closes over _handleKeyDown
+
+    // replace internal method with handleKeyDown which closes over _handleKeyDown
     typeaheadRef.current._handleKeyDown = handleKeyDown;
   }, [handleKeyDown]);
 
@@ -363,8 +369,8 @@ const ComboboxMulti = ({
         maxHeight="300px"
         clearButton
         options={optionsArray}
-        onInputChange={debouncedHandleInputChange} // only handles direct input changes from editing keys - excludes input clear from pressing 'Enter'
-        minLength={1} // to activate hidden menu and hint
+        onInputChange={debouncedHandleInputChange} // only handles adding/removing characters - excludes input clear from pressing 'Enter'
+        minLength={1} // to activate hint and hidden menu
         selected={selected}
         onChange={handleInputSelection}
         onBlur={handleBlur}
@@ -399,10 +405,9 @@ const ComboboxMulti = ({
       <CheckboxSectionContainer>
         <CheckboxSectionWrapper>
           {filteredGroupHeadings.map((heading, index) => {
-            // if (index === 0) console.log('MemoizedCheckboxSectionWrapper children rendered');
             //? need to refactor this component to prevent unnecessary re-rendering on every state change?
             const filteredGroup = filteredGroups[index];
-            if (filteredGroup.length === 0) { // when all options have been filtered out
+            if (filteredGroup.length === 0) {
               return null;
             } else {
               return (

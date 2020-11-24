@@ -51,24 +51,22 @@ export const ErrorMessage = styled.div`
 `
 
 export const IconContainer = styled.div`
-  height: 40px;
-  width: 34px;
+  width: 40px;
   overflow: hidden;
 `
 
-export const IconWrapper = styled.div`
+export const IconsWrapper = styled.div`
   position: relative;
   display: flex;
-  flex-flow: column nowrap;
-  line-height: 40px;
-  transition: top 300ms ease-out;
-  top: ${props => 0 + props.index * -40}px;
+  flex-flow: row nowrap;
+  transition: transform 300ms ease-out;
+  transform: ${props => `translateX(${props.index * -40}px)`};
 `
 
 export const InputContainer = styled.div`
   position: relative;
-  margin: 0 8px;
-  height: ${props => props.inputContainerHeight ? props.inputContainerHeight : '40'}px;
+  height: ${props => props.pageContainerheight ? props.pageContainerheight - 20 : '40'}px;
+  max-width: 400px;
   flex: 1;
   display: flex;
   flex-flow: column nowrap;
@@ -81,6 +79,7 @@ export const StyledInput = styled.input`
   padding: 0.375rem 0.75rem;
   outline: none;
   color: ${props => props.theme.colors.extraDark.indigo};
+  text-align: left;
   transition: border-color 0.15s ease-in-out;
   &:focus {
     border-color: ${props => props.theme.colors.light.indigo};
@@ -91,12 +90,12 @@ export const StyledInput = styled.input`
 export const SubmitLabel = styled.div`
   font-size: 1.125rem;
   font-weight: 500;
-  &:before {
-    content: "Submit";
+  &::before {
+    content: ${props => `'${props.text}'`};
     position: absolute;
-    top: 7px;
-    left: -34px;
-    transition: opacity 450ms ease-in-out, transform 450ms ease-in-out;
+    top: -3px;
+    left: -30px;
+    transition: opacity 400ms ease-in-out, transform 400ms ease-out;
     ${props => props.isSubmitPage ? `
       opacity: 1;
       visibility: visible;
@@ -111,32 +110,37 @@ export const SubmitLabel = styled.div`
 export const NextButton = styled.button`
   position: relative;
   height: 40px;
-  width: 34px;
-  border: 1px black;
+  width: 40px;
+  border: 0;
+  border-radius: 3px;
+  padding: 0;
   background: none;
-  outline: none;
-  transition: transform 300ms;
   cursor: pointer;
-  ${props => `
-    ${props.isSubmitPage ? `
-      transform: rotate(-90deg);
-      pointer-events: none;
-    ` : `
-      &:hover {
-        background: hsl(0, 0%, 90%);
-        border-radius: 3px;
-        transition: background 300ms ease, transform 300ms;
-      }
-      &:active, &.active {
-        top: 2px;
-        background-color: hsl(0, 0%, 100%);
-        transition-property: none;
-      }
-    `}
-  `}
+  transition: transform 100ms ease-in-out;
+  @media (hover: hover) {
+    &:hover {
+      background: hsl(0, 0%, 95%);
+      transition: transform 100ms ease-in-out, background 200ms ease;
+    }
+  }
+  &:active, &.active {
+    transform: translateX(2px);
+    background-color: hsl(0, 0%, 100%);
+    transition: none;
+  }
+  &:focus {
+    outline: none;
+    border: 2px solid ${props => props.theme.colors.light.indigo};
+  }
+  &:disabled {
+    right: -350px;
+    pointer-events: none;
+    transform: translate(-350px, -10px);
+    transition: transform 350ms ease-in-out;
+  }
 `
 
-export const NextButtonIcon = styled.div`
+export const DownButtonIcon = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
@@ -153,6 +157,54 @@ export const NextButtonIcon = styled.div`
     height: 6px;
     transform: rotate(45deg);
     border-right: 2px solid;
+    border-bottom: 2px solid;
+    border-color: hsl(0, 0%, 20%);
+  }
+`
+
+export const NextButtonIcon = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 17px;
+  height: 2px;
+  border-radius: 1px;
+  background: hsl(0, 0%, 20%);
+  &::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    bottom: -4px;
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    transform: rotate(-45deg);
+    border-right: 2px solid;
+    border-bottom: 2px solid;
+    border-color: hsl(0, 0%, 20%);
+  }
+`
+
+export const BackButtonIcon = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 17px;
+  height: 2px;
+  border-radius: 1px;
+  background: hsl(0, 0%, 20%);
+  &::before {
+    content: '';
+    position: absolute;
+    left: 1px;
+    bottom: -4px;
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    transform: rotate(45deg);
+    border-left: 2px solid;
     border-bottom: 2px solid;
     border-color: hsl(0, 0%, 20%);
   }

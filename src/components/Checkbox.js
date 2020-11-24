@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { Fragment } from 'react' 
+import { Fragment } from 'react'
 import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
 
@@ -47,20 +47,20 @@ const HiddenCheckbox = styled.input`
 `
 
 const StyledCheckbox = styled.div`
-flex: none;
-width: 16px;
-height: 16px;
-margin-top: 6px;
-margin-right: 10px;
-border-radius: 3px;
-${props => `
-  border: ${props.checked ? 'none' : `2px solid ${props.theme.colors.extraDark.indigo}`};
-  background: ${props.checked ? props.theme.colors.dark.indigo : 'none'};
-  svg {
-    visibility: ${props.checked ? 'visible' : 'hidden'};
-  }
-`}
-transition: all 150ms;
+  flex: none;
+  width: 16px;
+  height: 16px;
+  margin-top: 6px;
+  margin-right: 10px;
+  border-radius: 3px;
+  ${props => `
+    border: ${props.checked ? 'none' : `2px solid ${props.theme.colors.extraDark.indigo}`};
+    background: ${props.checked ? props.theme.colors.dark.indigo : 'none'};
+    svg {
+      visibility: ${props.checked ? 'visible' : 'hidden'};
+    }
+  `}
+  transition: all 150ms;
 `
 
 const Icon = styled.svg`
@@ -73,17 +73,18 @@ const Icon = styled.svg`
 
 const TextWithHighlight = ({ text = '', highlight = '' }) => {
   if (!highlight.trim()) {
-    return <span>{text}</span>
+    return <span>{text}</span>;
   }
   // Split on highlight text and include text, ignore case
-  const regex = new RegExp(`(${highlight})`, 'gi')
+  const regex = new RegExp(`(${highlight})`, 'gi');
   const parts = text.split(regex); // if match is found at start/end, an empty element is inserted at start/end
-  const textWithHighlight = parts.map((part, i) => (
-    regex.test(part) ?
-      <mark key={i}>{part}</mark> :
-      (part.length > 0 || (i > 0 && i < parts.length - 1)) && <Fragment key={i}>{part}</Fragment> // exclude leading/trailing empty element
+  const textWithHighlight = parts.map((part, index) => (
+    regex.test(part)
+      ? <mark key={index}>{part}</mark>
+      : (part.length > 0 || (index > 0 && index < parts.length - 1)) // exclude leading/trailing empty element
+      && <Fragment key={index}>{part}</Fragment>
   ));
-  return <span>{textWithHighlight}</span>
+  return <span>{textWithHighlight}</span>;
 }
 
 const CustomCheckbox = ({ name, value, checked, onKeyDown, onChange, highlightedText, focusState }) => (

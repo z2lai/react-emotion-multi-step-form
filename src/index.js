@@ -1,7 +1,3 @@
-/**
- * Component Exports
- */
-
 export useInputs from './core/useInputs';
 export useAddInput from './core/useAddInput';
 

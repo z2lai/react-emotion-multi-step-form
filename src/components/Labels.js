@@ -30,7 +30,6 @@ export const LabelsContainer = styled.div`
 `
 
 const Label = ({
-  // htmlFor, 
   label,
   inputValue,
   active,
@@ -44,7 +43,6 @@ const Label = ({
 
   return (
     <StyledLabel
-      // htmlFor={htmlFor}
       active={active}
       activated={activated}
       onClick={handleClick}
@@ -55,15 +53,19 @@ const Label = ({
 }
 
 const Labels = () => {
-  const { inputs, activeIndex, changeActiveIndex, inputValues } = useInputs();
+  const { 
+    inputs, 
+    activeIndex, 
+    changeActiveIndex, 
+    inputValues 
+  } = useInputs();
 
   return (
     <LabelsContainer>
-      {(inputs.length > 0) ?
-        inputs.map((input, index) => (
+      {(inputs.length > 0) 
+        ? inputs.map((input, index) => (
           <Label
             key={`${index}${input.name}`}
-            // htmlFor={input.name}
             label={input.label}
             inputValue={inputValues[input.name]}
             active={index === activeIndex}

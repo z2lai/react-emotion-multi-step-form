@@ -14,7 +14,6 @@ const useAddInput = ({
   const { addInput } = useContext(FormContext);
 
   const validateInput = html5Validation ? validateInputHtml5 : validateInputCustom;
-  console.log(validateInput);
 
   const registerInput = () => {
     const input = {
@@ -28,8 +27,6 @@ const useAddInput = ({
       },
     }
     return node => {
-      console.log('Ref callback run with node:');
-      console.log(node);
       if (node) {
         input.node = node;
         addInput(input);
