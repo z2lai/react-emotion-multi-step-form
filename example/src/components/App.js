@@ -27,7 +27,7 @@ const App = props => (
           </p>
         <div className="flex-row">
           <a href="#example-app" className="link link--large">Example App Demo</a>
-          <a href="#getting-started" className="link link--large">Get Started</a>
+          <a href="https://github.com/z2lai/react-emotion-multi-step-form#user-content-react-emotion-multi-step-form" className="link link--large">Documentation</a>
         </div>
         <div className="hero-banner__video">
           <iframe src="https://player.vimeo.com/video/480101210?autoplay=1&loop=1&title=0&byline=0&portrait=0" title="Example App Demo Video" width="640" height="344" frameBorder="0" allow="autoplay; fullscreen"></iframe>
@@ -75,8 +75,8 @@ const App = props => (
       </div>
       <SubscriptionForm className="example-app" />
       <div className="section__container flex-row">
-        <a href="https://codesandbox.io/s/react-emotion-multi-step-form-v09-subscription-form-h6mpc?file=/src/App.js" className="link link--large">CodeSandbox</a>
         <a href="#getting-started" className="link link--large">Get Started</a>
+        <a href="https://codesandbox.io/s/react-emotion-multi-step-form-subscription-form-h6mpc" className="link link--large">CodeSandbox</a>
       </div>
     </section>
     <section className="section">
@@ -86,9 +86,6 @@ const App = props => (
       <CodeSnippet language="jsx">
         {appVideoCode}
       </CodeSnippet>
-      <div className="section__container flex-row">
-        <a href="https://github.com/z2lai/react-emotion-multi-step-form#api-reference" className="link link--large">API Reference</a>
-      </div>
     </section>
     <section className="section">
       <div className="section__container">

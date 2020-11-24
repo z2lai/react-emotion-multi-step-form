@@ -11,7 +11,10 @@
 ## Introduction
 A declarative component library where input components are displayed in a multi-step form format with smooth page transitions. It's built with React hooks and React Context API so that form state and input prop values can be reused for UI customization.
 
-Demo the example app [here](http://z2lai.github.io/react-emotion-multi-step-form#example-app) or learn how to get started [here](http://z2lai.github.io/react-emotion-multi-step-form#getting-started).
+### Important Links
+* [Demo the example app](http://z2lai.github.io/react-emotion-multi-step-form#example-app)
+* [Learn how to get started](http://z2lai.github.io/react-emotion-multi-step-form#getting-started)
+* [Demo the library](https://codesandbox.io/s/react-emotion-multi-step-form-subscription-form-h6mpc)
 
 ## Features
 * Declarative display configuration - captions, page height, input icon and input validation
@@ -95,12 +98,11 @@ function App() {
 // Wrap component with React Context.Provider and Emotion ThemeProvider
 export default withFormContextAndTheme(App);
 ```
-Learn how to get started [here](http://z2lai.github.io/react-emotion-multi-step-form#getting-started) or check out the [CodeSandbox](https://codesandbox.io/s/react-emotion-multi-step-form-basic-example-v081-mhibp).
 
-### All Examples
-Check out the following CodeSandbox examples:
-* [Basic Usage Example](https://codesandbox.io/s/react-emotion-multi-step-form-v09-basic-example-mhibp)
-* ["Subscription Form" Example](https://codesandbox.io/s/react-emotion-multi-step-form-v09-subscription-form-h6mpc)
+## Examples
+Demo the library with the following CodeSandbox examples:
+* [Basic Usage Example](https://codesandbox.io/s/react-emotion-multi-step-form-basic-example-mhibp)
+* ["Subscription Form" Example](https://codesandbox.io/s/react-emotion-multi-step-form-subscription-form-h6mpc)
 
 ## API Reference
 The components and custom hook described below are publicly exposed in the top-level module.
