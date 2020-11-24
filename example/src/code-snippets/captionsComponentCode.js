@@ -6,8 +6,8 @@ const Captions = ({ callToActionText }) => {
 
   return (
     <CaptionsContainer>
-      {(inputs.length > 0) ?
-        <Fragment>
+      {(inputs.length > 0) 
+        ? <Fragment>
           {inputs.map((input, index) => (
             <Caption
               key={\`\${index} \${input.name}\`}
