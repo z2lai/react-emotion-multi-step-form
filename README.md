@@ -17,12 +17,11 @@ A declarative component library where input components are displayed in a multi-
 * [Demo the library](https://codesandbox.io/s/react-emotion-multi-step-form-subscription-form-h6mpc)
 
 ## Features
-* Declarative display configuration - captions, page height, input icon and input validation
+* Declarative configuration - captions, page height, input icon and input validation
 * Smooth/Optimized page transition animations
 * Accessible keyboard-only navigation
 * Responsive design
 * Custom hook to access form state and input prop values for UI customization
-* Supports SVG icons imported as React components (using SVGR that's built-in with Create-React-App)
 * Three Input Components:
   1. HTML Input with HTML5 form validation
   2. Single-select Input - Radio Input with declarative configuration of radio options
